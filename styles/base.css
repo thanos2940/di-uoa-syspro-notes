@@ -16,8 +16,8 @@ body {
     background: var(--bg);
     color: var(--txt);
     font-family: 'Lora', serif;
-    font-size: 15px;
-    line-height: 1.75;
+    font-size: 17px;
+    line-height: 1.8;
     transition: background var(--transition);
 }
 
@@ -64,8 +64,8 @@ body {
     color: var(--muted);
     text-decoration: none;
     font-family: 'JetBrains Mono', monospace;
-    font-size: 12px;
-    padding: 6px 12px;
+    font-size: 14px;
+    padding: 6px 14px;
     border-radius: 6px;
     transition: var(--transition);
 }
@@ -148,9 +148,9 @@ body {
 
 .toc a {
     color: var(--muted);
-    font-size: 12px;
+    font-size: 14px;
     font-family: 'JetBrains Mono', monospace;
-    padding: 4px 10px;
+    padding: 5px 12px;
     border-radius: 4px;
     transition: var(--transition);
     text-decoration: none;
@@ -205,9 +205,9 @@ section {
     background: #010409;
     border: 1px solid var(--border);
     border-radius: 8px;
-    padding: 14px 18px;
+    padding: 16px 20px;
     font-family: 'JetBrains Mono', monospace;
-    font-size: 12.5px;
+    font-size: 14.5px;
     line-height: 2;
     overflow-x: auto;
     margin: 10px 0;
@@ -217,9 +217,9 @@ section {
 /* Boxes */
 .ibox, .wbox, .gbox, .rbox {
     border-radius: 0 8px 8px 0;
-    padding: 11px 15px;
+    padding: 12px 18px;
     margin: 11px 0;
-    font-size: 13.5px;
+    font-size: 15.5px;
 }
 
 .ibox { border-left: 3px solid var(--blue); background: var(--bdim); }
@@ -238,10 +238,10 @@ section {
 
 code {
     font-family: 'JetBrains Mono', monospace;
-    font-size: 12px;
+    font-size: 14px;
     background: rgba(var(--green-rgb, 63, 185, 80), 0.1);
     color: var(--green);
-    padding: 1px 5px;
+    padding: 2px 6px;
     border-radius: 3px;
 }
 
@@ -274,8 +274,8 @@ code {
 }
 
 .tip-text {
-    font-size: 13px;
-    line-height: 1.6;
+    font-size: 15px;
+    line-height: 1.7;
 }
 
 /* Grid */
@@ -309,7 +309,7 @@ code {
 .ptbl, .vtbl, .etbl, .stbl {
     width: 100%;
     border-collapse: collapse;
-    font-size: 13px;
+    font-size: 15px;
     margin: 12px 0;
 }
 
@@ -357,12 +357,12 @@ code {
 
 .qitem { margin-bottom: 12px; }
 
-.qq { color: var(--txt); font-size: 13.5px; margin-bottom: 6px; }
+.qq { color: var(--txt); font-size: 15.5px; margin-bottom: 6px; }
 
 .qa {
     color: var(--muted);
-    font-size: 13px;
-    padding: 7px 11px;
+    font-size: 15px;
+    padding: 8px 14px;
     background: var(--surf);
     border-radius: 6px;
     border-left: 3px solid var(--purple);
