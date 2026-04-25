@@ -1,4 +1,4 @@
-﻿{
+﻿window.quizData = {
     "topic3":  {
                    "errors":  {
                                   "questions":  [
@@ -368,3 +368,4 @@
                                 }
                }
 }
+;
