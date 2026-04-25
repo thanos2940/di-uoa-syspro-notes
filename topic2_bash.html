@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="el">
 
 <head>
@@ -691,99 +691,16 @@
       </div>
 
       <div class="quiz">
-        <h3>🧠 Quick Check</h3>
-        <div class="qitem">
-          <div class="qq">Τι εκτυπώνει: <code>A=5; echo $((A * 2 + 1))</code>;</div>
-          <div class="qa">11 — υπολογισμός: 5*2=10, 10+1=11.</div>
-        </div>
-        <div class="qitem">
-          <div class="qq">Τι κάνει <code>${FILE%.txt}</code> αν <code>FILE="report.txt"</code>;</div>
-          <div class="qa">Αφαιρεί το suffix ".txt": επιστρέφει "report". Χρήσιμο για να φτιάξεις output filename από
-            input filename.</div>
-        </div>
-        <div class="qitem">
-          <div class="qq">Ποια η διαφορά <code>"$@"</code> και <code>"$*"</code>;</div>
-          <div class="qa"><code>"$@"</code> = κάθε argument ξεχωριστά ("arg1" "arg2"). <code>"$*"</code> = όλα ένα
-            string ("arg1 arg2"). Χρήσιμο αν args έχουν spaces. Σχεδόν πάντα: <code>"$@"</code>.</div>
-        </div>
-        <div class="qitem">
-          <div class="qq">Τι επιστρέφει μια function με <code>return 5</code>;</div>
-          <div class="qa">Exit status 5, ΟΧΙ την τιμή 5 σαν δεδομένο. Για να "επιστρέψεις" την τιμή 5 ώστε να τη
-            χρησιμοποιήσεις, χρησιμοποίησε <code>echo 5</code> και πίασε με <code>RESULT=$(func)</code>.</div>
-        </div>
-
-        <!-- Νέες Ερωτήσεις -->
-        <div class="qitem">
-          <div class="qq">Τι σημαίνει το <code>$?</code> στο shell;</div>
-          <div class="qa">Είναι το exit status της τελευταίας εντολής που εκτελέστηκε. 0 σημαίνει επιτυχία, οτιδήποτε
-            άλλο (1-255) σημαίνει σφάλμα.</div>
-        </div>
-
-        <div class="qitem">
-          <div class="qq">Ποια η διαφορά μεταξύ <code>VAR=5</code> και <code>VAR = 5</code>;</div>
-          <div class="qa">Στο shell, η ανάθεση πρέπει να γίνεται ΧΩΡΙΣ κενά γύρω από το <code>=</code>. Το
-            <code>VAR = 5</code> θα ερμηνευτεί ως προσπάθεια εκτέλεσης μιας εντολής με όνομα VAR και ορίσματα "=" και
-            "5".</div>
-        </div>
-
-        <div class="qitem">
-          <div class="qq">Τι κάνει η εντολή <code>export MYVAR="hello"</code>;</div>
-          <div class="qa">Κάνει τη μεταβλητή διαθέσιμη και στις διεργασίες-παιδιά (child processes) που θα ξεκινήσουν
-            από αυτό το shell. Χωρίς export, η μεταβλητή είναι μόνο τοπική στο τρέχον shell.</div>
-        </div>
-
-        <div class="qitem">
-          <div class="qq">Πώς ελέγχουμε αν ένα αρχείο υπάρχει και είναι κανονικό αρχείο (όχι directory);</div>
-          <div class="qa">Με το flag <code>-f</code>: <code>if [ -f "myfile.txt" ]; then ... fi</code>.</div>
-        </div>
-
-        <div class="qitem">
-          <div class="qq">Τι κάνει η σύνταξη <code>[[ $NAME == A* ]]</code>;</div>
-          <div class="qa">Ελέγχει αν το string NAME ξεκινάει από το γράμμα 'A' (pattern matching). Τα διπλά brackets
-            <code>[[ ]]</code> είναι πιο ισχυρά από τα μονά <code>[ ]</code> και υποστηρίζουν wildcard matching.</div>
-        </div>
-
-        <div class="qitem">
-          <div class="qq">Ποια η διαφορά μονών <code>' '</code> και διπλών <code>" "</code> quotes;</div>
-          <div class="qa">Στα μονά quotes όλα είναι literal (τίποτα δεν ερμηνεύεται). Στα διπλά quotes γίνεται
-            interpretation των μεταβλητών (π.χ. το <code>"$VAR"</code> θα αντικατασταθεί από την τιμή της).</div>
-        </div>
-
-        <div class="qitem">
-          <div class="qq">Τι κάνει το <code>local X</code> μέσα σε μια function;</div>
-          <div class="qa">Περιορίζει την εμβέλεια της μεταβλητής X μόνο μέσα στη function, εμποδίζοντάς την να αλλάξει
-            μια παγκόσμια (global) μεταβλητή με το ίδιο όνομα.</div>
-        </div>
-
-        <div class="qitem">
-          <div class="qq">Πώς εκτελούμε μια εντολή στο background και πώς παίρνουμε το PID της;</div>
-          <div class="qa">Προσθέτουμε <code>&</code> στο τέλος της εντολής. Το PID της τελευταίας background διεργασίας
-            βρίσκεται στη μεταβλητή <code>$!</code>.</div>
-        </div>
-
-        <div class="qitem">
-          <div class="qq">Τι κάνει το <code>read -p "Enter name: " NAME</code>;</div>
-          <div class="qa">Εμφανίζει το μήνυμα (prompt) και περιμένει από το χρήστη να πληκτρολογήσει κάτι, το οποίο
-            αποθηκεύει στη μεταβλητή NAME.</div>
-        </div>
-
+        <h3>🧠 Quick Check — Δομή Script &amp; Shebang</h3>
         <div class="qitem">
           <div class="qq">Τι είναι το shebang (<code>#!</code>) στην αρχή ενός script;</div>
-          <div class="qa">Λέει στον πυρήνα ποιον interpreter να χρησιμοποιήσει για να τρέξει το αρχείο (π.χ.
-            <code>#!/bin/bash</code>). Πρέπει να είναι στην πρώτη γραμμή.</div>
+          <div class="qa">Λέει στον πυρήνα ποιον interpreter να χρησιμοποιήσει (π.χ. <code>#!/bin/bash</code>). Πρέπει να είναι η πρώτη γραμμή και χωρίς κενό πριν το <code>#</code>.</div>
         </div>
 
-        <div class="qitem">
-          <div class="qq">Πώς κάνουμε loop σε όλα τα αρχεία .txt ενός φακέλου;</div>
-          <div class="qa"><code>for f in *.txt; do echo "$f"; done</code>.</div>
-        </div>
-      </div>
-    </section>
-
-  </div>
   <div class="footer">K24 · Προγραμματισμός Συστήματος · ΕΚΠΑ · Topic 2: Bash Shell Programming</div>
 </body>
 
 </html>
+
 
 

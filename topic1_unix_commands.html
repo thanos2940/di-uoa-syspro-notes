@@ -720,95 +720,106 @@
         </div>
       </div>
       <div class="quiz">
-        <h3>🧠 Quick Check</h3>
+        <h3>🧠 Quick Check — Αρχιτεκτονική Unix</h3>
         <div class="qitem">
-          <div class="qq">Τι κάνει η εντολή <code>ls -la 2&gt;/dev/null</code>;</div>
-          <div class="qa">Εκτελεί ls -la, τυπώνει αποτελέσματα (stdout) κανονικά, αλλά πετάει οποιοδήποτε error
-            (stderr). Χρήσιμο αν δεν θέλεις "Permission denied" μηνύματα.</div>
+          <div class="qq">Τι είναι ο kernel και πώς επικοινωνεί με τις εφαρμογές;</div>
+          <div class="qa">Ο kernel είναι ο πυρήνας του OS που διαχειρίζεται hardware, μνήμη, διεργασίες και I/O. Οι εφαρμογές επικοινωνούν μαζί του μέσω <strong>system calls</strong>.</div>
         </div>
         <div class="qitem">
-          <div class="qq">Διαφορά <code>&gt;</code> και <code>&gt;&gt;</code>;</div>
-          <div class="qa"><code>&gt;</code> αντικαθιστά (truncate + write), <code>&gt;&gt;</code> προσθέτει στο τέλος
-            (append). Και τα δύο δημιουργούν το αρχείο αν δεν υπάρχει.</div>
+          <div class="qq">Σε ποιο Section του manual βρίσκονται οι system calls (π.χ. <code>fork</code>, <code>open</code>);</div>
+          <div class="qa">Section <strong>2</strong>. Sections: 1=shell commands, 2=syscalls, 3=C library, 5=file formats, 8=sysadmin.</div>
         </div>
         <div class="qitem">
-          <div class="qq">Τι τυπώνει <code>echo $?</code> αμέσως μετά από <code>ls /nonexistent</code>;</div>
-          <div class="qa">Μη-μηδενικό (συνήθως 2) — αποτυχία γιατί το directory δεν υπάρχει. Επιτυχία = 0.</div>
+          <div class="qq">Τι κάνει η εντολή <code>man 2 open</code> σε σχέση με <code>man open</code>;</div>
+          <div class="qa"><code>man 2 open</code> δείχνει ρητά το Section 2 (system call). Χωρίς τον αριθμό, το man δείχνει το πρώτο αποτέλεσμα που βρίσκει (συνήθως Section 1).</div>
+        </div>
+
+        <h3>🧠 Quick Check — Filesystem &amp; Inodes</h3>
+        <div class="qitem">
+          <div class="qq">Τι αποθηκεύει ένας inode;</div>
+          <div class="qa">Metadata: permissions, owner, size, timestamps, και pointers στα data blocks. <strong>Όχι</strong> το filename — αυτό βρίσκεται στο directory entry.</div>
         </div>
         <div class="qitem">
-          <div class="qq">Πώς βρίσκουμε όλες τις εμφανίσεις της λέξης "error" σε όλα τα αρχεία του τρέχοντος καταλόγου
-            αναδρομικά;</div>
-          <div class="qa">Χρησιμοποιούμε <code>grep -r "error" .</code>. Το <code>-r</code> σημαίνει recursive και το
-            <code>.</code> δηλώνει τον τρέχοντα κατάλογο.
-          </div>
+          <div class="qq">Ποια η διαφορά hard link και symbolic link;</div>
+          <div class="qa">Hard link: δείχνει στον ίδιο inode, δεν «σπάει» αν διαγραφεί το original. Symbolic link: δείχνει στο pathname, «σπάει» αν μετακινηθεί το original.</div>
         </div>
+        <div class="qitem">
+          <div class="qq">Τι κάνει <code>mkdir -p a/b/c</code>;</div>
+          <div class="qa">Δημιουργεί τον κατάλογο <code>c</code> καθώς και τους ενδιάμεσους (<code>a</code>, <code>b</code>) αν δεν υπάρχουν. Χωρίς <code>-p</code> αποτυγχάνει αν δεν υπάρχει ο <code>a</code>.</div>
+        </div>
+
+        <h3>🧠 Quick Check — Navigation &amp; Βασικές Εντολές</h3>
+        <div class="qitem">
+          <div class="qq">Τι σημαίνει το <code>~</code> (tilde);</div>
+          <div class="qa">Αντιπροσωπεύει το Home Directory του τρέχοντος χρήστη (π.χ. <code>/home/alice</code> ή <code>/root</code>).</div>
+        </div>
+        <div class="qitem">
+          <div class="qq">Πώς βρίσκουμε όλα τα αρχεία <code>.c</code> αναδρομικά και τα μετράμε;</div>
+          <div class="qa"><code>find . -name "*.c" | wc -l</code>. Η <code>find</code> αναζητά αναδρομικά, <code>wc -l</code> μετράει γραμμές.</div>
+        </div>
+        <div class="qitem">
+          <div class="qq">Τι κάνει <code>ls -la</code>;</div>
+          <div class="qa"><code>-l</code>: long format (permissions, owner, size, date). <code>-a</code>: εμφάνιση hidden files (αρχεία που αρχίζουν με <code>.</code>).</div>
+        </div>
+
+        <h3>🧠 Quick Check — Text Processing</h3>
+        <div class="qitem">
+          <div class="qq">Πώς βρίσκουμε όλες τις εμφανίσεις της λέξης "error" σε αρχεία αναδρομικά;</div>
+          <div class="qa"><code>grep -r "error" .</code>. Πρόσθεσε <code>-i</code> για case-insensitive, <code>-n</code> για αριθμούς γραμμών.</div>
+        </div>
+        <div class="qitem">
+          <div class="qq">Πώς ταξινομούμε αριθμητικά (ώστε το 10 να έρθει μετά το 2);</div>
+          <div class="qa"><code>sort -n</code>. Χωρίς <code>-n</code> η ταξινόμηση είναι αλφαβητική, οπότε "10" &lt; "2".</div>
+        </div>
+        <div class="qitem">
+          <div class="qq">Πώς παρακολουθούμε τις τελευταίες γραμμές ενός log σε πραγματικό χρόνο;</div>
+          <div class="qa"><code>tail -f log.txt</code>. Το <code>-f</code> (follow) τυπώνει νέες γραμμές καθώς προστίθενται.</div>
+        </div>
+
+        <h3>🧠 Quick Check — Permissions</h3>
         <div class="qitem">
           <div class="qq">Τι σημαίνει το permission <code>755</code> σε ένα αρχείο;</div>
-          <div class="qa">Owner: 7 (rwx), Group: 5 (r-x), Others: 5 (r-x). Ο ιδιοκτήτης κάνει τα πάντα, οι υπόλοιποι
-            μόνο ανάγνωση και εκτέλεση.</div>
+          <div class="qa">Owner: 7 (rwx), Group: 5 (r-x), Others: 5 (r-x). Ο ιδιοκτήτης κάνει τα πάντα, υπόλοιποι μόνο read+execute.</div>
         </div>
         <div class="qitem">
-          <div class="qq">Πώς εκτελούμε ένα πρόγραμμα <code>myprog</code> στον τρέχοντα κατάλογο και γιατί χρειάζεται το
-            <code>./</code>;
-          </div>
-          <div class="qa">Με <code>./myprog</code>. Το <code>./</code> είναι απαραίτητο γιατί ο τρέχων κατάλογος (.) δεν
-            περιλαμβάνεται στο PATH για λόγους ασφαλείας.</div>
+          <div class="qq">Τι κάνει <code>chmod +x script.sh</code>;</div>
+          <div class="qa">Προσθέτει execute permission για όλους. Χωρίς αυτό το script δεν μπορεί να τρέξει απευθείας.</div>
         </div>
         <div class="qitem">
-          <div class="qq">Ποια η διαφορά μεταξύ <code>kill</code> (σκέτο) και <code>kill -9</code>;</div>
-          <div class="qa">Η <code>kill</code> στέλνει SIGTERM (αίτημα τερματισμού που μπορεί να αγνοηθεί), ενώ η
-            <code>kill -9</code> στέλνει SIGKILL (βίαιος τερματισμός από τον kernel που δεν αγνοείται).
-          </div>
+          <div class="qq">Τι κάνει το sticky bit σε έναν κατάλογο (π.χ. <code>/tmp</code>);</div>
+          <div class="qa">Επιτρέπει μόνο στον ιδιοκτήτη ενός αρχείου (ή root) να το διαγράψει, ακόμα και αν όλοι έχουν write permission στον κατάλογο.</div>
+        </div>
+
+        <h3>🧠 Quick Check — Ανακατεύθυνση &amp; Pipes</h3>
+        <div class="qitem">
+          <div class="qq">Διαφορά <code>&gt;</code> και <code>&gt;&gt;</code>;</div>
+          <div class="qa"><code>&gt;</code> αντικαθιστά (truncate + write), <code>&gt;&gt;</code> προσθέτει στο τέλος (append). Και τα δύο δημιουργούν το αρχείο αν δεν υπάρχει.</div>
         </div>
         <div class="qitem">
-          <div class="qq">Πώς ταξινομούμε ένα αρχείο με αριθμούς έτσι ώστε το "10" να έρχεται μετά το "2";</div>
-          <div class="qa">Χρησιμοποιούμε <code>sort -n</code>. Χωρίς το <code>-n</code> η ταξινόμηση είναι αλφαβητική
-            και το "10" θα έμπαινε πριν το "2".</div>
-        </div>
-        <div class="qitem">
-          <div class="qq">Σε ποιο section του manual βρίσκονται οι κλήσεις συστήματος (system calls) όπως η
-            <code>open</code>;
-          </div>
-          <div class="qa">Στο <strong>Section 2</strong>. Το Section 1 είναι για εντολές shell και το Section 3 για
-            βιβλιοθήκες της C.</div>
-        </div>
-        <div class="qitem">
-          <div class="qq">Τι κάνει η εντολή <code>mkdir -p a/b/c</code>;</div>
-          <div class="qa">Δημιουργεί τον κατάλογο <code>c</code>, καθώς και όλους τους ενδιάμεσους γονικούς καταλόγους
-            (<code>a</code>, <code>b</code>) αν αυτοί δεν υπάρχουν ήδη.</div>
-        </div>
-        <div class="qitem">
-          <div class="qq">Τι σημαίνει το σύμβολο <code>~</code> (tilde);</div>
-          <div class="qa">Αντιπροσωπεύει το <strong>Home Directory</strong> του τρέχοντος χρήστη (π.χ.
-            <code>/home/alice</code>).
-          </div>
-        </div>
-        <div class="qitem">
-          <div class="qq">Πώς στέλνουμε και το stdout και το stderr στο ίδιο αρχείο <code>all.log</code>;</div>
-          <div class="qa">Με την ανακατεύθυνση <code>command &gt; all.log 2&gt;&amp;1</code>. Το
-            <code>2&gt;&amp;1</code> λέει στο stderr (2) να πάει εκεί που πάει το stdout (1).
-          </div>
+          <div class="qq">Πώς στέλνουμε stdout και stderr στο ίδιο αρχείο <code>all.log</code>;</div>
+          <div class="qa"><code>command &gt; all.log 2&gt;&amp;1</code>. Το <code>2&gt;&amp;1</code> ανακατευθύνει stderr εκεί που πηγαίνει stdout. Η σειρά μετράει!</div>
         </div>
         <div class="qitem">
           <div class="qq">Τι είναι το <code>/dev/null</code>;</div>
-          <div class="qa">Είναι μια ειδική "συσκευή" (bit bucket). Οτιδήποτε γράφεται εκεί απορρίπτεται αμέσως από το
-            σύστημα. Χρησιμοποιείται για να "φιμώνουμε" την έξοδο εντολών.</div>
+          <div class="qa">Ειδική «συσκευή» (bit bucket). Οτιδήποτε γράφεται εκεί απορρίπτεται αμέσως. Χρήση: <code>cmd 2&gt;/dev/null</code> για να «φιμώσουμε» errors.</div>
+        </div>
+
+        <h3>🧠 Quick Check — Processes &amp; Environment</h3>
+        <div class="qitem">
+          <div class="qq">Τι τυπώνει <code>echo $?</code> αμέσως μετά από <code>ls /nonexistent</code>;</div>
+          <div class="qa">Μη-μηδενικό (συνήθως 2) — αποτυχία. Επιτυχία = 0. Αντίθετο από boolean λογική!</div>
         </div>
         <div class="qitem">
-          <div class="qq">Πώς βρίσκουμε όλα τα αρχεία <code>.c</code> και τα μετράμε;</div>
-          <div class="qa">Συνδυάζοντας εντολές με pipe: <code>find . -name "*.c" | wc -l</code> ή πιο απλά
-            <code>ls *.c | wc -l</code>.
-          </div>
+          <div class="qq">Ποια η διαφορά <code>kill</code> (σκέτο) και <code>kill -9</code>;</div>
+          <div class="qa"><code>kill</code> = SIGTERM: αίτημα τερματισμού που μπορεί να αγνοηθεί. <code>kill -9</code> = SIGKILL: βίαιος τερματισμός από kernel, αδύνατο να αγνοηθεί.</div>
         </div>
         <div class="qitem">
-          <div class="qq">Πώς παρακολουθούμε τις τελευταίες γραμμές ενός log αρχείου σε πραγματικό χρόνο;</div>
-          <div class="qa">Χρησιμοποιούμε <code>tail -f log.txt</code>. Το flag <code>-f</code> (follow) περιμένει και
-            τυπώνει νέες γραμμές καθώς προστίθενται.</div>
+          <div class="qq">Πώς εκτελούμε ένα πρόγραμμα <code>myprog</code> στον τρέχοντα κατάλογο και γιατί χρειάζεται το <code>./</code>;</div>
+          <div class="qa">Με <code>./myprog</code>. Ο <code>.</code> δεν βρίσκεται στο PATH για λόγους ασφαλείας — αλλιώς κακόβουλος χρήστης θα έβαζε ψεύτικο <code>ls</code> στο CWD.</div>
         </div>
       </div>
     </section>
 
-  </div>
   <div class="footer">K24 · Προγραμματισμός Συστήματος · ΕΚΠΑ · Topic 1: Basic Unix Commands</div>
 </body>
 

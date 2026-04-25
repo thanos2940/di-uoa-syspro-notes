@@ -328,36 +328,45 @@ dir = <span class="fn">opendir</span>(<span class="st">"."</span>);
   </div>
 
   <div class="quiz">
-    <h3>🧠 Quick Check</h3>
+    <h3>🧠 Quick Check — Error Handling</h3>
+    <div class="qitem"><div class="qq">Τι επιστρέφουν οι system calls σε αποτυχία;</div><div class="qa"><strong>-1</strong> και θέτουν τη global μεταβλητή <code>errno</code> με τον κωδικό σφάλματος. Πάντα να ελέγχεις την επιστρεφόμενη τιμή.</div></div>
+    <div class="qitem"><div class="qq">Τι είναι το <code>errno</code> και πότε διαβάζουμε την τιμή του;</div><div class="qa">Global μεταβλητή που ο kernel θέτει σε κωδικό σφάλματος μετά από αποτυχημένη system call. Πρέπει να τη διαβάσουμε <em>αμέσως</em> μετά — αλλάζει σε κάθε επόμενη system call.</div></div>
+    <div class="qitem"><div class="qq">Ποια η διαφορά <code>perror()</code> και <code>strerror()</code>;</div><div class="qa"><code>perror("msg")</code> τυπώνει το μήνυμα + ":" + περιγραφή errno στο stderr. <code>strerror(errno)</code> επιστρέφει μόνο τη string περιγραφή, για χρήση στο <code>printf</code>.</div></div>
+
+    <h3>🧠 Quick Check — File Descriptors</h3>
+    <div class="qitem"><div class="qq">Ποιοι είναι οι 3 standard file descriptors και σε τι αντιστοιχούν;</div><div class="qa">0: stdin (keyboard), 1: stdout (screen), 2: stderr (screen για errors). Ανοίγουν αυτόματα από τον kernel σε κάθε νέα διεργασία.</div></div>
+    <div class="qitem"><div class="qq">Τι συμβαίνει στους file descriptors μετά από <code>fork()</code>;</div><div class="qa">Το child κληρονομεί <em>αντίγραφο</em> του FD table του parent. Και τα δύο δείχνουν στα ίδια ανοιχτά αρχεία/pipes — γι' αυτό πρέπει να κλείνουμε τα αχρείαστα ends.</div></div>
+    <div class="qitem"><div class="qq">Ο FD 4 δείχνει σε αρχείο. Πόσες φορές μπορεί να ανοίξω το ίδιο αρχείο;</div><div class="qa">Όσες φορές θέλω — κάθε <code>open()</code> δημιουργεί νέο FD με δικό του file offset. Επίσης, αν το κλείσω, ο FD 4 ελευθερώνεται και χρησιμοποιείται ο επόμενος ελεύθερος (low watermark).</div></div>
+
+    <h3>🧠 Quick Check — open()</h3>
+    <div class="qitem"><div class="qq">Τι κάνει ο συνδυασμός <code>O_WRONLY | O_CREAT | O_TRUNC</code>;</div><div class="qa">Ανοίγει για γράψιμο μόνο, δημιουργεί αν δεν υπάρχει, και «αδειάζει» (truncate) αν υπάρχει ήδη. Αντίστοιχο του <code>fopen("file", "w")</code>.</div></div>
+    <div class="qitem"><div class="qq">Πότε χρειάζεται το τρίτο όρισμα (mode) στην <code>open()</code>;</div><div class="qa">Μόνο όταν υπάρχει <code>O_CREAT</code> — ορίζει τα permissions του νέου αρχείου (π.χ. <code>0644</code>). Χωρίς αυτό τα permissions είναι undefined.</div></div>
+    <div class="qitem"><div class="qq">Τι επιστρέφει <code>open()</code> σε αποτυχία και ποια είναι συνηθισμένα errors;</div><div class="qa">Επιστρέφει <strong>-1</strong>. Συνηθισμένα: <code>ENOENT</code>=δεν υπάρχει, <code>EACCES</code>=δεν έχεις permission, <code>EMFILE</code>=πολλά ανοιχτά αρχεία.</div></div>
+
+    <h3>🧠 Quick Check — read() &amp; write()</h3>
+    <div class="qitem"><div class="qq">Τι επιστρέφει <code>read()</code> όταν φτάσει EOF;</div><div class="qa"><strong>0</strong>. Θετικό = bytes που διαβάστηκαν, -1 = σφάλμα. Μνημονικό: θετικό=δεδομένα, μηδέν=τέλος, αρνητικό=πρόβλημα.</div></div>
+    <div class="qitem"><div class="qq">Γιατί κάνουμε <code>read()</code> μέσα σε loop αντί να εμπιστευόμαστε ότι θα διαβάσει όλα τα bytes;</div><div class="qa">Η <code>read()</code> μπορεί να επιστρέψει <em>λιγότερα</em> bytes από αυτά που ζητήσαμε (partial read) — ειδικά σε pipes, sockets, ή interrupts. Το loop εγγυάται ότι διαβάζουμε όλα.</div></div>
+    <div class="qitem"><div class="qq">Ποια η διαφορά <code>write()</code> και <code>fprintf()</code>;</div><div class="qa"><code>write()</code> = system call, γράφει raw bytes, unbuffered, async-signal-safe. <code>fprintf()</code> = library function, χρησιμοποιεί buffers (γρηγορότερο αλλά ΟΧΙ safe σε signal handlers).</div></div>
+
+    <h3>🧠 Quick Check — dup() &amp; dup2()</h3>
+    <div class="qitem"><div class="qq">Τι κάνει η <code>dup2(fd, 1)</code>;</div><div class="qa">Κάνει τον FD 1 (stdout) να δείχνει εκεί που δείχνει το <code>fd</code>. Αν <code>fd</code> = αρχείο, κάθε <code>printf()</code> στη συνέχεια γράφει στο αρχείο.</div></div>
+    <div class="qitem"><div class="qq">Ποια η διαφορά <code>dup()</code> και <code>dup2()</code>;</div><div class="qa"><code>dup(fd)</code> δημιουργεί αντίγραφο με τον μικρότερο ελεύθερο FD. <code>dup2(fd, newfd)</code> κλείνει το <code>newfd</code> αν χρειαστεί και το κάνει να δείχνει εκεί που δείχνει το <code>fd</code>.</div></div>
+    <div class="qitem"><div class="qq">Γιατί μετά από <code>dup2(pipe[1], 1)</code> πρέπει να κλείσουμε και το <code>pipe[1]</code>;</div><div class="qa">Γιατί ο FD 1 δείχνει πλέον στο pipe, αλλά το αρχικό <code>pipe[1]</code> παραμένει ανοιχτό ως επιπλέον reference. Αν δεν το κλείσουμε, ο reader δεν θα λάβει EOF.</div></div>
+
+    <h3>🧠 Quick Check — stat()</h3>
+    <div class="qitem"><div class="qq">Ποια η διαφορά <code>stat()</code> και <code>lstat()</code>;</div><div class="qa">Σε symbolic link: <code>stat()</code> επιστρέφει πληροφορίες για το αρχείο-στόχο. <code>lstat()</code> επιστρέφει πληροφορίες για το ίδιο το symlink.</div></div>
+    <div class="qitem"><div class="qq">Πώς ελέγχουμε αν ένα path είναι directory;</div><div class="qa">Με το macro <code>S_ISDIR(sb.st_mode)</code> μετά από <code>stat(path, &amp;sb)</code>. Άλλα macros: <code>S_ISREG()</code>=regular file, <code>S_ISLNK()</code>=symlink.</div></div>
+    <div class="qitem"><div class="qq">Τι κάνει <code>lseek(fd, 0, SEEK_END)</code>;</div><div class="qa">Μεταφέρει τον file cursor στο τέλος. Η τιμή που επιστρέφει = μέγεθος αρχείου σε bytes (offset από SEEK_SET). Χρήσιμο για append ή για να μετρήσουμε μέγεθος.</div></div>
+
+    <h3>🧠 Quick Check — Signals</h3>
     <div class="qitem"><div class="qq">Ποιο signal δεν μπορεί να πιαστεί ή αγνοηθεί;</div><div class="qa">SIGKILL (9) και SIGSTOP (19). Εκτελούνται πάντα από τον kernel ανεξάρτητα από handlers.</div></div>
-    <div class="qitem"><div class="qq">Τι κάνει η <code>dup2(fd, 1)</code>;</div><div class="qa">Κάνει τον FD=1 (stdout) να δείχνει εκεί που δείχνει το fd. Αν fd είναι αρχείο, κάθε printf() στη συνέχεια γράφει στο αρχείο.</div></div>
-    <div class="qitem"><div class="qq">Τι επιστρέφει read() όταν φτάσει EOF;</div><div class="qa">0. Αρνητικό (-1) = error. Θετικό = bytes διαβάστηκαν.</div></div>
-    <div class="qitem"><div class="qq">Τι είναι το errno;</div><div class="qa">Global μεταβλητή που θέτει ο kernel με κωδικό σφάλματος αν η τελευταία system call απέτυχε. Αξία μόνο αμέσως μετά από αποτυχία — αλλάζει σε κάθε επόμενη κλήση.</div></div>
+    <div class="qitem"><div class="qq">Τι κάνει η <code>alarm(5)</code>;</div><div class="qa">Προγραμματίζει τον kernel να στείλει SIGALRM στη διεργασία μετά από 5 δευτερόλεπτα. Default action: terminate.</div></div>
+    <div class="qitem"><div class="qq">Τι κάνει η <code>pause()</code>;</div><div class="qa">Αναστέλλει την εκτέλεση μέχρι να φτάσει οποιοδήποτε signal που τερματίζει τη διεργασία ή καλεί handler. Επιστρέφει -1 με EINTR μετά τον handler.</div></div>
 
-    <!-- Νέες Ερωτήσεις Topic 3 -->
-    <div class="qitem"><div class="qq">Ποιοι είναι οι τρεις standard file descriptors και σε τι αντιστοιχούν;</div><div class="qa">0: stdin (πληκτρολόγιο), 1: stdout (οθόνη), 2: stderr (οθόνη για σφάλματα).</div></div>
-
-    <div class="qitem"><div class="qq">Τι κάνει ο συνδυασμός flags <code>O_WRONLY | O_CREAT | O_TRUNC</code> στην open();</div><div class="qa">Ανοίγει το αρχείο για γράψιμο μόνο, το δημιουργεί αν δεν υπάρχει, και αν υπάρχει ήδη, το "αδειάζει" (truncate) ώστε να ξεκινήσει από την αρχή.</div></div>
-
-    <div class="qitem"><div class="qq">Πότε χρειαζόμαστε το τρίτο όρισμα (mode) στην <code>open()</code>;</div><div class="qa">Μόνο όταν χρησιμοποιούμε το flag <code>O_CREAT</code>, για να ορίσουμε τα permissions του νέου αρχείου (π.χ. 0644).</div></div>
-
-    <div class="qitem"><div class="qq">Τι κάνει η <code>lseek(fd, 0, SEEK_END)</code>;</div><div class="qa">Μεταφέρει τον κέρσορα του αρχείου στο τέλος. Η τιμή που επιστρέφει αντιστοιχεί στο μέγεθος του αρχείου σε bytes.</div></div>
-
-    <div class="qitem"><div class="qq">Ποια η διαφορά μεταξύ <code>stat()</code> και <code>lstat()</code>;</div><div class="qa">Αν το path είναι symbolic link, η <code>stat()</code> επιστρέφει πληροφορίες για το αρχείο στο οποίο δείχνει το link, ενώ η <code>lstat()</code> επιστρέφει πληροφορίες για το ίδιο το link.</div></div>
-
-    <div class="qitem"><div class="qq">Πώς ελέγχουμε αν ένα αρχείο είναι directory χρησιμοποιώντας τη struct stat;</div><div class="qa">Με το macro <code>S_ISDIR(sb.st_mode)</code>.</div></div>
-
-    <div class="qitem"><div class="qq">Τι κάνει η <code>alarm(5)</code>;</div><div class="qa">Προγραμματίζει τον πυρήνα να στείλει ένα σήμα <code>SIGALRM</code> στη διεργασία μετά από ακριβώς 5 δευτερόλεπτα.</div></div>
-
-    <div class="qitem"><div class="qq">Γιατί δεν πρέπει να καλούμε την <code>printf()</code> μέσα σε έναν signal handler;</div><div class="qa">Γιατί η <code>printf()</code> δεν είναι "async-signal-safe" (χρησιμοποιεί buffers και locks που μπορεί να οδηγήσουν σε deadlock αν διακοπεί η main). Χρησιμοποιούμε τη <code>write()</code> που είναι safe.</div></div>
-
-    <div class="qitem"><div class="qq">Τι είναι το <code>sigset_t</code>;</div><div class="qa">Είναι ένας τύπος δεδομένων (σύνολο) που χρησιμοποιείται για να αποθηκεύει πολλαπλά σήματα, π.χ. για να τα μπλοκάρουμε μαζικά με τη <code>sigprocmask()</code>.</div></div>
-
-    <div class="qitem"><div class="qq">Τι κάνει η <code>pause()</code>;</div><div class="qa">Αναστέλλει την εκτέλεση της διεργασίας μέχρι να φτάσει οποιοδήποτε σήμα που είτε την τερματίζει είτε καλεί έναν handler.</div></div>
-
-    <div class="qitem"><div class="qq">Ποιος είναι ο ρόλος του <code>SA_RESTART</code> στα flags της sigaction;</div><div class="qa">Αν ένα system call (π.χ. read) διακοπεί από ένα σήμα, ο πυρήνας θα το επανεκκινήσει αυτόματα μόλις τελειώσει ο handler, αντί να επιστρέψει σφάλμα EINTR.</div></div>
-
-    <div class="qitem"><div class="qq">Τι τύπου πρέπει να είναι μια global μεταβλητή που αλλάζει μέσα σε έναν handler;</div><div class="qa">Πρέπει να είναι <code>volatile sig_atomic_t</code> για να εγγυηθεί ο compiler ότι η πρόσβαση σε αυτήν είναι ατομική και δεν θα γίνει optimization που την κρύβει.</div></div>
+    <h3>🧠 Quick Check — sigaction()</h3>
+    <div class="qitem"><div class="qq">Γιατί δεν χρησιμοποιούμε <code>printf()</code> σε signal handler;</div><div class="qa">Γιατί η <code>printf()</code> δεν είναι async-signal-safe (χρησιμοποιεί locks/buffers → κίνδυνος deadlock). Χρήση: <code>write()</code> που είναι safe.</div></div>
+    <div class="qitem"><div class="qq">Τι τύπου πρέπει να είναι μια global μεταβλητή που αλλάζει μέσα σε handler;</div><div class="qa"><code>volatile sig_atomic_t</code>. Το <code>volatile</code> εμποδίζει τον compiler από caching, το <code>sig_atomic_t</code> εγγυάται ατομική πρόσβαση.</div></div>
+    <div class="qitem"><div class="qq">Ποιος ο ρόλος του <code>SA_RESTART</code>;</div><div class="qa">Αν ένα system call (π.χ. <code>read</code>) διακοπεί από signal, ο kernel το επανεκκινεί αυτόματα αντί να επιστρέψει EINTR. Χωρίς αυτό πρέπει να χειριστείς το EINTR manually.</div></div>
   </div>
 </section>
 
@@ -365,6 +374,7 @@ dir = <span class="fn">opendir</span>(<span class="st">"."</span>);
 <div class="footer">K24 · Προγραμματισμός Συστήματος · ΕΚΠΑ · Topic 3: Low-level I/O, Signals &amp; Error Handling</div>
 </body>
 </html>
+
 
 
 

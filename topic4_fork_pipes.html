@@ -531,92 +531,40 @@ sa.sa_flags = <span class="mc">SA_RESTART</span>;
   </div>
 
   <div class="quiz">
-    <h3>🧠 Quick Check — Εξετάσεις</h3>
-    <div class="qitem">
-      <div class="qq">Τι επιστρέφει fork() στον parent / στο child / σε αποτυχία;</div>
-      <div class="qa">Parent: PID του child (θετικός αριθμός). Child: 0. Αποτυχία: -1 (μόνο στον parent, το child δεν δημιουργήθηκε).</div>
-    </div>
-    <div class="qitem">
-      <div class="qq">Γιατί μετά από pipe()+fork() πρέπει να κλείνουμε τα αχρείαστα ends;</div>
-      <div class="qa">Γιατί αν ο reader δεν κλείσει το p[1] (write end), είναι ο ίδιος "potential writer" — άρα ο πυρήνας δεν θα στείλει EOF και το read() θα μπλοκάρει για πάντα περιμένοντας δεδομένα που δεν θα έρθουν ποτέ.</div>
-    </div>
-    <div class="qitem">
-      <div class="qq">Τι είναι zombie process και πότε δημιουργείται;</div>
-      <div class="qa">Διεργασία που τερμάτισε αλλά ο parent δεν έχει κάνει wait() για αυτήν. Ο kernel κρατά την εγγραφή στον process table (για τον exit status). Αποφυγή: wait()/waitpid() ή SIGCHLD handler.</div>
-    </div>
-    <div class="qitem">
-      <div class="qq">Τι διαφορά έχει FIFO από anonymous pipe;</div>
-      <div class="qa">FIFO έχει όνομα στο filesystem → μπορεί να χρησιμοποιηθεί από άσχετες διεργασίες χωρίς κοινό πρόγονο. Anonymous pipe: μόνο μεταξύ parent-child (γιατί μεταδίδεται μέσω fork).</div>
-    </div>
-    <div class="qitem">
-      <div class="qq">Τι συμβαίνει αν κάνεις write() σε pipe που δεν έχει reader;</div>
-      <div class="qa">Στέλνεται SIGPIPE (13) στη διεργασία. Αν το signal αγνοηθεί (SIG_IGN), η write() επιστρέφει -1 με errno=EPIPE.</div>
-    </div>
-    <div class="qitem">
-      <div class="qq">Ποια η διαφορά execl/execv και execlp/execvp;</div>
-      <div class="qa">Τα με 'p' (execlp, execvp) κάνουν αυτόματη αναζήτηση στο PATH — δεν χρειάζεσαι full path. Τα χωρίς 'p' απαιτούν full path (/bin/ls). Η διαφορά l/v: list (args ξεχωριστά) vs vector (array).</div>
-    </div>
+    <h3>🧠 Quick Check — fork()</h3>
+    <div class="qitem"><div class="qq">Τι επιστρέφει <code>fork()</code> στον parent / στο child / σε αποτυχία;</div><div class="qa">Parent: PID του child (θετικός). Child: 0. Αποτυχία: -1 (μόνο στον parent, το child δεν δημιουργήθηκε).</div></div>
+    <div class="qitem"><div class="qq">Τι είναι το Copy-on-Write (COW) στη <code>fork()</code>;</div><div class="qa">Βελτιστοποίηση: ο kernel δεν αντιγράφει αμέσως τη μνήμη — την «μοιράζει» μεταξύ parent/child ως read-only μέχρι κάποιος να γράψει. Κάνει τη fork() πολύ γρήγορη.</div></div>
+    <div class="qitem"><div class="qq">Τι κληρονομεί το child process μετά από fork();</div><div class="qa">Αντίγραφο: address space, FD table, signal handlers, working directory, environment. ΔΕΝ κληρονομεί: memory locks, pending signals, open file locks.</div></div>
 
-    <!-- Νέες Ερωτήσεις Topic 4 -->
-    <div class="qitem">
-      <div class="qq">Τι είναι η orphan process και ποιος την "υιοθετεί";</div>
-      <div class="qa">Είναι η διεργασία της οποίας ο πατέρας τερμάτισε πριν από αυτήν. Την υιοθετεί αυτόματα η διεργασία <code>init</code> (PID 1), η οποία κάνει και το wait() όταν το ορφανό τερματίσει.</div>
-    </div>
+    <h3>🧠 Quick Check — exec()</h3>
+    <div class="qitem"><div class="qq">Αλλάζει το PID μετά από επιτυχημένη <code>exec()</code>;</div><div class="qa">Όχι. Το PID παραμένει ίδιο — απλώς αντικαθίσταται ο κώδικας, τα data segments και το heap/stack με το νέο πρόγραμμα.</div></div>
+    <div class="qitem"><div class="qq">Ποια η διαφορά <code>execl</code>/<code>execv</code> και <code>execlp</code>/<code>execvp</code>;</div><div class="qa">Τα με <code>p</code> αναζητούν αυτόματα στο PATH. Χωρίς <code>p</code> χρειάζεσαι absolute path. Διαφορά <code>l</code>/<code>v</code>: list (args ξεχωριστά) vs vector (array).</div></div>
+    <div class="qitem"><div class="qq">Ποιοι FDs παραμένουν ανοιχτοί μετά από <code>exec()</code>;</div><div class="qa">Από default, όλοι — εκτός αν έχουν το flag <code>FD_CLOEXEC</code> (ή <code>O_CLOEXEC</code> στην open). Αυτό είναι η σωστή πρακτική για security.</div></div>
 
-    <div class="qitem">
-      <div class="qq">Τι κάνει η macro <code>WEXITSTATUS(status)</code>;</div>
-      <div class="qa">Επιστρέφει τον κωδικό εξόδου (0-255) που έδωσε το παιδί στην <code>exit()</code> ή στο <code>return</code> της main. Χρησιμοποιείται μόνο αν η <code>WIFEXITED(status)</code> είναι αληθής.</div>
-    </div>
+    <h3>🧠 Quick Check — wait() &amp; waitpid()</h3>
+    <div class="qitem"><div class="qq">Ποια η διαφορά <code>wait()</code> και <code>waitpid()</code>;</div><div class="qa"><code>wait()</code> = περιμένει οποιοδήποτε παιδί. <code>waitpid(pid, ...)</code> = συγκεκριμένο PID, υποστηρίζει WNOHANG, WUNTRACED κ.ά.</div></div>
+    <div class="qitem"><div class="qq">Τι κάνει το flag <code>WNOHANG</code>;</div><div class="qa">Κάνει τη <code>waitpid</code> non-blocking: αν κανένα παιδί δεν έχει τερματίσει, επιστρέφει 0 αμέσως αντί να περιμένει.</div></div>
+    <div class="qitem"><div class="qq">Τι κάνει <code>WEXITSTATUS(status)</code>;</div><div class="qa">Επιστρέφει τον κωδικό εξόδου (0-255) που έδωσε το παιδί στην <code>exit()</code>. Χρήση μόνο αν <code>WIFEXITED(status)</code> είναι true.</div></div>
 
-    <div class="qitem">
-      <div class="qq">Μετά από μια επιτυχημένη <code>exec()</code>, αλλάζει το PID της διεργασίας;</div>
-      <div class="qa">Όχι, το PID παραμένει το ίδιο. Η διεργασία απλώς αντικαθιστά τον κώδικα και τα δεδομένα της με το νέο πρόγραμμα.</div>
-    </div>
+    <h3>🧠 Quick Check — Zombie &amp; Orphan</h3>
+    <div class="qitem"><div class="qq">Τι είναι zombie process και πότε δημιουργείται;</div><div class="qa">Διεργασία που τερμάτισε αλλά ο parent δεν έχει κάνει <code>wait()</code>. Ο kernel κρατά την εγγραφή στον process table. Αποφυγή: <code>wait()</code> ή SIGCHLD handler.</div></div>
+    <div class="qitem"><div class="qq">Τι είναι orphan process και ποιος την «υιοθετεί»;</div><div class="qa">Διεργασία της οποίας ο parent τερμάτισε πρώτος. Υιοθετείται αυτόματα από <code>init</code> (PID 1) που κάνει και το wait() όταν τερματίσει.</div></div>
+    <div class="qitem"><div class="qq">Γιατί χρησιμοποιούμε loop με <code>waitpid</code> + <code>WNOHANG</code> μέσα σε SIGCHLD handler;</div><div class="qa">Γιατί τα SIGCHLD δεν μπαίνουν σε ουρά — αν τερματίσουν πολλά παιδιά ταυτόχρονα, μπορεί να λάβουμε μόνο ένα signal. Το loop μαζεύει όλους τους zombies.</div></div>
 
-    <div class="qitem">
-      <div class="qq">Τι κάνει η <code>waitpid(-1, &status, 0)</code>;</div>
-      <div class="qa">Συμπεριφέρεται ακριβώς όπως η <code>wait(&status)</code>: περιμένει τον τερματισμό οποιουδήποτε παιδιού.</div>
-    </div>
+    <h3>🧠 Quick Check — Pipes (Anonymous)</h3>
+    <div class="qitem"><div class="qq">Σε ένα <code>pipe(p)</code>, ποιο είναι το read end και ποιο το write end;</div><div class="qa"><code>p[0]</code> = read (in). <code>p[1]</code> = write (out). Μνημονικό: 0=stdin (reading), 1=stdout (writing).</div></div>
+    <div class="qitem"><div class="qq">Γιατί μετά από pipe()+fork() πρέπει να κλείνουμε τα αχρείαστα ends;</div><div class="qa">Αν ο reader δεν κλείσει το <code>p[1]</code>, είναι και αυτός «potential writer» → ο kernel δεν στέλνει EOF → <code>read()</code> μπλοκάρει για πάντα.</div></div>
+    <div class="qitem"><div class="qq">Τι συμβαίνει αν κάνεις <code>write()</code> σε pipe χωρίς reader;</div><div class="qa">Στέλνεται SIGPIPE (13). Αν αγνοηθεί (SIG_IGN), η <code>write()</code> επιστρέφει -1 με <code>errno=EPIPE</code>.</div></div>
 
-    <div class="qitem">
-      <div class="qq">Τι προσφέρει το flag <code>WNOHANG</code> στη waitpid;</div>
-      <div class="qa">Κάνει την κλήση μη-μπλοκαριστική (non-blocking). Αν κανένα παιδί δεν έχει τερματίσει ακόμα, η <code>waitpid</code> επιστρέφει αμέσως 0 αντί να περιμένει.</div>
-    </div>
+    <h3>🧠 Quick Check — FIFOs (Named Pipes)</h3>
+    <div class="qitem"><div class="qq">Τι διαφορά έχει FIFO από anonymous pipe;</div><div class="qa">FIFO έχει όνομα στο filesystem → μπορεί να χρησιμοποιηθεί από άσχετες διεργασίες (χωρίς κοινό πρόγονο). Anonymous pipe: μόνο parent-child (μεταδίδεται μέσω fork).</div></div>
+    <div class="qitem"><div class="qq">Τι συμβαίνει αν ανοίξω FIFO με <code>O_RDONLY</code> χωρίς writer;</div><div class="qa">Η <code>open()</code> μπλοκάρει μέχρι κάποια άλλη διεργασία να ανοίξει το ίδιο FIFO με <code>O_WRONLY</code>. Αποφυγή με <code>O_NONBLOCK</code>.</div></div>
+    <div class="qitem"><div class="qq">Πώς δημιουργούμε FIFO από C;</div><div class="qa"><code>mkfifo("myfifo", 0644)</code>. Μετά ανοίγεται κανονικά με <code>open()</code> και διαβάζεται/γράφεται με <code>read()</code>/<code>write()</code>.</div></div>
 
-    <div class="qitem">
-      <div class="qq">Γιατί χρησιμοποιούμε loop με <code>waitpid</code> και <code>WNOHANG</code> μέσα σε έναν SIGCHLD handler;</div>
-      <div class="qa">Γιατί τα σήματα SIGCHLD δεν μπαίνουν σε ουρά. Αν τερματίσουν πολλά παιδιά ταυτόχρονα, μπορεί να λάβουμε μόνο ένα σήμα. Το loop εγγυάται ότι θα "μαζέψουμε" όλους τους zombies.</div>
-    </div>
-
-    <div class="qitem">
-      <div class="qq">Ποιοι file descriptors κλείνουν μετά από μια <code>exec()</code>;</div>
-      <div class="qa">Από default, όλοι οι FD παραμένουν ανοιχτοί στο νέο πρόγραμμα, εκτός αν έχουν μαρκαριστεί ρητά με το flag <code>FD_CLOEXEC</code>.</div>
-    </div>
-
-    <div class="qitem">
-      <div class="qq">Τι συμβαίνει αν ανοίξουμε ένα FIFO με <code>open(..., O_RDONLY)</code> και δεν υπάρχει writer;</div>
-      <div class="qa">Η <code>open</code> θα μπλοκάρει μέχρι κάποια άλλη διεργασία να ανοίξει το ίδιο FIFO για γράψιμο (O_WRONLY).</div>
-    </div>
-
-    <div class="qitem">
-      <div class="qq">Πώς στέλνουμε ένα σήμα σε όλες τις διεργασίες της ίδιας ομάδας (process group);</div>
-      <div class="qa">Καλούμε <code>kill(0, SIGNAL)</code>.</div>
-    </div>
-
-    <div class="qitem">
-      <div class="qq">Τι είναι το Copy-on-Write (COW) στη fork();</div>
-      <div class="qa">Είναι μια βελτιστοποίηση όπου ο πυρήνας δεν αντιγράφει αμέσως τη μνήμη του πατέρα στο παιδί, αλλά την "μοιράζει" μεταξύ τους μέχρι κάποιος να προσπαθήσει να γράψει κάτι.</div>
-    </div>
-
-    <div class="qitem">
-      <div class="qq">Σε ένα pipe <code>p[2]</code>, ποιο είναι το read end και ποιο το write end;</div>
-      <div class="qa"><code>p[0]</code> είναι για ανάγνωση (in), <code>p[1]</code> είναι για εγγραφή (out). Μνημονικό: 0=stdin, 1=stdout.</div>
-    </div>
-
-    <div class="qitem">
-      <div class="qq">Ποια η διαφορά <code>wait()</code> και <code>waitpid()</code>;</div>
-      <div class="qa">Η <code>wait()</code> περιμένει οποιοδήποτε παιδί. Η <code>waitpid()</code> μπορεί να περιμένει ένα συγκεκριμένο PID και προσφέρει επιπλέον επιλογές όπως το <code>WNOHANG</code>.</div>
-    </div>
+    <h3>🧠 Quick Check — Patterns &amp; Τεχνικές</h3>
+    <div class="qitem"><div class="qq">Ποιο είναι το classic pattern για shell pipeline: <code>ls | grep .c</code>;</div><div class="qa">1) <code>pipe(p)</code>, 2) <code>fork()</code>, 3) child: <code>dup2(p[1],1)</code>, κλείσε p[0]+p[1], <code>exec(ls)</code>, 4) parent: <code>dup2(p[0],0)</code>, κλείσε p[0]+p[1], <code>exec(grep)</code>.</div></div>
+    <div class="qitem"><div class="qq">Πώς στέλνουμε signal σε όλες τις διεργασίες της ίδιας process group;</div><div class="qa"><code>kill(0, SIGNAL)</code> — το 0 σημαίνει «την process group μου». Εναλλακτικά <code>kill(-pgid, SIGNAL)</code> για συγκεκριμένη group.</div></div>
+    <div class="qitem"><div class="qq">Γιατί χρησιμοποιούμε <code>_exit()</code> αντί <code>exit()</code> στο child μετά από fork();</div><div class="qa">Η <code>exit()</code> καλεί atexit handlers και flush stdio buffers που έχει «κληρονομήσει» από τον parent — αυτό μπορεί να γράψει δεδομένα δύο φορές. Η <code>_exit()</code> τερματίζει άμεσα.</div></div>
   </div>
 </section>
 
@@ -624,6 +572,7 @@ sa.sa_flags = <span class="mc">SA_RESTART</span>;
 <div class="footer">K24 · Προγραμματισμός Συστήματος · ΕΚΠΑ · Topic 4: fork(), exec(), Pipes &amp; IPC</div>
 </body>
 </html>
+
 
 
 
