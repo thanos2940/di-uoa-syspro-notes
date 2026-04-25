@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="el">
 
 <head>
@@ -173,7 +173,7 @@
           </div>
           <div class="card">
             <div class="card-title">source vs execute</div>
-            <div class="cb" style="font-size:12px">
+            <div class="cb">
               <span class="cm"># νέο subshell — αλλαγές δεν επηρεάζουν parent</span>
               <span class="pr">$</span> ./script.sh
               <span class="cm"># τρέχει στο ΤΡΕΧΟΝ shell — αλλαγές ισχύουν</span>
@@ -222,7 +222,7 @@
         <div>
           <div class="card">
             <div class="card-title">Quoting — κρίσιμο!</div>
-            <div class="cb" style="font-size:12px">
+            <div class="cb">
               <span class="vr">NAME</span>=<span class="st">"John Doe"</span>
               <span class="cm"># Double quotes: επεκτείνει μεταβλητές</span>
               <span class="kw">echo</span> <span class="st">"Hello $NAME"</span> <span class="cm"># Hello John
@@ -263,50 +263,50 @@
         <tr>
           <td class="mono">$$</td>
           <td>PID του τρέχοντος script</td>
-          <td style="color:var(--muted);font-size:12px">Temp files: <code>/tmp/lock.$$</code></td>
-          <td style="font-size:12px;color:var(--muted)">Δύο $ = "ο PID του εαυτού μου"</td>
+          <td style="color:var(--muted);font-size:15px">Temp files: <code>/tmp/lock.$$</code></td>
+          <td style="font-size:15px;color:var(--muted)">Δύο $ = "ο PID του εαυτού μου"</td>
         </tr>
         <tr>
           <td class="mono">$?</td>
           <td>Exit status τελευταίας εντολής (0=OK)</td>
-          <td style="color:var(--muted);font-size:12px">Αμέσως μετά command για έλεγχο</td>
-          <td style="font-size:12px;color:var(--muted)">? = "πώς πήγε;"</td>
+          <td style="color:var(--muted);font-size:15px">Αμέσως μετά command για έλεγχο</td>
+          <td style="font-size:15px;color:var(--muted)">? = "πώς πήγε;"</td>
         </tr>
         <tr>
           <td class="mono">$!</td>
           <td>PID τελευταίου background process</td>
-          <td style="color:var(--muted);font-size:12px"><code>prog & echo $!</code></td>
-          <td style="font-size:12px;color:var(--muted)">! = "το τελευταίο !"</td>
+          <td style="color:var(--muted);font-size:15px"><code>prog & echo $!</code></td>
+          <td style="font-size:15px;color:var(--muted)">! = "το τελευταίο !"</td>
         </tr>
         <tr>
           <td class="mono">$0</td>
           <td>Όνομα του script</td>
-          <td style="color:var(--muted);font-size:12px"><code>echo "Usage: $0 &lt;arg&gt;"</code></td>
-          <td style="font-size:12px;color:var(--muted)">0 = ο "zeroth" argument</td>
+          <td style="color:var(--muted);font-size:15px"><code>echo "Usage: $0 &lt;arg&gt;"</code></td>
+          <td style="font-size:15px;color:var(--muted)">0 = ο "zeroth" argument</td>
         </tr>
         <tr>
           <td class="mono">$1, $2…</td>
           <td>Positional arguments (1ο, 2ο…)</td>
-          <td style="color:var(--muted);font-size:12px"><code>./script.sh foo bar → $1=foo</code></td>
-          <td style="font-size:12px;color:var(--muted)">Σειρά στη γραμμή εντολών</td>
+          <td style="color:var(--muted);font-size:15px"><code>./script.sh foo bar → $1=foo</code></td>
+          <td style="font-size:15px;color:var(--muted)">Σειρά στη γραμμή εντολών</td>
         </tr>
         <tr>
           <td class="mono">$#</td>
           <td>Πλήθος arguments που δόθηκαν</td>
-          <td style="color:var(--muted);font-size:12px"><code>if [ $# -ne 2 ]</code></td>
-          <td style="font-size:12px;color:var(--muted)"># = αριθμός (hash = count)</td>
+          <td style="color:var(--muted);font-size:15px"><code>if [ $# -ne 2 ]</code></td>
+          <td style="font-size:15px;color:var(--muted)"># = αριθμός (hash = count)</td>
         </tr>
         <tr>
           <td class="mono">$@</td>
           <td>Όλα τα arguments (ξεχωριστά)</td>
-          <td style="color:var(--muted);font-size:12px"><code>for arg in "$@"</code></td>
-          <td style="font-size:12px;color:var(--muted)">@ = "all at" — όλα μαζί αλλά ξεχωριστά</td>
+          <td style="color:var(--muted);font-size:15px"><code>for arg in "$@"</code></td>
+          <td style="font-size:15px;color:var(--muted)">@ = "all at" — όλα μαζί αλλά ξεχωριστά</td>
         </tr>
         <tr>
           <td class="mono">$*</td>
           <td>Όλα τα arguments (ένα string)</td>
-          <td style="color:var(--muted);font-size:12px">Σπάνια χρήση</td>
-          <td style="font-size:12px;color:var(--muted)">* = "glob" = ένα μπλοκ</td>
+          <td style="color:var(--muted);font-size:15px">Σπάνια χρήση</td>
+          <td style="font-size:15px;color:var(--muted)">* = "glob" = ένα μπλοκ</td>
         </tr>
       </table>
       <div class="tip">
@@ -442,7 +442,7 @@
               </div>
             </div>
           </div>
-          <div class="cb" style="font-size:12px">
+          <div class="cb">
             <span class="cm"># case statement</span>
             <span class="kw">case</span> <span class="st">"$1"</span> <span class="kw">in</span>
             <span class="st">"start"</span>)
@@ -785,3 +785,4 @@
 </body>
 
 </html>
+

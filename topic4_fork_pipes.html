@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="el">
 <head>
 <meta charset="UTF-8">
@@ -15,10 +15,10 @@
 .fork-arr{color:var(--dim);font-size:20px;padding:6px 0}
 .fork-split{display:flex;gap:20px;justify-content:center;margin-top:8px}
 .fork-branch{display:flex;flex-direction:column;align-items:center;gap:6px}
-.fork-val{font-size:11px;color:var(--dim)}
+.fork-val{font-size:13px;color:var(--dim)}
 .pipe-diag{background:#050300;border:1px solid var(--border);border-radius:10px;padding:20px 24px}
 .pipe-fd{border-radius:4px;padding:4px 10px}
-.ptree{font-family:'JetBrains Mono',monospace;font-size:13px;line-height:2.2;background:#050300;border:1px solid var(--border);border-radius:8px;padding:18px 22px}
+.ptree{font-family:'JetBrains Mono',monospace;font-size:15px;line-height:2.2;background:#050300;border:1px solid var(--border);border-radius:8px;padding:18px 22px}
 .pt-pid{color:var(--orange)}.pt-name{color:var(--txt)}.pt-dim{color:var(--dim);font-style:italic}.pt-zombie{color:var(--red)}.pt-orphan{color:var(--yellow)}
 .retval-row{display:flex;gap:10px;flex-wrap:wrap;margin:12px 0}
 .retval{flex:1;min-width:120px;background:var(--surf);border:1px solid var(--border);border-radius:8px;padding:12px;text-align:center}
@@ -152,23 +152,23 @@
     <tr><th>Function</th><th>Path</th><th>Args</th><th>Env</th><th>Παράδειγμα κλήσης</th></tr>
     <tr>
       <td class="mono">execl()</td><td>full path</td><td>list</td><td>inherit</td>
-      <td style="font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--muted)">execl("/bin/ls","ls","-l",NULL)</td>
+      <td style="font-family:'JetBrains Mono',monospace;font-size:15px;color:var(--muted)">execl("/bin/ls","ls","-l",NULL)</td>
     </tr>
     <tr>
       <td class="mono">execv()</td><td>full path</td><td>array</td><td>inherit</td>
-      <td style="font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--muted)">execv("/bin/ls", argv)</td>
+      <td style="font-family:'JetBrains Mono',monospace;font-size:15px;color:var(--muted)">execv("/bin/ls", argv)</td>
     </tr>
     <tr>
       <td class="mono">execlp()</td><td style="color:var(--green)">PATH ✓</td><td>list</td><td>inherit</td>
-      <td style="font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--muted)">execlp("ls","ls","-l",NULL)</td>
+      <td style="font-family:'JetBrains Mono',monospace;font-size:15px;color:var(--muted)">execlp("ls","ls","-l",NULL)</td>
     </tr>
     <tr>
       <td class="mono">execvp()</td><td style="color:var(--green)">PATH ✓</td><td>array</td><td>inherit</td>
-      <td style="font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--muted)">execvp("ls", argv)</td>
+      <td style="font-family:'JetBrains Mono',monospace;font-size:15px;color:var(--muted)">execvp("ls", argv)</td>
     </tr>
     <tr>
       <td class="mono">execve()</td><td>full path</td><td>array</td><td style="color:var(--green)">explicit ✓</td>
-      <td style="font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--muted)">execve(path, argv, envp)</td>
+      <td style="font-family:'JetBrains Mono',monospace;font-size:15px;color:var(--muted)">execve(path, argv, envp)</td>
     </tr>
   </table>
 
@@ -267,7 +267,7 @@ dead_pid = <span class="fn">waitpid</span>(-<span class="nm">1</span>, &amp;stat
       </div>
       <div class="card">
         <div class="card-title">waitpid — πρώτο argument</div>
-        <div class="cb" style="font-size:12px">
+        <div class="cb">
 <span class="cm">// pid > 0: περιμένει ΑΥΤΟ το child</span>
 <span class="fn">waitpid</span>(child_pid, &amp;status, <span class="nm">0</span>);
 <span class="cm">// pid == -1: περιμένει ΟΠΟΙΟΔΗΠΟΤΕ child</span>
@@ -297,7 +297,7 @@ dead_pid = <span class="fn">waitpid</span>(-<span class="nm">1</span>, &amp;stat
           δεν έχει κάνει <code>wait()</code> ακόμα. Ο kernel κρατά ζωντανή μια
           εγγραφή (exit status) στον process table — κανείς δεν την έχει "μαζέψει".
         </p>
-        <div class="cb" style="font-size:12px">
+        <div class="cb">
 <span class="cm">// zombie: parent "ξεχνά" να κάνει wait</span>
 <span class="kw">if</span> (<span class="fn">fork</span>() == <span class="nm">0</span>) {
     <span class="fn">exit</span>(<span class="nm">0</span>);  <span class="cm">// child τελειώνει αμέσως</span>
@@ -317,7 +317,7 @@ dead_pid = <span class="fn">waitpid</span>(-<span class="nm">1</span>, &amp;stat
           Ο kernel υιοθετεί αυτόματα τα ορφανά παιδιά στον
           <strong style="color:var(--cyan)">init (PID 1)</strong>.
         </p>
-        <div class="cb" style="font-size:12px">
+        <div class="cb">
 <span class="cm">// orphan: parent πεθαίνει πρώτος</span>
 <span class="kw">if</span> (<span class="fn">fork</span>() == <span class="nm">0</span>) {
     <span class="fn">sleep</span>(<span class="nm">30</span>);  <span class="cm">// child τρέχει ακόμα</span>
@@ -334,7 +334,7 @@ dead_pid = <span class="fn">waitpid</span>(-<span class="nm">1</span>, &amp;stat
   </div>
 
   <div class="ptree">
-    <div style="color:var(--dim);font-size:11px;margin-bottom:10px;letter-spacing:1px">PROCESS TREE — παράδειγμα</div>
+    <div style="color:var(--dim);font-size:14px;margin-bottom:10px;letter-spacing:1px">PROCESS TREE — παράδειγμα</div>
     <span class="pt-pid">1</span> <span class="pt-name">init/systemd</span><br>
     └── <span class="pt-pid">1234</span> <span class="pt-name">bash</span><br>
     &nbsp;&nbsp;&nbsp;&nbsp;└── <span class="pt-pid">1235</span> <span class="pt-name">my_server</span> <span class="pt-dim">(parent)</span><br>
@@ -390,7 +390,7 @@ dead_pid = <span class="fn">waitpid</span>(-<span class="nm">1</span>, &amp;stat
           <div class="pipe-tube">→ data flows → → →</div>
           <div class="pipe-fd pfd-r">p[0] read</div>
         </div>
-        <div style="font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--dim);text-align:center">
+        <div style="font-family:'JetBrains Mono',monospace;font-size:14px;color:var(--dim);text-align:center">
           Parent: close(p[0]) · Child: close(p[1])
         </div>
       </div>
@@ -455,7 +455,7 @@ fd = <span class="fn">open</span>(<span class="st">"myfifo"</span>, <span class=
       <div class="card">
         <div class="card-title">Blocking &amp; Deadlock</div>
         <p style="color:var(--muted);font-size:13.5px;margin-bottom:10px">Το default open() σε FIFO <strong style="color:var(--txt)">μπλοκάρει</strong> ώσπου και τα δύο άκρα ανοίξουν. Αυτό μπορεί να δημιουργήσει deadlock:</p>
-        <div class="cb" style="font-size:12px">
+        <div class="cb">
 <span class="cm">// DEADLOCK — κλασικό σενάριο:</span>
 <span class="cm">// Process A: open("fifo1", O_WRONLY) → μπλοκ</span>
 <span class="cm">// Process B: open("fifo2", O_WRONLY) → μπλοκ</span>
@@ -479,7 +479,7 @@ fd = <span class="fn">open</span>(<span class="st">"myfifo"</span>, <span class=
     <div>
       <div class="card">
         <div class="card-title">Shell Pipeline: <span style="font-family:'JetBrains Mono',monospace;color:var(--orange)">ls | wc -l</span></div>
-        <div class="cb" style="font-size:12px">
+        <div class="cb">
 <span class="tp">int</span> p[<span class="nm">2</span>];
 <span class="fn">pipe</span>(p);
 <span class="cm">// child 1: εκτελεί "ls", γράφει στο pipe</span>
@@ -508,7 +508,7 @@ fd = <span class="fn">open</span>(<span class="st">"myfifo"</span>, <span class=
     <div>
       <div class="card">
         <div class="card-title">SIGCHLD Handler — Zombie Prevention</div>
-        <div class="cb" style="font-size:12px">
+        <div class="cb">
 <span class="tp">void</span> <span class="fn">sigchld_handler</span>(<span class="tp">int</span> sig) {
     <span class="tp">int</span> status;
     <span class="tp">pid_t</span> pid;
@@ -624,3 +624,5 @@ sa.sa_flags = <span class="mc">SA_RESTART</span>;
 <div class="footer">K24 · Προγραμματισμός Συστήματος · ΕΚΠΑ · Topic 4: fork(), exec(), Pipes &amp; IPC</div>
 </body>
 </html>
+
+
