@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="el">
 
 <head>
@@ -119,6 +119,7 @@
     }
   </style>
   <script src="js/nav.js" defer></script>
+  <script src="js/quiz-loader.js" defer></script>
 </head>
 
 <body>
@@ -192,6 +193,8 @@
           </div>
         </div>
       </div>
+    
+      <div class="section-quiz" data-topic="topic2" data-section="anatomy"></div>
     </section>
 
     <section id="vars">
@@ -246,6 +249,8 @@
           </div>
         </div>
       </div>
+    
+      <div class="section-quiz" data-topic="topic2" data-section="vars"></div>
     </section>
 
     <section id="specvars">
@@ -319,6 +324,8 @@
             <code>"$*"</code> σπάει σε δύο.</div>
         </div>
       </div>
+    
+      <div class="section-quiz" data-topic="topic2" data-section="specvars"></div>
     </section>
 
     <section id="args">
@@ -370,6 +377,8 @@
           </div>
         </div>
       </div>
+    
+      <div class="section-quiz" data-topic="topic2" data-section="args"></div>
     </section>
 
     <section id="cond">
@@ -463,6 +472,8 @@
         <strong>quotes</strong> γύρω από string variables: <code>[ "$NAME" == "Alice" ]</code> — χωρίς quotes σπάει αν
         έχει spaces.
       </div>
+    
+      <div class="section-quiz" data-topic="topic2" data-section="cond"></div>
     </section>
 
     <section id="loops">
@@ -533,6 +544,8 @@
         <div class="lbl" style="color:var(--blue)">break &amp; continue</div><code>break</code> = βγες από τον βρόχο ·
         <code>continue</code> = πήγαινε στην επόμενη επανάληψη · <code>break 2</code> = βγες από 2 επίπεδα nested loops
       </div>
+    
+      <div class="section-quiz" data-topic="topic2" data-section="loops"></div>
     </section>
 
     <section id="arith">
@@ -592,6 +605,8 @@
         <div class="lbl" style="color:var(--yellow)">⚠️ Σε θυμίζω</div>Με <code>expr</code>, το <code>*</code> πρέπει να
         escape-αριστεί: <code>expr $A \* $B</code>. Αλλιώς ο shell το ερμηνεύει ως glob expansion.
       </div>
+    
+      <div class="section-quiz" data-topic="topic2" data-section="arith"></div>
     </section>
 
     <section id="funcs">
@@ -651,6 +666,8 @@
         functions σε bash πρέπει να οριστούν <em>πριν</em> κληθούν. Αν καλέσεις function που δεν έχει οριστεί ακόμα,
         bash error.
       </div>
+    
+      <div class="section-quiz" data-topic="topic2" data-section="funcs"></div>
     </section>
 
     <section id="strings">

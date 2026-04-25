@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="el">
 <head>
 <meta charset="UTF-8">
@@ -23,6 +23,7 @@
 .fdesc{color:var(--muted);}
 </style>
 <script src="js/nav.js" defer></script>
+  <script src="js/quiz-loader.js" defer></script>
 </head>
 <body>
 <div id="site-nav"></div>
@@ -65,7 +66,9 @@
       <div class="rbox"><div class="lbl" style="color:var(--red)">🚨 Κρίσιμο</div>Το <code>errno</code> ορίζεται <em>μόνο</em> αν η κλήση απέτυχε. Αν η κλήση πετύχει, η τιμή errno είναι undefined. Έλεγξε πάντα αν η κλήση απέτυχε <em>πριν</em> κοιτάξεις το errno.</div>
     </div>
   </div>
-</section>
+
+      <div class="section-quiz" data-topic="topic3" data-section="errors"></div>
+    </section>
 
 <section id="fd">
   <div class="sh"><div class="sh-icon" style="background:rgba(139,233,253,.1)">📋</div><h2>File Descriptors — Ο Πίνακας FD</h2></div>
@@ -87,7 +90,9 @@
       <div class="gbox"><div class="lbl" style="color:var(--green)">Κανόνας: ελάχιστος διαθέσιμος</div>Ο kernel ανοίγει <strong>πάντα το μικρότερο διαθέσιμο</strong> FD. Αν κλείσεις το 0 (stdin) και μετά ανοίξεις αρχείο, θα πάρει FD=0. Αυτό εκμεταλλευόμαστε με dup2().</div>
     </div>
   </div>
-</section>
+
+      <div class="section-quiz" data-topic="topic3" data-section="fd"></div>
+    </section>
 
 <section id="open">
   <div class="sh"><div class="sh-icon" style="background:var(--gdim)">📂</div><h2>open() — Άνοιγμα Αρχείου</h2></div>
@@ -120,7 +125,9 @@ fd = <span class="fn">open</span>(<span class="st">"fifo"</span>,   <span class=
       <div class="tip"><div class="tip-icon">🧠</div><div><div class="tip-title">Tip — flags από το όνομα</div><div class="tip-text">Κάθε flag περιγράφει τον εαυτό του: <strong>O_RD</strong>ONL<strong>Y</strong> = read-only, <strong>O_CR</strong>EAT = create, <strong>O_TR</strong>UNC = truncate, <strong>O_AP</strong>PEND = append. Τα συνδυάζεις με OR: <code>O_WRONLY|O_CREAT|O_TRUNC</code> = "ανοίξε για γράψιμο, δημιούργησε αν δεν υπάρχει, άδειασε αν υπάρχει".</div></div></div>
     </div>
   </div>
-</section>
+
+      <div class="section-quiz" data-topic="topic3" data-section="open"></div>
+    </section>
 
 <section id="rw">
   <div class="sh"><div class="sh-icon" style="background:rgba(80,250,123,.1)">💾</div><h2>read(), write(), lseek(), close()</h2></div>
@@ -158,7 +165,9 @@ fd = <span class="fn">open</span>(<span class="st">"fifo"</span>,   <span class=
       <div class="wbox"><div class="lbl" style="color:var(--yellow)">⚠️ Partial reads/writes</div>read() μπορεί να επιστρέψει λιγότερα bytes απ' ότι ζήτησες (π.χ. network, pipe). Πάντα loop ή έλεγξε n == count.</div>
     </div>
   </div>
-</section>
+
+      <div class="section-quiz" data-topic="topic3" data-section="rw"></div>
+    </section>
 
 <section id="dup">
   <div class="sh"><div class="sh-icon" style="background:var(--odim)">🔁</div><h2>dup() και dup2() — Ανακατεύθυνση FD</h2></div>
@@ -197,7 +206,9 @@ fd = <span class="fn">open</span>(<span class="st">"fifo"</span>,   <span class=
       <div class="tip"><div class="tip-icon">🧠</div><div><div class="tip-title">Tip — dup2 για pipes</div><div class="tip-text">Κλασική χρήση στα pipes: μετά fork(), child κάνει <code>dup2(pipe[0], 0)</code> για να διαβάζει από pipe μέσω stdin, και <code>dup2(pipe[1], 1)</code> για να γράφει στο pipe μέσω stdout. Μετά close τα αρχικά pipe ends.</div></div></div>
     </div>
   </div>
-</section>
+
+      <div class="section-quiz" data-topic="topic3" data-section="dup"></div>
+    </section>
 
 <section id="stat">
   <div class="sh"><div class="sh-icon" style="background:var(--ydim)">📊</div><h2>stat() &amp; opendir/readdir</h2></div>
@@ -241,7 +252,9 @@ dir = <span class="fn">opendir</span>(<span class="st">"."</span>);
       </div>
     </div>
   </div>
-</section>
+
+      <div class="section-quiz" data-topic="topic3" data-section="stat"></div>
+    </section>
 
 <section id="signals">
   <div class="sh"><div class="sh-icon" style="background:var(--rdim)">📡</div><h2>Signals — Ασύγχρονα Events</h2></div>
@@ -285,7 +298,9 @@ dir = <span class="fn">opendir</span>(<span class="st">"."</span>);
       <div class="tip"><div class="tip-icon">🧠</div><div><div class="tip-title">Tip — SIGKILL και SIGSTOP</div><div class="tip-text">Αυτά τα δύο <strong>δεν μπορούν</strong> να πιαστούν, να αγνοηθούν ή να μπλοκαριστούν. Εκτελούνται πάντα από τον kernel. Υπάρχουν για να μπορεί ο admin να ελέγχει κάθε διεργασία.</div></div></div>
     </div>
   </div>
-</section>
+
+      <div class="section-quiz" data-topic="topic3" data-section="signals"></div>
+    </section>
 
 <section id="sigaction">
   <div class="sh"><div class="sh-icon" style="background:var(--pdim)">⚙️</div><h2>sigaction() και sigprocmask()</h2></div>
@@ -327,48 +342,9 @@ dir = <span class="fn">opendir</span>(<span class="st">"."</span>);
     </div>
   </div>
 
-  <div class="quiz">
-    <h3>🧠 Quick Check — Error Handling</h3>
-    <div class="qitem"><div class="qq">Τι επιστρέφουν οι system calls σε αποτυχία;</div><div class="qa"><strong>-1</strong> και θέτουν τη global μεταβλητή <code>errno</code> με τον κωδικό σφάλματος. Πάντα να ελέγχεις την επιστρεφόμενη τιμή.</div></div>
-    <div class="qitem"><div class="qq">Τι είναι το <code>errno</code> και πότε διαβάζουμε την τιμή του;</div><div class="qa">Global μεταβλητή που ο kernel θέτει σε κωδικό σφάλματος μετά από αποτυχημένη system call. Πρέπει να τη διαβάσουμε <em>αμέσως</em> μετά — αλλάζει σε κάθε επόμενη system call.</div></div>
-    <div class="qitem"><div class="qq">Ποια η διαφορά <code>perror()</code> και <code>strerror()</code>;</div><div class="qa"><code>perror("msg")</code> τυπώνει το μήνυμα + ":" + περιγραφή errno στο stderr. <code>strerror(errno)</code> επιστρέφει μόνο τη string περιγραφή, για χρήση στο <code>printf</code>.</div></div>
-
-    <h3>🧠 Quick Check — File Descriptors</h3>
-    <div class="qitem"><div class="qq">Ποιοι είναι οι 3 standard file descriptors και σε τι αντιστοιχούν;</div><div class="qa">0: stdin (keyboard), 1: stdout (screen), 2: stderr (screen για errors). Ανοίγουν αυτόματα από τον kernel σε κάθε νέα διεργασία.</div></div>
-    <div class="qitem"><div class="qq">Τι συμβαίνει στους file descriptors μετά από <code>fork()</code>;</div><div class="qa">Το child κληρονομεί <em>αντίγραφο</em> του FD table του parent. Και τα δύο δείχνουν στα ίδια ανοιχτά αρχεία/pipes — γι' αυτό πρέπει να κλείνουμε τα αχρείαστα ends.</div></div>
-    <div class="qitem"><div class="qq">Ο FD 4 δείχνει σε αρχείο. Πόσες φορές μπορεί να ανοίξω το ίδιο αρχείο;</div><div class="qa">Όσες φορές θέλω — κάθε <code>open()</code> δημιουργεί νέο FD με δικό του file offset. Επίσης, αν το κλείσω, ο FD 4 ελευθερώνεται και χρησιμοποιείται ο επόμενος ελεύθερος (low watermark).</div></div>
-
-    <h3>🧠 Quick Check — open()</h3>
-    <div class="qitem"><div class="qq">Τι κάνει ο συνδυασμός <code>O_WRONLY | O_CREAT | O_TRUNC</code>;</div><div class="qa">Ανοίγει για γράψιμο μόνο, δημιουργεί αν δεν υπάρχει, και «αδειάζει» (truncate) αν υπάρχει ήδη. Αντίστοιχο του <code>fopen("file", "w")</code>.</div></div>
-    <div class="qitem"><div class="qq">Πότε χρειάζεται το τρίτο όρισμα (mode) στην <code>open()</code>;</div><div class="qa">Μόνο όταν υπάρχει <code>O_CREAT</code> — ορίζει τα permissions του νέου αρχείου (π.χ. <code>0644</code>). Χωρίς αυτό τα permissions είναι undefined.</div></div>
-    <div class="qitem"><div class="qq">Τι επιστρέφει <code>open()</code> σε αποτυχία και ποια είναι συνηθισμένα errors;</div><div class="qa">Επιστρέφει <strong>-1</strong>. Συνηθισμένα: <code>ENOENT</code>=δεν υπάρχει, <code>EACCES</code>=δεν έχεις permission, <code>EMFILE</code>=πολλά ανοιχτά αρχεία.</div></div>
-
-    <h3>🧠 Quick Check — read() &amp; write()</h3>
-    <div class="qitem"><div class="qq">Τι επιστρέφει <code>read()</code> όταν φτάσει EOF;</div><div class="qa"><strong>0</strong>. Θετικό = bytes που διαβάστηκαν, -1 = σφάλμα. Μνημονικό: θετικό=δεδομένα, μηδέν=τέλος, αρνητικό=πρόβλημα.</div></div>
-    <div class="qitem"><div class="qq">Γιατί κάνουμε <code>read()</code> μέσα σε loop αντί να εμπιστευόμαστε ότι θα διαβάσει όλα τα bytes;</div><div class="qa">Η <code>read()</code> μπορεί να επιστρέψει <em>λιγότερα</em> bytes από αυτά που ζητήσαμε (partial read) — ειδικά σε pipes, sockets, ή interrupts. Το loop εγγυάται ότι διαβάζουμε όλα.</div></div>
-    <div class="qitem"><div class="qq">Ποια η διαφορά <code>write()</code> και <code>fprintf()</code>;</div><div class="qa"><code>write()</code> = system call, γράφει raw bytes, unbuffered, async-signal-safe. <code>fprintf()</code> = library function, χρησιμοποιεί buffers (γρηγορότερο αλλά ΟΧΙ safe σε signal handlers).</div></div>
-
-    <h3>🧠 Quick Check — dup() &amp; dup2()</h3>
-    <div class="qitem"><div class="qq">Τι κάνει η <code>dup2(fd, 1)</code>;</div><div class="qa">Κάνει τον FD 1 (stdout) να δείχνει εκεί που δείχνει το <code>fd</code>. Αν <code>fd</code> = αρχείο, κάθε <code>printf()</code> στη συνέχεια γράφει στο αρχείο.</div></div>
-    <div class="qitem"><div class="qq">Ποια η διαφορά <code>dup()</code> και <code>dup2()</code>;</div><div class="qa"><code>dup(fd)</code> δημιουργεί αντίγραφο με τον μικρότερο ελεύθερο FD. <code>dup2(fd, newfd)</code> κλείνει το <code>newfd</code> αν χρειαστεί και το κάνει να δείχνει εκεί που δείχνει το <code>fd</code>.</div></div>
-    <div class="qitem"><div class="qq">Γιατί μετά από <code>dup2(pipe[1], 1)</code> πρέπει να κλείσουμε και το <code>pipe[1]</code>;</div><div class="qa">Γιατί ο FD 1 δείχνει πλέον στο pipe, αλλά το αρχικό <code>pipe[1]</code> παραμένει ανοιχτό ως επιπλέον reference. Αν δεν το κλείσουμε, ο reader δεν θα λάβει EOF.</div></div>
-
-    <h3>🧠 Quick Check — stat()</h3>
-    <div class="qitem"><div class="qq">Ποια η διαφορά <code>stat()</code> και <code>lstat()</code>;</div><div class="qa">Σε symbolic link: <code>stat()</code> επιστρέφει πληροφορίες για το αρχείο-στόχο. <code>lstat()</code> επιστρέφει πληροφορίες για το ίδιο το symlink.</div></div>
-    <div class="qitem"><div class="qq">Πώς ελέγχουμε αν ένα path είναι directory;</div><div class="qa">Με το macro <code>S_ISDIR(sb.st_mode)</code> μετά από <code>stat(path, &amp;sb)</code>. Άλλα macros: <code>S_ISREG()</code>=regular file, <code>S_ISLNK()</code>=symlink.</div></div>
-    <div class="qitem"><div class="qq">Τι κάνει <code>lseek(fd, 0, SEEK_END)</code>;</div><div class="qa">Μεταφέρει τον file cursor στο τέλος. Η τιμή που επιστρέφει = μέγεθος αρχείου σε bytes (offset από SEEK_SET). Χρήσιμο για append ή για να μετρήσουμε μέγεθος.</div></div>
-
-    <h3>🧠 Quick Check — Signals</h3>
-    <div class="qitem"><div class="qq">Ποιο signal δεν μπορεί να πιαστεί ή αγνοηθεί;</div><div class="qa">SIGKILL (9) και SIGSTOP (19). Εκτελούνται πάντα από τον kernel ανεξάρτητα από handlers.</div></div>
-    <div class="qitem"><div class="qq">Τι κάνει η <code>alarm(5)</code>;</div><div class="qa">Προγραμματίζει τον kernel να στείλει SIGALRM στη διεργασία μετά από 5 δευτερόλεπτα. Default action: terminate.</div></div>
-    <div class="qitem"><div class="qq">Τι κάνει η <code>pause()</code>;</div><div class="qa">Αναστέλλει την εκτέλεση μέχρι να φτάσει οποιοδήποτε signal που τερματίζει τη διεργασία ή καλεί handler. Επιστρέφει -1 με EINTR μετά τον handler.</div></div>
-
-    <h3>🧠 Quick Check — sigaction()</h3>
-    <div class="qitem"><div class="qq">Γιατί δεν χρησιμοποιούμε <code>printf()</code> σε signal handler;</div><div class="qa">Γιατί η <code>printf()</code> δεν είναι async-signal-safe (χρησιμοποιεί locks/buffers → κίνδυνος deadlock). Χρήση: <code>write()</code> που είναι safe.</div></div>
-    <div class="qitem"><div class="qq">Τι τύπου πρέπει να είναι μια global μεταβλητή που αλλάζει μέσα σε handler;</div><div class="qa"><code>volatile sig_atomic_t</code>. Το <code>volatile</code> εμποδίζει τον compiler από caching, το <code>sig_atomic_t</code> εγγυάται ατομική πρόσβαση.</div></div>
-    <div class="qitem"><div class="qq">Ποιος ο ρόλος του <code>SA_RESTART</code>;</div><div class="qa">Αν ένα system call (π.χ. <code>read</code>) διακοπεί από signal, ο kernel το επανεκκινεί αυτόματα αντί να επιστρέψει EINTR. Χωρίς αυτό πρέπει να χειριστείς το EINTR manually.</div></div>
-  </div>
-</section>
+  
+      <div class="section-quiz" data-topic="topic3" data-section="sigaction"></div>
+    </section>
 
 </div>
 <div class="footer">K24 · Προγραμματισμός Συστήματος · ΕΚΠΑ · Topic 3: Low-level I/O, Signals &amp; Error Handling</div>
