@@ -332,48 +332,85 @@ dir = <span class="fn">opendir</span>(<span class="st">"."</span>);
     </section>
 
 <section id="sigaction">
-  <div class="sh"><div class="sh-icon" style="background:var(--pdim)">⚙️</div><h2>sigaction() και sigprocmask()</h2></div>
+  <div class="sh"><div class="sh-icon" style="background:var(--pdim)">⚙️</div><h2>sigaction() &amp; sigprocmask() — Ο Έλεγχος των Σημάτων</h2></div>
+  
+  <p style="color:var(--muted);margin-bottom:16px">
+    Όταν ένα σήμα φτάνει στη διεργασία μας, η φυσιολογική ροή του προγράμματος <strong>διακόπτεται απότομα</strong>. 
+    Η <code>sigaction</code> και η <code>sigprocmask</code> είναι τα εργαλεία μας για να ελέγξουμε αυτή τη διακοπή.
+  </p>
+
   <div class="grid2">
     <div>
-      <div class="cb">
-<span class="mc">#include</span> <span class="st">&lt;signal.h&gt;</span>
-<span class="tp">void</span> <span class="fn">handler</span>(<span class="tp">int</span> sig) {
-    <span class="cm">// ΜΟΝΟ async-signal-safe εδώ!</span>
-    <span class="cm">// write() = OK, printf() = ΟΧΙ safe</span>
-    <span class="fn">write</span>(1, <span class="st">"caught\n"</span>, 7);
-}
-<span class="kw">int</span> <span class="fn">main</span>() {
-    <span class="kw">struct</span> <span class="tp">sigaction</span> sa;
-    sa.sa_handler = handler;
-    <span class="fn">sigemptyset</span>(&amp;sa.sa_mask);  <span class="cm">// κανένα extra blocking</span>
-    sa.sa_flags = 0;            <span class="cm">// ή SA_RESTART</span>
-    <span class="kw">if</span> (<span class="fn">sigaction</span>(<span class="mc">SIGINT</span>, &amp;sa, <span class="mc">NULL</span>) == -1) {
-        <span class="fn">perror</span>(<span class="st">"sigaction"</span>); <span class="fn">exit</span>(1);
-    }
-}
+      <div class="card" style="border-left:4px solid var(--purple)">
+        <div class="card-title" style="color:var(--purple)">🛠️ sigaction() — Ο "Επαγγελματίας" Handler</div>
+        <p style="color:var(--muted);font-size:0.9rem;margin-bottom:12px">
+          Η <code>sigaction</code> είναι η σύγχρονη και ασφαλής μέθοδος για να ορίσουμε έναν "χειριστή" (handler) για ένα σήμα. 
+          Αντίθετα με την παλιά <code>signal()</code>, μας επιτρέπει να ορίσουμε ακριβείς κανόνες.
+        </p>
+        <div class="cb">
+<span class="kw">struct</span> <span class="tp">sigaction</span> sa;
+sa.sa_handler = my_handler; <span class="cm">// Η συνάρτηση που θα τρέξει</span>
+<span class="fn">sigemptyset</span>(&amp;sa.sa_mask);    <span class="cm">// Καθάρισμα της μάσκας</span>
+sa.sa_flags = <span class="mc">SA_RESTART</span>;   <span class="cm">// Μην σπας τα syscalls μου!</span>
+
+<span class="fn">sigaction</span>(<span class="mc">SIGINT</span>, &amp;sa, <span class="mc">NULL</span>); <span class="cm">// Εγκατάσταση</span>
+        </div>
+        <div class="ibox" style="margin-top:12px">
+          <div class="lbl" style="color:var(--cyan)">Τι είναι τα πεδία της struct;</div>
+          <ul style="font-size:0.85rem;color:var(--muted);padding-left:15px">
+            <li><strong>sa_handler:</strong> Η συνάρτηση "γιατρός" που θα αναλάβει το σήμα.</li>
+            <li><strong>sa_mask:</strong> Λίστα με <em>άλλα</em> σήματα που θέλουμε να μπλοκάρουμε <strong>μόνο</strong> όσο τρέχει ο handler μας (για να μην διακοπεί ο ίδιος ο γιατρός!).</li>
+            <li><strong>sa_flags:</strong> Ρυθμίσεις όπως το <code>SA_RESTART</code> (αν το σήμα διέκοψε μια <code>read()</code>, η <code>read()</code> θα συνεχίσει αυτόματα μετά).</li>
+          </ul>
+        </div>
       </div>
     </div>
+
     <div>
-      <div class="cb">
-<span class="cm">// sigprocmask — block signals σε critical section</span>
-<span class="tp">sigset_t</span> newmask, oldmask;
-<span class="fn">sigemptyset</span>(&amp;newmask);
-<span class="fn">sigaddset</span>(&amp;newmask, <span class="mc">SIGINT</span>);   <span class="cm">// block SIGINT</span>
-<span class="fn">sigaddset</span>(&amp;newmask, <span class="mc">SIGTERM</span>);  <span class="cm">// block SIGTERM</span>
-<span class="cm">// critical section: block signals</span>
-<span class="fn">sigprocmask</span>(<span class="mc">SIG_BLOCK</span>, &amp;newmask, &amp;oldmask);
-<span class="cm">/* ... κώδικας που δεν πρέπει να διακοπεί ... */</span>
-// αποblock: επαναφορά
-<span class="fn">sigprocmask</span>(<span class="mc">SIG_SETMASK</span>, &amp;oldmask, <span class="mc">NULL</span>);
+      <div class="card" style="border-left:4px solid var(--yellow)">
+        <div class="card-title" style="color:var(--yellow)">🚫 sigprocmask() — Λειτουργία "Μην Ενοχλείτε"</div>
+        <p style="color:var(--muted);font-size:0.9rem;margin-bottom:12px">
+          Μερικές φορές έχουμε ένα κομμάτι κώδικα (Critical Section) που είναι <strong>πολύ ευαίσθητο</strong> και δεν θέλουμε να διακοπεί από κανένα σήμα (π.χ. όσο ανανεώνουμε μια κοινή λίστα).
+        </p>
+        <div class="cb">
+<span class="tp">sigset_t</span> set, old;
+<span class="fn">sigemptyset</span>(&amp;set);
+<span class="fn">sigaddset</span>(&amp;set, <span class="mc">SIGINT</span>); <span class="cm">// "Πρόσθεσε το SIGINT στη μαύρη λίστα"</span>
+
+<span class="cm">// 1. ΜΠΛΟΚΑΡΙΣΜΑ: Ξεκινά η "ησυχία"</span>
+<span class="fn">sigprocmask</span>(<span class="mc">SIG_BLOCK</span>, &amp;set, &amp;old);
+
+<span class="cm">/* --- Κρίσιμος Κώδικας εδώ --- */</span>
+
+<span class="cm">// 2. ΕΠΑΝΑΦΟΡΑ: Επιστροφή στην κανονικότητα</span>
+<span class="fn">sigprocmask</span>(<span class="mc">SIG_SETMASK</span>, &amp;old, <span class="mc">NULL</span>);
+        </div>
+        <div class="gbox" style="margin-top:12px">
+          <div class="lbl" style="color:var(--green)">Πώς λειτουργεί;</div>
+          Ο πυρήνας κρατάει μια "μάσκα" (λίστα) για κάθε διεργασία. Αν ένα σήμα είναι στη μάσκα, ο πυρήνας το κρατάει "σε αναμονή" (pending) και θα το παραδώσει <strong>μόνο όταν</strong> το βγάλουμε από τη μάσκα.
+        </div>
       </div>
-      <div class="tip"><div class="tip-icon">🧠</div><div><div class="tip-title">Tip — signal() vs sigaction()</div><div class="tip-text"><strong>signal()</strong> = απλό, παλιό API. Η συμπεριφορά μπορεί να διαφέρει μεταξύ Unix. <strong>sigaction()</strong> = το σωστό για production: portable, predictable, περισσότερος έλεγχος. Στις εξετάσεις θα δεις και τα δύο — ξέρε αμφότερα.</div></div></div>
-      <div class="wbox"><div class="lbl" style="color:var(--yellow)">⚠️ Signal handlers: async-safe only</div>Μέσα σε handler μπορείς μόνο async-signal-safe functions: <code>write()</code> ✓, <code>printf()</code> ✗. Χρησιμοποίησε <code>volatile sig_atomic_t</code> flag για communication μεταξύ handler και main.</div>
     </div>
   </div>
 
-  
-      <div class="section-quiz" data-topic="topic3" data-section="sigaction"></div>
-    </section>
+  <div class="card" style="margin-top:20px; background:var(--rdim); border:1px solid var(--red)">
+    <div class="card-title" style="color:var(--red)">⚠️ Ο Κανόνας της "Ασφάλειας" (Async-Signal-Safety)</div>
+    <p style="color:var(--muted);font-size:0.93rem">
+      Επειδή ένας handler μπορεί να τρέξει <strong>οποιαδήποτε στιγμή</strong>, μπορεί να διακόψει το πρόγραμμα ενώ αυτό χρησιμοποιεί μια "βαριά" συνάρτηση όπως η <code>printf()</code>. 
+      Αν ο handler καλέσει και αυτός <code>printf()</code>, το πρόγραμμα μπορεί να "κολλήσει" (deadlock).
+    </p>
+    <div class="grid2" style="margin-top:10px">
+      <div class="rbox" style="padding:10px">❌ <strong>ΜΗΝ χρησιμοποιείς:</strong> printf(), malloc(), free(), exit()</div>
+      <div class="gbox" style="padding:10px">✅ <strong>Χρησιμοποίησε:</strong> write(), _exit(), signal-safe syscalls</div>
+    </div>
+    <div class="tip" style="margin-top:12px">
+      <div class="tip-icon">💡</div>
+      <div class="tip-text">Καλύτερη πρακτική: Στον handler απλά άλλαξε μια μεταβλητή τύπου <code>volatile sig_atomic_t done = 1;</code> και κάνε την πραγματική δουλειά στη <code>main</code> σου.</div>
+    </div>
+  </div>
+
+  <div class="section-quiz" data-topic="topic3" data-section="sigaction"></div>
+</section>
 
 </div>
 <div class="footer">K24 · Προγραμματισμός Συστήματος · ΕΚΠΑ · Topic 3: Low-level I/O, Signals &amp; Error Handling</div>
