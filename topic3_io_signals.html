@@ -9,18 +9,18 @@
 <style>
 :root{--bg:#08080f;--bg-rgb: 8, 8, 15;--surf:#0e0e1a;--surf2:#14142a;--border:#252548;--blue:#7c9fff;--bdim:#0a0f2e;--green:#50fa7b;--green-rgb: 80, 250, 123;--gdim:#091a0e;--yellow:#f1fa8c;--ydim:#1a1a08;--red:#ff5555;--rdim:#1a0808;--purple:#bd93f9;--purple-rgb: 189, 147, 249;--pdim:#120a28;--cyan:#8be9fd;--orange:#ffb86c;--odim:#251800;--pink:#ff79c6;--txt:#f8f8f2;--muted:#9a9abf;--dim:#4a4a6a}
 .hero{background:linear-gradient(150deg,#08080f 0%,#120a28 55%,#08080f 100%);}
-.cb{background:#030308;font-size:14px}
+.cb{background:#030308;}
 .kw{color:var(--pink);font-weight:600}.fn{color:var(--green)}.st{color:var(--yellow)}.cm{color:var(--dim);font-style:italic}.nm{color:var(--purple)}.tp{color:var(--cyan)}.mc{color:var(--orange)}.pr{color:var(--muted)}
 .fdarr{color:var(--dim)}.fdtgt{color:var(--muted)}
-.dup-before,.dup-after{background:var(--surf2);border:1px solid var(--border);border-radius:8px;padding:16px;font-family:'JetBrains Mono',monospace;font-size:15px}
+.dup-before,.dup-after{background:var(--surf2);border:1px solid var(--border);border-radius:8px;padding:16px;font-family:'JetBrains Mono',monospace;}
 .dup-row{display:flex;align-items:center;gap:8px;margin-bottom:8px}
-.dup-fd{border-radius:4px;padding:3px 10px;font-weight:700;font-size:15px}
+.dup-fd{border-radius:4px;padding:3px 10px;font-weight:700;}
 .dup-arrow{color:var(--dim)}
 .dup-file{background:var(--surf);border:1px solid var(--border);padding:3px 10px;border-radius:4px;color:var(--muted)}
 .fgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:8px}
 .fitem{background:var(--surf);border:1px solid var(--border);border-radius:6px;padding:10px 13px}
-.fname{font-family:'JetBrains Mono',monospace;color:var(--orange);font-size:15px;font-weight:700;margin-bottom:4px}
-.fdesc{color:var(--muted);font-size:14.5px}
+.fname{font-family:'JetBrains Mono',monospace;color:var(--orange);font-weight:700;margin-bottom:4px}
+.fdesc{color:var(--muted);}
 </style>
 <script src="js/nav.js" defer></script>
 </head>
@@ -41,7 +41,7 @@
 
 <section id="errors">
   <div class="sh"><div class="sh-icon" style="background:var(--rdim)">🚨</div><h2>Error Handling — Ο Χρυσός Κανόνας</h2></div>
-  <p style="color:var(--muted);font-size:14px;margin-bottom:14px">Κάθε system call επιστρέφει <strong style="color:var(--red)">-1 σε αποτυχία</strong> και θέτει τη global μεταβλητή <code>errno</code> με τον κωδικό σφάλματος. Ποτέ μην αγνοείς την επιστρεφόμενη τιμή.</p>
+  <p style="color:var(--muted);margin-bottom:14px">Κάθε system call επιστρέφει <strong style="color:var(--red)">-1 σε αποτυχία</strong> και θέτει τη global μεταβλητή <code>errno</code> με τον κωδικό σφάλματος. Ποτέ μην αγνοείς την επιστρεφόμενη τιμή.</p>
   <div class="grid2">
     <div>
       <div class="cb">
@@ -69,11 +69,11 @@
 
 <section id="fd">
   <div class="sh"><div class="sh-icon" style="background:rgba(139,233,253,.1)">📋</div><h2>File Descriptors — Ο Πίνακας FD</h2></div>
-  <p style="color:var(--muted);font-size:14px;margin-bottom:14px">Κάθε διεργασία έχει έναν <strong style="color:var(--txt)">πίνακα file descriptors</strong>. Κάθε FD είναι ένας μικρός ακέραιος που "δείχνει" σε ένα αρχείο/pipe/socket. Τα πρώτα 3 είναι πάντα ορισμένα:</p>
+  <p style="color:var(--muted);margin-bottom:14px">Κάθε διεργασία έχει έναν <strong style="color:var(--txt)">πίνακα file descriptors</strong>. Κάθε FD είναι ένας μικρός ακέραιος που "δείχνει" σε ένα αρχείο/pipe/socket. Τα πρώτα 3 είναι πάντα ορισμένα:</p>
   <div class="grid2">
     <div>
       <div class="fdtable">
-        <div style="color:var(--dim);font-size:14px;margin-bottom:12px;letter-spacing:1px">PROCESS FD TABLE</div>
+        <div style="color:var(--dim);margin-bottom:12px;letter-spacing:1px">PROCESS FD TABLE</div>
         <div class="fdrow"><div class="fdnum fd0">0</div><span class="fdarr">→</span><span class="fdtgt" style="color:var(--cyan)">stdin</span><span class="fdtgt"> — keyboard (terminal)</span></div>
         <div class="fdrow"><div class="fdnum fd1">1</div><span class="fdarr">→</span><span class="fdtgt" style="color:var(--green)">stdout</span><span class="fdtgt"> — screen (terminal)</span></div>
         <div class="fdrow"><div class="fdnum fd2">2</div><span class="fdarr">→</span><span class="fdtgt" style="color:var(--red)">stderr</span><span class="fdtgt"> — screen (terminal)</span></div>
@@ -162,7 +162,7 @@ fd = <span class="fn">open</span>(<span class="st">"fifo"</span>,   <span class=
 
 <section id="dup">
   <div class="sh"><div class="sh-icon" style="background:var(--odim)">🔁</div><h2>dup() και dup2() — Ανακατεύθυνση FD</h2></div>
-  <p style="color:var(--muted);font-size:14px;margin-bottom:14px"><code>dup2()</code> είναι από τις πιο εξεταζόμενες system calls. Κάνει τον ένα FD να δείχνει <em>ακριβώς εκεί που δείχνει</em> ο άλλος.</p>
+  <p style="color:var(--muted);margin-bottom:14px"><code>dup2()</code> είναι από τις πιο εξεταζόμενες system calls. Κάνει τον ένα FD να δείχνει <em>ακριβώς εκεί που δείχνει</em> ο άλλος.</p>
   <div class="grid2">
     <div>
       <div class="cb">
@@ -183,15 +183,15 @@ fd = <span class="fn">open</span>(<span class="st">"fifo"</span>,   <span class=
     <div>
       <div style="display:flex;gap:12px;flex-direction:column">
         <div class="dup-before">
-          <div style="color:var(--dim);font-size:14px;margin-bottom:10px;letter-spacing:1px">ΠΡΙΝ dup2(fd, 1)</div>
+          <div style="color:var(--dim);margin-bottom:10px;letter-spacing:1px">ΠΡΙΝ dup2(fd, 1)</div>
           <div class="dup-row"><div class="dup-fd fd1" style="background:rgba(80,250,123,.15);color:#50fa7b;border:1px solid rgba(80,250,123,.3)">1</div><span class="dup-arrow">→</span><div class="dup-file">terminal (screen)</div></div>
-          <div class="dup-row"><div class="dup-fd fdx" style="background:rgba(189,147,249,.15);color:#bd93f9;border:1px solid rgba(189,147,249,.3);border-radius:4px;padding:3px 10px;font-weight:700;font-size:15px">fd</div><span class="dup-arrow">→</span><div class="dup-file">out.txt</div></div>
+          <div class="dup-row"><div class="dup-fd fdx" style="background:rgba(189,147,249,.15);color:#bd93f9;border:1px solid rgba(189,147,249,.3);border-radius:4px;padding:3px 10px;font-weight:700;">fd</div><span class="dup-arrow">→</span><div class="dup-file">out.txt</div></div>
         </div>
-        <div style="text-align:center;color:var(--dim);font-size:14px;padding:4px">↓ dup2(fd, 1) · close(fd) ↓</div>
+        <div style="text-align:center;color:var(--dim);padding:4px">↓ dup2(fd, 1) · close(fd) ↓</div>
         <div class="dup-after">
-          <div style="color:var(--dim);font-size:14px;margin-bottom:10px;letter-spacing:1px">ΜΕΤΑ — fd=1 δείχνει στο αρχείο</div>
+          <div style="color:var(--dim);margin-bottom:10px;letter-spacing:1px">ΜΕΤΑ — fd=1 δείχνει στο αρχείο</div>
           <div class="dup-row"><div class="dup-fd fd1" style="background:rgba(80,250,123,.15);color:#50fa7b;border:1px solid rgba(80,250,123,.3)">1</div><span class="dup-arrow">→</span><div class="dup-file" style="border-color:rgba(80,250,123,.4);color:#50fa7b">out.txt ✓</div></div>
-          <div class="dup-row"><div style="border-radius:4px;padding:3px 10px;font-weight:700;font-size:15px;background:rgba(255,85,85,.1);color:#ff5555;border:1px solid rgba(255,85,85,.3)">fd</div><span class="dup-arrow">→</span><div class="dup-file" style="color:var(--dim)">closed</div></div>
+          <div class="dup-row"><div style="border-radius:4px;padding:3px 10px;font-weight:700;background:rgba(255,85,85,.1);color:#ff5555;border:1px solid rgba(255,85,85,.3)">fd</div><span class="dup-arrow">→</span><div class="dup-file" style="color:var(--dim)">closed</div></div>
         </div>
       </div>
       <div class="tip"><div class="tip-icon">🧠</div><div><div class="tip-title">Tip — dup2 για pipes</div><div class="tip-text">Κλασική χρήση στα pipes: μετά fork(), child κάνει <code>dup2(pipe[0], 0)</code> για να διαβάζει από pipe μέσω stdin, και <code>dup2(pipe[1], 1)</code> για να γράφει στο pipe μέσω stdout. Μετά close τα αρχικά pipe ends.</div></div></div>
@@ -245,7 +245,7 @@ dir = <span class="fn">opendir</span>(<span class="st">"."</span>);
 
 <section id="signals">
   <div class="sh"><div class="sh-icon" style="background:var(--rdim)">📡</div><h2>Signals — Ασύγχρονα Events</h2></div>
-  <p style="color:var(--muted);font-size:14px;margin-bottom:14px">Τα signals είναι <strong style="color:var(--txt)">asynchronous notifications</strong> — μπορούν να φτάσουν οποιαδήποτε στιγμή, διακόπτοντας την εκτέλεση. Σαν interrupt από software.</p>
+  <p style="color:var(--muted);margin-bottom:14px">Τα signals είναι <strong style="color:var(--txt)">asynchronous notifications</strong> — μπορούν να φτάσουν οποιαδήποτε στιγμή, διακόπτοντας την εκτέλεση. Σαν interrupt από software.</p>
   <table class="stbl" style="margin-bottom:14px">
     <tr><th>Signal</th><th>Αρ.</th><th>Default</th><th>Περιγραφή</th><th>Catchable;</th></tr>
     <tr><td class="mono" style="color:#ff9999">SIGTERM</td><td class="mono">15</td><td>terminate</td><td style="color:var(--muted)">Graceful termination request</td><td>✓ ναι</td></tr>
@@ -365,5 +365,6 @@ dir = <span class="fn">opendir</span>(<span class="st">"."</span>);
 <div class="footer">K24 · Προγραμματισμός Συστήματος · ΕΚΠΑ · Topic 3: Low-level I/O, Signals &amp; Error Handling</div>
 </body>
 </html>
+
 
 
