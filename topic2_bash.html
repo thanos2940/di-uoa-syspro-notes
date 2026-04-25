@@ -1,0 +1,441 @@
+<!DOCTYPE html>
+<html lang="el">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Topic 2 · Bash Shell Programming</title>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;700&family=Syne:wght@400;700;800&family=Lora:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles/base.css">
+<style>
+:root{--bg:#080e0a;--bg-rgb: 8, 14, 10;--surf:#0f1a12;--surf2:#162018;--border:#243228;--green:#4ade80;--green-rgb: 74, 222, 128;--gdim:#0a2010;--blue:#60a5fa;--bdim:#0c1f3a;--yellow:#fbbf24;--ydim:#221800;--red:#f87171;--rdim:#1a0808;--cyan:#22d3ee;--purple:#c084fc;--pdim:#180a2a;--orange:#fb923c;--odim:#251200;--txt:#e8fce8;--muted:#80a080;--dim:#3a5a3a}
+.hero{background:linear-gradient(150deg,#080e0a 0%,#0a2010 55%,#080e0a 100%);}
+.hero::after{content:'#!/bin/bash';position:absolute;right:24px;bottom:16px;font-family:'JetBrains Mono',monospace;font-size:clamp(1rem,3vw,2rem);color:rgba(74,222,128,.06);pointer-events:none;font-weight:700}
+.cb{background:#030b04;}
+.kw{color:var(--green);font-weight:600}.vr{color:var(--cyan)}.st{color:var(--yellow)}.cm{color:var(--dim);font-style:italic}.nm{color:var(--purple)}.fn{color:#86efac}.op{color:var(--orange)}.pr{color:var(--muted)}
+.compare{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:12px 0}
+.good-side{background:var(--gdim);border:1px solid rgba(74,222,128,.2);border-radius:8px;padding:12px}
+.bad-side{background:var(--rdim);border:1px solid rgba(248,113,113,.2);border-radius:8px;padding:12px}
+.side-label{font-size:11px;font-family:'JetBrains Mono',monospace;letter-spacing:1px;font-weight:700;margin-bottom:8px}
+</style>
+<script src="js/nav.js" defer></script>
+</head>
+<body>
+<div id="site-nav"></div>
+<div class="hero">
+  <div class="hero-label">K24 · Topic 2</div>
+  <h1>Bash Shell <em>Programming</em></h1>
+  <p>Μεταβλητές, arguments, conditions, loops, αριθμητική, functions — με tips για κάθε σύνταξη.</p>
+  <div class="chips"><span class="chip">variables</span><span class="chip">if/for/while</span><span class="chip">functions</span><span class="chip">arithmetic</span><span class="chip">arrays</span></div>
+</div>
+<nav class="toc">
+  <a href="#anatomy">Δομή Script</a><a href="#vars">Μεταβλητές</a><a href="#specvars">Special Vars</a>
+  <a href="#args">Arguments</a><a href="#cond">Conditions</a><a href="#loops">Loops</a>
+  <a href="#arith">Αριθμητική</a><a href="#funcs">Functions</a><a href="#strings">Strings</a>
+</nav>
+<div class="wrap">
+
+<section id="anatomy">
+  <div class="sh"><div class="sh-icon" style="background:var(--gdim)">📜</div><h2>Ανατομία Bash Script</h2></div>
+  <div class="grid2">
+    <div>
+      <div class="cb">
+<span class="cm">#!/bin/bash</span>
+<span class="cm"># ↑ shebang: λέει στο OS ποιον interpreter να χρησιμοποιήσει</span>
+<span class="cm"># script.sh — παράδειγμα</span>
+<span class="vr">NAME</span>=<span class="st">"Alice"</span>       <span class="cm"># χωρίς spaces γύρω από το =</span>
+<span class="kw">echo</span> <span class="st">"Hello, $NAME"</span>
+<span class="kw">if</span> [ $? -eq 0 ]; <span class="kw">then</span>
+    <span class="kw">echo</span> <span class="st">"OK"</span>
+<span class="kw">fi</span>
+<span class="kw">exit</span> <span class="nm">0</span>    <span class="cm"># 0 = επιτυχία</span>
+      </div>
+      <div class="wbox"><div class="lbl" style="color:var(--yellow)">⚠️ Πριν εκτελέσεις</div>Δώσε execute permission: <code>chmod +x script.sh</code><br>Εκτέλεση: <code>./script.sh</code> ή <code>bash script.sh</code></div>
+    </div>
+    <div>
+      <div class="tip"><div class="tip-icon">🧠</div><div><div class="tip-title">Tip — shebang</div><div class="tip-text">Το <strong>#!</strong> λέγεται "shebang" (sharp + bang). Λέει στον kernel "τρέξε αυτό το script με <code>/bin/bash</code>". Χωρίς shebang, ο kernel δεν ξέρει ποιον interpreter να χρησιμοποιήσει.</div></div></div>
+      <div class="card">
+        <div class="card-title">source vs execute</div>
+        <div class="cb" style="font-size:12px">
+<span class="cm"># νέο subshell — αλλαγές δεν επηρεάζουν parent</span>
+<span class="pr">$</span> ./script.sh
+<span class="cm"># τρέχει στο ΤΡΕΧΟΝ shell — αλλαγές ισχύουν</span>
+<span class="pr">$</span> source script.sh
+<span class="pr">$</span> . script.sh      <span class="cm"># ίδιο με source</span>
+        </div>
+        <div class="tip"><div class="tip-icon">🧠</div><div><div class="tip-title">Tip</div><div class="tip-text">Χρήση source: <code>.bashrc</code> και config files. Αν βάλεις <code>export VAR=x</code> σε script και το τρέξεις με <code>./</code>, δεν θα δεις το VAR στο shell σου. Με <code>source</code> θα το δεις.</div></div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="vars">
+  <div class="sh"><div class="sh-icon" style="background:rgba(34,211,238,.1)">📦</div><h2>Μεταβλητές</h2></div>
+  <div class="grid2">
+    <div>
+      <div class="cb">
+<span class="cm"># ορισμός — χωρίς $ μπροστά, χωρίς spaces</span>
+<span class="vr">MY_VAR</span>=<span class="st">"hello world"</span>
+<span class="vr">COUNT</span>=<span class="nm">42</span>
+<span class="cm"># χρήση — πάντα με $</span>
+<span class="kw">echo</span> <span class="st">"$MY_VAR"</span>           <span class="cm"># ΠΑΝΤΑμε quotes!</span>
+<span class="kw">echo</span> <span class="st">"${MY_VAR}s"</span>        <span class="cm"># {} για concatenation</span>
+<span class="cm"># command substitution</span>
+<span class="vr">TODAY</span>=$(<span class="kw">date</span> +%Y-%m-%d)  <span class="cm"># εκτελεί εντολή</span>
+<span class="vr">FILES</span>=$(<span class="kw">ls</span> | <span class="kw">wc</span> -l)
+<span class="kw">unset</span> <span class="vr">MY_VAR</span>              <span class="cm"># διαγράφει τη μεταβλητή</span>
+<span class="kw">readonly</span> <span class="vr">MAX</span>=<span class="nm">100</span>          <span class="cm"># δεν μπορεί να αλλάξει</span>
+      </div>
+    </div>
+    <div>
+      <div class="card">
+        <div class="card-title">Quoting — κρίσιμο!</div>
+        <div class="cb" style="font-size:12px">
+<span class="vr">NAME</span>=<span class="st">"John Doe"</span>
+<span class="cm"># Double quotes: επεκτείνει μεταβλητές</span>
+<span class="kw">echo</span> <span class="st">"Hello $NAME"</span>    <span class="cm"># Hello John Doe</span>
+<span class="cm"># Single quotes: ΤΙΠΟΤΑ δεν επεκτείνεται</span>
+<span class="kw">echo</span> <span class="st">'Hello $NAME'</span>    <span class="cm"># Hello $NAME (literal)</span>
+<span class="cm"># Χωρίς quotes: word splitting!</span>
+<span class="kw">echo</span> $NAME            <span class="cm"># επικίνδυνο αν έχει spaces</span>
+<span class="kw">echo</span> <span class="st">"$NAME"</span>          <span class="cm"># πάντα έτσι ✓</span>
+        </div>
+        <div class="tip"><div class="tip-icon">🧠</div><div><div class="tip-title">Tip — κανόνας quoting</div><div class="tip-text"><strong>Double quotes</strong> = "ζωντανές" — μεταβλητές επεκτείνονται.<br><strong>Single quotes</strong> = "παγωμένες" — τίποτα δεν αλλάζει, όλα literal.<br>Χρήσιμο μνημονικό: <strong>double = dynamic</strong>.</div></div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="specvars">
+  <div class="sh"><div class="sh-icon" style="background:var(--pdim)">⭐</div><h2>Special Variables — Οι πιο σημαντικές</h2></div>
+  <table class="vtbl" style="margin-bottom:14px">
+    <tr><th>Variable</th><th>Τι είναι</th><th>Παράδειγμα χρήσης</th><th>Tip</th></tr>
+    <tr>
+      <td class="mono">$$</td>
+      <td>PID του τρέχοντος script</td>
+      <td style="color:var(--muted);font-size:12px">Temp files: <code>/tmp/lock.$$</code></td>
+      <td style="font-size:12px;color:var(--muted)">Δύο $ = "ο PID του εαυτού μου"</td>
+    </tr>
+    <tr>
+      <td class="mono">$?</td>
+      <td>Exit status τελευταίας εντολής (0=OK)</td>
+      <td style="color:var(--muted);font-size:12px">Αμέσως μετά command για έλεγχο</td>
+      <td style="font-size:12px;color:var(--muted)">? = "πώς πήγε;"</td>
+    </tr>
+    <tr>
+      <td class="mono">$!</td>
+      <td>PID τελευταίου background process</td>
+      <td style="color:var(--muted);font-size:12px"><code>prog & echo $!</code></td>
+      <td style="font-size:12px;color:var(--muted)">! = "το τελευταίο !"</td>
+    </tr>
+    <tr>
+      <td class="mono">$0</td>
+      <td>Όνομα του script</td>
+      <td style="color:var(--muted);font-size:12px"><code>echo "Usage: $0 &lt;arg&gt;"</code></td>
+      <td style="font-size:12px;color:var(--muted)">0 = ο "zeroth" argument</td>
+    </tr>
+    <tr>
+      <td class="mono">$1, $2…</td>
+      <td>Positional arguments (1ο, 2ο…)</td>
+      <td style="color:var(--muted);font-size:12px"><code>./script.sh foo bar → $1=foo</code></td>
+      <td style="font-size:12px;color:var(--muted)">Σειρά στη γραμμή εντολών</td>
+    </tr>
+    <tr>
+      <td class="mono">$#</td>
+      <td>Πλήθος arguments που δόθηκαν</td>
+      <td style="color:var(--muted);font-size:12px"><code>if [ $# -ne 2 ]</code></td>
+      <td style="font-size:12px;color:var(--muted)"># = αριθμός (hash = count)</td>
+    </tr>
+    <tr>
+      <td class="mono">$@</td>
+      <td>Όλα τα arguments (ξεχωριστά)</td>
+      <td style="color:var(--muted);font-size:12px"><code>for arg in "$@"</code></td>
+      <td style="font-size:12px;color:var(--muted)">@ = "all at" — όλα μαζί αλλά ξεχωριστά</td>
+    </tr>
+    <tr>
+      <td class="mono">$*</td>
+      <td>Όλα τα arguments (ένα string)</td>
+      <td style="color:var(--muted);font-size:12px">Σπάνια χρήση</td>
+      <td style="font-size:12px;color:var(--muted)">* = "glob" = ένα μπλοκ</td>
+    </tr>
+  </table>
+  <div class="tip"><div class="tip-icon">🧠</div><div><div class="tip-title">Tip — $@ vs $* μέσα σε double quotes</div><div class="tip-text"><code>"$@"</code> → <code>"arg1" "arg2" "arg3"</code> (κάθε arg ξεχωριστά — <strong>ΑΥΤΟ χρησιμοποίησε</strong>)<br><code>"$*"</code> → <code>"arg1 arg2 arg3"</code> (όλα ένα string — σπάει αν args έχουν spaces)<br>Παράδειγμα: αν arg1 = "hello world", με <code>"$@"</code> παραμένει ένα arg, με <code>"$*"</code> σπάει σε δύο.</div></div></div>
+</section>
+
+<section id="args">
+  <div class="sh"><div class="sh-icon" style="background:var(--odim)">🎯</div><h2>Arguments &amp; Input</h2></div>
+  <div class="grid2">
+    <div>
+      <div class="cb">
+<span class="cm">#!/bin/bash</span>
+<span class="cm"># ελεγχω αν δοθηκαν σωστα args</span>
+<span class="kw">if</span> [ <span class="vr">$#</span> <span class="op">-ne</span> <span class="nm">2</span> ]; <span class="kw">then</span>
+    <span class="kw">echo</span> <span class="st">"Usage: $0 &lt;src&gt; &lt;dst&gt;"</span> &gt;&amp;2
+    <span class="kw">exit</span> <span class="nm">1</span>
+<span class="kw">fi</span>
+<span class="vr">SRC</span>=<span class="st">"$1"</span>
+<span class="vr">DST</span>=<span class="st">"$2"</span>
+<span class="cm"># επαναλαμβανω ολα τα arguments</span>
+<span class="kw">for</span> <span class="vr">arg</span> <span class="kw">in</span> <span class="st">"$@"</span>; <span class="kw">do</span>
+    <span class="kw">echo</span> <span class="st">"Arg: $arg"</span>
+<span class="kw">done</span>
+      </div>
+    </div>
+    <div>
+      <div class="cb">
+<span class="cm"># διαβασμα από χρήστη</span>
+<span class="kw">read</span> <span class="op">-p</span> <span class="st">"Δώσε όνομα: "</span> <span class="vr">NAME</span>
+<span class="kw">echo</span> <span class="st">"Hello, $NAME"</span>
+<span class="cm"># read με timeout</span>
+<span class="kw">read</span> <span class="op">-t</span> <span class="nm">5</span> <span class="op">-p</span> <span class="st">"Input (5s): "</span> <span class="vr">X</span>
+<span class="cm"># read αρχείο γραμμή-γραμμή</span>
+<span class="kw">while</span> <span class="kw">read</span> <span class="op">-r</span> <span class="vr">line</span>; <span class="kw">do</span>
+    <span class="kw">echo</span> <span class="st">"Line: $line"</span>
+<span class="kw">done</span> &lt; <span class="st">"input.txt"</span>
+      </div>
+      <div class="tip"><div class="tip-icon">🧠</div><div><div class="tip-title">Tip — read -r</div><div class="tip-text">Το <strong>-r</strong> = raw. Χωρίς -r, τα backslashes (\) ερμηνεύονται ως escape sequences. Σχεδόν πάντα χρησιμοποίησε <code>read -r</code>.</div></div></div>
+    </div>
+  </div>
+</section>
+
+<section id="cond">
+  <div class="sh"><div class="sh-icon" style="background:var(--ydim)">🔀</div><h2>Συνθήκες — if / case</h2></div>
+  <div class="grid2">
+    <div>
+      <div class="cb">
+<span class="cm"># if-elif-else</span>
+<span class="kw">if</span> [ <span class="st">"$1"</span> <span class="op">==</span> <span class="st">"hello"</span> ]; <span class="kw">then</span>
+    <span class="kw">echo</span> <span class="st">"greeting"</span>
+<span class="kw">elif</span> [ <span class="st">"$1"</span> <span class="op">==</span> <span class="st">"bye"</span> ]; <span class="kw">then</span>
+    <span class="kw">echo</span> <span class="st">"farewell"</span>
+<span class="kw">else</span>
+    <span class="kw">echo</span> <span class="st">"unknown"</span>
+<span class="kw">fi</span>
+<span class="cm"># έλεγχος αρχείου</span>
+<span class="kw">if</span> [ <span class="op">-f</span> <span class="st">"$FILE"</span> ]; <span class="kw">then</span>
+    <span class="kw">echo</span> <span class="st">"file exists"</span>
+<span class="kw">fi</span>
+<span class="cm"># λογικοί τελεστές</span>
+<span class="kw">if</span> [ <span class="op">-f</span> <span class="st">"$F"</span> ] &amp;&amp; [ <span class="op">-r</span> <span class="st">"$F"</span> ]; <span class="kw">then</span>
+    <span class="kw">echo</span> <span class="st">"exists and readable"</span>
+<span class="kw">fi</span>
+      </div>
+    </div>
+    <div>
+      <div class="card">
+        <div class="card-title">Operators [ ] — Πλήρης Λίστα</div>
+        <table class="vtbl">
+          <tr><th>String</th><th>Numeric</th><th>File</th></tr>
+          <tr><td class="mono">== !=</td><td class="mono">-eq -ne</td><td class="mono">-f (file)</td></tr>
+          <tr><td class="mono">-z (κενό)</td><td class="mono">-lt (less)</td><td class="mono">-d (dir)</td></tr>
+          <tr><td class="mono">-n (μη κενό)</td><td class="mono">-gt (greater)</td><td class="mono">-e (exists)</td></tr>
+          <tr><td class="mono">&lt; &gt; (lex)</td><td class="mono">-le -ge</td><td class="mono">-r -w -x</td></tr>
+        </table>
+        <div class="tip"><div class="tip-icon">🧠</div><div><div class="tip-title">Tip — αριθμητικοί operators</div><div class="tip-text">Χρησιμοποιούν "λέξεις" αντί συμβόλων: <strong>-eq</strong> = equal, <strong>-ne</strong> = not equal, <strong>-lt</strong> = less than, <strong>-gt</strong> = greater than, <strong>-le/-ge</strong> = less/greater or equal.</div></div></div>
+      </div>
+      <div class="cb" style="font-size:12px">
+<span class="cm"># case statement</span>
+<span class="kw">case</span> <span class="st">"$1"</span> <span class="kw">in</span>
+    <span class="st">"start"</span>)
+        <span class="kw">echo</span> <span class="st">"starting..."</span> ;;
+    <span class="st">"stop"</span>|<span class="st">"quit"</span>)    <span class="cm"># OR με |</span>
+        <span class="kw">echo</span> <span class="st">"stopping..."</span> ;;
+    <span class="st">*.txt</span>)             <span class="cm"># pattern matching</span>
+        <span class="kw">echo</span> <span class="st">"text file"</span> ;;
+    *)                 <span class="cm"># default</span>
+        <span class="kw">echo</span> <span class="st">"unknown"</span> ;;
+<span class="kw">esac</span>
+      </div>
+    </div>
+  </div>
+  <div class="wbox"><div class="lbl" style="color:var(--yellow)">⚠️ Κλασικά λάθη με [ ]</div>Πάντα <strong>spaces</strong> γύρω από <code>[</code> και <code>]</code>: <code>[ $x -eq 5 ]</code> ✓ — <code>[$x -eq 5]</code> ✗<br>Πάντα <strong>quotes</strong> γύρω από string variables: <code>[ "$NAME" == "Alice" ]</code> — χωρίς quotes σπάει αν έχει spaces.</div>
+</section>
+
+<section id="loops">
+  <div class="sh"><div class="sh-icon" style="background:var(--pdim)">🔄</div><h2>Βρόχοι — for / while / until</h2></div>
+  <div class="grid2">
+    <div>
+      <div class="cb">
+<span class="cm"># for με list</span>
+<span class="kw">for</span> <span class="vr">i</span> <span class="kw">in</span> 1 2 3 4 5; <span class="kw">do</span>
+    <span class="kw">echo</span> <span class="st">"Number: $i"</span>
+<span class="kw">done</span>
+<span class="cm"># for με range {start..end}</span>
+<span class="kw">for</span> <span class="vr">i</span> <span class="kw">in</span> {1..10}; <span class="kw">do</span>
+    <span class="kw">echo</span> <span class="vr">$i</span>
+<span class="kw">done</span>
+<span class="cm"># for C-style</span>
+<span class="kw">for</span> (( <span class="vr">i</span>=0; <span class="vr">i</span>&lt;10; <span class="vr">i</span>++ )); <span class="kw">do</span>
+    <span class="kw">echo</span> <span class="vr">$i</span>
+<span class="kw">done</span>
+<span class="cm"># for σε αρχεία (glob)</span>
+<span class="kw">for</span> <span class="vr">f</span> <span class="kw">in</span> *.c; <span class="kw">do</span>
+    <span class="kw">echo</span> <span class="st">"Compiling: $f"</span>
+<span class="kw">done</span>
+      </div>
+    </div>
+    <div>
+      <div class="cb">
+<span class="cm"># while loop</span>
+<span class="vr">COUNT</span>=<span class="nm">0</span>
+<span class="kw">while</span> [ <span class="vr">$COUNT</span> <span class="op">-lt</span> <span class="nm">5</span> ]; <span class="kw">do</span>
+    <span class="kw">echo</span> <span class="st">"Count: $COUNT"</span>
+    <span class="vr">COUNT</span>=$(( <span class="vr">COUNT</span> + 1 ))
+<span class="kw">done</span>
+<span class="cm"># infinite loop με break</span>
+<span class="kw">while</span> <span class="kw">true</span>; <span class="kw">do</span>
+    <span class="kw">read</span> <span class="op">-p</span> <span class="st">"Input (q=quit): "</span> <span class="vr">X</span>
+    [ <span class="st">"$X"</span> <span class="op">==</span> <span class="st">"q"</span> ] &amp;&amp; <span class="kw">break</span>
+    <span class="kw">echo</span> <span class="st">"Said: $X"</span>
+<span class="kw">done</span>
+<span class="cm"># until = αντίστροφο while (τρέχει ΕΩΣ ότου)</span>
+<span class="kw">until</span> [ <span class="vr">$COUNT</span> <span class="op">-ge</span> <span class="nm">10</span> ]; <span class="kw">do</span>
+    <span class="vr">COUNT</span>=$(( <span class="vr">COUNT</span> + 1 ))
+<span class="kw">done</span>
+      </div>
+      <div class="tip"><div class="tip-icon">🧠</div><div><div class="tip-title">Tip — while vs until</div><div class="tip-text"><strong>while</strong> τρέχει ΕΝΩ η συνθήκη είναι αληθής. <strong>until</strong> τρέχει ΜΕΧΡΙ η συνθήκη να γίνει αληθής. Ίδια λογική, αντίστροφη συνθήκη.<br><code>break</code> = σταμάτα τον βρόχο · <code>continue</code> = παράλειψε αυτή την επανάληψη.</div></div></div>
+    </div>
+  </div>
+  <div class="ibox"><div class="lbl" style="color:var(--blue)">break &amp; continue</div><code>break</code> = βγες από τον βρόχο · <code>continue</code> = πήγαινε στην επόμενη επανάληψη · <code>break 2</code> = βγες από 2 επίπεδα nested loops</div>
+</section>
+
+<section id="arith">
+  <div class="sh"><div class="sh-icon" style="background:var(--ydim)">🔢</div><h2>Αριθμητικές Πράξεις</h2></div>
+  <div class="grid2">
+    <div>
+      <div class="cb">
+<span class="cm"># 1. $(( )) — η σύγχρονη προσέγγιση</span>
+<span class="vr">A</span>=<span class="nm">10</span>; <span class="vr">B</span>=<span class="nm">3</span>
+<span class="vr">SUM</span>=$(( <span class="vr">A</span> + <span class="vr">B</span> ))     <span class="cm"># 13</span>
+<span class="vr">DIV</span>=$(( <span class="vr">A</span> / <span class="vr">B</span> ))     <span class="cm"># 3 (integer! όχι 3.33)</span>
+<span class="vr">MOD</span>=$(( <span class="vr">A</span> % <span class="vr">B</span> ))     <span class="cm"># 1 (υπόλοιπο)</span>
+<span class="vr">POW</span>=$(( <span class="vr">A</span> ** <span class="nm">2</span> ))    <span class="cm"># 100 (δύναμη)</span>
+(( <span class="vr">A</span>++ ))            <span class="cm"># increment</span>
+(( <span class="vr">A</span> += 5 ))         <span class="cm"># A = A + 5</span>
+<span class="cm"># σύγκριση με (( ))</span>
+<span class="kw">if</span> (( <span class="vr">A</span> &gt; <span class="vr">B</span> )); <span class="kw">then</span>
+    <span class="kw">echo</span> <span class="st">"A > B"</span>
+<span class="kw">fi</span>
+      </div>
+    </div>
+    <div>
+      <div class="cb">
+<span class="cm"># 2. let — παλιότερο</span>
+<span class="kw">let</span> <span class="st">"RESULT = A * 2 + 1"</span>
+<span class="cm"># 3. expr — για παλιά συστήματα</span>
+<span class="vr">SUM</span>=$(<span class="kw">expr</span> <span class="vr">$A</span> + <span class="vr">$B</span>)
+<span class="vr">MUL</span>=$(<span class="kw">expr</span> <span class="vr">$A</span> \* <span class="vr">$B</span>)   <span class="cm"># escape το *</span>
+<span class="cm"># 4. bc — για δεκαδικούς!</span>
+<span class="vr">PI</span>=$(<span class="kw">echo</span> <span class="st">"scale=4; 22/7"</span> | bc)
+<span class="kw">echo</span> <span class="vr">$PI</span>    <span class="cm"># 3.1428</span>
+<span class="vr">SQRT</span>=$(<span class="kw">echo</span> <span class="st">"sqrt(2)"</span> | bc -l)
+<span class="kw">echo</span> <span class="vr">$SQRT</span>  <span class="cm"># 1.41421356...</span>
+      </div>
+      <div class="tip"><div class="tip-icon">🧠</div><div><div class="tip-title">Tip — integer-only!</div><div class="tip-text">Bash κάνει μόνο integer arithmetic. <code>$(( 7/2 ))</code> = <code>3</code>, ΟΧΙ <code>3.5</code>. Για δεκαδικούς πάντα <strong>bc</strong>. Το <code>scale=N</code> στο bc ορίζει δεκαδικά ψηφία.</div></div></div>
+    </div>
+  </div>
+  <div class="wbox"><div class="lbl" style="color:var(--yellow)">⚠️ Σε θυμίζω</div>Με <code>expr</code>, το <code>*</code> πρέπει να escape-αριστεί: <code>expr $A \* $B</code>. Αλλιώς ο shell το ερμηνεύει ως glob expansion.</div>
+</section>
+
+<section id="funcs">
+  <div class="sh"><div class="sh-icon" style="background:var(--bdim)">⚙️</div><h2>Functions</h2></div>
+  <div class="grid2">
+    <div>
+      <div class="cb">
+<span class="cm">#!/bin/bash</span>
+<span class="cm"># ορισμός (δύο συντακτικοί τρόποι, ίδιο αποτέλεσμα)</span>
+<span class="kw">function</span> greet() {
+    <span class="kw">echo</span> <span class="st">"Hello, $1!"</span>   <span class="cm"># $1 = πρώτο arg της function</span>
+}
+say_bye() {
+    <span class="kw">echo</span> <span class="st">"Bye, $1"</span>
+    <span class="kw">return</span> <span class="nm">0</span>         <span class="cm"># exit status (0-255)</span>
+}
+<span class="cm"># κλήση — πάντα ΜΕΤΑ τον ορισμό</span>
+greet <span class="st">"Alice"</span>
+say_bye <span class="st">"Bob"</span>
+      </div>
+    </div>
+    <div>
+      <div class="cb">
+<span class="cm"># local variables</span>
+<span class="vr">X</span>=<span class="st">"global"</span>
+my_func() {
+    <span class="kw">local</span> <span class="vr">X</span>=<span class="st">"local"</span>    <span class="cm"># δεν επηρεάζει global X</span>
+    <span class="kw">echo</span> <span class="st">"inside: $X"</span>   <span class="cm"># local</span>
+}
+my_func
+<span class="kw">echo</span> <span class="st">"outside: $X"</span>     <span class="cm"># global</span>
+<span class="cm"># επιστροφή τιμής: echo + $()</span>
+add() {
+    <span class="kw">echo</span> $(( $1 + $2 ))   <span class="cm"># "επιστρέφω" με echo</span>
+}
+<span class="vr">RESULT</span>=$(add 3 5)       <span class="cm"># "πιάνω" με $()</span>
+<span class="kw">echo</span> <span class="vr">$RESULT</span>             <span class="cm"># 8</span>
+      </div>
+      <div class="tip"><div class="tip-icon">🧠</div><div><div class="tip-title">Tip — return vs echo</div><div class="tip-text">Το <code>return N</code> σε bash επιστρέφει <strong>exit status</strong> (0-255), ΟΧΙ δεδομένα όπως στη C. Για να επιστρέψεις δεδομένα (string, αριθμό), χρησιμοποίησε <code>echo</code> και πίασε με <code>$()</code>.</div></div></div>
+    </div>
+  </div>
+  <div class="rbox"><div class="lbl" style="color:var(--red)">🚨 Πρέπει να ορίζεται πριν καλεστεί!</div>Σε αντίθεση με C, οι functions σε bash πρέπει να οριστούν <em>πριν</em> κληθούν. Αν καλέσεις function που δεν έχει οριστεί ακόμα, bash error.</div>
+</section>
+
+<section id="strings">
+  <div class="sh"><div class="sh-icon" style="background:var(--gdim)">✂️</div><h2>String Manipulation</h2></div>
+  <div class="card">
+    <div class="card-title">Parameter Expansion — οι πιο χρήσιμες</div>
+    <div class="cb">
+<span class="vr">F</span>=<span class="st">"hello_world.txt"</span>
+<span class="cm"># μήκος string</span>
+<span class="kw">echo</span> ${#<span class="vr">F</span>}              <span class="cm"># 15</span>
+<span class="cm"># αφαίρεση suffix (% = από δεξιά)</span>
+<span class="kw">echo</span> ${<span class="vr">F</span>%.txt}          <span class="cm"># hello_world  ← πολύ χρήσιμο!</span>
+<span class="kw">echo</span> ${<span class="vr">F</span>%.*}            <span class="cm"># hello_world  (αφαιρεί extension)</span>
+<span class="cm"># αφαίρεση prefix (# = από αριστερά)</span>
+<span class="kw">echo</span> ${<span class="vr">F</span>#hello_}         <span class="cm"># world.txt</span>
+<span class="kw">echo</span> ${<span class="vr">F</span>##*/}            <span class="cm"># μόνο filename (αφαιρεί path)</span>
+<span class="cm"># replace</span>
+<span class="kw">echo</span> ${<span class="vr">F</span>/world/bash}     <span class="cm"># hello_bash.txt</span>
+<span class="cm"># substring ${var:start:length}</span>
+<span class="kw">echo</span> ${<span class="vr">F</span>:0:5}            <span class="cm"># hello</span>
+<span class="kw">echo</span> ${<span class="vr">F</span>:6}              <span class="cm"># world.txt (από pos 6)</span>
+    </div>
+    <div class="tip"><div class="tip-icon">🧠</div><div><div class="tip-title">Tip — % και # για αφαίρεση</div><div class="tip-text"><strong>%</strong> αφαιρεί από τα <strong>δεξιά</strong> (suffix). <strong>#</strong> αφαιρεί από τα <strong>αριστερά</strong> (prefix). Διπλά (%% και ##) = greedy (αφαιρεί όσο γίνεται).<br>Μνημονικό: <code>%</code> μοιάζει σαν να "κόβει" την ουρά.</div></div></div>
+  </div>
+
+  <div class="quiz">
+    <h3>🧠 Quick Check</h3>
+    <div class="qitem"><div class="qq">Τι εκτυπώνει: <code>A=5; echo $((A * 2 + 1))</code>;</div><div class="qa">11 — υπολογισμός: 5*2=10, 10+1=11.</div></div>
+    <div class="qitem"><div class="qq">Τι κάνει <code>${FILE%.txt}</code> αν <code>FILE="report.txt"</code>;</div><div class="qa">Αφαιρεί το suffix ".txt": επιστρέφει "report". Χρήσιμο για να φτιάξεις output filename από input filename.</div></div>
+    <div class="qitem"><div class="qq">Ποια η διαφορά <code>"$@"</code> και <code>"$*"</code>;</div><div class="qa"><code>"$@"</code> = κάθε argument ξεχωριστά ("arg1" "arg2"). <code>"$*"</code> = όλα ένα string ("arg1 arg2"). Χρήσιμο αν args έχουν spaces. Σχεδόν πάντα: <code>"$@"</code>.</div></div>
+    <div class="qitem"><div class="qq">Τι επιστρέφει μια function με <code>return 5</code>;</div><div class="qa">Exit status 5, ΟΧΙ την τιμή 5 σαν δεδομένο. Για να "επιστρέψεις" την τιμή 5 ώστε να τη χρησιμοποιήσεις, χρησιμοποίησε <code>echo 5</code> και πίασε με <code>RESULT=$(func)</code>.</div></div>
+    
+    <!-- Νέες Ερωτήσεις -->
+    <div class="qitem"><div class="qq">Τι σημαίνει το <code>$?</code> στο shell;</div><div class="qa">Είναι το exit status της τελευταίας εντολής που εκτελέστηκε. 0 σημαίνει επιτυχία, οτιδήποτε άλλο (1-255) σημαίνει σφάλμα.</div></div>
+    
+    <div class="qitem"><div class="qq">Ποια η διαφορά μεταξύ <code>VAR=5</code> και <code>VAR = 5</code>;</div><div class="qa">Στο shell, η ανάθεση πρέπει να γίνεται ΧΩΡΙΣ κενά γύρω από το <code>=</code>. Το <code>VAR = 5</code> θα ερμηνευτεί ως προσπάθεια εκτέλεσης μιας εντολής με όνομα VAR και ορίσματα "=" και "5".</div></div>
+
+    <div class="qitem"><div class="qq">Τι κάνει η εντολή <code>export MYVAR="hello"</code>;</div><div class="qa">Κάνει τη μεταβλητή διαθέσιμη και στις διεργασίες-παιδιά (child processes) που θα ξεκινήσουν από αυτό το shell. Χωρίς export, η μεταβλητή είναι μόνο τοπική στο τρέχον shell.</div></div>
+
+    <div class="qitem"><div class="qq">Πώς ελέγχουμε αν ένα αρχείο υπάρχει και είναι κανονικό αρχείο (όχι directory);</div><div class="qa">Με το flag <code>-f</code>: <code>if [ -f "myfile.txt" ]; then ... fi</code>.</div></div>
+
+    <div class="qitem"><div class="qq">Τι κάνει η σύνταξη <code>[[ $NAME == A* ]]</code>;</div><div class="qa">Ελέγχει αν το string NAME ξεκινάει από το γράμμα 'A' (pattern matching). Τα διπλά brackets <code>[[ ]]</code> είναι πιο ισχυρά από τα μονά <code>[ ]</code> και υποστηρίζουν wildcard matching.</div></div>
+
+    <div class="qitem"><div class="qq">Ποια η διαφορά μονών <code>' '</code> και διπλών <code>" "</code> quotes;</div><div class="qa">Στα μονά quotes όλα είναι literal (τίποτα δεν ερμηνεύεται). Στα διπλά quotes γίνεται interpretation των μεταβλητών (π.χ. το <code>"$VAR"</code> θα αντικατασταθεί από την τιμή της).</div></div>
+
+    <div class="qitem"><div class="qq">Τι κάνει το <code>local X</code> μέσα σε μια function;</div><div class="qa">Περιορίζει την εμβέλεια της μεταβλητής X μόνο μέσα στη function, εμποδίζοντάς την να αλλάξει μια παγκόσμια (global) μεταβλητή με το ίδιο όνομα.</div></div>
+
+    <div class="qitem"><div class="qq">Πώς εκτελούμε μια εντολή στο background και πώς παίρνουμε το PID της;</div><div class="qa">Προσθέτουμε <code>&</code> στο τέλος της εντολής. Το PID της τελευταίας background διεργασίας βρίσκεται στη μεταβλητή <code>$!</code>.</div></div>
+
+    <div class="qitem"><div class="qq">Τι κάνει το <code>read -p "Enter name: " NAME</code>;</div><div class="qa">Εμφανίζει το μήνυμα (prompt) και περιμένει από το χρήστη να πληκτρολογήσει κάτι, το οποίο αποθηκεύει στη μεταβλητή NAME.</div></div>
+
+    <div class="qitem"><div class="qq">Τι είναι το shebang (<code>#!</code>) στην αρχή ενός script;</div><div class="qa">Λέει στον πυρήνα ποιον interpreter να χρησιμοποιήσει για να τρέξει το αρχείο (π.χ. <code>#!/bin/bash</code>). Πρέπει να είναι στην πρώτη γραμμή.</div></div>
+
+    <div class="qitem"><div class="qq">Πώς κάνουμε loop σε όλα τα αρχεία .txt ενός φακέλου;</div><div class="qa"><code>for f in *.txt; do echo "$f"; done</code>.</div></div>
+
+    <div class="qitem"><div class="qq">Τι κάνει η εντολή <code>shift</code>;</div><div class="qa">Μετακινεί τα positional parameters (ορίσματα) κατά μία θέση προς τα αριστερά. Το <code>$2</code> γίνεται <code>$1</code>, το <code>$3</code> γίνεται <code>$2</code>, κ.ο.κ. Χρήσιμο για επεξεργασία ορισμάτων σε loop.</div></div>
+  </div>
+</section>
+
+</div>
+<div class="footer">K24 · Προγραμματισμός Συστήματος · ΕΚΠΑ · Topic 2: Bash Shell Programming</div>
+</body>
+</html>

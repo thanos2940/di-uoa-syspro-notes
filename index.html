@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="el">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>System Programming · Course Notes</title>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;700&family=Syne:wght@400;700;800&family=Lora:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles/base.css">
+    <style>
+        :root {
+            --bg: #05070a;
+            --surf: #0c0f16;
+            --surf2: #141822;
+            --border: #1e2433;
+            --green: #4ade80;
+            --green-rgb: 74, 222, 128;
+            --blue: #60a5fa;
+            --purple: #c084fc;
+            --orange: #fb923c;
+            --orange-rgb: 251, 146, 60;
+            --txt: #f1f5f9;
+            --muted: #94a3b8;
+            --dim: #475569;
+        }
+
+        .hub-hero {
+            padding: 140px 40px 80px;
+            text-align: center;
+            background: radial-gradient(circle at 50% 0%, rgba(74, 222, 128, 0.05) 0%, transparent 70%);
+        }
+
+        .hub-hero h1 {
+            font-family: 'Syne', sans-serif;
+            font-size: clamp(2.5rem, 8vw, 4.5rem);
+            font-weight: 800;
+            letter-spacing: -2px;
+            margin-bottom: 20px;
+            background: linear-gradient(to bottom, #fff, #94a3b8);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .hub-hero p {
+            font-size: 1.1rem;
+            color: var(--muted);
+            max-width: 600px;
+            margin: 0 auto 40px;
+        }
+
+        .search-container {
+            max-width: 500px;
+            margin: 0 auto;
+            position: relative;
+        }
+
+        .search-container input {
+            width: 100%;
+            background: var(--surf);
+            border: 1px solid var(--border);
+            padding: 16px 24px;
+            border-radius: 100px;
+            color: var(--txt);
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 14px;
+            transition: var(--transition);
+            outline: none;
+        }
+
+        .search-container input:focus {
+            border-color: var(--green);
+            box-shadow: 0 0 20px rgba(74, 222, 128, 0.1);
+        }
+
+        .topics-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 24px;
+            padding: 40px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .topic-card {
+            background: var(--surf);
+            border: 1px solid var(--border);
+            border-radius: 20px;
+            padding: 32px;
+            text-decoration: none;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .topic-card:hover {
+            transform: translateY(-8px);
+            border-color: var(--green);
+            background: var(--surf2);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+        }
+
+        .topic-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 100px;
+            height: 100px;
+            background: linear-gradient(135deg, transparent, rgba(var(--green-rgb), 0.05));
+            border-radius: 0 0 0 100%;
+            transition: var(--transition);
+        }
+
+        .topic-card:hover::before {
+            width: 150px;
+            height: 150px;
+            background: linear-gradient(135deg, transparent, rgba(var(--green-rgb), 0.1));
+        }
+
+        .topic-num {
+            font-family: 'JetBrains Mono', monospace;
+            color: var(--green);
+            font-size: 12px;
+            font-weight: 700;
+            letter-spacing: 2px;
+        }
+
+        .topic-card h3 {
+            font-family: 'Syne', sans-serif;
+            font-size: 1.5rem;
+            color: var(--txt);
+            font-weight: 700;
+        }
+
+        .topic-card p {
+            color: var(--muted);
+            font-size: 14px;
+            line-height: 1.6;
+        }
+
+        .topic-tags {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+            margin-top: auto;
+        }
+
+        .tag {
+            font-size: 10px;
+            font-family: 'JetBrains Mono', monospace;
+            color: var(--dim);
+            background: rgba(255,255,255,0.03);
+            padding: 2px 8px;
+            border-radius: 4px;
+            border: 1px solid var(--border);
+        }
+    </style>
+</head>
+<body>
+    <div id="site-nav"></div>
+
+    <div class="hub-hero">
+        <div class="hero-label">Προγραμματισμός Συστήματος · Κ24</div>
+        <h1>System Notes Hub</h1>
+        <p>Πλήρεις σημειώσεις για το μάθημα "Προγραμματισμός Συστήματος" — με παραδείγματα, tips και διαγράμματα.</p>
+        
+        <div class="search-container">
+            <input type="text" id="topic-search" placeholder="Αναζήτηση θεμάτων (π.χ. fork, pipes, signals)...">
+        </div>
+    </div>
+
+    <div class="topics-grid">
+        <a href="topic1_unix_commands.html" class="topic-card">
+            <div class="topic-num">TOPIC 01</div>
+            <h3>Unix Basics & Commands</h3>
+            <p>Αρχιτεκτονική, filesystem, πλοήγηση, permissions και βασικές εντολές διαχείρισης αρχείων.</p>
+            <div class="topic-tags">
+                <span class="tag">filesystem</span><span class="tag">permissions</span><span class="tag">navigation</span>
+            </div>
+        </a>
+
+        <a href="topic2_bash.html" class="topic-card">
+            <div class="topic-num">TOPIC 02</div>
+            <h3>Bash Shell Programming</h3>
+            <p>Scripting basics, μεταβλητές, loops, συνθήκες και προχωρημένο shell programming.</p>
+            <div class="topic-tags">
+                <span class="tag">scripting</span><span class="tag">loops</span><span class="tag">variables</span>
+            </div>
+        </a>
+
+        <a href="topic3_io_signals.html" class="topic-card">
+            <div class="topic-num">TOPIC 03</div>
+            <h3>Low-level I/O & Signals</h3>
+            <p>System calls (open/read/write), file descriptors και διαχείριση ασύγχρονων σημάτων.</p>
+            <div class="topic-tags">
+                <span class="tag">syscalls</span><span class="tag">signals</span><span class="tag">file descriptors</span>
+            </div>
+        </a>
+
+        <a href="topic4_fork_pipes.html" class="topic-card">
+            <div class="topic-num">TOPIC 04</div>
+            <h3>Fork, Exec & Pipes</h3>
+            <p>Δημιουργία διεργασιών, IPC μέσω pipes και διαχείριση κύκλου ζωής διεργασιών.</p>
+            <div class="topic-tags">
+                <span class="tag">fork</span><span class="tag">pipes</span><span class="tag">IPC</span><span class="tag">zombie</span>
+            </div>
+        </a>
+    </div>
+
+    <div class="footer">
+        K24 · Τμήμα Πληροφορικής & Τηλεπικοινωνιών · ΕΚΠΑ
+    </div>
+
+    <script src="js/nav.js"></script>
+</body>
+</html>

@@ -1,0 +1,815 @@
+<!DOCTYPE html>
+<html lang="el">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Topic 1 · Βασικές Εντολές Unix</title>
+  <link
+    href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;700&family=Syne:wght@400;700;800&family=Lora:ital,wght@0,400;0,600;1,400&display=swap"
+    rel="stylesheet">
+  <link rel="stylesheet" href="styles/base.css">
+  <style>
+    :root {
+      --bg: #0d1117;
+      --bg-rgb: 13, 17, 23;
+      --surf: #161b22;
+      --surf2: #1c2230;
+      --border: #30363d;
+      --green: #3fb950;
+      --green-rgb: 63, 185, 80;
+      --gdim: #0d2218;
+      --blue: #58a6ff;
+      --bdim: #0d1f40;
+      --yellow: #e3b341;
+      --ydim: #2d2208;
+      --red: #f85149;
+      --rdim: #2d1010;
+      --cyan: #39d4c8;
+      --cdim: #0a2422;
+      --purple: #bc8cff;
+      --purple-rgb: 188, 140, 255;
+      --pdim: #1a1040;
+      --orange: #f0883e;
+      --orange-rgb: 240, 136, 62;
+      --odim: #2d1800;
+      --txt: #e6edf3;
+      --muted: #8b949e;
+      --dim: #6e7681;
+    }
+
+    .hero { background: linear-gradient(150deg, #0d1117 0%, #0d2218 55%, #0d1117 100%); }
+    .hero::after { content: '$ man unix'; position: absolute; right: 32px; bottom: 20px; font-family: 'JetBrains Mono', monospace; font-size: clamp(1rem, 3vw, 2.2rem); color: rgba(63, 185, 80, .06); pointer-events: none; font-weight: 700; }
+    .p { color: var(--green) }
+    .c { color: var(--blue) }
+    .f { color: var(--yellow) }
+    .a { color: var(--purple) }
+    .cm { color: var(--dim); font-style: italic }
+    .o { color: var(--muted) }
+    .cmd-entry { background: var(--surf); border: 1px solid var(--border); border-radius: 10px; padding: 18px 20px; margin-bottom: 12px; transition: .15s }
+    .cmd-entry:hover { border-color: var(--green) }
+    .cmd-head { display: flex; align-items: baseline; gap: 14px; margin-bottom: 9px; flex-wrap: wrap }
+    .cmd-name { font-family: 'JetBrains Mono', monospace; font-size: 1.1rem; font-weight: 700; color: var(--cyan) }
+    .cmd-full { font-size: 12px; color: var(--dim); font-family: 'Lora', serif; font-style: italic }
+    .cmd-desc { color: var(--muted); font-size: 13.5px; margin-bottom: 6px }
+    .ritem { background: var(--surf); border: 1px solid var(--border); border-radius: 8px; padding: 13px 14px }
+    .rop { font-family: 'JetBrains Mono', monospace; color: var(--yellow); font-size: 14px; font-weight: 700; margin-bottom: 5px }
+    .rdesc { color: var(--muted); font-size: 12.5px }
+    .piperow { display: flex; align-items: center; gap: 0; background: #010409; border: 1px solid var(--border); border-radius: 8px; padding: 16px 20px; overflow-x: auto; font-family: 'JetBrains Mono', monospace; font-size: 12.5px }
+    .pcmd { background: var(--bdim); border: 1px solid rgba(88, 166, 255, .4); border-radius: 6px; padding: 7px 13px; color: var(--blue); white-space: nowrap }
+    .psep { color: var(--yellow); font-size: 20px; padding: 0 10px }
+  </style>
+  <script src="js/nav.js" defer></script>
+</head>
+
+<body>
+  <div id="site-nav"></div>
+  <div class="hero">
+    <div class="hero-label">K24 · Topic 1</div>
+    <h1>Βασικές Εντολές <em>Unix/Linux</em></h1>
+    <p>Αρχιτεκτονική Unix, filesystem, εντολές shell, permissions, redirections — με tips για να θυμάσαι κάθε εντολή.
+    </p>
+    <div class="chips"><span class="chip">filesystem</span><span class="chip">permissions</span><span class="chip">pipes
+        &amp; redirects</span><span class="chip">process mgmt</span></div>
+  </div>
+  <nav class="toc">
+    <a href="#arch">Αρχιτεκτονική</a><a href="#fs">Filesystem</a><a href="#nav">Πλοήγηση</a>
+    <a href="#text">Κείμενο</a><a href="#perm">Permissions</a><a href="#redirect">Redirections</a>
+    <a href="#proc">Διεργασίες</a><a href="#env">Environment</a>
+  </nav>
+  <div class="wrap">
+
+    <section id="arch">
+      <div class="sh">
+        <div class="sh-icon" style="background:var(--bdim)">🏗️</div>
+        <h2>Αρχιτεκτονική Unix</h2>
+      </div>
+      <div class="grid2">
+        <div>
+          <p style="color:var(--muted);font-size:14px;margin-bottom:14px">Το Unix είναι δομημένο σε <strong
+              style="color:var(--txt)">στρώματα</strong>. Η επικοινωνία user-space ↔ kernel γίνεται
+            <em>αποκλειστικά</em> μέσω system calls.</p>
+          <div class="arch">
+            <div class="alayer la">📦 User Applications<br><small style="opacity:.7">ls, gcc, vim, browser…</small>
+            </div>
+            <div class="aarr">↕</div>
+            <div class="alayer lb">🐚 Shell (bash)<br><small style="opacity:.7">διερμηνεύει εντολές, scripting</small>
+            </div>
+            <div class="aarr">↕</div>
+            <div class="alayer lc">⚙️ System Calls<br><small style="opacity:.7">open() fork() read() write()…</small>
+            </div>
+            <div class="aarr">↕</div>
+            <div class="alayer ld">🔒 Kernel<br><small style="opacity:.7">διεργασίες · μνήμη · I/O · δίκτυο</small>
+            </div>
+            <div class="aarr">↕</div>
+            <div class="alayer le">💾 Hardware<br><small style="opacity:.7">CPU · RAM · δίσκος</small></div>
+          </div>
+        </div>
+        <div>
+          <div class="tip">
+            <div class="tip-icon">🧠</div>
+            <div>
+              <div class="tip-title">Πώς να το θυμάσαι</div>
+              <div class="tip-text">Σκέψου το σαν <strong>κρεμμύδι</strong> — στρώμα-στρώμα. Εσύ (user) είσαι απ' έξω. Ο
+                kernel είναι στη μέση. Για να φτάσεις τον πυρήνα, περνάς μέσα από στρώματα. System calls = η
+                <strong>πόρτα</strong> προς τον kernel.</div>
+            </div>
+          </div>
+          <div class="ibox">
+            <div class="lbl" style="color:var(--blue)">💡 Φιλοσοφία Unix</div>"Do one thing and do it well." Κάθε εντολή
+            κάνει μία δουλειά. Δύναμη από συνδυασμό με pipes.
+          </div>
+          <div class="gbox">
+            <div class="lbl" style="color:var(--green)">Multi-user &amp; Multi-tasking</div>Πολλοί χρήστες ταυτόχρονα,
+            πολλές διεργασίες ταυτόχρονα, απομονωμένα μέσω UIDs και permissions.
+          </div>
+          <div class="ibox">
+            <div class="lbl" style="color:var(--blue)">man sections</div><strong>Section 1</strong>: εντολές (ls, grep)
+            · <strong>Section 2</strong>: system calls (open, fork) · <strong>Section 3</strong>: C library (printf,
+            malloc). <code>man 2 open</code> → system call.
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="fs">
+      <div class="sh">
+        <div class="sh-icon" style="background:var(--gdim)">📁</div>
+        <h2>Σύστημα Αρχείων (Filesystem)</h2>
+      </div>
+      <div class="grid2">
+        <div>
+          <div class="tree">
+            <span class="troot">/</span> <span class="tdim">← root, ρίζα ολόκληρου του δέντρου</span><br>
+            ├── <span class="tdir">bin/</span> <span class="tdim">binaries: ls, cp, mv, cat…</span><br>
+            ├── <span class="tdir">etc/</span> <span class="tdim">etcetera: config αρχεία</span><br>
+            ├── <span class="tdir">home/</span> <span class="tdim">home directories χρηστών</span><br>
+            │ └── <span class="tdir">alice/</span><br>
+            ├── <span class="tdir">tmp/</span> <span class="tdim">temporary: χάνεται στο reboot</span><br>
+            ├── <span class="tdir">usr/</span> <span class="tdim">user programs (installed software)</span><br>
+            ├── <span class="tdir">var/</span> <span class="tdim">variable data: logs, spool…</span><br>
+            └── <span class="tdir">dev/</span> <span class="tdim">device files (δίσκοι, τερματικά)</span>
+          </div>
+          <div class="tip">
+            <div class="tip-icon">🧠</div>
+            <div>
+              <div class="tip-title">Absolute vs Relative path</div>
+              <div class="tip-text"><strong>Absolute</strong> = ξεκινά με <code>/</code> — "διεύθυνση από το σπίτι μου"
+                (δουλεύει από παντού).<br><strong>Relative</strong> = χωρίς <code>/</code> — "στρίψε αριστερά"
+                (εξαρτάται από το πού είσαι τώρα).</div>
+            </div>
+          </div>
+        </div>
+        <div>
+          <div class="cmd-entry">
+            <div class="cmd-head"><span class="cmd-name">.</span></div>
+            <div class="cmd-desc">Το τρέχον directory. Χρήσιμο ως <code>./prog</code> για εκτέλεση.</div>
+            <div class="tip">
+              <div class="tip-icon">🧠</div>
+              <div>
+                <div class="tip-title">Tip</div>
+                <div class="tip-text"><strong>.</strong> = "εδώ". Το shell δεν ψάχνει το CWD στο PATH για ασφάλεια,
+                  οπότε χρειάζεσαι <code>./</code> ρητά.</div>
+              </div>
+            </div>
+          </div>
+          <div class="cmd-entry">
+            <div class="cmd-head"><span class="cmd-name">..</span></div>
+            <div class="cmd-desc">Ο γονικός κατάλογος. <code>cd ../../foo</code> = 2 επίπεδα πάνω → μπαίνει στο foo.
+            </div>
+          </div>
+          <div class="cmd-entry">
+            <div class="cmd-head"><span class="cmd-name">~</span></div>
+            <div class="cmd-desc">Home directory τρέχοντα χρήστη. <code>cd</code> χωρίς args = ίδιο με
+              <code>cd ~</code>.</div>
+            <div class="tip">
+              <div class="tip-icon">🧠</div>
+              <div>
+                <div class="tip-title">Tip</div>
+                <div class="tip-text">Το <strong>~</strong> μοιάζει οπτικά με στέγη/σπίτι. Εύκολο να το συνδέσεις με
+                  "home".</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="nav">
+      <div class="sh">
+        <div class="sh-icon" style="background:rgba(57,212,200,.1)">⌨️</div>
+        <h2>Εντολές Πλοήγησης &amp; Αρχείων</h2>
+      </div>
+
+      <div class="cmd-entry">
+        <div class="cmd-head"><span class="cmd-name">pwd</span><span class="cmd-full">Print Working Directory</span>
+        </div>
+        <div class="cmd-desc">Εκτυπώνει το απόλυτο path του τρέχοντος καταλόγου. Χρήσιμο όταν χάνεσαι στο filesystem.
+        </div>
+        <div class="cb"><span class="p">$</span> <span class="c">pwd</span><span
+            class="o">/home/alice/projects/k24</span></div>
+        <div class="tip">
+          <div class="tip-icon">🧠</div>
+          <div>
+            <div class="tip-title">Tip — ακρωνύμιο</div>
+            <div class="tip-text"><strong>P</strong>rint <strong>W</strong>orking <strong>D</strong>irectory. "Πού είμαι
+              τώρα;" — ρωτάς το σύστημα.</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="cmd-entry">
+        <div class="cmd-head"><span class="cmd-name">ls</span><span class="cmd-full">LiSt</span></div>
+        <div class="cmd-desc">Λίστα αρχείων καταλόγου. Τα σημαντικότερα flags:</div>
+        <div class="cb">
+          <span class="c">ls</span> <span class="cm"># απλή λίστα</span>
+          <span class="c">ls</span> <span class="f">-l</span> <span class="cm"># long: permissions, owner, size,
+            date</span>
+          <span class="c">ls</span> <span class="f">-a</span> <span class="cm"># all: δείχνει κρυφά αρχεία (αρχίζουν με
+            .)</span>
+          <span class="c">ls</span> <span class="f">-la</span> <span class="cm"># συνδυασμός: long + all — το πιο
+            χρήσιμο</span>
+          <span class="c">ls</span> <span class="f">-lh</span> <span class="cm"># human-readable sizes (KB, MB αντί
+            bytes)</span>
+          <span class="c">ls</span> <span class="f">-R</span> <span class="cm"># recursive: μπαίνει σε
+            υποφακέλους</span>
+        </div>
+        <div class="tip">
+          <div class="tip-icon">🧠</div>
+          <div>
+            <div class="tip-title">Tip — τα flags</div>
+            <div class="tip-text"><strong>l</strong> = long (λεπτομέρειες), <strong>a</strong> = all (κρυφά),
+              <strong>h</strong> = human (κατανοητά μεγέθη). Συνδυάζονται: <code>ls -lah</code>. Τα κρυφά αρχεία
+              (dotfiles) αρχίζουν πάντα με <code>.</code>.</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="cmd-entry">
+        <div class="cmd-head"><span class="cmd-name">cd</span><span class="cmd-full">Change Directory</span></div>
+        <div class="cmd-desc">Αλλάζει τον τρέχοντα κατάλογο.</div>
+        <div class="cb">
+          <span class="c">cd</span> <span class="a">/home/alice</span> <span class="cm"># absolute path</span>
+          <span class="c">cd</span> <span class="a">projects</span> <span class="cm"># relative path</span>
+          <span class="c">cd</span> <span class="a">..</span> <span class="cm"># ένα επίπεδο πάνω</span>
+          <span class="c">cd</span> <span class="cm"># πάντα στο home (~)</span>
+          <span class="c">cd</span> <span class="a">-</span> <span class="cm"># εναλλαγή με τον προηγούμενο
+            κατάλογο</span>
+        </div>
+        <div class="tip">
+          <div class="tip-icon">🧠</div>
+          <div>
+            <div class="tip-title">Tip για το <code>cd -</code></div>
+            <div class="tip-text">Σαν το κουμπί "back" στον browser. Χρήσιμο αν είσαι σε /deep/nested/path και θέλεις να
+              επιστρέψεις γρήγορα.</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="grid2">
+        <div class="cmd-entry">
+          <div class="cmd-head"><span class="cmd-name">mkdir</span><span class="cmd-full">MaKe DIRectory</span></div>
+          <div class="cmd-desc">Δημιουργεί κατάλογο.</div>
+          <div class="cb"><span class="c">mkdir</span> <span class="a">mydir</span><span class="c">mkdir</span>
+            <span class="f">-p</span> <span class="a">a/b/c/d</span> <span class="cm"># φτιάχνει ΟΛΑ τα ενδιάμεσα</span>
+          </div>
+          <div class="tip">
+            <div class="tip-icon">🧠</div>
+            <div>
+              <div class="tip-title">Tip</div>
+              <div class="tip-text"><strong>-p</strong> = "parents". Χωρίς -p, αποτυγχάνει αν ο γονικός δεν υπάρχει.
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="cmd-entry">
+          <div class="cmd-head"><span class="cmd-name">cp</span><span class="cmd-full">CoPy</span></div>
+          <div class="cmd-desc">Αντιγράφει αρχεία/directories.</div>
+          <div class="cb"><span class="c">cp</span> <span class="a">src.txt dst.txt</span><span class="c">cp</span>
+            <span class="f">-r</span> <span class="a">dir1/ dir2/</span> <span class="cm"># recursive για dirs</span>
+          </div>
+          <div class="tip">
+            <div class="tip-icon">🧠</div>
+            <div>
+              <div class="tip-title">Tip</div>
+              <div class="tip-text"><strong>-r</strong> = recursive. Χρειάζεται για directories — χωρίς αυτό βγάζει
+                error.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="cmd-entry">
+        <div class="cmd-head"><span class="cmd-name">rm</span><span class="cmd-full">ReMove</span></div>
+        <div class="cmd-desc">Διαγράφει αρχεία/directories. <strong style="color:var(--red)">Μόνιμο — δεν πάει σε
+            Recycle Bin.</strong></div>
+        <div class="cb">
+          <span class="c">rm</span> <span class="a">file.txt</span>
+          <span class="c">rm</span> <span class="f">-r</span> <span class="a">mydir/</span> <span class="cm">#
+            recursive: διαγράφει directory με περιεχόμενο</span>
+          <span class="c">rm</span> <span class="f">-f</span> <span class="a">file.txt</span> <span class="cm"># force:
+            δεν ρωτάει, δεν βγάζει error αν δεν υπάρχει</span>
+          <span class="c">rm</span> <span class="f">-rf</span> <span class="a">dir/</span> <span class="cm"># recursive
+            + force — ΠΡΟΣΟΧΗ</span>
+        </div>
+        <div class="rbox">
+          <div class="lbl" style="color:var(--red)">⚠️ Κανένα undo</div><code>rm -rf /</code> ή <code>rm -rf *</code>
+          διαγράφουν τα πάντα χωρίς επιβεβαίωση.
+        </div>
+      </div>
+
+      <div class="cmd-entry">
+        <div class="cmd-head"><span class="cmd-name">find</span></div>
+        <div class="cmd-desc">Βρίσκει αρχεία με κριτήρια. Syntax: <code>find [path] [criteria] [action]</code></div>
+        <div class="cb">
+          <span class="c">find</span> <span class="a">.</span> <span class="f">-name</span> <span class="a">"*.c"</span>
+          <span class="cm"># pattern matching στο όνομα</span>
+          <span class="c">find</span> <span class="a">/tmp</span> <span class="f">-type</span> <span class="a">f</span>
+          <span class="cm"># μόνο files (f=file, d=directory)</span>
+          <span class="c">find</span> <span class="a">.</span> <span class="f">-name</span> <span
+            class="a">"*.log"</span> <span class="f">-delete</span> <span class="cm"># βρες ΚΑΙ διέγραψε</span>
+          <span class="c">find</span> <span class="a">.</span> <span class="f">-newer</span> <span
+            class="a">ref.txt</span> <span class="cm"># αρχεία νεότερα από ref.txt</span>
+        </div>
+        <div class="tip">
+          <div class="tip-icon">🧠</div>
+          <div>
+            <div class="tip-title">Tip</div>
+            <div class="tip-text">Το πρώτο argument είναι πάντα το <strong>path αναζήτησης</strong>. Το <code>.</code>
+              σημαίνει "από εδώ και κάτω". Μπορείς να βάλεις <code>/</code> για ολόκληρο το σύστημα.</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="text">
+      <div class="sh">
+        <div class="sh-icon" style="background:var(--ydim)">🔍</div>
+        <h2>Εντολές Επεξεργασίας Κειμένου</h2>
+      </div>
+
+      <div class="cmd-entry">
+        <div class="cmd-head"><span class="cmd-name">cat</span><span class="cmd-full">conCATenate</span></div>
+        <div class="cmd-desc">Εκτυπώνει αρχεία στο stdout. Αρχικά φτιάχτηκε για <em>συνένωση</em> αρχείων.</div>
+        <div class="cb">
+          <span class="c">cat</span> <span class="a">file.txt</span> <span class="cm"># τυπώνει το αρχείο</span>
+          <span class="c">cat</span> <span class="a">f1.txt f2.txt</span> <span class="cm"># τυπώνει f1 μετά f2
+            (concatenate!)</span>
+          <span class="c">cat</span> <span class="a">f1.txt f2.txt</span> &gt; <span class="a">all.txt</span> <span
+            class="cm"># συνενώνει σε νέο αρχείο</span>
+        </div>
+        <div class="tip">
+          <div class="tip-icon">🧠</div>
+          <div>
+            <div class="tip-title">Tip — το όνομα λέει τα πάντα</div>
+            <div class="tip-text"><strong>cat</strong>enate = συνένωση. Αν θυμάσαι ότι φτιάχτηκε για concatenation,
+              θυμάσαι και γιατί δέχεται πολλά αρχεία ως arguments.</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="cmd-entry">
+        <div class="cmd-head"><span class="cmd-name">grep</span><span class="cmd-full">Global Regular Expression
+            Print</span></div>
+        <div class="cmd-desc">Ψάχνει γραμμές που ταιριάζουν με pattern.</div>
+        <div class="cb">
+          <span class="c">grep</span> <span class="a">"error"</span> <span class="a">log.txt</span> <span class="cm">#
+            γραμμές με "error"</span>
+          <span class="c">grep</span> <span class="f">-i</span> <span class="a">"Error"</span> <span
+            class="a">log.txt</span> <span class="cm"># -i = insensitive (Error, error, ERROR)</span>
+          <span class="c">grep</span> <span class="f">-n</span> <span class="a">"main"</span> <span
+            class="a">prog.c</span> <span class="cm"># -n = number: δείχνει αριθμό γραμμής</span>
+          <span class="c">grep</span> <span class="f">-r</span> <span class="a">"TODO"</span> <span class="a">.</span>
+          <span class="cm"># -r = recursive: ψάχνει σε όλα τα αρχεία</span>
+          <span class="c">grep</span> <span class="f">-v</span> <span class="a">"ok"</span> <span
+            class="a">log.txt</span> <span class="cm"># -v = inVert: γραμμές που ΔΕΝ έχουν "ok"</span>
+        </div>
+        <div class="tip">
+          <div class="tip-icon">🧠</div>
+          <div>
+            <div class="tip-title">Tip — τα flags</div>
+            <div class="tip-text"><strong>-i</strong> = case-<strong>i</strong>nsensitive · <strong>-n</strong> =
+              <strong>n</strong>umber of line · <strong>-r</strong> = <strong>r</strong>ecursive · <strong>-v</strong> =
+              in<strong>v</strong>ert (αντίστροφο). Κλασικό: <code>ps aux | grep -v grep</code> για να βρεις διεργασία
+              χωρίς να περιλαμβάνεις το grep ίδιο.</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="grid2">
+        <div class="cmd-entry">
+          <div class="cmd-head"><span class="cmd-name">head</span></div>
+          <div class="cmd-desc">Πρώτες N γραμμές (default 10).</div>
+          <div class="cb"><span class="c">head</span> <span class="f">-20</span> <span class="a">file.txt</span> <span
+              class="cm"># πρώτες 20</span></div>
+          <div class="tip">
+            <div class="tip-icon">🧠</div>
+            <div>
+              <div class="tip-title">Tip</div>
+              <div class="tip-text"><strong>head</strong> = κεφάλι = αρχή. Αντίστοιχο: <strong>tail</strong> = ουρά =
+                τέλος.</div>
+            </div>
+          </div>
+        </div>
+        <div class="cmd-entry">
+          <div class="cmd-head"><span class="cmd-name">tail</span></div>
+          <div class="cmd-desc">Τελευταίες N γραμμές. Το <code>-f</code> παρακολουθεί real-time.</div>
+          <div class="cb"><span class="c">tail</span> <span class="f">-f</span> <span class="a">log.txt</span> <span
+              class="cm"># live log monitoring</span></div>
+          <div class="tip">
+            <div class="tip-icon">🧠</div>
+            <div>
+              <div class="tip-title">Tip</div>
+              <div class="tip-text"><strong>-f</strong> = <strong>f</strong>ollow. Παρακολουθεί το αρχείο καθώς
+                γράφεται. Χρήσιμο για να βλέπεις logs live.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="grid2">
+        <div class="cmd-entry">
+          <div class="cmd-head"><span class="cmd-name">wc</span><span class="cmd-full">Word Count</span></div>
+          <div class="cmd-desc">Μετράει γραμμές, λέξεις, bytes.</div>
+          <div class="cb"><span class="c">wc</span> <span class="f">-l</span> <span class="a">f</span> <span
+              class="cm"># lines · wc -w words · wc -c chars</span></div>
+          <div class="tip">
+            <div class="tip-icon">🧠</div>
+            <div>
+              <div class="tip-title">Tip</div>
+              <div class="tip-text"><strong>l</strong>ines / <strong>w</strong>ords / <strong>c</strong>haracters. Πιο
+                χρήσιμο: <code>command | wc -l</code> για να μετρήσεις αποτελέσματα.</div>
+            </div>
+          </div>
+        </div>
+        <div class="cmd-entry">
+          <div class="cmd-head"><span class="cmd-name">sort</span></div>
+          <div class="cmd-desc">Ταξινομεί γραμμές αλφαβητικά ή αριθμητικά.</div>
+          <div class="cb"><span class="c">sort</span> <span class="f">-n</span> <span class="a">f</span> <span
+              class="cm"># αριθμητικά · -r = reverse</span></div>
+          <div class="tip">
+            <div class="tip-icon">🧠</div>
+            <div>
+              <div class="tip-title">Tip — σημαντικό!</div>
+              <div class="tip-text">Χωρίς <strong>-n</strong>, το "10" έρχεται πριν το "2" (lexicographic)! Για αριθμούς
+                πάντα <code>sort -n</code>.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="perm">
+      <div class="sh">
+        <div class="sh-icon" style="background:var(--rdim)">🔐</div>
+        <h2>Δικαιώματα (Permissions)</h2>
+      </div>
+      <div class="grid2">
+        <div>
+          <p style="color:var(--muted);font-size:13.5px;margin-bottom:12px">Κάθε αρχείο έχει 9 bits permissions: 3 για
+            <span style="color:var(--red)">owner</span>, 3 για <span style="color:var(--yellow)">group</span>, 3 για
+            <span style="color:var(--muted)">others</span>.</p>
+          <div class="cb">
+            <span class="cm"># ls -l output:</span>
+            <span style="color:var(--dim)">-</span><span style="color:var(--red)">rwx</span><span
+              style="color:var(--yellow)">r-x</span><span style="color:var(--muted)">r--</span> 1 alice dev 2048 Apr 25
+            prog
+            <span class="cm"># 1ος χαρακτήρας: τύπος αρχείου</span>
+            <span class="cm"># - = regular file</span>
+            <span class="cm"># d = directory</span>
+            <span class="cm"># l = symbolic link</span>
+            <span class="cm"># r=4, w=2, x=1 (δυαδικό: 100, 010, 001)</span>
+            <span class="cm"># rwx = 4+2+1 = 7</span>
+            <span class="cm"># r-x = 4+0+1 = 5</span>
+            <span class="cm"># r-- = 4+0+0 = 4</span>
+          </div>
+          <div class="cb" style="margin-top:10px">
+            <span class="c">chmod</span> <span class="f">755</span> <span class="a">script.sh</span> <span class="cm">#
+              octal notation</span>
+            <span class="c">chmod</span> <span class="f">+x</span> <span class="a">prog</span> <span class="cm">#
+              symbolic: πρόσθεσε execute σε όλους</span>
+            <span class="c">chmod</span> <span class="f">-w</span> <span class="a">file.txt</span> <span class="cm">#
+              αφαίρεσε write από όλους</span>
+          </div>
+        </div>
+        <div>
+          <div class="tip">
+            <div class="tip-icon">🧠</div>
+            <div>
+              <div class="tip-title">Tip — το κόλπο με τα bits</div>
+              <div class="tip-text">Κάθε γράμμα = ένα bit:<br><strong>r = 4</strong> (100 binary), <strong>w =
+                  2</strong> (010 binary), <strong>x = 1</strong> (001 binary).<br>Άθροισμα ανά ομάδα: <strong>rwx = 7,
+                  rw- = 6, r-x = 5, r-- = 4</strong>.<br>Μνημονικό: 4-2-1 σαν σειρά από μεγαλύτερο προς μικρότερο.</div>
+            </div>
+          </div>
+          <table class="ptbl">
+            <tr>
+              <th>Num</th>
+              <th>Binary</th>
+              <th>Σύμβολο</th>
+            </tr>
+            <tr>
+              <td class="mono">7</td>
+              <td class="mono">111</td>
+              <td class="mono">rwx</td>
+            </tr>
+            <tr>
+              <td class="mono">6</td>
+              <td class="mono">110</td>
+              <td class="mono">rw-</td>
+            </tr>
+            <tr>
+              <td class="mono">5</td>
+              <td class="mono">101</td>
+              <td class="mono">r-x</td>
+            </tr>
+            <tr>
+              <td class="mono">4</td>
+              <td class="mono">100</td>
+              <td class="mono">r--</td>
+            </tr>
+            <tr>
+              <td class="mono">0</td>
+              <td class="mono">000</td>
+              <td class="mono">---</td>
+            </tr>
+          </table>
+          <div class="gbox" style="margin-top:10px">
+            <div class="lbl" style="color:var(--green)">✅ Συνηθισμένα</div><code>755</code> → scripts/dirs ·
+            <code>644</code> → κανονικά αρχεία · <code>600</code> → private (SSH keys) · <code>777</code> → ποτέ σε
+            production
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="redirect">
+      <div class="sh">
+        <div class="sh-icon" style="background:var(--ydim)">🔀</div>
+        <h2>Redirections &amp; Pipes</h2>
+      </div>
+      <p style="color:var(--muted);font-size:13.5px;margin-bottom:14px">Κάθε διεργασία έχει 3 standard streams:
+        <code>0 = stdin</code> (keyboard), <code>1 = stdout</code> (screen), <code>2 = stderr</code> (screen, errors).
+        Όλα μπορούν να ανακατευθυνθούν.</p>
+      <div class="rgrid" style="margin-bottom:14px">
+        <div class="ritem">
+          <div class="rop">&gt; file</div>
+          <div class="rdesc">stdout → αρχείο. <strong>Αντικαθιστά</strong> αρχείο.</div>
+          <div class="cb" style="margin-top:6px"><span class="c">ls</span> &gt; <span class="a">out.txt</span></div>
+        </div>
+        <div class="ritem">
+          <div class="rop">&gt;&gt; file</div>
+          <div class="rdesc">stdout → αρχείο. <strong>Προσθέτει</strong> στο τέλος.</div>
+          <div class="cb" style="margin-top:6px"><span class="c">echo</span> <span class="a">"log"</span> &gt;&gt; <span
+              class="a">log.txt</span></div>
+        </div>
+        <div class="ritem">
+          <div class="rop">&lt; file</div>
+          <div class="rdesc">stdin ← αρχείο αντί keyboard.</div>
+          <div class="cb" style="margin-top:6px"><span class="c">sort</span> &lt; <span class="a">names.txt</span></div>
+        </div>
+        <div class="ritem">
+          <div class="rop">2&gt; file</div>
+          <div class="rdesc">stderr → αρχείο (errors αποθηκεύονται).</div>
+          <div class="cb" style="margin-top:6px"><span class="c">gcc</span> <span class="a">prog.c</span> 2&gt; <span
+              class="a">err.txt</span></div>
+        </div>
+        <div class="ritem">
+          <div class="rop">2&gt;&amp;1</div>
+          <div class="rdesc">stderr → εκεί που πάει το stdout.</div>
+          <div class="cb" style="margin-top:6px"><span class="c">make</span> &gt; <span class="a">all.log</span>
+            2&gt;&amp;1</div>
+        </div>
+        <div class="ritem">
+          <div class="rop">/dev/null</div>
+          <div class="rdesc">Bit bucket — πετάει την έξοδο τελείως.</div>
+          <div class="cb" style="margin-top:6px"><span class="c">cmd</span> &gt;/dev/null 2&gt;&amp;1</div>
+        </div>
+      </div>
+      <div class="tip">
+        <div class="tip-icon">🧠</div>
+        <div>
+          <div class="tip-title">Tip — 2>&1 explained</div>
+          <div class="tip-text">Διάβαζε ως "κάνε τον fd <strong>2</strong> να δείχνει εκεί που δείχνει (&) ο fd
+            <strong>1</strong>". Η <strong>σειρά μετράει</strong>: <code>> file 2>&1</code> (σωστό — stderr πάει στο
+            file) vs <code>2>&1 > file</code> (λάθος — stderr πάει στο αρχικό stdout).</div>
+        </div>
+      </div>
+      <div class="cmd-entry" style="margin-top:14px">
+        <div class="cmd-head"><span class="cmd-name">|</span><span class="cmd-full">pipe operator</span></div>
+        <div class="cmd-desc">Συνδέει stdout μιας εντολής με stdin της επόμενης. Τρέχουν <em>ταυτόχρονα</em>
+          (παράλληλα).</div>
+        <div class="piperow" style="margin:10px 0">
+          <div class="pcmd">ps aux</div>
+          <div class="psep">|</div>
+          <div class="pcmd">grep python</div>
+          <div class="psep">|</div>
+          <div class="pcmd">awk '{print $2}'</div>
+          <div class="psep">|</div>
+          <div class="pcmd">sort -n</div>
+        </div>
+        <div class="tip">
+          <div class="tip-icon">🧠</div>
+          <div>
+            <div class="tip-title">Tip — ο σωλήνας νερού</div>
+            <div class="tip-text">Σκέψου pipe ως <strong>σωλήνας νερού</strong>: νερό (δεδομένα) ρέει από αριστερά προς
+              τα δεξιά. Κάθε εντολή παίρνει νερό, το επεξεργάζεται, και στέλνει στον επόμενο σωλήνα.</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="proc">
+      <div class="sh">
+        <div class="sh-icon" style="background:var(--gdim)">⚡</div>
+        <h2>Διαχείριση Διεργασιών</h2>
+      </div>
+      <div class="grid2">
+        <div>
+          <div class="cmd-entry">
+            <div class="cmd-head"><span class="cmd-name">ps</span><span class="cmd-full">Process Status</span></div>
+            <div class="cmd-desc">Εμφανίζει τρέχουσες διεργασίες.</div>
+            <div class="cb"><span class="c">ps</span> <span class="cm"># δικές μου</span><span class="c">ps</span>
+              <span class="f">aux</span> <span class="cm"># όλες οι διεργασίες</span></div>
+            <div class="tip">
+              <div class="tip-icon">🧠</div>
+              <div>
+                <div class="tip-title">Tip — aux</div>
+                <div class="tip-text"><strong>a</strong> = all users · <strong>u</strong> = user-oriented format ·
+                  <strong>x</strong> = without terminal. Μαζί = πλήρης εικόνα.</div>
+              </div>
+            </div>
+          </div>
+          <div class="cmd-entry">
+            <div class="cmd-head"><span class="cmd-name">kill</span></div>
+            <div class="cmd-desc">Στέλνει signal σε διεργασία (default: SIGTERM).</div>
+            <div class="cb"><span class="c">kill</span> <span class="a">1234</span> <span class="cm"># SIGTERM:
+                "παρακαλώ τερματίσου"</span><span class="c">kill</span> <span class="f">-9</span> <span
+                class="a">1234</span> <span class="cm"># SIGKILL: force kill, δεν αγνοείται</span></div>
+            <div class="tip">
+              <div class="tip-icon">🧠</div>
+              <div>
+                <div class="tip-title">Tip — SIGTERM vs SIGKILL</div>
+                <div class="tip-text"><strong>SIGTERM</strong> = ευγενικό αίτημα, η διεργασία μπορεί να αρνηθεί.
+                  <strong>SIGKILL (-9)</strong> = ο kernel σκοτώνει αμέσως, κανείς δεν μπορεί να το αποτρέψει. Πρώτα
+                  SIGTERM, μετά αν δεν απαντά, SIGKILL.</div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div>
+          <div class="cmd-entry">
+            <div class="cmd-head"><span class="cmd-name">&amp;</span><span class="cmd-full">background execution</span>
+            </div>
+            <div class="cmd-desc">Εκτελεί διεργασία στο background — δεν μπλοκάρει το terminal.</div>
+            <div class="cb"><span class="c">./prog</span> <span class="f">&amp;</span> <span class="cm"># εκτέλεση
+                background</span><span class="o">[1] 12345</span> <span class="cm"># job id [1] και PID
+                12345</span><span class="c">jobs</span> <span class="cm"># λίστα background jobs</span><span
+                class="c">fg</span> <span class="a">%1</span> <span class="cm"># φέρε το job 1 στο foreground</span>
+            </div>
+            <div class="tip">
+              <div class="tip-icon">🧠</div>
+              <div>
+                <div class="tip-title">Tip — Ctrl shortcuts</div>
+                <div class="tip-text"><code>Ctrl+C</code> → SIGINT (τερματισμός) · <code>Ctrl+Z</code> → suspend (παύση)
+                  → μετά <code>bg</code> για background ή <code>fg</code> για επιστροφή.</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="env">
+      <div class="sh">
+        <div class="sh-icon" style="background:var(--pdim)">🌍</div>
+        <h2>Μεταβλητές Περιβάλλοντος</h2>
+      </div>
+      <div class="grid2">
+        <div>
+          <div class="cb">
+            <span class="cm"># σημαντικές built-in μεταβλητές</span>
+            <span class="c">echo</span> <span class="a">$PATH</span> <span class="cm"># directories για
+              εκτελέσιμα</span>
+            <span class="c">echo</span> <span class="a">$HOME</span> <span class="cm"># home directory</span>
+            <span class="c">echo</span> <span class="a">$USER</span> <span class="cm"># τρέχων χρήστης</span>
+            <span class="c">echo</span> <span class="a">$$</span> <span class="cm"># PID τρέχοντος shell</span>
+            <span class="c">echo</span> <span class="a">$?</span> <span class="cm"># exit code τελευταίας
+              εντολής</span>
+            <span class="cm"># ορισμός + export για κληρονομιά</span>
+            <span class="c">export</span> <span class="a">MYVAR</span>=<span class="a">"hello"</span>
+          </div>
+        </div>
+        <div>
+          <div class="tip">
+            <div class="tip-icon">🧠</div>
+            <div>
+              <div class="tip-title">Tip — exit codes</div>
+              <div class="tip-text"><strong>0</strong> = επιτυχία, <strong>≠0</strong> = αποτυχία. Αντίστροφο από C!
+                Λόγος: ένας τρόπος επιτυχίας, πολλοί τρόποι αποτυχίας (1=general error, 2=misuse, 127=not found…).</div>
+            </div>
+          </div>
+          <div class="tip">
+            <div class="tip-icon">🧠</div>
+            <div>
+              <div class="tip-title">Tip — γιατί ./prog</div>
+              <div class="tip-text">Το <code>.</code> (CWD) δεν είναι στο PATH για ασφάλεια. Αλλιώς ένας κακόβουλος
+                χρήστης θα έβαζε ψεύτικο <code>ls</code> στο CWD. Οπότε χρειάζεσαι ρητά <code>./</code>.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="quiz">
+        <h3>🧠 Quick Check</h3>
+        <div class="qitem">
+          <div class="qq">Τι κάνει η εντολή <code>ls -la 2&gt;/dev/null</code>;</div>
+          <div class="qa">Εκτελεί ls -la, τυπώνει αποτελέσματα (stdout) κανονικά, αλλά πετάει οποιοδήποτε error
+            (stderr). Χρήσιμο αν δεν θέλεις "Permission denied" μηνύματα.</div>
+        </div>
+        <div class="qitem">
+          <div class="qq">Διαφορά <code>&gt;</code> και <code>&gt;&gt;</code>;</div>
+          <div class="qa"><code>&gt;</code> αντικαθιστά (truncate + write), <code>&gt;&gt;</code> προσθέτει στο τέλος
+            (append). Και τα δύο δημιουργούν το αρχείο αν δεν υπάρχει.</div>
+        </div>
+        <div class="qitem">
+          <div class="qq">Τι τυπώνει <code>echo $?</code> αμέσως μετά από <code>ls /nonexistent</code>;</div>
+          <div class="qa">Μη-μηδενικό (συνήθως 2) — αποτυχία γιατί το directory δεν υπάρχει. Επιτυχία = 0.</div>
+        </div>
+        <div class="qitem">
+          <div class="qq">Πώς βρίσκουμε όλες τις εμφανίσεις της λέξης "error" σε όλα τα αρχεία του τρέχοντος καταλόγου
+            αναδρομικά;</div>
+          <div class="qa">Χρησιμοποιούμε <code>grep -r "error" .</code>. Το <code>-r</code> σημαίνει recursive και το
+            <code>.</code> δηλώνει τον τρέχοντα κατάλογο.
+          </div>
+        </div>
+        <div class="qitem">
+          <div class="qq">Τι σημαίνει το permission <code>755</code> σε ένα αρχείο;</div>
+          <div class="qa">Owner: 7 (rwx), Group: 5 (r-x), Others: 5 (r-x). Ο ιδιοκτήτης κάνει τα πάντα, οι υπόλοιποι
+            μόνο ανάγνωση και εκτέλεση.</div>
+        </div>
+        <div class="qitem">
+          <div class="qq">Πώς εκτελούμε ένα πρόγραμμα <code>myprog</code> στον τρέχοντα κατάλογο και γιατί χρειάζεται το
+            <code>./</code>;
+          </div>
+          <div class="qa">Με <code>./myprog</code>. Το <code>./</code> είναι απαραίτητο γιατί ο τρέχων κατάλογος (.) δεν
+            περιλαμβάνεται στο PATH για λόγους ασφαλείας.</div>
+        </div>
+        <div class="qitem">
+          <div class="qq">Ποια η διαφορά μεταξύ <code>kill</code> (σκέτο) και <code>kill -9</code>;</div>
+          <div class="qa">Η <code>kill</code> στέλνει SIGTERM (αίτημα τερματισμού που μπορεί να αγνοηθεί), ενώ η
+            <code>kill -9</code> στέλνει SIGKILL (βίαιος τερματισμός από τον kernel που δεν αγνοείται).
+          </div>
+        </div>
+        <div class="qitem">
+          <div class="qq">Πώς ταξινομούμε ένα αρχείο με αριθμούς έτσι ώστε το "10" να έρχεται μετά το "2";</div>
+          <div class="qa">Χρησιμοποιούμε <code>sort -n</code>. Χωρίς το <code>-n</code> η ταξινόμηση είναι αλφαβητική
+            και το "10" θα έμπαινε πριν το "2".</div>
+        </div>
+        <div class="qitem">
+          <div class="qq">Σε ποιο section του manual βρίσκονται οι κλήσεις συστήματος (system calls) όπως η
+            <code>open</code>;
+          </div>
+          <div class="qa">Στο <strong>Section 2</strong>. Το Section 1 είναι για εντολές shell και το Section 3 για
+            βιβλιοθήκες της C.</div>
+        </div>
+        <div class="qitem">
+          <div class="qq">Τι κάνει η εντολή <code>mkdir -p a/b/c</code>;</div>
+          <div class="qa">Δημιουργεί τον κατάλογο <code>c</code>, καθώς και όλους τους ενδιάμεσους γονικούς καταλόγους
+            (<code>a</code>, <code>b</code>) αν αυτοί δεν υπάρχουν ήδη.</div>
+        </div>
+        <div class="qitem">
+          <div class="qq">Τι σημαίνει το σύμβολο <code>~</code> (tilde);</div>
+          <div class="qa">Αντιπροσωπεύει το <strong>Home Directory</strong> του τρέχοντος χρήστη (π.χ.
+            <code>/home/alice</code>).
+          </div>
+        </div>
+        <div class="qitem">
+          <div class="qq">Πώς στέλνουμε και το stdout και το stderr στο ίδιο αρχείο <code>all.log</code>;</div>
+          <div class="qa">Με την ανακατεύθυνση <code>command &gt; all.log 2&gt;&amp;1</code>. Το
+            <code>2&gt;&amp;1</code> λέει στο stderr (2) να πάει εκεί που πάει το stdout (1).
+          </div>
+        </div>
+        <div class="qitem">
+          <div class="qq">Τι είναι το <code>/dev/null</code>;</div>
+          <div class="qa">Είναι μια ειδική "συσκευή" (bit bucket). Οτιδήποτε γράφεται εκεί απορρίπτεται αμέσως από το
+            σύστημα. Χρησιμοποιείται για να "φιμώνουμε" την έξοδο εντολών.</div>
+        </div>
+        <div class="qitem">
+          <div class="qq">Πώς βρίσκουμε όλα τα αρχεία <code>.c</code> και τα μετράμε;</div>
+          <div class="qa">Συνδυάζοντας εντολές με pipe: <code>find . -name "*.c" | wc -l</code> ή πιο απλά
+            <code>ls *.c | wc -l</code>.
+          </div>
+        </div>
+        <div class="qitem">
+          <div class="qq">Πώς παρακολουθούμε τις τελευταίες γραμμές ενός log αρχείου σε πραγματικό χρόνο;</div>
+          <div class="qa">Χρησιμοποιούμε <code>tail -f log.txt</code>. Το flag <code>-f</code> (follow) περιμένει και
+            τυπώνει νέες γραμμές καθώς προστίθενται.</div>
+        </div>
+      </div>
+    </section>
+
+  </div>
+  <div class="footer">K24 · Προγραμματισμός Συστήματος · ΕΚΠΑ · Topic 1: Basic Unix Commands</div>
+</body>
+
+</html>
