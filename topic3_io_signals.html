@@ -99,7 +99,7 @@
   <div class="grid2">
     <div>
       <div class="cb">
-<span class="cm">// Signatures</span>
+// Signatures
 <span class="tp">int</span> <span class="fn">open</span>(<span class="kw">const</span> <span class="tp">char</span> *path, <span class="tp">int</span> flags);
 <span class="tp">int</span> <span class="fn">open</span>(<span class="kw">const</span> <span class="tp">char</span> *path, <span class="tp">int</span> flags, <span class="tp">mode_t</span> mode);
 <span class="cm">// επιστρέφει: fd ≥ 0 (επιτυχία) ή -1 (αποτυχία)</span>
@@ -170,45 +170,74 @@ fd = <span class="fn">open</span>(<span class="st">"fifo"</span>,   <span class=
     </section>
 
 <section id="dup">
-  <div class="sh"><div class="sh-icon" style="background:var(--odim)">🔁</div><h2>dup() και dup2() — Ανακατεύθυνση FD</h2></div>
-  <p style="color:var(--muted);margin-bottom:14px"><code>dup2()</code> είναι από τις πιο εξεταζόμενες system calls. Κάνει τον ένα FD να δείχνει <em>ακριβώς εκεί που δείχνει</em> ο άλλος.</p>
+  <div class="sh"><div class="sh-icon" style="background:var(--odim)">🔁</div><h2>dup() και dup2() — Η Τέχνη της Ανακατεύθυνσης</h2></div>
+  <p style="color:var(--muted);margin-bottom:14px">Οι συναρτήσεις <code>dup</code> επιτρέπουν την "κλωνοποίηση" ενός File Descriptor. Σκέψου τον FD table σαν έναν πίνακα από <strong>βέλη</strong> που δείχνουν σε αρχεία. Η <code>dup2</code> αλλάζει το πού δείχνει ένα συγκεκριμένο βέλος.</p>
+  
   <div class="grid2">
     <div>
       <div class="cb">
-<span class="cm">// dup(fd): επιστρέφει νέο fd που δείχνει στο ίδιο</span>
-<span class="cm">// (ελάχιστος διαθέσιμος αριθμός)</span>
+<span class="cm">// dup(oldfd): Κλωνοποιεί τον oldfd στον ΜΙΚΡΟΤΕΡΟ διαθέσιμο αριθμό.</span>
 <span class="tp">int</span> <span class="fn">dup</span>(<span class="tp">int</span> oldfd);
-<span class="cm">// dup2(oldfd, newfd): κάνει newfd = oldfd</span>
-<span class="cm">// κλείνει αυτόματα το newfd αν ήταν ανοιχτό</span>
+
+<span class="cm">// dup2(oldfd, newfd): Η πιο "δυνατή" syscall.</span>
+<span class="cm">// Κάνει τον 'newfd' να δείχνει ΕΚΕΙ ΠΟΥ ΔΕΙΧΝΕΙ ο 'oldfd'.</span>
 <span class="tp">int</span> <span class="fn">dup2</span>(<span class="tp">int</span> oldfd, <span class="tp">int</span> newfd);
-<span class="cm">// παράδειγμα: ανακατεύθυνση stdout σε αρχείο</span>
+      </div>
+
+      <div class="ibox" style="margin-top:14px">
+        <div class="lbl" style="color:var(--blue)">💡 Αποκωδικοποίηση ονομάτων</div>
+        <ul style="list-style:none;padding:0;margin:0;font-size:0.9375rem">
+          <li style="margin-bottom:8px">🔹 <strong>oldfd (Πηγή):</strong> Ο FD που "βλέπει" ήδη το αρχείο/pipe που μας ενδιαφέρει.</li>
+          <li>🔹 <strong>newfd (Στόχος):</strong> Ο FD που θέλουμε να "καταλάβουμε" (π.χ. το 1 για stdout).</li>
+        </ul>
+      </div>
+
+      <div class="cb" style="margin-top:14px">
+<span class="cm">// ΠΑΡΑΔΕΙΓΜΑ: Ανακατεύθυνση του stdout σε αρχείο</span>
 <span class="tp">int</span> fd = <span class="fn">open</span>(<span class="st">"out.txt"</span>, <span class="mc">O_WRONLY</span>|<span class="mc">O_CREAT</span>|<span class="mc">O_TRUNC</span>, 0644);
-<span class="kw">if</span> (fd == -1) { <span class="fn">perror</span>(<span class="st">"open"</span>); <span class="fn">exit</span>(1); }
-<span class="fn">dup2</span>(fd, 1);    <span class="cm">// fd=1 (stdout) → out.txt</span>
-<span class="fn">close</span>(fd);     <span class="cm">// κλείνω το παλιό fd (δεν το χρειάζομαι)</span>
-<span class="fn">printf</span>(<span class="st">"Αυτό πάει στο out.txt!\n"</span>);
+
+<span class="cm">// 1. Κάνουμε το 1 (stdout) να δείχνει στο "out.txt" (εκεί που δείχνει ο fd)</span>
+<span class="fn">dup2</span>(fd, 1); 
+
+<span class="cm">// 2. Κλείνουμε το αρχικό 'fd'. Δεν το χρειαζόμαστε πια, </span>
+<span class="cm">// αφού το '1' δείχνει πλέον στο ίδιο αρχείο.</span>
+<span class="fn">close</span>(fd); 
+
+<span class="fn">printf</span>(<span class="st">"Γεια! Αυτό θα γραφτεί στο out.txt\n"</span>);
       </div>
     </div>
+
     <div>
+      <div class="card" style="background:var(--surf2);margin-bottom:16px">
+        <div class="card-title">Βήμα-Βήμα Ανάλυση</div>
+        <ol style="color:var(--muted);font-size:0.90625rem;padding-left:20px">
+          <li style="margin-bottom:8px"><strong>open():</strong> Ο πυρήνας μας δίνει έναν FD (π.χ. 3) που δείχνει στο αρχείο <code>out.txt</code>.</li>
+          <li style="margin-bottom:8px"><strong>dup2(3, 1):</strong> Λέμε στον πυρήνα: "Πάρε το FD 1 και κάνε το να δείχνει στον ίδιο προορισμό με το FD 3". Αν το 1 ήταν ανοιχτό (που είναι), κλείνει αυτόματα.</li>
+          <li style="margin-bottom:8px"><strong>close(3):</strong> Κλείνουμε το "βοηθητικό" FD 3. Το FD 1 παραμένει να δείχνει στο αρχείο.</li>
+          <li><strong>printf():</strong> Η printf γράφει πάντα στο FD 1. Επειδή το 1 δείχνει πλέον στο αρχείο, η έξοδος ανακατευθύνεται!</li>
+        </ol>
+      </div>
+
       <div style="display:flex;gap:12px;flex-direction:column">
         <div class="dup-before">
-          <div style="color:var(--dim);margin-bottom:10px;letter-spacing:1px">ΠΡΙΝ dup2(fd, 1)</div>
-          <div class="dup-row"><div class="dup-fd fd1" style="background:rgba(80,250,123,.15);color:#50fa7b;border:1px solid rgba(80,250,123,.3)">1</div><span class="dup-arrow">→</span><div class="dup-file">terminal (screen)</div></div>
-          <div class="dup-row"><div class="dup-fd fdx" style="background:rgba(189,147,249,.15);color:#bd93f9;border:1px solid rgba(189,147,249,.3);border-radius:4px;padding:3px 10px;font-weight:700;">fd</div><span class="dup-arrow">→</span><div class="dup-file">out.txt</div></div>
+          <div style="color:var(--dim);margin-bottom:10px;letter-spacing:1px">ΠΡΙΝ ΤΗΝ DUP2</div>
+          <div class="dup-row"><div class="dup-fd fd1" style="background:rgba(80,250,123,.15);color:#50fa7b;border:1px solid rgba(80,250,123,.3)">1 (stdout)</div><span class="dup-arrow">→</span><div class="dup-file">Terminal 📺</div></div>
+          <div class="dup-row"><div class="dup-fd fdx" style="background:rgba(189,147,249,.15);color:#bd93f9;border:1px solid rgba(189,147,249,.3);border-radius:4px;padding:3px 10px;font-weight:700;">fd (3)</div><span class="dup-arrow">→</span><div class="dup-file">out.txt 📄</div></div>
         </div>
-        <div style="text-align:center;color:var(--dim);padding:4px">↓ dup2(fd, 1) · close(fd) ↓</div>
+        <div style="text-align:center;color:var(--dim);padding:4px">↓ dup2(fd, 1) ↓</div>
         <div class="dup-after">
-          <div style="color:var(--dim);margin-bottom:10px;letter-spacing:1px">ΜΕΤΑ — fd=1 δείχνει στο αρχείο</div>
-          <div class="dup-row"><div class="dup-fd fd1" style="background:rgba(80,250,123,.15);color:#50fa7b;border:1px solid rgba(80,250,123,.3)">1</div><span class="dup-arrow">→</span><div class="dup-file" style="border-color:rgba(80,250,123,.4);color:#50fa7b">out.txt ✓</div></div>
-          <div class="dup-row"><div style="border-radius:4px;padding:3px 10px;font-weight:700;background:rgba(255,85,85,.1);color:#ff5555;border:1px solid rgba(255,85,85,.3)">fd</div><span class="dup-arrow">→</span><div class="dup-file" style="color:var(--dim)">closed</div></div>
+          <div style="color:var(--dim);margin-bottom:10px;letter-spacing:1px">ΜΕΤΑ ΤΗΝ DUP2</div>
+          <div class="dup-row"><div class="dup-fd fd1" style="background:rgba(80,250,123,.15);color:#50fa7b;border:1px solid rgba(80,250,123,.3)">1 (stdout)</div><span class="dup-arrow">→</span><div class="dup-file" style="border-color:rgba(80,250,123,.4);color:#50fa7b">out.txt 📄</div></div>
+          <div class="dup-row"><div class="dup-fd fdx" style="background:rgba(189,147,249,.15);color:#bd93f9;border:1px solid rgba(189,147,249,.3);border-radius:4px;padding:3px 10px;font-weight:700;">fd (3)</div><span class="dup-arrow">→</span><div class="dup-file">out.txt 📄</div></div>
         </div>
       </div>
-      <div class="tip"><div class="tip-icon">🧠</div><div><div class="tip-title">Tip — dup2 για pipes</div><div class="tip-text">Κλασική χρήση στα pipes: μετά fork(), child κάνει <code>dup2(pipe[0], 0)</code> για να διαβάζει από pipe μέσω stdin, και <code>dup2(pipe[1], 1)</code> για να γράφει στο pipe μέσω stdout. Μετά close τα αρχικά pipe ends.</div></div></div>
     </div>
   </div>
 
-      <div class="section-quiz" data-topic="topic3" data-section="dup"></div>
-    </section>
+  <div class="tip" style="margin-top:16px"><div class="tip-icon">🧠</div><div><div class="tip-title">Tip για Pipes</div><div class="tip-text">Όταν θέλεις ένα παιδί να διαβάζει από pipe αντί για το πληκτρολόγιο: <code>dup2(p[0], 0)</code>. Το <strong>0 (stdin)</strong> γίνεται ο στόχος και το <strong>p[0] (pipe read)</strong> η πηγή.</div></div></div>
+
+  <div class="section-quiz" data-topic="topic3" data-section="dup"></div>
+</section>
 
 <section id="stat">
   <div class="sh"><div class="sh-icon" style="background:var(--ydim)">📊</div><h2>stat() &amp; opendir/readdir</h2></div>
@@ -334,7 +363,7 @@ dir = <span class="fn">opendir</span>(<span class="st">"."</span>);
 <span class="cm">// critical section: block signals</span>
 <span class="fn">sigprocmask</span>(<span class="mc">SIG_BLOCK</span>, &amp;newmask, &amp;oldmask);
 <span class="cm">/* ... κώδικας που δεν πρέπει να διακοπεί ... */</span>
-<span class="cm">// αποblock: επαναφορά</span>
+// αποblock: επαναφορά
 <span class="fn">sigprocmask</span>(<span class="mc">SIG_SETMASK</span>, &amp;oldmask, <span class="mc">NULL</span>);
       </div>
       <div class="tip"><div class="tip-icon">🧠</div><div><div class="tip-title">Tip — signal() vs sigaction()</div><div class="tip-text"><strong>signal()</strong> = απλό, παλιό API. Η συμπεριφορά μπορεί να διαφέρει μεταξύ Unix. <strong>sigaction()</strong> = το σωστό για production: portable, predictable, περισσότερος έλεγχος. Στις εξετάσεις θα δεις και τα δύο — ξέρε αμφότερα.</div></div></div>
@@ -350,7 +379,3 @@ dir = <span class="fn">opendir</span>(<span class="st">"."</span>);
 <div class="footer">K24 · Προγραμματισμός Συστήματος · ΕΚΠΑ · Topic 3: Low-level I/O, Signals &amp; Error Handling</div>
 </body>
 </html>
-
-
-
-

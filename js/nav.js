@@ -36,8 +36,12 @@ function initNav() {
         linksContainer.appendChild(link);
     });
     
-    navContainer.appendChild(logo);
-    navContainer.appendChild(linksContainer);
+    const navWrapper = document.createElement('div');
+    navWrapper.className = 'nav-wrapper';
+    navWrapper.appendChild(logo);
+    navWrapper.appendChild(linksContainer);
+    
+    navContainer.appendChild(navWrapper);
 }
 
 // Simple search for the index page
