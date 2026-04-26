@@ -147,8 +147,8 @@
   <div class="sh"><div class="sh-icon" style="background:var(--gdim)">🚀</div><h2>exec() family — Εκτέλεση Νέου Προγράμματος</h2></div>
 
   <p style="color:var(--muted);margin-bottom:14px">
-    Η <code>exec()</code> <strong style="color:var(--txt)">αντικαθιστά</strong> την τρέχουσα διεργασία με ένα νέο πρόγραμμα.
-    Ο κώδικας μετά την exec() <em>δεν εκτελείται ποτέ</em> αν πετύχει. Το PID παραμένει το ίδιο.
+    Η <code>exec()</code> <strong style="color:var(--txt)">αντικαθιστά</strong> την τρέχουσα διεργασία με ένα νέο πρόγραμμα — σαν "μεταμόρφωση": το PID παραμένει ίδιο, αλλά ο κώδικας, τα δεδομένα, το stack αντικαθίστανται πλήρως.
+    Ο κώδικας μετά την exec() <em>δεν εκτελείται ποτέ</em> αν πετύχει. Τυπικά πρώτα κάνουμε <code>fork()</code> και μετά στο child <code>exec()</code> — έτσι ξεκινάμε νέα προγράμματα χωρίς να σκοτώσουμε τον parent.
   </p>
 
   <table class="etbl" style="margin-bottom:14px">
@@ -300,6 +300,11 @@ dead_pid = <span class="fn">waitpid</span>(-<span class="nm">1</span>, &amp;stat
 <!-- ZOMBIE / ORPHAN -->
 <section id="zombie">
   <div class="sh"><div class="sh-icon" style="background:var(--rdim)">💀</div><h2>Zombie &amp; Orphan Processes</h2></div>
+
+  <p style="color:var(--muted);margin-bottom:16px">
+    Δύο ειδικές καταστάσεις προκύπτουν από λάθος διαχείριση του κύκλου ζωής μιας διεργασίας.
+    Ο <strong style="color:var(--red)">Zombie</strong>: το παιδί τελείωσε αλλά κανείς δεν "διάβασε" την κατάστασή του. Ο <strong style="color:var(--yellow)">Orphan</strong>: ο γονέας τελείωσε πριν το παιδί. Τα δύο αυτά σενάρια έχουν εντελώς διαφορετικές συνέπειες.
+  </p>
 
   <div class="grid2">
     <div>

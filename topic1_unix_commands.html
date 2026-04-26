@@ -139,6 +139,9 @@
         <div class="sh-icon" style="background:var(--gdim)">📁</div>
         <h2>Σύστημα Αρχείων (Filesystem)</h2>
       </div>
+      <p style="color:var(--muted);margin-bottom:14px">
+        Το Unix οργανώνει όλα τα αρχεία σε ένα <strong style="color:var(--txt)">ενιαίο δέντρο</strong> που ξεκινά από τη ρίζα <code>/</code>. Δεν υπάρχουν γράμματα δίσκων (C:, D:) — ό,τι συνδέεις (δίσκοι, USB, δίκτυο) "κολλάει" κάπου στο δέντρο ως υποκατάλογος.
+      </p>
       <div class="grid2">
         <div>
           <div class="tree">
@@ -203,6 +206,10 @@
         <div class="sh-icon" style="background:rgba(57,212,200,.1)">⌨️</div>
         <h2>Εντολές Πλοήγησης &amp; Αρχείων</h2>
       </div>
+
+      <p style="color:var(--muted);margin-bottom:14px">
+        Οι βασικότερες εντολές για να κινηθείς στο filesystem: να δεις που βρίσκεσαι, να μετακινηθείς, να δημιουργήσεις ή να διαγράψεις αρχεία και καταλόγους.
+      </p>
 
       <div class="cmd-entry">
         <div class="cmd-head"><span class="cmd-name">pwd</span><span class="cmd-full">Print Working Directory</span>
@@ -351,6 +358,10 @@
         <div class="sh-icon" style="background:var(--ydim)">🔍</div>
         <h2>Εντολές Επεξεργασίας Κειμένου</h2>
       </div>
+
+      <p style="color:var(--muted);margin-bottom:14px">
+        Η Unix φιλοσοφία: <em>"κάθε εντολή κάνει ένα πράγμα καλά"</em>. Αυτές οι εντολές επεξεργάζονται κείμενο — ψάχνουν patterns, μετρούν, ταξινομούν — και συνδυάζονται μεταξύ τους με pipes για να λύσουν σύνθετα προβλήματα.
+      </p>
 
       <div class="cmd-entry">
         <div class="cmd-head"><span class="cmd-name">cat</span><span class="cmd-full">conCATenate</span></div>
@@ -644,6 +655,9 @@
         <div class="sh-icon" style="background:var(--gdim)">⚡</div>
         <h2>Διαχείριση Διεργασιών</h2>
       </div>
+      <p style="color:var(--muted);margin-bottom:14px">
+        Κάθε πρόγραμμα που τρέχει είναι μια <strong style="color:var(--txt)">διεργασία</strong> με μοναδικό αριθμό ταυτοποίησης (PID). Μπορείς να δεις ποιες τρέχουν, να τις τερματίσεις ή να τις στείλεις να τρέχουν στο background χωρίς να μπλοκάρεις το terminal.
+      </p>
       <div class="grid2">
         <div>
           <div class="cmd-entry">
@@ -706,6 +720,9 @@
         <div class="sh-icon" style="background:var(--pdim)">🌍</div>
         <h2>Μεταβλητές Περιβάλλοντος</h2>
       </div>
+      <p style="color:var(--muted);margin-bottom:14px">
+        Το shell διατηρεί ένα σύνολο <strong style="color:var(--txt)">μεταβλητών περιβάλλοντος</strong> που παρέχουν πληροφορίες για το σύστημα. Κάθε νέα διεργασία τις κληρονομεί από τον γονέα της. Η πιο σημαντική: <code>PATH</code> — λέει στο shell πού να ψάξει για εκτελέσιμα αρχεία.
+      </p>
       <div class="grid2">
         <div>
           <div class="cb">

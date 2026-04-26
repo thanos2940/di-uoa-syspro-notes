@@ -143,6 +143,9 @@
         <div class="sh-icon" style="background:var(--gdim)">📜</div>
         <h2>Ανατομία Bash Script</h2>
       </div>
+      <p style="color:var(--muted);margin-bottom:14px">
+        Ένα Bash script είναι ένα <strong style="color:var(--txt)">αρχείο κειμένου</strong> που περιέχει εντολές shell, τρέχει από πάνω προς τα κάτω. Αντί να πληκτρολογείς κάθε εντολή χειροκίνητα, τις "αποθηκεύεις" — αυτή είναι η βάση του automation.
+      </p>
       <div class="grid2">
         <div>
           <div class="cb">
@@ -202,6 +205,9 @@
         <div class="sh-icon" style="background:rgba(34,211,238,.1)">📦</div>
         <h2>Μεταβλητές</h2>
       </div>
+      <p style="color:var(--muted);margin-bottom:14px">
+        Οι μεταβλητές αποθηκεύουν τιμές για να τις χρησιμοποιήσουμε αργότερα. Στο Bash δεν δηλώνεις τύπο — όλα αντιμετωπίζονται ως κείμενο. Δύο <strong style="color:var(--txt)">κρίσιμοι κανόνες</strong>: κανένα κενό γύρω από το <code>=</code> κατά τον ορισμό, και <code>$</code> μπροστά κατά τη χρήση.
+      </p>
       <div class="grid2">
         <div>
           <div class="cb">
@@ -258,6 +264,10 @@
         <div class="sh-icon" style="background:var(--pdim)">⭐</div>
         <h2>Special Variables — Οι πιο σημαντικές</h2>
       </div>
+      <p style="color:var(--muted);margin-bottom:14px">
+        Το Bash ορίζει αυτόματα ορισμένες "μαγικές" μεταβλητές που ενημερώνονται από το σύστημα κάθε φορά που εκτελείται μια εντολή.
+        Μας επιτρέπουν να ξέρουμε: πόσα ορίσματα δόθηκαν, πώς πήγε η τελευταία εντολή, ποιο είναι το PID του script, κ.ά.
+      </p>
       <table class="vtbl" style="margin-bottom:14px">
         <tr>
           <th>Variable</th>
@@ -333,6 +343,10 @@
         <div class="sh-icon" style="background:var(--odim)">🎯</div>
         <h2>Arguments &amp; Input</h2>
       </div>
+      <p style="color:var(--muted);margin-bottom:14px">
+        Τα arguments είναι τιμές που δίνουμε στο script κατά την εκτέλεση: <code>./script.sh arg1 arg2</code>.
+        Εναλλακτικά, μπορούμε να ζητάμε δεδομένα <em>διαδραστικά</em> κατά τη διάρκεια της εκτέλεσης με την εντολή <code>read</code>.
+      </p>
       <div class="grid2">
         <div>
           <div class="cb">
@@ -386,6 +400,10 @@
         <div class="sh-icon" style="background:var(--ydim)">🔀</div>
         <h2>Συνθήκες — if / case</h2>
       </div>
+      <p style="color:var(--muted);margin-bottom:14px">
+        Οι συνθήκες επιτρέπουν στο script να παίρνει αποφάσεις. Η σύνταξη στο Bash είναι <strong style="color:var(--txt)">αυστηρή</strong>:
+        κάθε κενό γύρω από τις αγκύλες <code>[ ]</code> είναι υποχρεωτικό, γιατί το <code>[</code> είναι στην πραγματικότητα μια εντολή!
+      </p>
       <div class="grid2">
         <div>
           <div class="cb">
@@ -553,6 +571,10 @@
         <div class="sh-icon" style="background:var(--ydim)">🔢</div>
         <h2>Αριθμητικές Πράξεις</h2>
       </div>
+      <p style="color:var(--muted);margin-bottom:14px">
+        Παρόλο που το Bash είναι κυρίως εργαλείο κειμένου, υποστηρίζει βασικά μαθηματικά.
+        <strong style="color:var(--red)">Προσοχή:</strong> δουλεύει μόνο με <strong>ακέραιους</strong>. Για δεκαδικούς χρειάζεσαι εξωτερικό εργαλείο όπως <code>bc</code> ή <code>awk</code>.
+      </p>
       <div class="grid2">
         <div>
           <div class="cb">

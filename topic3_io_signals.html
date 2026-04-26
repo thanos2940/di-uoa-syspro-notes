@@ -72,7 +72,7 @@
 
 <section id="fd">
   <div class="sh"><div class="sh-icon" style="background:rgba(139,233,253,.1)">📋</div><h2>File Descriptors — Ο Πίνακας FD</h2></div>
-  <p style="color:var(--muted);margin-bottom:14px">Κάθε διεργασία έχει έναν <strong style="color:var(--txt)">πίνακα file descriptors</strong>. Κάθε FD είναι ένας μικρός ακέραιος που "δείχνει" σε ένα αρχείο/pipe/socket. Τα πρώτα 3 είναι πάντα ορισμένα:</p>
+  <p style="color:var(--muted);margin-bottom:14px">Φαντάσου ότι κάθε διεργασία κρατά ένα "τηλεφωνικό κατάλογο" ανοιχτών πόρων: αυτό είναι ο <strong style="color:var(--txt)">πίνακας File Descriptors (FD)</strong>. Κάθε εγγραφή έχει ένα νούμερο (0, 1, 2...) και δείχνει σε ένα αρχείο, pipe ή socket. Αντί για το όνομα, χρησιμοποιούμε πάντα αυτόν τον αριθμό. Τα πρώτα 3 υπάρχουν ήδη από τη στιγμή που ξεκινά η διεργασία:</p>
   <div class="grid2">
     <div>
       <div class="fdtable">
@@ -97,9 +97,8 @@
 <section id="open">
   <div class="sh"><div class="sh-icon" style="background:var(--gdim)">📂</div><h2>open() — Άνοιγμα Αρχείου</h2></div>
   <p style="color:var(--muted);margin-bottom:14px">
-    Η <code>open()</code> είναι η "πύλη" για την πρόσβαση σε αρχεία. 
-    Σε αντίθεση με την <code>fopen()</code> της C, εδώ δουλεύουμε σε χαμηλό επίπεδο: ο πυρήνας μας δίνει έναν ακέραιο (File Descriptor) 
-    τον οποίο χρησιμοποιούμε για όλες τις επόμενες πράξεις στο αρχείο.
+    Η <code>open()</code> είναι η "πύλη" για την πρόσβαση σε αρχεία — το low-level αντίστοιχο της <code>fopen()</code>. Αντί για pointer επιστρέφει έναν <strong style="color:var(--txt)">File Descriptor</strong> (αριθμό) που χρησιμοποιούμε σε όλες τις επόμενες πράξεις.
+    Πρέπει να ορίσουμε <em>γιατί</em> ανοίγουμε το αρχείο μέσω των <strong>flags</strong>: για ανάγνωση; για γράψιμο; να δημιουργηθεί αν δεν υπάρχει; να αδειάσει αν υπάρχει;
   </p>
   <div class="grid2">
     <div>
@@ -137,9 +136,7 @@ fd = <span class="fn">open</span>(<span class="st">"fifo"</span>,   <span class=
 <section id="rw">
   <div class="sh"><div class="sh-icon" style="background:rgba(80,250,123,.1)">💾</div><h2>read(), write(), lseek(), close()</h2></div>
   <p style="color:var(--muted);margin-bottom:14px">
-    Αυτές είναι οι βασικές πράξεις μεταφοράς δεδομένων. Δεν υπάρχουν "γραμμές" ή "μορφές" εδώ — 
-    διαβάζουμε και γράφουμε <strong style="color:var(--txt)">ωμά bytes</strong> από και προς τη μνήμη. 
-    Η <code>lseek()</code> μας επιτρέπει να μετακινηθούμε σε οποιοδήποτε σημείο του αρχείου "πηδώντας" πάνω από τα bytes.
+    Αφού ανοίξουμε ένα αρχείο, χρησιμοποιούμε αυτές τις συναρτήσεις για να μεταφέρουμε δεδομένα. Λειτουργούν με <strong style="color:var(--txt)">ωμά bytes</strong> — δεν υπάρχει "γραμμή" ή "τύπος": διαβάζεις/γράφεις N bytes. Ο δείκτης θέσης (file offset) προχωράει αυτόματα μετά από κάθε κλήση. Η <code>lseek()</code> σου επιτρέπει να τον τοποθετήσεις οπουδήποτε στο αρχείο (αρχή, τέλος, ή ενδιάμεση θέση).
   </p>
   <div class="grid2">
     <div>
@@ -251,6 +248,11 @@ fd = <span class="fn">open</span>(<span class="st">"fifo"</span>,   <span class=
 
 <section id="stat">
   <div class="sh"><div class="sh-icon" style="background:var(--ydim)">📊</div><h2>stat() &amp; opendir/readdir</h2></div>
+  <p style="color:var(--muted);margin-bottom:14px">
+    Μερικές φορές χρειάζεσαι πληροφορίες <em>για</em> ένα αρχείο χωρίς να το ανοίξεις για ανάγνωση.
+    Η <code>stat()</code> επιστρέφει τα <strong style="color:var(--txt)">metadata</strong>: μέγεθος, δικαιώματα, τύπο (αρχείο/κατάλογος/symlink), χρόνους δημιουργίας/τροποποίησης — ό,τι βλέπεις με <code>ls -l</code>.
+    Αντίστοιχα, <code>opendir()</code> / <code>readdir()</code> σου επιτρέπουν να διατρέξεις τα περιεχόμενα ενός καταλόγου — αυτό κάνει εσωτερικά η <code>ls</code>.
+  </p>
   <div class="grid2">
     <div>
       <div class="cb">
