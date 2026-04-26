@@ -31,10 +31,21 @@
 
             questions.forEach((qObj, index) => {
                 const qId = `q-${topicId}-${sectionId}-${index}`;
+                
+                let answerText = "Λείπει η απάντηση";
+                if (qObj.options) {
+                    const correctOpt = qObj.options.find(o => o.correct);
+                    if (correctOpt) {
+                        answerText = correctOpt.text;
+                    }
+                } else if (qObj.a) {
+                    answerText = qObj.a;
+                }
+
                 html += `
                     <div class="qitem">
                         <div class="qq">${qObj.q}</div>
-                        <div class="qa" id="${qId}" style="display: none;">${qObj.a}</div>
+                        <div class="qa" id="${qId}" style="display: none;">${answerText}</div>
                         <button class="qa-toggle" onclick="toggleAnswer('${qId}', this)">Δες απάντηση</button>
                     </div>
                 `;

@@ -96,6 +96,11 @@
 
 <section id="open">
   <div class="sh"><div class="sh-icon" style="background:var(--gdim)">📂</div><h2>open() — Άνοιγμα Αρχείου</h2></div>
+  <p style="color:var(--muted);margin-bottom:14px">
+    Η <code>open()</code> είναι η "πύλη" για την πρόσβαση σε αρχεία. 
+    Σε αντίθεση με την <code>fopen()</code> της C, εδώ δουλεύουμε σε χαμηλό επίπεδο: ο πυρήνας μας δίνει έναν ακέραιο (File Descriptor) 
+    τον οποίο χρησιμοποιούμε για όλες τις επόμενες πράξεις στο αρχείο.
+  </p>
   <div class="grid2">
     <div>
       <div class="cb">
@@ -131,6 +136,11 @@ fd = <span class="fn">open</span>(<span class="st">"fifo"</span>,   <span class=
 
 <section id="rw">
   <div class="sh"><div class="sh-icon" style="background:rgba(80,250,123,.1)">💾</div><h2>read(), write(), lseek(), close()</h2></div>
+  <p style="color:var(--muted);margin-bottom:14px">
+    Αυτές είναι οι βασικές πράξεις μεταφοράς δεδομένων. Δεν υπάρχουν "γραμμές" ή "μορφές" εδώ — 
+    διαβάζουμε και γράφουμε <strong style="color:var(--txt)">ωμά bytes</strong> από και προς τη μνήμη. 
+    Η <code>lseek()</code> μας επιτρέπει να μετακινηθούμε σε οποιοδήποτε σημείο του αρχείου "πηδώντας" πάνω από τα bytes.
+  </p>
   <div class="grid2">
     <div>
       <div class="cb">
@@ -287,6 +297,10 @@ dir = <span class="fn">opendir</span>(<span class="st">"."</span>);
 
 <section id="signals">
   <div class="sh"><div class="sh-icon" style="background:var(--rdim)">📡</div><h2>Signals — Ασύγχρονα Events</h2></div>
+  <p style="color:var(--muted);margin-bottom:14px">
+    Τα signals είναι <strong style="color:var(--txt)">ασύγχρονες ειδοποιήσεις</strong> — φαντάσου τα σαν "λογισμικές διακοπές" (software interrupts). 
+    Μπορούν να φτάσουν στη διεργασία οποιαδήποτε στιγμή και να διακόψουν την κανονική ροή της για να την αναγκάσουν να αντιδράσει σε ένα γεγονός (π.χ. Ctrl+C).
+  </p>
   <p style="color:var(--muted);margin-bottom:14px">Τα signals είναι <strong style="color:var(--txt)">asynchronous notifications</strong> — μπορούν να φτάσουν οποιαδήποτε στιγμή, διακόπτοντας την εκτέλεση. Σαν interrupt από software.</p>
   <table class="stbl" style="margin-bottom:14px">
     <tr><th>Signal</th><th>Αρ.</th><th>Default</th><th>Περιγραφή</th><th>Catchable;</th></tr>

@@ -76,7 +76,7 @@
   <nav class="toc">
     <a href="#arch">Αρχιτεκτονική</a><a href="#fs">Filesystem</a><a href="#nav">Πλοήγηση</a>
     <a href="#text">Κείμενο</a><a href="#perm">Permissions</a><a href="#redirect">Redirections</a>
-    <a href="#proc">Διεργασίες</a><a href="#env">Environment</a>
+    <a href="#proc">Διεργασίες</a><a href="#env">Environment</a><a href="#links">Σύνδεσμοι</a>
   </nav>
   <div class="wrap">
 
@@ -467,7 +467,12 @@
     <section id="perm">
       <div class="sh">
         <div class="sh-icon" style="background:var(--rdim)">🔐</div>
-        <h2>Δικαιώματα (Permissions)</h2>
+        <h2>Δικαιώματα (Permissions)</h2></div>
+      <p style="color:var(--muted);margin-bottom:12px">
+        Σε ένα σύστημα πολλών χρηστών (multi-user) όπως το Unix, η ασφάλεια είναι πρωταρχική. 
+        Τα δικαιώματα ορίζουν <strong style="color:var(--txt)">ποιος</strong> μπορεί να κάνει <strong style="color:var(--txt)">τι</strong> σε κάθε αρχείο, 
+        εμποδίζοντας τυχαίες ή κακόβουλες αλλαγές σε ευαίσθητα δεδομένα.
+      </p>
       </div>
       <div class="grid2">
         <div>
@@ -543,6 +548,13 @@
             <div class="lbl" style="color:var(--green)">✅ Συνηθισμένα</div><code>755</code> → scripts/dirs ·
             <code>644</code> → κανονικά αρχεία · <code>600</code> → private (SSH keys) · <code>777</code> → ποτέ σε
             production
+          </div>
+          <div class="tip" style="margin-top:10px">
+            <div class="tip-icon">🧠</div>
+            <div>
+              <div class="tip-title">Tip — Δικαιώματα Καταλόγων</div>
+              <div class="tip-text">Το <strong>x (εκτέλεση)</strong> σε κατάλογο σημαίνει <strong>διέλευση (traverse)</strong> (π.χ. cd). Για να <strong>διαγράψεις</strong> ένα αρχείο, ΔΕΝ σε νοιάζουν τα δικαιώματα του ίδιου του αρχείου, αρκεί να έχεις <strong>w και x στον κατάλογο</strong> που το περιέχει!</div>
+            </div>
           </div>
         </div>
       </div>
@@ -729,6 +741,53 @@
         </div>
       </div>
       <div class="section-quiz" data-topic="topic1" data-section="env"></div>
+    </section>
+
+    <section id="links">
+      <div class="sh">
+        <div class="sh-icon" style="background:var(--cdim)">🔗</div>
+        <h2>Hard &amp; Soft Links</h2></div>
+      <p style="color:var(--muted);margin-bottom:14px">
+        Στο Unix, το όνομα ενός αρχείου είναι απλά μια "ταμπέλα" που δείχνει στα δεδομένα του στο δίσκο. 
+        Αυτό μας επιτρέπει να έχουμε <strong style="color:var(--txt)">πολλά ονόματα</strong> για το ίδιο αρχείο (Links), 
+        είτε ως άμεσες αναφορές στα δεδομένα (Hard) είτε ως "συντομεύσεις" προς ένα μονοπάτι (Soft).
+      </p>
+      </div>
+      <div class="grid2">
+        <div>
+          <p style="color:var(--muted);margin-bottom:14px">Στο Unix, το όνομα του αρχείου και τα δεδομένα του στο δίσκο είναι διαφορετικά πράγματα. Το inode δείχνει στα δεδομένα, ενώ τα Links είναι τα ονόματα.</p>
+          <div class="cmd-entry">
+            <div class="cmd-head"><span class="cmd-name">ln</span><span class="cmd-full">Hard Link</span></div>
+            <div class="cmd-desc">Δημιουργεί νέο όνομα (hard link) για το ίδιο αρχείο.</div>
+            <div class="cb"><span class="c">ln</span> <span class="a">target.txt link.txt</span></div>
+            <ul style="color:var(--muted);margin-top:10px;padding-left:20px;font-size:0.95rem">
+              <li>Μοιράζονται το <strong>ίδιο inode</strong>.</li>
+              <li>Δεν γίνονται σε καταλόγους.</li>
+              <li>Αν διαγράψεις το target.txt, τα δεδομένα <strong>δεν χάνονται</strong> όσο υπάρχει το link.txt!</li>
+            </ul>
+          </div>
+        </div>
+        <div>
+          <div class="cmd-entry">
+            <div class="cmd-head"><span class="cmd-name">ln -s</span><span class="cmd-full">Soft / Symbolic Link</span></div>
+            <div class="cmd-desc">Δημιουργεί "συντόμευση" στο μονοπάτι του αρχείου.</div>
+            <div class="cb"><span class="c">ln</span> <span class="f">-s</span> <span class="a">target.txt softlink.txt</span></div>
+            <ul style="color:var(--muted);margin-top:10px;padding-left:20px;font-size:0.95rem">
+              <li>Είναι απλά ένας <strong>δείκτης στο path</strong> του αρχείου.</li>
+              <li>Μπορούν να γίνουν και σε καταλόγους.</li>
+              <li>Αν διαγράψεις/μετακινήσεις το target.txt, το link <strong>σπάει (dangling link)</strong>!</li>
+            </ul>
+          </div>
+          <div class="tip">
+            <div class="tip-icon">🧠</div>
+            <div>
+              <div class="tip-title">Tip — Hard vs Soft</div>
+              <div class="tip-text"><strong>Hard</strong> = 2 διαφορετικές πόρτες για το ίδιο δωμάτιο. Αν κλείσεις τη μία, μπαίνεις απ' την άλλη.<br><strong>Soft</strong> = ταμπελάκι με οδηγίες για το πού είναι το δωμάτιο. Αν μετακομίσει το δωμάτιο, το ταμπελάκι δείχνει στο κενό!</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="section-quiz" data-topic="topic1" data-section="links"></div>
     </section>
 
   <div class="footer">K24 · Προγραμματισμός Συστήματος · ΕΚΠΑ · Topic 1: Basic Unix Commands</div>

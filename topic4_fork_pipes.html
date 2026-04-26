@@ -233,6 +233,12 @@
 <section id="wait">
   <div class="sh"><div class="sh-icon" style="background:var(--bdim)">⏳</div><h2>wait() και waitpid() — Συλλογή Exit Status</h2></div>
 
+  <p style="color:var(--muted);margin-bottom:16px">
+    Όταν ένας πατέρας δημιουργεί μια νέα διεργασία (child), πρέπει να φροντίσει για τον τερματισμό της. 
+    Η <code>wait()</code> επιτρέπει στον parent να <strong style="color:var(--txt)">συγχρονιστεί</strong> με το παιδί του: σταματά την εκτέλεση μέχρι το παιδί να τελειώσει, 
+    μαθαίνει αν η εργασία πέτυχε (exit status) και ελευθερώνει την εγγραφή του παιδιού από τον πίνακα διεργασιών (προλαμβάνοντας τα <em>zombies</em>).
+  </p>
+
   <div class="grid2">
     <div>
       <div class="cb">
@@ -358,9 +364,9 @@ dead_pid = <span class="fn">waitpid</span>(-<span class="nm">1</span>, &amp;stat
   <div class="sh"><div class="sh-icon" style="background:var(--gdim)">🔧</div><h2>Anonymous Pipes — pipe()</h2></div>
 
   <p style="color:var(--muted);margin-bottom:14px">
-    Ένα pipe είναι ένα <strong style="color:var(--txt)">μονής κατεύθυνσης κανάλι</strong> επικοινωνίας στη μνήμη.
-    Χρησιμοποιείται μεταξύ parent-child (ή γενικά διεργασιών με κοινό πρόγονο).
-    Δύο FD: <code>p[0]</code> για ανάγνωση, <code>p[1]</code> για εγγραφή.
+    Ένα pipe είναι ένα <strong style="color:var(--txt)">μονής κατεύθυνσης κανάλι</strong> επικοινωνίας στη μνήμη. 
+    Φαντάσου το σαν ένα σωλήνα όπου η μία διεργασία ρίχνει δεδομένα από τη μια άκρη και η άλλη τα μαζεύει από την άλλη. 
+    Είναι ο βασικός τρόπος για να "μιλήσουν" μεταξύ τους διεργασίες που έχουν κοινή καταγωγή (π.χ. parent-child).
   </p>
 
   <div class="grid2">
@@ -432,9 +438,9 @@ dead_pid = <span class="fn">waitpid</span>(-<span class="nm">1</span>, &amp;stat
   <div class="sh"><div class="sh-icon" style="background:var(--pdim)">📡</div><h2>Named Pipes (FIFOs) — mkfifo()</h2></div>
 
   <p style="color:var(--muted);margin-bottom:14px">
-    Τα FIFOs είναι pipes αλλά με <strong style="color:var(--txt)">όνομα στο filesystem</strong>.
-    Μπορούν να χρησιμοποιηθούν από <em>άσχετες</em> διεργασίες χωρίς κοινό πρόγονο.
-    Τα δεδομένα δεν αποθηκεύονται στο δίσκο — περνούν μέσα από τον πυρήνα.
+    Τα FIFOs είναι pipes που έχουν <strong style="color:var(--txt)">όνομα στο filesystem</strong>. 
+    Ενώ τα anonymous pipes χάνονται όταν κλείσουν οι διεργασίες, ένα FIFO υπάρχει σαν αρχείο (αν και τα δεδομένα του δεν αποθηκεύονται στο δίσκο). 
+    Αυτό επιτρέπει σε <em>εντελώς άσχετες</em> διεργασίες να επικοινωνήσουν απλά ανοίγοντας το ίδιο όνομα αρχείου.
   </p>
 
   <div class="tip"><div class="tip-icon">🧠</div><div><div class="tip-title">Tip — FIFO = First In First Out</div><div class="tip-text">Το "FIFO" δεν είναι τυχαίο — τα δεδομένα βγαίνουν στην <strong>ίδια σειρά</strong> που μπήκαν. Σαν ουρά αναμονής. Η λέξη "named" = έχει όνομα στο filesystem (αντίθεση με anonymous pipe).</div></div></div>
@@ -487,6 +493,11 @@ fd = <span class="fn">open</span>(<span class="st">"myfifo"</span>, <span class=
 <!-- PATTERNS -->
 <section id="patterns">
   <div class="sh"><div class="sh-icon" style="background:var(--pdim)">🧩</div><h2>Σημαντικά Patterns — Εξετάσεις</h2></div>
+
+  <p style="color:var(--muted);margin-bottom:16px">
+    Εδώ βλέπουμε πώς συνδυάζονται στην πράξη όλες οι παραπάνω έννοιες (fork, exec, pipe, dup2). 
+    Αυτά τα σχήματα αποτελούν τη βάση για τη λειτουργία ενός Shell και είναι από τα πιο συνηθισμένα θέματα στις εξετάσεις.
+  </p>
 
   <div class="grid2">
     <div>
