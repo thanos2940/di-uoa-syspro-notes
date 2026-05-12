@@ -78,9 +78,142 @@
         <div class="sh-icon" style="background:var(--pdim)">🌐</div>
         <h2>Εισαγωγή στα Sockets</h2>
       </div>
-      <p>Content coming soon...</p>
+      
+      <div class="grid2">
+        <div>
+          <p style="color:var(--muted);margin-bottom:14px">Τα Sockets είναι το <strong>de facto standard</strong> για την επικοινωνία διεργασιών μέσω δικτύου. Φανταστείτε τα σαν μια "πόρτα" (door) μέσω της οποίας μια διεργασία στέλνει και λαμβάνει μηνύματα.</p>
+          <div class="cmd-entry">
+            <div class="cmd-head"><span class="cmd-name">Addressing</span><span class="cmd-full">IP & Port</span></div>
+            <div class="cmd-desc">Για να βρεθεί μια διεργασία στο δίκτυο, απαιτείται ο συνδυασμός <strong>IP Address</strong> (ποιο μηχάνημα;) και <strong>Port Number</strong> (ποια διεργασία;).</div>
+            <ul style="color:var(--muted);margin-top:10px;padding-left:20px;font-size:0.95rem">
+              <li><strong>IP:</strong> 32-bit (IPv4) ή 128-bit (IPv6) αναγνωριστικό host.</li>
+              <li><strong>Port:</strong> 16-bit αριθμός (0-65535).</li>
+              <li>Συνδυασμός (IP, Port) = Μοναδικό Endpoint.</li>
+            </ul>
+          </div>
+        </div>
+        <div>
+          <div class="tip">
+            <div class="tip-icon">📡</div>
+            <div>
+              <div class="tip-title">Client-Server Model</div>
+              <div class="tip-text">
+                <strong>Server:</strong> Πάντα ενεργός, σταθερή IP, περιμένει (listen) για συνδέσεις.<br>
+                <strong>Client:</strong> Ξεκινά την επικοινωνία, συνδέεται στον server, μπορεί να έχει δυναμική IP.
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
       <div class="section-quiz" data-topic="topic5" data-section="intro"></div>
     </section>
+    <section id="types">
+      <div class="sh">
+        <div class="sh-icon" style="background:var(--cdim)">🔌</div>
+        <h2>Τύποι Sockets & Transport Services</h2>
+      </div>
+      <div class="grid2">
+        <div>
+          <p style="color:var(--muted);margin-bottom:14px">Το OS προσφέρει δύο κύριους τύπους transport services μέσω του Socket API:</p>
+          <div class="cmd-entry">
+            <div class="cmd-head"><span class="cmd-name">TCP</span><span class="cmd-full">SOCK_STREAM</span></div>
+            <div class="cmd-desc">Connection-oriented, αξιόπιστη μεταφορά (byte stream), flow & congestion control.</div>
+            <ul style="color:var(--muted);margin-top:10px;padding-left:20px;font-size:0.95rem">
+              <li>HTTP, FTP, SSH, SMTP.</li>
+              <li>Εγγυάται τη σειρά και την παράδοση των δεδομένων.</li>
+            </ul>
+          </div>
+          <div class="cmd-entry">
+            <div class="cmd-head"><span class="cmd-name">UDP</span><span class="cmd-full">SOCK_DGRAM</span></div>
+            <div class="cmd-desc">Unreliable, connectionless, χωρίς εγγυήσεις παράδοσης ή σειράς.</div>
+            <ul style="color:var(--muted);margin-top:10px;padding-left:20px;font-size:0.95rem">
+              <li>Streaming, DNS, VoIP.</li>
+              <li>Χαμηλότερο overhead (latency) - ιδανικό για real-time.</li>
+            </ul>
+          </div>
+        </div>
+        <div>
+          <div class="ritem" style="margin-bottom:14px">
+            <div class="rop">Network Byte Order</div>
+            <div class="rdesc">Επειδή διαφορετικά CPU έχουν διαφορετικό <strong>Endianness</strong> (Little vs Big Endian), στο δίκτυο χρησιμοποιούμε πάντα το <strong>Big Endian</strong>.</div>
+            <div class="cb" style="margin-top:10px"><span class="fn">htons</span>, <span class="fn">htonl</span>, <span class="fn">ntohs</span>, <span class="fn">ntohl</span></div>
+          </div>
+          <div class="tip">
+            <div class="tip-icon">💡</div>
+            <div>
+              <div class="tip-title">Little Endian vs Network Order</div>
+              <div class="tip-text">Ένας x86 (Intel) host είναι little-endian. Πρέπει να μετατρέπουμε τους αριθμούς σε network order πριν τους στείλουμε στο socket!</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="section-quiz" data-topic="topic5" data-section="types"></div>
+    </section>
+
+    <section id="lifecycle">
+      <div class="sh">
+        <div class="sh-icon" style="background:var(--ydim)">🔄</div>
+        <h2>Connection Lifecycle (TCP)</h2>
+      </div>
+      <div class="piperow" style="margin-bottom:20px; flex-direction: column; align-items: flex-start; gap: 10px;">
+        <div style="display:flex; align-items:center; gap:10px;">
+          <span class="pcmd">Server</span> <span class="psep">➔</span> <span class="fn">socket()</span> <span class="psep">➔</span> <span class="fn">bind()</span> <span class="psep">➔</span> <span class="fn">listen()</span> <span class="psep">➔</span> <span class="fn">accept()</span>
+        </div>
+        <div style="display:flex; align-items:center; gap:10px;">
+          <span class="pcmd">Client</span> <span class="psep">➔</span> <span class="fn">socket()</span> <span class="psep">➔</span> <span class="fn">connect()</span>
+        </div>
+        <div style="display:flex; align-items:center; gap:10px;">
+          <span class="psep">➔</span> <span class="fn">read() / write()</span> (Data Exchange) <span class="psep">➔</span> <span class="fn">close()</span>
+        </div>
+      </div>
+      <div class="grid2">
+        <div>
+          <p style="color:var(--muted)">Ο <strong>Server</strong> πρέπει να είναι ήδη σε κατάσταση <em>listening</em> πριν ο client επιχειρήσει να συνδεθεί. Η <span class="fn">accept()</span> μπλοκάρει μέχρι να έρθει μια νέα σύνδεση.</p>
+        </div>
+        <div>
+          <p style="color:var(--muted)">Ο <strong>Client</strong> δημιουργεί ένα δικό του socket και καλεί την <span class="fn">connect()</span>, η οποία ξεκινά το <strong>TCP 3-way handshake</strong>.</p>
+        </div>
+      </div>
+      <div class="section-quiz" data-topic="topic5" data-section="lifecycle"></div>
+    </section>
+
+    <section id="api">
+      <div class="sh">
+        <div class="sh-icon" style="background:var(--gdim)">🛠️</div>
+        <h2>The Socket API</h2>
+      </div>
+      <div class="grid2">
+        <div>
+          <div class="cmd-entry">
+            <div class="cmd-head"><span class="cmd-name">socket()</span></div>
+            <div class="cmd-desc">Δημιουργεί ένα endpoint επικοινωνίας.</div>
+            <div class="cb"><span class="type">int</span> sock = <span class="fn">socket</span>(<span class="mc">AF_INET</span>, <span class="mc">SOCK_STREAM</span>, 0);</div>
+          </div>
+          <div class="cmd-entry">
+            <div class="cmd-head"><span class="cmd-name">bind()</span></div>
+            <div class="cmd-desc">Αναθέτει μια IP και ένα Port στο socket.</div>
+            <div class="cb"><span class="fn">bind</span>(sock, (<span class="type">struct</span> sockaddr *)&server, <span class="fn">sizeof</span>(server));</div>
+          </div>
+        </div>
+        <div>
+          <div class="cmd-entry">
+            <div class="cmd-head"><span class="cmd-name">listen() & accept()</span></div>
+            <div class="cmd-desc">Προετοιμασία για υποδοχή συνδέσεων και αποδοχή τους.</div>
+            <div class="cb"><span class="fn">listen</span>(sock, 5);<br><span class="type">int</span> newsock = <span class="fn">accept</span>(sock, <span class="mc">NULL</span>, <span class="mc">NULL</span>);</div>
+          </div>
+          <div class="tip">
+            <div class="tip-icon">⚠️</div>
+            <div>
+              <div class="tip-title">Zombie Clients</div>
+              <div class="tip-text">Σε concurrent servers, ο parent πρέπει να κάνει <strong>wait()</strong> (συνήθως μέσω SIGCHLD handler) για να μην μένουν "ζόμπι" τα child processes.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="section-quiz" data-topic="topic5" data-section="api"></div>
+    </section>
+
   </div>
 
   <div class="footer">K24 · Προγραμματισμός Συστήματος · ΕΚΠΑ · Topic 5: Sockets & Network IPC</div>
