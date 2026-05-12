@@ -86,7 +86,7 @@
             <div class="cmd-head"><span class="cmd-name">Communication Models</span></div>
             <ul style="color:var(--muted);margin-top:10px;padding-left:20px;font-size:0.95rem">
               <li><strong>Client-Server:</strong> Ο Server είναι πάντα ενεργός (always-on), έχει σταθερή IP και περιμένει (listen). Ο Client ξεκινά την επικοινωνία.</li>
-              <li><strong>Peer-to-Peer (P2P):</strong> Δεν υπάρχει κεντρικός server. Κάθε κόμβος (peer) δρα ταυτόχρονα ως client και ως server (π.χ. Gnutella). Πολύ scalable αλλά δύσκολο στη διαχείριση.</li>
+              <li><strong>Peer-to-Peer (P2P):</strong> Δεν υπάρχει κεντρικός server. Κάθε κόμβος (peer) δρα ταυτόχρονα ως client και ως server (π.χ. Gnutella).</li>
               <li><strong>Hybrid:</strong> Συνδυασμός των δύο (π.χ. Skype για εύρεση χρήστη μέσω κεντρικού server, αλλά direct P2P σύνδεση για την κλήση).</li>
             </ul>
           </div>
@@ -97,15 +97,14 @@
             <div class="cmd-desc">Για την πρόσβαση σε μια υπηρεσία απαιτείται το ζεύγος <strong>(IP, Port)</strong>.</div>
             <ul style="color:var(--muted);margin-top:10px;padding-left:20px;font-size:0.95rem">
               <li><strong>IP Address:</strong> Προσδιορίζει το μηχάνημα στο δίκτυο (IPv4: 32-bit, IPv6: 128-bit).</li>
-              <li><strong>Port Number:</strong> Προσδιορίζει τη συγκεκριμένη διεργασία/υπηρεσία εντός του host.</li>
-              <li><strong>Common Ports:</strong> SSH (22), HTTP (80), DNS (53), SMTP (25).</li>
+              <li><strong>Port Number:</strong> Προσδιορίζει τη συγκεκριμένη διεργασία/υπηρεσία εντός του host (π.χ. HTTP: 80, SSH: 22).</li>
             </ul>
           </div>
           <div class="tip">
             <div class="tip-icon">📡</div>
             <div>
               <div class="tip-title">DNS & NAT</div>
-              <div class="tip-text">Το <strong>DNS</strong> μεταφράζει ονόματα (google.com) σε IPs. Το <strong>NAT</strong> (στο modem σας) επιτρέπει σε πολλές εσωτερικές συσκευές (192.168.x.y) να μοιράζονται μία δημόσια IP.</div>
+              <div class="tip-text">Το <strong>DNS</strong> μεταφράζει ονόματα σε IPs. Το <strong>NAT</strong> επιτρέπει σε πολλές εσωτερικές συσκευές να μοιράζονται μία δημόσια IP.</div>
             </div>
           </div>
         </div>
@@ -125,24 +124,23 @@
             <div class="cmd-head"><span class="cmd-name">TCP (SOCK_STREAM)</span></div>
             <div class="cmd-desc"><strong>Reliable Byte Stream:</strong> Αξιόπιστη, in-order παράδοση δεδομένων (σαν "pipe").</div>
             <ul style="color:var(--muted);margin-top:10px;padding-left:20px;font-size:0.95rem">
-              <li><strong>Connection-oriented:</strong> Απαιτείται εγκατάσταση σύνδεσης.</li>
-              <li><strong>Flow Control:</strong> Ο αποστολέας δεν ξεπερνά τις δυνατότητες του παραλήπτη.</li>
-              <li><strong>Congestion Control:</strong> Μείωση ρυθμού αν το δίκτυο "μπουκώσει".</li>
+              <li><strong>Connection-oriented:</strong> Απαιτείται εγκατάσταση σύνδεσης (handshake).</li>
+              <li><strong>Flow/Congestion Control:</strong> Διαχείριση ταχύτητας για αποφυγή υπερφόρτωσης.</li>
             </ul>
           </div>
         </div>
         <div>
           <div class="cmd-entry">
             <div class="cmd-head"><span class="cmd-name">UDP (SOCK_DGRAM)</span></div>
-            <div class="cmd-desc"><strong>Unreliable Datagrams:</strong> Γρήγορη αποστολή χωρίς εγγυήσεις παράδοσης ή σειράς.</div>
+            <div class="cmd-desc"><strong>Unreliable Datagrams:</strong> Γρήγορη αποστολή χωρίς εγγυήσεις.</div>
             <ul style="color:var(--muted);margin-top:10px;padding-left:20px;font-size:0.95rem">
               <li><strong>Connectionless:</strong> Δεν απαιτείται setup.</li>
-              <li><strong>Elasticity:</strong> Ιδανικό για streaming, VoIP, DNS όπου το latency είναι πιο κρίσιμο από την απώλεια μεμονωμένων πακέτων.</li>
+              <li><strong>Χρήση:</strong> Streaming, VoIP, DNS όπου το latency είναι κρίσιμο.</li>
             </ul>
           </div>
           <div class="ritem">
             <div class="rop">Network Byte Order</div>
-            <div class="rdesc">Τα δίκτυα χρησιμοποιούν <strong>Big Endian</strong>. Οι συναρτήσεις <code>htons()</code>, <code>htonl()</code> κ.λπ. μετατρέπουν από host order (π.χ. Intel little-endian) σε network order.</div>
+            <div class="rdesc">Τα δίκτυα χρησιμοποιούν <strong>Big Endian</strong>. Οι συναρτήσεις <code>htons()</code> κ.λπ. είναι απαραίτητες για μετατροπή από host order.</div>
           </div>
         </div>
       </div>
@@ -166,25 +164,25 @@
         <div>
           <div class="cmd-entry">
             <div class="cmd-head"><span class="cmd-name">Serial Server</span></div>
-            <div class="cmd-desc">Εξυπηρετεί έναν client τη φορά. Άλλοι clients αποτυγχάνουν ή περιμένουν.</div>
-            <div class="cb"><span class="fn">for</span>(;;) { newsock = <span class="fn">accept</span>(lsock); <span class="fn">serve</span>(newsock); <span class="fn">close</span>(newsock); }</div>
+            <div class="cmd-desc">Εξυπηρετεί έναν client τη φορά. Οι άλλοι περιμένουν.</div>
+            <div class="cb"><span class="fn">for</span>(;;) { newsock = <span class="fn">accept</span>(); <span class="fn">serve</span>(); <span class="fn">close</span>(); }</div>
           </div>
           <div class="cmd-entry">
             <div class="cmd-head"><span class="cmd-name">Concurrent (Fork)</span></div>
-            <div class="cmd-desc">Fork ανά σύνδεση. Ο parent δέχεται νέες συνδέσεις, το child εξυπηρετεί.</div>
-            <div class="cb"><span class="fn">newsock</span> = <span class="fn">accept</span>();<br><span class="fn">if</span>(<span class="fn">fork</span>() == 0) { <span class="fn">close</span>(lsock); <span class="fn">serve</span>(newsock); <span class="fn">exit</span>(); }<br><span class="fn">close</span>(newsock);</div>
+            <div class="cmd-desc">Fork ανά σύνδεση. Ο parent δέχεται, το child εξυπηρετεί.</div>
+            <div class="cb"><span class="fn">newsock</span> = <span class="fn">accept</span>();<br><span class="fn">if</span>(<span class="fn">fork</span>() == 0) { <span class="fn">serve</span>(newsock); <span class="fn">exit</span>(); }<br><span class="fn">close</span>(newsock);</div>
           </div>
         </div>
         <div>
           <div class="cmd-entry">
             <div class="cmd-head"><span class="cmd-name">Multiplexing (select)</span></div>
-            <div class="cmd-desc">Ένα process διαχειρίζεται πολλά sockets ταυτόχρονα παρακολουθώντας "events" (read/write ready).</div>
+            <div class="cmd-desc">Ένα process διαχειρίζεται πολλά sockets ταυτόχρονα παρακολουθώντας events.</div>
           </div>
           <div class="tip">
             <div class="tip-icon">🧩</div>
             <div>
               <div class="tip-title">File Descriptor Cleanup</div>
-              <div class="tip-text">Μετά το fork(), ο parent <strong>πρέπει</strong> να κλείσει το newsock για να μην ξεμείνει από FDs και για να επιτρέψει το κλείσιμο του καναλιού όταν το child τελειώσει.</div>
+              <div class="tip-text">Μετά το fork(), ο parent <strong>πρέπει</strong> να κλείσει το newsock για αποφυγή διαρροής FDs.</div>
             </div>
           </div>
         </div>
@@ -200,182 +198,25 @@
       <div class="grid2">
         <div>
           <div class="cmd-entry">
-            <div class="cmd-head"><span class="cmd-name">socket()</span></div>
-            <div class="cmd-desc">Δημιουργεί το endpoint.</div>
-            <div class="cb"><span class="type">int</span> s = <span class="fn">socket</span>(<span class="mc">AF_INET</span>, <span class="mc">SOCK_STREAM</span>, 0);</div>
+            <div class="cmd-head"><span class="cmd-name">socket() & bind()</span></div>
+            <div class="cb"><span class="type">int</span> s = <span class="fn">socket</span>(<span class="mc">AF_INET</span>, <span class="mc">SOCK_STREAM</span>, 0);<br><span class="fn">bind</span>(s, &addr, <span class="fn">sizeof</span>(addr));</div>
           </div>
           <div class="cmd-entry">
-            <div class="cmd-head"><span class="cmd-name">bind() & listen()</span></div>
-            <div class="cmd-desc">Σύνδεση με IP/Port και ορισμός μεγέθους ουράς (backlog).</div>
-            <div class="cb"><span class="fn">bind</span>(s, &addr, <span class="fn">sizeof</span>(addr));<br><span class="fn">listen</span>(s, 5);</div>
+            <div class="cmd-head"><span class="cmd-name">listen() & accept()</span></div>
+            <div class="cb"><span class="fn">listen</span>(s, 5);<br><span class="type">int</span> cl = <span class="fn">accept</span>(s, <span class="mc">NULL</span>, <span class="mc">NULL</span>);</div>
           </div>
         </div>
         <div>
           <div class="cmd-entry">
             <div class="cmd-head"><span class="cmd-name">gethostbyname()</span></div>
-            <div class="cmd-desc">Επίλυση ονόματος (Legacy API, POSIX προτείνει <code>getaddrinfo</code>).</div>
+            <div class="cmd-desc">Επίλυση ονόματος (Legacy API).</div>
             <div class="cb"><span class="type">struct</span> hostent *h = <span class="fn">gethostbyname</span>("di.uoa.gr");</div>
-          </div>
-          <div class="ritem">
-            <div class="rop">setsockopt & SO_REUSEADDR</div>
-            <div class="rdesc">Επιτρέπει την άμεση επανεκκίνηση του server αν το port είναι σε <strong>TIME_WAIT</strong> state.</div>
           </div>
           <div class="tip">
             <div class="tip-icon">🛡️</div>
             <div>
               <div class="tip-title">SIGPIPE Handling</div>
-              <div class="tip-text">Αν ο άλλος κλείσει τη σύνδεση και εσείς γράψετε, το OS στέλνει <strong>SIGPIPE</strong> (default: fatal). Πρέπει να εγκαταστήσετε handler!</div>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="section-quiz" data-topic="topic5" data-section="api"></div>
-    </section>
-
-  </div>
-        <h2>Εισαγωγή στα Sockets & Network IPC</h2>
-      </div>
-      <div class="grid2">
-        <div>
-          <p style="color:var(--muted);margin-bottom:14px">Τα Sockets είναι το <strong>de facto standard</strong> για την επικοινωνία διεργασιών μέσω δικτύου. Φανταστείτε τα σαν μια "πόρτα" (door) μέσω της οποίας μια διεργασία στέλνει και λαμβάνει μηνύματα.</p>
-          <div class="cmd-entry">
-            <div class="cmd-head"><span class="cmd-name">Communication Models</span></div>
-            <ul style="color:var(--muted);margin-top:10px;padding-left:20px;font-size:0.95rem">
-              <li><strong>Client-Server:</strong> Ο Server είναι πάντα ενεργός (always-on) με σταθερή IP. Ο Client ξεκινά την επικοινωνία.</li>
-              <li><strong>Peer-to-Peer (P2P):</strong> Δεν υπάρχει κεντρικός server. Τα συστήματα (peers) επικοινωνούν απευθείας και δρουν και ως clients και ως servers (π.χ. Gnutella).</li>
-              <li><strong>Hybrid:</strong> Συνδυασμός και των δύο (π.χ. Skype για εύρεση χρήστη μέσω server αλλά P2P για την κλήση).</li>
-            </ul>
-          </div>
-        </div>
-        <div>
-          <div class="cmd-entry">
-            <div class="cmd-head"><span class="cmd-name">Addressing</span><span class="cmd-full">IP & Port</span></div>
-            <div class="cmd-desc">Κάθε συσκευή στο δίκτυο έχει μια <strong>IP Address</strong>. Κάθε υπηρεσία/διεργασία σε αυτή τη συσκευή έχει ένα <strong>Port Number</strong>.</div>
-            <ul style="color:var(--muted);margin-top:10px;padding-left:20px;font-size:0.95rem">
-              <li><strong>IPv4:</strong> 32-bit (π.χ. 147.52.17.2).</li>
-              <li><strong>IPv6:</strong> 128-bit (π.χ. 2001:0db8...).</li>
-              <li><strong>Common Ports:</strong> HTTP (80), SSH (22), DNS (53), SMTP (25).</li>
-            </ul>
-          </div>
-          <div class="tip">
-            <div class="tip-icon">📡</div>
-            <div>
-              <div class="tip-title">DNS (Domain Name System)</div>
-              <div class="tip-text">Μεταφράζει ονόματα (π.χ. google.com) σε IP διευθύνσεις, καθώς οι υπολογιστές επικοινωνούν μόνο με αριθμούς.</div>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="section-quiz" data-topic="topic5" data-section="intro"></div>
-    </section>
-
-    <section id="types">
-      <div class="sh">
-        <div class="sh-icon" style="background:var(--cdim)">🔌</div>
-        <h2>Τύποι Sockets & Transport Services</h2>
-      </div>
-      <div class="grid2">
-        <div>
-          <p style="color:var(--muted);margin-bottom:14px">Το OS προσφέρει δύο κύριους τύπους transport services μέσω του Socket API:</p>
-          <div class="cmd-entry">
-            <div class="cmd-head"><span class="cmd-name">TCP (SOCK_STREAM)</span></div>
-            <div class="cmd-desc"><strong>Reliable Byte Stream:</strong> Εγγυάται ότι τα δεδομένα θα φτάσουν σωστά και στη σωστή σειρά.</div>
-            <ul style="color:var(--muted);margin-top:10px;padding-left:20px;font-size:0.95rem">
-              <li><strong>Connection-oriented:</strong> Απαιτείται setup (handshake).</li>
-              <li><strong>Flow Control:</strong> Ο αποστολέας δεν "πνίγει" τον παραλήπτη.</li>
-              <li><strong>Congestion Control:</strong> Μείωση ρυθμού αν το δίκτυο είναι υπερφορτωμένο.</li>
-            </ul>
-          </div>
-        </div>
-        <div>
-          <div class="cmd-entry">
-            <div class="cmd-head"><span class="cmd-name">UDP (SOCK_DGRAM)</span></div>
-            <div class="cmd-desc"><strong>Unreliable Datagrams:</strong> Δεν υπάρχουν εγγυήσεις. Τα δεδομένα μπορεί να χαθούν ή να έρθουν με λάθος σειρά.</div>
-            <ul style="color:var(--muted);margin-top:10px;padding-left:20px;font-size:0.95rem">
-              <li><strong>Connectionless:</strong> Δεν υπάρχει setup.</li>
-              <li><strong>Fast:</strong> Πολύ χαμηλότερο overhead από το TCP.</li>
-              <li><strong>Χρήση:</strong> Streaming video, online games, DNS.</li>
-            </ul>
-          </div>
-          <div class="ritem">
-            <div class="rop">Byte Order (htons/htonl)</div>
-            <div class="rdesc">Στο δίκτυο χρησιμοποιούμε <strong>Network Byte Order (Big Endian)</strong>. Οι συναρτήσεις <code>htons</code> (host to network short) κ.λπ. είναι απαραίτητες για φορητότητα κώδικα.</div>
-          </div>
-        </div>
-      </div>
-      <div class="section-quiz" data-topic="topic5" data-section="types"></div>
-    </section>
-
-    <section id="lifecycle">
-      <div class="sh">
-        <div class="sh-icon" style="background:var(--ydim)">🔄</div>
-        <h2>Server Architectures & Lifecycle</h2>
-      </div>
-      <div class="piperow" style="margin-bottom:20px; flex-direction: column; align-items: flex-start; gap: 10px;">
-        <div style="display:flex; align-items:center; gap:10px;">
-          <span class="pcmd">Server</span> <span class="psep">➔</span> <span class="fn">socket()</span> <span class="psep">➔</span> <span class="fn">bind()</span> <span class="psep">➔</span> <span class="fn">listen()</span> <span class="psep">➔</span> <span class="fn">accept()</span>
-        </div>
-        <div style="display:flex; align-items:center; gap:10px;">
-          <span class="pcmd">Client</span> <span class="psep">➔</span> <span class="fn">socket()</span> <span class="psep">➔</span> <span class="fn">connect()</span>
-        </div>
-        <div style="display:flex; align-items:center; gap:10px;">
-          <span class="psep">➔</span> <span class="fn">read() / write()</span> (Data Exchange) <span class="psep">➔</span> <span class="fn">close()</span>
-        </div>
-      </div>
-      <div class="grid2">
-        <div>
-          <div class="cmd-entry">
-            <div class="cmd-head"><span class="cmd-name">Serial Server</span></div>
-            <div class="cmd-desc">Εξυπηρετεί έναν client τη φορά. Όλοι οι άλλοι περιμένουν στην ουρά.</div>
-            <div class="cb"><span class="fn">for</span>(;;) { <span class="fn">accept</span>(); <span class="fn">handle</span>(); <span class="fn">close</span>(); }</div>
-          </div>
-        </div>
-        <div>
-          <div class="cmd-entry">
-            <div class="cmd-head"><span class="cmd-name">Concurrent Server (Fork)</span></div>
-            <div class="cmd-desc">Για κάθε client, ο server κάνει <code>fork()</code> και ορίζει ένα child process για την εξυπηρέτησή του.</div>
-            <div class="cb"><span class="fn">newsock</span> = <span class="fn">accept</span>();<br><span class="fn">if</span>(<span class="fn">fork</span>() == 0) { <span class="fn">child_work</span>(newsock); }</div>
-          </div>
-        </div>
-      </div>
-      <div class="tip" style="margin-top:20px">
-        <div class="tip-icon">🧩</div>
-        <div>
-          <div class="tip-title">Γιατί ο Parent κλείνει το newsock;</div>
-          <div class="tip-text">Μετά το fork(), ο parent <strong>πρέπει</strong> να κλείσει το newsock. Αν δεν το κάνει, θα ξεμείνει από file descriptors και το socket δεν θα καταστραφεί ποτέ (αφού θα υπάρχουν δύο ανοιχτά refs).</div>
-        </div>
-      </div>
-      <div class="section-quiz" data-topic="topic5" data-section="lifecycle"></div>
-    </section>
-
-    <section id="api">
-      <div class="sh">
-        <div class="sh-icon" style="background:var(--gdim)">🛠️</div>
-        <h2>The Socket API & DNS Functions</h2>
-      </div>
-      <div class="grid2">
-        <div>
-          <div class="cmd-entry">
-            <div class="cmd-head"><span class="cmd-name">gethostbyname()</span></div>
-            <div class="cmd-desc">Μετατρέπει ένα hostname (google.com) σε IP διεύθυνση.</div>
-            <div class="cb"><span class="type">struct</span> hostent *h = <span class="fn">gethostbyname</span>("google.com");</div>
-          </div>
-          <div class="cmd-entry">
-            <div class="cmd-head"><span class="cmd-name">socket() & bind()</span></div>
-            <div class="cb"><span class="type">int</span> s = <span class="fn">socket</span>(<span class="mc">AF_INET</span>, <span class="mc">SOCK_STREAM</span>, 0);<br><span class="fn">bind</span>(s, &addr, <span class="fn">sizeof</span>(addr));</div>
-          </div>
-        </div>
-        <div>
-          <div class="cmd-entry">
-            <div class="cmd-head"><span class="cmd-name">listen() & accept()</span></div>
-            <div class="cmd-desc">Ορίζουν το μέγεθος της ουράς (backlog) και δέχονται τη σύνδεση.</div>
-            <div class="cb"><span class="fn">listen</span>(sock, 5);<br><span class="type">int</span> client = <span class="fn">accept</span>(s, <span class="mc">NULL</span>, <span class="mc">NULL</span>);</div>
-          </div>
-          <div class="tip">
-            <div class="tip-icon">🛡️</div>
-            <div>
-              <div class="tip-title">SIGPIPE Warning</div>
-              <div class="tip-text">Αν γράψετε σε ένα socket που έχει κλείσει από την άλλη πλευρά, θα λάβετε το σήμα <strong>SIGPIPE</strong>. Από προεπιλογή, αυτό τερματίζει τη διεργασία σας!</div>
+              <div class="tip-text">Γράψιμο σε κλειστό socket προκαλεί <strong>SIGPIPE</strong>. Απαιτείται signal handler για αποφυγή τερματισμού.</div>
             </div>
           </div>
         </div>
