@@ -1,7 +1,7 @@
 # Implementation Plan: Topic 5 - Sockets
 
 ## Phase 1: Content Extraction and HTML Structure
-- [ ] Task: Extract content from `slides/topic5-Sockets.pdf` and draft the markdown/text version.
+- [x] Task: Extract content from `slides/topic5-Sockets.pdf` and draft the markdown/text version. ec04b40
 - [ ] Task: Create `topic5_sockets.html` based on the existing topic page templates.
 - [ ] Task: Integrate the extracted content into the HTML structure.
 - [ ] Task: Conductor - User Manual Verification 'Phase 1: Content Extraction and HTML Structure' (Protocol in workflow.md)
