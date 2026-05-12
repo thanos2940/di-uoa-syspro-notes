@@ -2,7 +2,7 @@
 
 ## Phase 1: Content Extraction and HTML Structure
 - [x] Task: Extract content from `slides/topic5-Sockets.pdf` and draft the markdown/text version. ec04b40
-- [ ] Task: Create `topic5_sockets.html` based on the existing topic page templates.
+- [x] Task: Create `topic5_sockets.html` based on the existing topic page templates. 491ffa9
 - [ ] Task: Integrate the extracted content into the HTML structure.
 - [ ] Task: Conductor - User Manual Verification 'Phase 1: Content Extraction and HTML Structure' (Protocol in workflow.md)
 
