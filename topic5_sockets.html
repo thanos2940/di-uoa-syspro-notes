@@ -73,301 +73,10 @@
   </nav>
 
   <div class="wrap">
+
     <section id="intro">
       <div class="sh">
-        <div class="sh-icon" style="background:var(--pdim)">🌐
-  <div class="section-quiz" data-topic="topic5" data-section="all"></div>
-</div>
-        <h2>Εισαγωγή στα Sockets & Network IPC</h2>
-      
-  <div class="section-quiz" data-topic="topic5" data-section="all"></div>
-</div>
-      <div class="grid2">
-        <div>
-          <p style="color:var(--muted);margin-bottom:14px">Τα Sockets είναι το <strong>de facto standard</strong> για την επικοινωνία διεργασιών μέσω δικτύου. Φανταστείτε τα σαν μια "πόρτα" (door) μέσω της οποίας μια διεργασία στέλνει και λαμβάνει μηνύματα.</p>
-          <div class="cmd-entry">
-            <div class="cmd-head"><span class="cmd-name">Communication Models</span>
-  <div class="section-quiz" data-topic="topic5" data-section="all"></div>
-</div>
-            <ul style="color:var(--muted);margin-top:10px;padding-left:20px;font-size:0.95rem">
-              <li><strong>Client-Server:</strong> Ο Server είναι πάντα ενεργός (always-on) με σταθερή IP. Ο Client ξεκινά την επικοινωνία.</li>
-              <li><strong>Peer-to-Peer (P2P):</strong> Δεν υπάρχει κεντρικός server. Τα συστήματα (peers) επικοινωνούν απευθείας και δρουν και ως clients και ως servers.</li>
-              <li><strong>Hybrid:</strong> Συνδυασμός και των δύο (π.χ. Skype για εύρεση χρήστη μέσω server αλλά P2P για την κλήση).</li>
-            </ul>
-          
-  <div class="section-quiz" data-topic="topic5" data-section="all"></div>
-</div>
-        
-  <div class="section-quiz" data-topic="topic5" data-section="all"></div>
-</div>
-        <div>
-          <div class="cmd-entry">
-            <div class="cmd-head"><span class="cmd-name">Addressing</span><span class="cmd-full">IP & Port</span>
-  <div class="section-quiz" data-topic="topic5" data-section="all"></div>
-</div>
-            <div class="cmd-desc">Κάθε συσκευή στο δίκτυο έχει μια <strong>IP Address</strong>. Κάθε υπηρεσία/διεργασία σε αυτή τη συσκευή έχει ένα <strong>Port Number</strong>.
-  <div class="section-quiz" data-topic="topic5" data-section="all"></div>
-</div>
-            <ul style="color:var(--muted);margin-top:10px;padding-left:20px;font-size:0.95rem">
-              <li><strong>IPv4:</strong> 32-bit (π.χ. 147.52.17.2).</li>
-              <li><strong>IPv6:</strong> 128-bit (π.χ. 2001:0db8...).</li>
-              <li><strong>Common Ports:</strong> HTTP (80), SSH (22), DNS (53), SMTP (25).</li>
-            </ul>
-          
-  <div class="section-quiz" data-topic="topic5" data-section="all"></div>
-</div>
-          <div class="tip">
-            <div class="tip-icon">📡
-  <div class="section-quiz" data-topic="topic5" data-section="all"></div>
-</div>
-            <div>
-              <div class="tip-title">DNS (Domain Name System)
-  <div class="section-quiz" data-topic="topic5" data-section="all"></div>
-</div>
-              <div class="tip-text">Μεταφράζει ονόματα (π.χ. google.com) σε IP διευθύνσεις, καθώς οι υπολογιστές επικοινωνούν μόνο με αριθμούς.
-  <div class="section-quiz" data-topic="topic5" data-section="all"></div>
-</div>
-            
-  <div class="section-quiz" data-topic="topic5" data-section="all"></div>
-</div>
-          
-  <div class="section-quiz" data-topic="topic5" data-section="all"></div>
-</div>
-        
-  <div class="section-quiz" data-topic="topic5" data-section="all"></div>
-</div>
-      
-  <div class="section-quiz" data-topic="topic5" data-section="all"></div>
-</div>
-    </section>
-
-    <section id="types">
-      <div class="sh">
-        <div class="sh-icon" style="background:var(--cdim)">🔌
-  <div class="section-quiz" data-topic="topic5" data-section="all"></div>
-</div>
-        <h2>Τύποι Sockets & Transport Services</h2>
-      
-  <div class="section-quiz" data-topic="topic5" data-section="all"></div>
-</div>
-      <div class="grid2">
-        <div>
-          <p style="color:var(--muted);margin-bottom:14px">Το OS προσφέρει δύο κύριους τύπους transport services μέσω του Socket API:</p>
-          <div class="cmd-entry">
-            <div class="cmd-head"><span class="cmd-name">TCP (SOCK_STREAM)</span>
-  <div class="section-quiz" data-topic="topic5" data-section="all"></div>
-</div>
-            <div class="cmd-desc"><strong>Reliable Byte Stream:</strong> Εγγυάται ότι τα δεδομένα θα φτάσουν σωστά και στη σωστή σειρά.
-  <div class="section-quiz" data-topic="topic5" data-section="all"></div>
-</div>
-            <ul style="color:var(--muted);margin-top:10px;padding-left:20px;font-size:0.95rem">
-              <li><strong>Connection-oriented:</strong> Απαιτείται setup (handshake).</li>
-              <li><strong>Flow Control:</strong> Ο αποστολέας δεν "πνίγει" τον παραλήπτη.</li>
-              <li><strong>Congestion Control:</strong> Μείωση ρυθμού αν το δίκτυο είναι υπερφορτωμένο.</li>
-            </ul>
-          
-  <div class="section-quiz" data-topic="topic5" data-section="all"></div>
-</div>
-        
-  <div class="section-quiz" data-topic="topic5" data-section="all"></div>
-</div>
-        <div>
-          <div class="cmd-entry">
-            <div class="cmd-head"><span class="cmd-name">UDP (SOCK_DGRAM)</span>
-  <div class="section-quiz" data-topic="topic5" data-section="all"></div>
-</div>
-            <div class="cmd-desc"><strong>Unreliable Datagrams:</strong> Δεν υπάρχουν εγγυήσεις. Τα δεδομένα μπορεί να χαθούν ή να έρθουν με λάθος σειρά.
-  <div class="section-quiz" data-topic="topic5" data-section="all"></div>
-</div>
-            <ul style="color:var(--muted);margin-top:10px;padding-left:20px;font-size:0.95rem">
-              <li><strong>Connectionless:</strong> Δεν υπάρχει setup.</li>
-              <li><strong>Fast:</strong> Πολύ χαμηλότερο overhead από το TCP.</li>
-              <li><strong>Χρήση:</strong> Streaming video, online games, DNS.</li>
-            </ul>
-          
-  <div class="section-quiz" data-topic="topic5" data-section="all"></div>
-</div>
-          <div class="ritem">
-            <div class="rop">Byte Order (htons/htonl)
-  <div class="section-quiz" data-topic="topic5" data-section="all"></div>
-</div>
-            <div class="rdesc">Στο δίκτυο χρησιμοποιούμε <strong>Network Byte Order (Big Endian)</strong>. Οι συναρτήσεις <code>htons</code> (host to network short) κ.λπ. είναι απαραίτητες για φορητότητα κώδικα.
-  <div class="section-quiz" data-topic="topic5" data-section="all"></div>
-</div>
-          
-  <div class="section-quiz" data-topic="topic5" data-section="all"></div>
-</div>
-        
-  <div class="section-quiz" data-topic="topic5" data-section="all"></div>
-</div>
-      
-  <div class="section-quiz" data-topic="topic5" data-section="all"></div>
-</div>
-    </section>
-
-    <section id="lifecycle">
-      <div class="sh">
-        <div class="sh-icon" style="background:var(--ydim)">🔄
-  <div class="section-quiz" data-topic="topic5" data-section="all"></div>
-</div>
-        <h2>Server Architectures & Lifecycle</h2>
-      
-  <div class="section-quiz" data-topic="topic5" data-section="all"></div>
-</div>
-      <div class="piperow" style="margin-bottom:20px; flex-direction: column; align-items: flex-start; gap: 10px;">
-        <div style="display:flex; align-items:center; gap:10px;">
-          <span class="pcmd">Server</span> <span class="psep">➔</span> <span class="fn">socket()</span> <span class="psep">➔</span> <span class="fn">bind()</span> <span class="psep">➔</span> <span class="fn">listen()</span> <span class="psep">➔</span> <span class="fn">accept()</span>
-        
-  <div class="section-quiz" data-topic="topic5" data-section="all"></div>
-</div>
-        <div style="display:flex; align-items:center; gap:10px;">
-          <span class="pcmd">Client</span> <span class="psep">➔</span> <span class="fn">socket()</span> <span class="psep">➔</span> <span class="fn">connect()</span>
-        
-  <div class="section-quiz" data-topic="topic5" data-section="all"></div>
-</div>
-        <div style="display:flex; align-items:center; gap:10px;">
-          <span class="psep">➔</span> <span class="fn">read() / write()</span> (Data Exchange) <span class="psep">➔</span> <span class="fn">close()</span>
-        
-  <div class="section-quiz" data-topic="topic5" data-section="all"></div>
-</div>
-      
-  <div class="section-quiz" data-topic="topic5" data-section="all"></div>
-</div>
-      <div class="grid2">
-        <div>
-          <div class="cmd-entry">
-            <div class="cmd-head"><span class="cmd-name">Serial Server</span>
-  <div class="section-quiz" data-topic="topic5" data-section="all"></div>
-</div>
-            <div class="cmd-desc">Εξυπηρετεί έναν client τη φορά. Όλοι οι άλλοι περιμένουν στην ουρά.
-  <div class="section-quiz" data-topic="topic5" data-section="all"></div>
-</div>
-            <div class="cb"><span class="fn">for</span>(;;) { <span class="fn">accept</span>(); <span class="fn">handle</span>(); <span class="fn">close</span>(); }
-  <div class="section-quiz" data-topic="topic5" data-section="all"></div>
-</div>
-          
-  <div class="section-quiz" data-topic="topic5" data-section="all"></div>
-</div>
-        
-  <div class="section-quiz" data-topic="topic5" data-section="all"></div>
-</div>
-        <div>
-          <div class="cmd-entry">
-            <div class="cmd-head"><span class="cmd-name">Concurrent Server (Fork)</span>
-  <div class="section-quiz" data-topic="topic5" data-section="all"></div>
-</div>
-            <div class="cmd-desc">Για κάθε client, ο server κάνει <code>fork()</code> και ορίζει ένα child process για την εξυπηρέτησή του.
-  <div class="section-quiz" data-topic="topic5" data-section="all"></div>
-</div>
-            <div class="cb"><span class="fn">newsock</span> = <span class="fn">accept</span>();<br><span class="fn">if</span>(<span class="fn">fork</span>() == 0) { <span class="fn">child_work</span>(newsock); }
-  <div class="section-quiz" data-topic="topic5" data-section="all"></div>
-</div>
-          
-  <div class="section-quiz" data-topic="topic5" data-section="all"></div>
-</div>
-        
-  <div class="section-quiz" data-topic="topic5" data-section="all"></div>
-</div>
-      
-  <div class="section-quiz" data-topic="topic5" data-section="all"></div>
-</div>
-      <div class="tip" style="margin-top:20px">
-        <div class="tip-icon">🧩
-  <div class="section-quiz" data-topic="topic5" data-section="all"></div>
-</div>
-        <div>
-          <div class="tip-title">Γιατί ο Parent κλείνει το newsock;
-  <div class="section-quiz" data-topic="topic5" data-section="all"></div>
-</div>
-          <div class="tip-text">Μετά το fork(), ο parent <strong>πρέπει</strong> να κλείσει το newsock. Αν δεν το κάνει, θα ξεμείνει από file descriptors και το socket δεν θα καταστραφεί ποτέ (αφού θα υπάρχουν δύο ανοιχτά refs).
-  <div class="section-quiz" data-topic="topic5" data-section="all"></div>
-</div>
-        
-  <div class="section-quiz" data-topic="topic5" data-section="all"></div>
-</div>
-      
-  <div class="section-quiz" data-topic="topic5" data-section="all"></div>
-</div>
-    </section>
-
-    <section id="api">
-      <div class="sh">
-        <div class="sh-icon" style="background:var(--gdim)">🛠️
-  <div class="section-quiz" data-topic="topic5" data-section="all"></div>
-</div>
-        <h2>The Socket API & DNS Functions</h2>
-      
-  <div class="section-quiz" data-topic="topic5" data-section="all"></div>
-</div>
-      <div class="grid2">
-        <div>
-          <div class="cmd-entry">
-            <div class="cmd-head"><span class="cmd-name">gethostbyname()</span>
-  <div class="section-quiz" data-topic="topic5" data-section="all"></div>
-</div>
-            <div class="cmd-desc">Μετατρέπει ένα hostname (google.com) σε IP διεύθυνση.
-  <div class="section-quiz" data-topic="topic5" data-section="all"></div>
-</div>
-            <div class="cb"><span class="type">struct</span> hostent *h = <span class="fn">gethostbyname</span>("google.com");
-  <div class="section-quiz" data-topic="topic5" data-section="all"></div>
-</div>
-          
-  <div class="section-quiz" data-topic="topic5" data-section="all"></div>
-</div>
-          <div class="cmd-entry">
-            <div class="cmd-head"><span class="cmd-name">socket() & bind()</span>
-  <div class="section-quiz" data-topic="topic5" data-section="all"></div>
-</div>
-            <div class="cb"><span class="type">int</span> s = <span class="fn">socket</span>(<span class="mc">AF_INET</span>, <span class="mc">SOCK_STREAM</span>, 0);<br><span class="fn">bind</span>(s, &addr, <span class="fn">sizeof</span>(addr));
-  <div class="section-quiz" data-topic="topic5" data-section="all"></div>
-</div>
-          
-  <div class="section-quiz" data-topic="topic5" data-section="all"></div>
-</div>
-        
-  <div class="section-quiz" data-topic="topic5" data-section="all"></div>
-</div>
-        <div>
-          <div class="cmd-entry">
-            <div class="cmd-head"><span class="cmd-name">listen() & accept()</span>
-  <div class="section-quiz" data-topic="topic5" data-section="all"></div>
-</div>
-            <div class="cmd-desc">Ορίζουν το μέγεθος της ουράς (backlog) και δέχονται τη σύνδεση.
-  <div class="section-quiz" data-topic="topic5" data-section="all"></div>
-</div>
-            <div class="cb"><span class="fn">listen</span>(sock, 5);<br><span class="type">int</span> client = <span class="fn">accept</span>(s, <span class="mc">NULL</span>, <span class="mc">NULL</span>);
-  <div class="section-quiz" data-topic="topic5" data-section="all"></div>
-</div>
-          
-  <div class="section-quiz" data-topic="topic5" data-section="all"></div>
-</div>
-          <div class="tip">
-            <div class="tip-icon">🛡️
-  <div class="section-quiz" data-topic="topic5" data-section="all"></div>
-</div>
-            <div>
-              <div class="tip-title">SIGPIPE Warning
-  <div class="section-quiz" data-topic="topic5" data-section="all"></div>
-</div>
-              <div class="tip-text">Αν γράψετε σε ένα socket που έχει κλείσει από την άλλη πλευρά, θα λάβετε το σήμα <strong>SIGPIPE</strong>. Από προεπιλογή, αυτό τερματίζει τη διεργασία σας!
-  <div class="section-quiz" data-topic="topic5" data-section="all"></div>
-</div>
-            
-  <div class="section-quiz" data-topic="topic5" data-section="all"></div>
-</div>
-          
-  <div class="section-quiz" data-topic="topic5" data-section="all"></div>
-</div>
-        
-  <div class="section-quiz" data-topic="topic5" data-section="all"></div>
-</div>
-      
-  <div class="section-quiz" data-topic="topic5" data-section="all"></div>
-</div>
-    </section>
-
-  <div class="section-quiz" data-topic="topic5" data-section="all"></div>
-</div>
+        <div class="sh-icon" style="background:var(--pdim)">🌐</div>
         <h2>Εισαγωγή στα Sockets & Network IPC</h2>
       </div>
       <div class="grid2">
@@ -377,7 +86,7 @@
             <div class="cmd-head"><span class="cmd-name">Communication Models</span></div>
             <ul style="color:var(--muted);margin-top:10px;padding-left:20px;font-size:0.95rem">
               <li><strong>Client-Server:</strong> Ο Server είναι πάντα ενεργός (always-on) με σταθερή IP. Ο Client ξεκινά την επικοινωνία.</li>
-              <li><strong>Peer-to-Peer (P2P):</strong> Δεν υπάρχει κεντρικός server. Τα συστήματα (peers) επικοινωνούν απευθείας και δρουν και ως clients και ως servers.</li>
+              <li><strong>Peer-to-Peer (P2P):</strong> Δεν υπάρχει κεντρικός server. Τα συστήματα (peers) επικοινωνούν απευθείας και δρουν και ως clients και ως servers (π.χ. Gnutella).</li>
               <li><strong>Hybrid:</strong> Συνδυασμός και των δύο (π.χ. Skype για εύρεση χρήστη μέσω server αλλά P2P για την κλήση).</li>
             </ul>
           </div>
@@ -401,6 +110,7 @@
           </div>
         </div>
       </div>
+      <div class="section-quiz" data-topic="topic5" data-section="intro"></div>
     </section>
 
     <section id="types">
@@ -437,12 +147,24 @@
           </div>
         </div>
       </div>
+      <div class="section-quiz" data-topic="topic5" data-section="types"></div>
     </section>
 
     <section id="lifecycle">
       <div class="sh">
         <div class="sh-icon" style="background:var(--ydim)">🔄</div>
         <h2>Server Architectures & Lifecycle</h2>
+      </div>
+      <div class="piperow" style="margin-bottom:20px; flex-direction: column; align-items: flex-start; gap: 10px;">
+        <div style="display:flex; align-items:center; gap:10px;">
+          <span class="pcmd">Server</span> <span class="psep">➔</span> <span class="fn">socket()</span> <span class="psep">➔</span> <span class="fn">bind()</span> <span class="psep">➔</span> <span class="fn">listen()</span> <span class="psep">➔</span> <span class="fn">accept()</span>
+        </div>
+        <div style="display:flex; align-items:center; gap:10px;">
+          <span class="pcmd">Client</span> <span class="psep">➔</span> <span class="fn">socket()</span> <span class="psep">➔</span> <span class="fn">connect()</span>
+        </div>
+        <div style="display:flex; align-items:center; gap:10px;">
+          <span class="psep">➔</span> <span class="fn">read() / write()</span> (Data Exchange) <span class="psep">➔</span> <span class="fn">close()</span>
+        </div>
       </div>
       <div class="grid2">
         <div>
@@ -467,6 +189,7 @@
           <div class="tip-text">Μετά το fork(), ο parent <strong>πρέπει</strong> να κλείσει το newsock. Αν δεν το κάνει, θα ξεμείνει από file descriptors και το socket δεν θα καταστραφεί ποτέ (αφού θα υπάρχουν δύο ανοιχτά refs).</div>
         </div>
       </div>
+      <div class="section-quiz" data-topic="topic5" data-section="lifecycle"></div>
     </section>
 
     <section id="api">
@@ -490,7 +213,7 @@
           <div class="cmd-entry">
             <div class="cmd-head"><span class="cmd-name">listen() & accept()</span></div>
             <div class="cmd-desc">Ορίζουν το μέγεθος της ουράς (backlog) και δέχονται τη σύνδεση.</div>
-            <div class="cb"><span class="fn">listen</span>(s, 5);<br><span class="type">int</span> client = <span class="fn">accept</span>(s, <span class="mc">NULL</span>, <span class="mc">NULL</span>);</div>
+            <div class="cb"><span class="fn">listen</span>(sock, 5);<br><span class="type">int</span> client = <span class="fn">accept</span>(s, <span class="mc">NULL</span>, <span class="mc">NULL</span>);</div>
           </div>
           <div class="tip">
             <div class="tip-icon">🛡️</div>
@@ -501,139 +224,7 @@
           </div>
         </div>
       </div>
-    </section>
-</div>
-        <h2>Εισαγωγή στα Sockets</h2>
-      </div>
-      
-      <div class="grid2">
-        <div>
-          <p style="color:var(--muted);margin-bottom:14px">Τα Sockets είναι το <strong>de facto standard</strong> για την επικοινωνία διεργασιών μέσω δικτύου. Φανταστείτε τα σαν μια "πόρτα" (door) μέσω της οποίας μια διεργασία στέλνει και λαμβάνει μηνύματα.</p>
-          <div class="cmd-entry">
-            <div class="cmd-head"><span class="cmd-name">Addressing</span><span class="cmd-full">IP & Port</span></div>
-            <div class="cmd-desc">Για να βρεθεί μια διεργασία στο δίκτυο, απαιτείται ο συνδυασμός <strong>IP Address</strong> (ποιο μηχάνημα;) και <strong>Port Number</strong> (ποια διεργασία;).</div>
-            <ul style="color:var(--muted);margin-top:10px;padding-left:20px;font-size:0.95rem">
-              <li><strong>IP:</strong> 32-bit (IPv4) ή 128-bit (IPv6) αναγνωριστικό host.</li>
-              <li><strong>Port:</strong> 16-bit αριθμός (0-65535).</li>
-              <li>Συνδυασμός (IP, Port) = Μοναδικό Endpoint.</li>
-            </ul>
-          </div>
-        </div>
-        <div>
-          <div class="tip">
-            <div class="tip-icon">📡</div>
-            <div>
-              <div class="tip-title">Client-Server Model</div>
-              <div class="tip-text">
-                <strong>Server:</strong> Πάντα ενεργός, σταθερή IP, περιμένει (listen) για συνδέσεις.<br>
-                <strong>Client:</strong> Ξεκινά την επικοινωνία, συνδέεται στον server, μπορεί να έχει δυναμική IP.
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-    <section id="types">
-      <div class="sh">
-        <div class="sh-icon" style="background:var(--cdim)">🔌</div>
-        <h2>Τύποι Sockets & Transport Services</h2>
-      </div>
-      <div class="grid2">
-        <div>
-          <p style="color:var(--muted);margin-bottom:14px">Το OS προσφέρει δύο κύριους τύπους transport services μέσω του Socket API:</p>
-          <div class="cmd-entry">
-            <div class="cmd-head"><span class="cmd-name">TCP</span><span class="cmd-full">SOCK_STREAM</span></div>
-            <div class="cmd-desc">Connection-oriented, αξιόπιστη μεταφορά (byte stream), flow & congestion control.</div>
-            <ul style="color:var(--muted);margin-top:10px;padding-left:20px;font-size:0.95rem">
-              <li>HTTP, FTP, SSH, SMTP.</li>
-              <li>Εγγυάται τη σειρά και την παράδοση των δεδομένων.</li>
-            </ul>
-          </div>
-          <div class="cmd-entry">
-            <div class="cmd-head"><span class="cmd-name">UDP</span><span class="cmd-full">SOCK_DGRAM</span></div>
-            <div class="cmd-desc">Unreliable, connectionless, χωρίς εγγυήσεις παράδοσης ή σειράς.</div>
-            <ul style="color:var(--muted);margin-top:10px;padding-left:20px;font-size:0.95rem">
-              <li>Streaming, DNS, VoIP.</li>
-              <li>Χαμηλότερο overhead (latency) - ιδανικό για real-time.</li>
-            </ul>
-          </div>
-        </div>
-        <div>
-          <div class="ritem" style="margin-bottom:14px">
-            <div class="rop">Network Byte Order</div>
-            <div class="rdesc">Επειδή διαφορετικά CPU έχουν διαφορετικό <strong>Endianness</strong> (Little vs Big Endian), στο δίκτυο χρησιμοποιούμε πάντα το <strong>Big Endian</strong>.</div>
-            <div class="cb" style="margin-top:10px"><span class="fn">htons</span>, <span class="fn">htonl</span>, <span class="fn">ntohs</span>, <span class="fn">ntohl</span></div>
-          </div>
-          <div class="tip">
-            <div class="tip-icon">💡</div>
-            <div>
-              <div class="tip-title">Little Endian vs Network Order</div>
-              <div class="tip-text">Ένας x86 (Intel) host είναι little-endian. Πρέπει να μετατρέπουμε τους αριθμούς σε network order πριν τους στείλουμε στο socket!</div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <section id="lifecycle">
-      <div class="sh">
-        <div class="sh-icon" style="background:var(--ydim)">🔄</div>
-        <h2>Connection Lifecycle (TCP)</h2>
-      </div>
-      <div class="piperow" style="margin-bottom:20px; flex-direction: column; align-items: flex-start; gap: 10px;">
-        <div style="display:flex; align-items:center; gap:10px;">
-          <span class="pcmd">Server</span> <span class="psep">➔</span> <span class="fn">socket()</span> <span class="psep">➔</span> <span class="fn">bind()</span> <span class="psep">➔</span> <span class="fn">listen()</span> <span class="psep">➔</span> <span class="fn">accept()</span>
-        </div>
-        <div style="display:flex; align-items:center; gap:10px;">
-          <span class="pcmd">Client</span> <span class="psep">➔</span> <span class="fn">socket()</span> <span class="psep">➔</span> <span class="fn">connect()</span>
-        </div>
-        <div style="display:flex; align-items:center; gap:10px;">
-          <span class="psep">➔</span> <span class="fn">read() / write()</span> (Data Exchange) <span class="psep">➔</span> <span class="fn">close()</span>
-        </div>
-      </div>
-      <div class="grid2">
-        <div>
-          <p style="color:var(--muted)">Ο <strong>Server</strong> πρέπει να είναι ήδη σε κατάσταση <em>listening</em> πριν ο client επιχειρήσει να συνδεθεί. Η <span class="fn">accept()</span> μπλοκάρει μέχρι να έρθει μια νέα σύνδεση.</p>
-        </div>
-        <div>
-          <p style="color:var(--muted)">Ο <strong>Client</strong> δημιουργεί ένα δικό του socket και καλεί την <span class="fn">connect()</span>, η οποία ξεκινά το <strong>TCP 3-way handshake</strong>.</p>
-        </div>
-      </div>
-    </section>
-
-    <section id="api">
-      <div class="sh">
-        <div class="sh-icon" style="background:var(--gdim)">🛠️</div>
-        <h2>The Socket API</h2>
-      </div>
-      <div class="grid2">
-        <div>
-          <div class="cmd-entry">
-            <div class="cmd-head"><span class="cmd-name">socket()</span></div>
-            <div class="cmd-desc">Δημιουργεί ένα endpoint επικοινωνίας.</div>
-            <div class="cb"><span class="type">int</span> sock = <span class="fn">socket</span>(<span class="mc">AF_INET</span>, <span class="mc">SOCK_STREAM</span>, 0);</div>
-          </div>
-          <div class="cmd-entry">
-            <div class="cmd-head"><span class="cmd-name">bind()</span></div>
-            <div class="cmd-desc">Αναθέτει μια IP και ένα Port στο socket.</div>
-            <div class="cb"><span class="fn">bind</span>(sock, (<span class="type">struct</span> sockaddr *)&server, <span class="fn">sizeof</span>(server));</div>
-          </div>
-        </div>
-        <div>
-          <div class="cmd-entry">
-            <div class="cmd-head"><span class="cmd-name">listen() & accept()</span></div>
-            <div class="cmd-desc">Προετοιμασία για υποδοχή συνδέσεων και αποδοχή τους.</div>
-            <div class="cb"><span class="fn">listen</span>(sock, 5);<br><span class="type">int</span> newsock = <span class="fn">accept</span>(sock, <span class="mc">NULL</span>, <span class="mc">NULL</span>);</div>
-          </div>
-          <div class="tip">
-            <div class="tip-icon">⚠️</div>
-            <div>
-              <div class="tip-title">Zombie Clients</div>
-              <div class="tip-text">Σε concurrent servers, ο parent πρέπει να κάνει <strong>wait()</strong> (συνήθως μέσω SIGCHLD handler) για να μην μένουν "ζόμπι" τα child processes.</div>
-            </div>
-          </div>
-        </div>
-      </div>
+      <div class="section-quiz" data-topic="topic5" data-section="api"></div>
     </section>
 
   </div>
