@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="el">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Topic 5 · Sockets & Network IPC</title>
+  <link
+    href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;700&family=Syne:wght@400;700;800&family=Lora:ital,wght@0,400;0,600;1,400&display=swap"
+    rel="stylesheet">
+  <link rel="stylesheet" href="styles/base.css">
+  <style>
+    :root {
+      --bg: #0d1117;
+      --bg-rgb: 13, 17, 23;
+      --surf: #161b22;
+      --surf2: #1c2230;
+      --border: #30363d;
+      --green: #3fb950;
+      --green-rgb: 63, 185, 80;
+      --gdim: #0d2218;
+      --blue: #58a6ff;
+      --bdim: #0d1f40;
+      --yellow: #e3b341;
+      --ydim: #2d2208;
+      --red: #f85149;
+      --rdim: #2d1010;
+      --cyan: #39d4c8;
+      --cdim: #0a2422;
+      --purple: #bc8cff;
+      --purple-rgb: 188, 140, 255;
+      --pdim: #1a1040;
+      --orange: #f0883e;
+      --orange-rgb: 240, 136, 62;
+      --odim: #2d1800;
+      --txt: #e6edf3;
+      --muted: #8b949e;
+      --dim: #6e7681;
+    }
+
+    .hero { background: linear-gradient(150deg, #0d1117 0%, #0d1f40 55%, #0d1117 100%); }
+    .hero::after { content: '$ netstat -an'; position: absolute; right: 32px; bottom: 20px; font-family: 'JetBrains Mono', monospace; font-size: clamp(1rem, 3vw, 2.2rem); color: rgba(88, 166, 255, .06); pointer-events: none; font-weight: 700; }
+    
+    .fn { color: var(--yellow); font-weight: 600; }
+    .mc { color: var(--purple); font-weight: 600; }
+    .type { color: var(--cyan); }
+    .str { color: var(--orange); }
+  </style>
+  <script src="js/nav.js" defer></script>
+  <script src="data/questions.js" defer></script>
+  <script src="js/quiz-loader.js" defer></script>
+</head>
+
+<body>
+  <div id="site-nav"></div>
+  <div class="hero">
+    <div class="hero-label">K24 · Topic 5</div>
+    <h1>Sockets & <em>Network IPC</em></h1>
+    <p>Επικοινωνία διεργασιών μέσω δικτύου, TCP/UDP sockets, Client-Server μοντέλο και το lifecycle μιας σύνδεσης.</p>
+    <div class="chips">
+      <span class="chip">network ipc</span>
+      <span class="chip">tcp/udp</span>
+      <span class="chip">client-server</span>
+      <span class="chip">berkeley sockets</span>
+    </div>
+  </div>
+
+  <nav class="toc">
+    <a href="#intro">Εισαγωγή</a>
+    <a href="#types">Τύποι Sockets</a>
+    <a href="#lifecycle">Lifecycle</a>
+    <a href="#api">Socket API</a>
+  </nav>
+
+  <div class="wrap">
+    <section id="intro">
+      <div class="sh">
+        <div class="sh-icon" style="background:var(--pdim)">🌐</div>
+        <h2>Εισαγωγή στα Sockets</h2>
+      </div>
+      <p>Content coming soon...</p>
+      <div class="section-quiz" data-topic="topic5" data-section="intro"></div>
+    </section>
+  </div>
+
+  <div class="footer">K24 · Προγραμματισμός Συστήματος · ΕΚΠΑ · Topic 5: Sockets & Network IPC</div>
+</body>
+
+</html>
