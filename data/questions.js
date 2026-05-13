@@ -2531,5 +2531,172 @@ window.quizData = {
                 }
             ]
         }
+    },
+    "topic5": {
+        "comprehensive": {
+            "title": "Sockets & Network IPC Comprehensive",
+            "questions": [
+                {
+                    "q": "Ποιο είναι το μοντέλο επικοινωνίας όπου κάθε κόμβος είναι ταυτόχρονα και client και server;",
+                    "options": [
+                        {
+                            "text": "Peer-to-Peer (P2P)",
+                            "correct": true,
+                            "explanation": "Στο μοντέλο P2P (π.χ. BitTorrent) δεν υπάρχει κεντρικός server, όλοι είναι ισότιμοι."
+                        },
+                        {
+                            "text": "Client-Server",
+                            "correct": false,
+                            "explanation": "Στο Client-Server ο Server περιμένει και ο Client ξεκινά τη σύνδεση (ασυμμετρία)."
+                        },
+                        {
+                            "text": "Hybrid",
+                            "correct": false,
+                            "explanation": "Το Hybrid χρησιμοποιεί Server για discovery και P2P για data transfer."
+                        }
+                    ]
+                },
+                {
+                    "q": "Τι προσδιορίζει το Port Layer (L4) στην επικοινωνία δικτύου;",
+                    "options": [
+                        {
+                            "text": "Την συγκεκριμένη διεργασία (process) που θα παραλάβει το πακέτο εντός του host.",
+                            "correct": true,
+                            "explanation": "Η IP βρίσκει το μηχάνημα, το Port βρίσκει τη διεργασία (π.χ. 80 για web server)."
+                        },
+                        {
+                            "text": "Τη διεύθυνση του μηχανήματος στο Internet.",
+                            "correct": false,
+                            "explanation": "Αυτός είναι ο ρόλος της διεύθυνσης IP."
+                        },
+                        {
+                            "text": "Τον τρόπο δρομολόγησης του πακέτου μέσω των routers.",
+                            "correct": false,
+                            "explanation": "Αυτό το αναλαμβάνει το IP (Internet Protocol) στο L3."
+                        }
+                    ]
+                },
+                {
+                    "q": "Ποια είναι η βασική διαφορά του UDP σε σχέση με το TCP;",
+                    "options": [
+                        {
+                            "text": "Δεν απαιτεί εγκατάσταση σύνδεσης (connectionless) και δεν εγγυάται την παράδοση.",
+                            "correct": true,
+                            "explanation": "Το UDP είναι γρήγορο (best-effort) αλλά δεν κάνει retransmissions σε περίπτωση απώλειας."
+                        },
+                        {
+                            "text": "Είναι πολύ πιο αργό λόγω του αυστηρού ελέγχου σφαλμάτων.",
+                            "correct": false,
+                            "explanation": "Αυτό περιγράφει το TCP. Το UDP είναι το γρήγορο πρωτόκολλο."
+                        },
+                        {
+                            "text": "Στέλνει τα δεδομένα ως συνεχή ροή bytes (byte stream).",
+                            "correct": false,
+                            "explanation": "Το TCP είναι byte stream, το UDP στέλνει ανεξάρτητα πακέτα (datagrams)."
+                        }
+                    ]
+                },
+                {
+                    "q": "Ποια συνάρτηση μετατρέπει ένα Port από μορφή Little Endian σε Network Byte Order;",
+                    "options": [
+                        {
+                            "text": "htons()",
+                            "correct": true,
+                            "explanation": "Host TO Network Short. Χρησιμοποιείται για ports επειδή είναι 16-bit (short)."
+                        },
+                        {
+                            "text": "htonl()",
+                            "correct": false,
+                            "explanation": "Χρησιμοποιείται για 32-bit (long), π.χ. για IP διευθύνσεις."
+                        },
+                        {
+                            "text": "ntohs()",
+                            "correct": false,
+                            "explanation": "Αυτό κάνει το αντίστροφο: από Network Byte Order σε Host order."
+                        }
+                    ]
+                },
+                {
+                    "q": "Ποια είναι η σωστή ακολουθία κλήσεων για την εκκίνηση ενός TCP Server;",
+                    "options": [
+                        {
+                            "text": "socket() → bind() → listen() → accept()",
+                            "correct": true,
+                            "explanation": "Δημιουργεί, κατοχυρώνει port, ορίζει ουρά και τέλος περιμένει (μπλοκάρει) για connection."
+                        },
+                        {
+                            "text": "socket() → connect() → read()",
+                            "correct": false,
+                            "explanation": "Αυτή είναι η ακολουθία για TCP Client, όχι Server."
+                        },
+                        {
+                            "text": "socket() → bind() → recvfrom()",
+                            "correct": false,
+                            "explanation": "Αυτή είναι η ακολουθία για UDP Server, που δεν έχει connection."
+                        }
+                    ]
+                },
+                {
+                    "q": "Σε έναν Concurrent TCP Server, γιατί ο parent κλείνει αμέσως το connected socket (cfd);",
+                    "options": [
+                        {
+                            "text": "Για να μην εξαντλήσει τα file descriptors του και για να κλείσει σωστά η σύνδεση όταν τελειώσει το παιδί.",
+                            "correct": true,
+                            "explanation": "Το socket είναι fd με reference count. Πρέπει να κλείσουν ΟΛΑ τα αντίγραφα για να κλείσει."
+                        },
+                        {
+                            "text": "Για να διακόψει τη σύνδεση με τον Client.",
+                            "correct": false,
+                            "explanation": "Ο πατέρας το κλείνει στον δικό του χώρο, αλλά η σύνδεση μένει ζωντανή στο child process."
+                        },
+                        {
+                            "text": "Επειδή το cfd χρησιμοποιείται μόνο από τον client, όχι από τον server.",
+                            "correct": false,
+                            "explanation": "Το cfd είναι το socket επικοινωνίας του server με τον client, το χρειάζεται το child!"
+                        }
+                    ]
+                },
+                {
+                    "q": "Ποιο πρόβλημα λύνει το SO_REUSEADDR;",
+                    "options": [
+                        {
+                            "text": "Επιτρέπει στον server να ξανακάνει bind() στο ίδιο port αμέσως μετά από επανεκκίνηση, ακόμα και αν το port είναι σε TIME_WAIT.",
+                            "correct": true,
+                            "explanation": "Χωρίς αυτό, θα πάρετε το 'Address already in use' error αν σταματήσετε και ξεκινήσετε τον server αμέσως."
+                        },
+                        {
+                            "text": "Αποτρέπει το κράσαρισμα του server όταν ένας client κλείσει βίαια τη σύνδεση.",
+                            "correct": false,
+                            "explanation": "Αυτό το λύνει η αγνόηση του σήματος SIGPIPE."
+                        },
+                        {
+                            "text": "Επιτρέπει σε πολλαπλούς servers να μοιράζονται το ίδιο IP.",
+                            "correct": false,
+                            "explanation": "Δεν ισχύει κάτι τέτοιο. Η IP είναι συγκεκριμένη ανά host/interface."
+                        }
+                    ]
+                },
+                {
+                    "q": "Ποια είναι η λειτουργία της select();",
+                    "options": [
+                        {
+                            "text": "Επιτρέπει σε μία μόνο διεργασία να παρακολουθεί πολλαπλά sockets ταυτόχρονα (I/O Multiplexing).",
+                            "correct": true,
+                            "explanation": "Μπλοκάρει μέχρι να υπάρξει activity (read/write/error) σε οποιοδήποτε από τα fds που έχουμε ορίσει."
+                        },
+                        {
+                            "text": "Επιλέγει ποια θύρα (port) θα χρησιμοποιήσει ο client για τη σύνδεση.",
+                            "correct": false,
+                            "explanation": "Η θύρα του client επιλέγεται αυτόματα από το OS (ephemeral port) κατά την connect()."
+                        },
+                        {
+                            "text": "Επιλέγει αν θα χρησιμοποιηθεί TCP ή UDP για την επικοινωνία.",
+                            "correct": false,
+                            "explanation": "Αυτό επιλέγεται με το type (SOCK_STREAM ή SOCK_DGRAM) κατά την κλήση της socket()."
+                        }
+                    ]
+                }
+            ]
+        }
     }
 };
