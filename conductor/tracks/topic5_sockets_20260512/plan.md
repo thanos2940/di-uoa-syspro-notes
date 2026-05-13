@@ -7,8 +7,8 @@
 - [x] Task: Conductor - User Manual Verification 'Phase 1: Content Extraction and HTML Structure' (Protocol in workflow.md) 2079e43
 
 ## Phase 2: Quiz Development
-- [ ] Task: Draft 5-10 quiz questions about Sockets based on the slide content.
-- [ ] Task: Append the new quiz questions to `data/questions.js`.
+- [x] Task: Draft 5-10 quiz questions about Sockets based on the slide content. 0739d34
+- [x] Task: Append the new quiz questions to `data/questions.js`. 0739d34
 - [ ] Task: Conductor - User Manual Verification 'Phase 2: Quiz Development' (Protocol in workflow.md)
 
 ## Phase 3: Integration and Navigation
