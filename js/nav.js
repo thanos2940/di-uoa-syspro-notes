@@ -8,6 +8,7 @@ const topics = [
     { id: 'topic2', title: 'Bash Programming', path: 'topic2_bash.html', icon: '🐚' },
     { id: 'topic3', title: 'I/O & Signals', path: 'topic3_io_signals.html', icon: '📡' },
     { id: 'topic4', title: 'Fork & Pipes', path: 'topic4_fork_pipes.html', icon: '🔀' },
+    { id: 'topic5', title: 'Sockets & IPC', path: 'topic5_sockets.html', icon: '🌐' },
     { id: 'quiz', title: 'Interactive Quiz', path: 'interactive_quiz.html', icon: '📝' }
 ];
 
