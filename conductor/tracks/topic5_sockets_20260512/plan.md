@@ -1,10 +1,10 @@
 # Implementation Plan: Topic 5 - Sockets
 
-## Phase 1: Content Extraction and HTML Structure
+## Phase 1: Content Extraction and HTML Structure [checkpoint: 2079e43]
 - [x] Task: Extract content from `slides/topic5-Sockets.pdf` and draft the markdown/text version. ec04b40
 - [x] Task: Create `topic5_sockets.html` based on the existing topic page templates. 491ffa9
 - [x] Task: Integrate the extracted content into the HTML structure. 445ce06
-- [ ] Task: Conductor - User Manual Verification 'Phase 1: Content Extraction and HTML Structure' (Protocol in workflow.md)
+- [x] Task: Conductor - User Manual Verification 'Phase 1: Content Extraction and HTML Structure' (Protocol in workflow.md) 2079e43
 
 ## Phase 2: Quiz Development
 - [ ] Task: Draft 5-10 quiz questions about Sockets based on the slide content.
