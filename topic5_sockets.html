@@ -1,232 +1,1216 @@
 <!DOCTYPE html>
 <html lang="el">
-
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Topic 5 · Sockets & Network IPC</title>
-  <link
-    href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;700&family=Syne:wght@400;700;800&family=Lora:ital,wght@0,400;0,600;1,400&display=swap"
-    rel="stylesheet">
-  <link rel="stylesheet" href="styles/base.css">
-  <style>
-    :root {
-      --bg: #0d1117;
-      --bg-rgb: 13, 17, 23;
-      --surf: #161b22;
-      --surf2: #1c2230;
-      --border: #30363d;
-      --green: #3fb950;
-      --green-rgb: 63, 185, 80;
-      --gdim: #0d2218;
-      --blue: #58a6ff;
-      --bdim: #0d1f40;
-      --yellow: #e3b341;
-      --ydim: #2d2208;
-      --red: #f85149;
-      --rdim: #2d1010;
-      --cyan: #39d4c8;
-      --cdim: #0a2422;
-      --purple: #bc8cff;
-      --purple-rgb: 188, 140, 255;
-      --pdim: #1a1040;
-      --orange: #f0883e;
-      --orange-rgb: 240, 136, 62;
-      --odim: #2d1800;
-      --txt: #e6edf3;
-      --muted: #8b949e;
-      --dim: #6e7681;
-    }
-
-    .hero { background: linear-gradient(150deg, #0d1117 0%, #0d1f40 55%, #0d1117 100%); }
-    .hero::after { content: '$ netstat -an'; position: absolute; right: 32px; bottom: 20px; font-family: 'JetBrains Mono', monospace; font-size: clamp(1rem, 3vw, 2.2rem); color: rgba(88, 166, 255, .06); pointer-events: none; font-weight: 700; }
-    
-    .fn { color: var(--yellow); font-weight: 600; }
-    .mc { color: var(--purple); font-weight: 600; }
-    .type { color: var(--cyan); }
-    .str { color: var(--orange); }
-  </style>
-  <script src="js/nav.js" defer></script>
-  <script src="data/questions.js" defer></script>
-  <script src="js/quiz-loader.js" defer></script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Topic 5 · Sockets &amp; Network IPC</title>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;700&family=Syne:wght@400;700;800&family=Lora:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles/base.css">
+<style>
+:root{--bg:#0d1117;--bg-rgb:13,17,23;--surf:#161b22;--surf2:#1c2230;--border:#30363d;--blue:#58a6ff;--blue-rgb:88,166,255;--bdim:#0d1f40;--green:#3fb950;--green-rgb:63,185,80;--gdim:#0d2218;--yellow:#e3b341;--ydim:#2d2208;--red:#f85149;--rdim:#2d1010;--cyan:#39d4c8;--cdim:#0a2422;--purple:#bc8cff;--purple-rgb:188,140,255;--pdim:#1a1040;--orange:#f0883e;--orange-rgb:240,136,62;--odim:#2d1800;--txt:#e6edf3;--muted:#8b949e;--dim:#6e7681}
+.hero{background:linear-gradient(150deg,#0d1117 0%,#0d1f40 55%,#0d1117 100%)}
+.hero::after{content:'$ netstat -an';position:absolute;right:32px;bottom:16px;font-family:'JetBrains Mono',monospace;font-size:clamp(1rem,3vw,2.2rem);color:rgba(88,166,255,.06);pointer-events:none;font-weight:700}
+.cb{background:#060a10}
+.kw{color:var(--blue);font-weight:600}.fn{color:var(--yellow);font-weight:600}.st{color:var(--orange)}.cm{color:var(--dim);font-style:italic}.nm{color:var(--purple)}.tp{color:var(--cyan)}.mc{color:var(--purple);font-weight:600}.pr{color:var(--muted)}
+.sock-lifecycle{font-family:'JetBrains Mono',monospace;background:#060a10;border:1px solid var(--border);border-radius:10px;padding:20px 24px;line-height:2.2}
+.sl-fn{color:var(--yellow);font-weight:700}.sl-arrow{color:var(--dim)}.sl-note{color:var(--dim);font-style:italic;font-size:0.85em}
+.struct-box{background:#060a10;border:1px solid var(--border);border-radius:10px;padding:18px 22px;font-family:'JetBrains Mono',monospace;line-height:2}
+.sf-type{color:var(--cyan)}.sf-field{color:var(--txt)}.sf-comment{color:var(--dim);font-style:italic}
+.fd-diagram{background:#060a10;border:1px solid var(--border);border-radius:10px;padding:18px;font-family:'JetBrains Mono',monospace;text-align:center;line-height:2.4}
+.compare{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:12px 0}
+.good-side{background:var(--gdim);border:1px solid rgba(63,185,80,.2);border-radius:8px;padding:12px}
+.bad-side{background:var(--rdim);border:1px solid rgba(248,81,73,.2);border-radius:8px;padding:12px}
+.side-label{font-size:0.8125rem;font-family:'JetBrains Mono',monospace;letter-spacing:1px;font-weight:700;margin-bottom:0.5rem;text-transform:uppercase}
+.retval-row{display:flex;gap:10px;flex-wrap:wrap;margin:12px 0}
+.retval{flex:1;min-width:120px;background:var(--surf);border:1px solid var(--border);border-radius:8px;padding:12px;text-align:center}
+.retval-num{font-family:'JetBrains Mono',monospace;font-weight:700;margin-bottom:4px}
+.retval-desc{color:var(--muted)}
+</style>
+<script src="js/nav.js" defer></script>
+<script src="data/questions.js" defer></script><script src="js/quiz-loader.js" defer></script>
 </head>
-
 <body>
-  <div id="site-nav"></div>
-  <div class="hero">
-    <div class="hero-label">K24 · Topic 5</div>
-    <h1>Sockets & <em>Network IPC</em></h1>
-    <p>Επικοινωνία διεργασιών μέσω δικτύου, TCP/UDP sockets, Client-Server μοντέλο και το lifecycle μιας σύνδεσης.</p>
-    <div class="chips">
-      <span class="chip">network ipc</span>
-      <span class="chip">tcp/udp</span>
-      <span class="chip">client-server</span>
-      <span class="chip">berkeley sockets</span>
+<div id="site-nav"></div>
+
+<div class="hero">
+  <div class="hero-label">K24 · Topic 5</div>
+  <h1>Sockets &amp; <em>Network IPC</em></h1>
+  <p>Berkeley Sockets API, TCP/UDP lifecycle, address structures, DNS resolution, server architectures, select() multiplexing — με πλήρη annotated κώδικα και tips για εξετάσεις.</p>
+  <div class="chips">
+    <span class="chip">berkeley sockets</span><span class="chip">tcp stream</span><span class="chip">udp datagram</span>
+    <span class="chip">select()</span><span class="chip">client-server</span><span class="chip">sockaddr_in</span>
+  </div>
+</div>
+
+<nav class="toc">
+  <a href="#intro">IPC Models</a><a href="#addressing">IP &amp; Ports</a><a href="#transport">TCP vs UDP</a>
+  <a href="#concepts">Socket Basics</a><a href="#byteorder">Byte Order</a><a href="#sockaddr">Address Structs</a>
+  <a href="#dns">DNS &amp; Conversion</a><a href="#tcp-server">TCP Server</a><a href="#tcp-client">TCP Client</a>
+  <a href="#arch">Architectures</a><a href="#select">select()</a><a href="#udp">UDP API</a>
+  <a href="#pitfalls">Pitfalls</a><a href="#examples">Examples</a>
+</nav>
+
+<div class="wrap">
+
+<!-- ═══════════════════════ 1. CROSS-HOST IPC ═══════════════════════ -->
+<section id="intro">
+  <div class="sh"><div class="sh-icon" style="background:var(--pdim)">🌐</div><h2>1. Cross-host IPC &amp; Communication Models</h2></div>
+
+  <p style="color:var(--muted);margin-bottom:14px">
+    Μέχρι τώρα είδαμε IPC στο <strong style="color:var(--txt)">ίδιο μηχάνημα</strong> (pipes, signals, shared memory).
+    Τι γίνεται αν οι διεργασίες τρέχουν σε <em>διαφορετικά</em> μηχανήματα με ένα δίκτυο ανάμεσά τους;
+    Η απάντηση είναι τα <strong style="color:var(--blue)">Sockets</strong> — το βασικό API για δικτυακή επικοινωνία στο UNIX (BSD 4.1, 1981).
+  </p>
+
+  <div class="grid2">
+    <div>
+      <div class="card">
+        <div class="card-title">Communication Models</div>
+        <ul style="color:var(--muted);list-style:none;padding:0">
+          <li style="margin-bottom:14px">
+            <strong style="color:var(--blue)">Client-Server:</strong> Ασυμμετρία ρόλων. Ο <strong style="color:var(--txt)">Server</strong> (always-on host, static IP, passive) περιμένει αιτήσεις. Ο <strong style="color:var(--txt)">Client</strong> (intermittent, dynamic IP, active) ξεκινάει τη σύνδεση. Clients δεν επικοινωνούν <em>μεταξύ τους</em> απευθείας.
+            <br><small style="color:var(--dim)">Παραδείγματα: Web (HTTP), Email (SMTP), SSH, FTP</small>
+          </li>
+          <li style="margin-bottom:14px">
+            <strong style="color:var(--orange)">Peer-to-Peer (P2P):</strong> Συμμετρία. Δεν υπάρχει always-on server. Κάθε peer είναι <em>ταυτόχρονα</em> client και server. Highly scalable αλλά δύσκολο στη διαχείριση.
+            <br><small style="color:var(--dim)">Παράδειγμα: Gnutella, BitTorrent</small>
+          </li>
+          <li>
+            <strong style="color:var(--purple)">Hybrid:</strong> Server για metadata/discovery, P2P για data transfer. Ο server βρίσκει <em>ποιος</em> είναι online, μετά τα peers μιλάνε απευθείας.
+            <br><small style="color:var(--dim)">Παράδειγμα: Skype (centralized lookup, direct client-client voice), Instant Messaging</small>
+          </li>
+        </ul>
+      </div>
+    </div>
+    <div>
+      <div class="tip">
+        <div class="tip-icon">🧠</div>
+        <div>
+          <div class="tip-title">Tip — Socket = "πόρτα" (door)</div>
+          <div class="tip-text">
+            Ένα socket είναι η <strong>"πόρτα"</strong> μεταξύ application layer και transport layer (TCP/UDP).<br>
+            Η εφαρμογή ρίχνει δεδομένα από τη μία μεριά — το OS αναλαμβάνει να τα μεταφέρει στο socket του παραλήπτη.<br>
+            <strong>API:</strong> (1) Επιλέγεις transport protocol, (2) Δίνεις IP+Port, (3) Στέλνεις/Λαμβάνεις.
+          </div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-title">Application Protocol</div>
+        <p style="color:var(--muted);font-size:0.85rem">Ορίζει τους κανόνες επικοινωνίας:</p>
+        <ul style="font-size:0.85rem;color:var(--muted);margin-top:6px">
+          <li><strong style="color:var(--txt)">Τύποι μηνυμάτων:</strong> request, response</li>
+          <li><strong style="color:var(--txt)">Syntax:</strong> ποια πεδία, πώς χωρίζονται</li>
+          <li><strong style="color:var(--txt)">Semantics:</strong> τι σημαίνει κάθε πεδίο</li>
+          <li><strong style="color:var(--txt)">Rules:</strong> πότε/πώς στέλνονται</li>
+        </ul>
+        <div class="ibox" style="margin-top:8px"><div class="lbl" style="color:var(--blue)">Public vs Proprietary</div><strong>Public:</strong> HTTP, SMTP (ορίζονται σε RFCs, interoperable). <strong>Proprietary:</strong> Skype, KaZaA (κλειστά πρωτόκολλα).</div>
+      </div>
     </div>
   </div>
 
-  <nav class="toc">
-    <a href="#intro">Εισαγωγή</a>
-    <a href="#types">Τύποι Sockets</a>
-    <a href="#lifecycle">Lifecycle</a>
-    <a href="#api">Socket API</a>
-  </nav>
+  <div class="section-quiz" data-topic="topic5" data-section="intro"></div>
+</section>
 
-  <div class="wrap">
+<!-- ═══════════════════════ 2. IP & PORTS ═══════════════════════ -->
+<section id="addressing">
+  <div class="sh"><div class="sh-icon" style="background:var(--cdim)">📍</div><h2>2. Addressing: IP &amp; Ports</h2></div>
 
-    <section id="intro">
-      <div class="sh">
-        <div class="sh-icon" style="background:var(--pdim)">🌐</div>
-        <h2>Εισαγωγή στα Sockets & Network IPC</h2>
-      </div>
-      <div class="grid2">
-        <div>
-          <p style="color:var(--muted);margin-bottom:14px">Τα Sockets είναι το <strong>de facto standard</strong> για την επικοινωνία διεργασιών μέσω δικτύου. Φανταστείτε τα σαν μια "πόρτα" (door) μέσω της οποίας μια διεργασία στέλνει και λαμβάνει μηνύματα.</p>
-          <div class="cmd-entry">
-            <div class="cmd-head"><span class="cmd-name">Communication Models</span></div>
-            <ul style="color:var(--muted);margin-top:10px;padding-left:20px;font-size:0.95rem">
-              <li><strong>Client-Server:</strong> Ο Server είναι πάντα ενεργός (always-on), έχει σταθερή IP και περιμένει (listen). Ο Client ξεκινά την επικοινωνία.</li>
-              <li><strong>Peer-to-Peer (P2P):</strong> Δεν υπάρχει κεντρικός server. Κάθε κόμβος (peer) δρα ταυτόχρονα ως client και ως server (π.χ. Gnutella).</li>
-              <li><strong>Hybrid:</strong> Συνδυασμός των δύο (π.χ. Skype για εύρεση χρήστη μέσω κεντρικού server, αλλά direct P2P σύνδεση για την κλήση).</li>
-            </ul>
-          </div>
-        </div>
-        <div>
-          <div class="cmd-entry">
-            <div class="cmd-head"><span class="cmd-name">Addressing</span><span class="cmd-full">IP & Port</span></div>
-            <div class="cmd-desc">Για την πρόσβαση σε μια υπηρεσία απαιτείται το ζεύγος <strong>(IP, Port)</strong>.</div>
-            <ul style="color:var(--muted);margin-top:10px;padding-left:20px;font-size:0.95rem">
-              <li><strong>IP Address:</strong> Προσδιορίζει το μηχάνημα στο δίκτυο (IPv4: 32-bit, IPv6: 128-bit).</li>
-              <li><strong>Port Number:</strong> Προσδιορίζει τη συγκεκριμένη διεργασία/υπηρεσία εντός του host (π.χ. HTTP: 80, SSH: 22).</li>
-            </ul>
-          </div>
-          <div class="tip">
-            <div class="tip-icon">📡</div>
-            <div>
-              <div class="tip-title">DNS & NAT</div>
-              <div class="tip-text">Το <strong>DNS</strong> μεταφράζει ονόματα σε IPs. Το <strong>NAT</strong> επιτρέπει σε πολλές εσωτερικές συσκευές να μοιράζονται μία δημόσια IP.</div>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="section-quiz" data-topic="topic5" data-section="intro"></div>
-    </section>
+  <p style="color:var(--muted);margin-bottom:14px">
+    Για να "βρεις" μια διεργασία στο δίκτυο χρειάζεσαι <strong style="color:var(--txt)">δύο πράγματα</strong>: μια <strong style="color:var(--blue)">IP</strong> (ποιο μηχάνημα) και ένα <strong style="color:var(--blue)">Port</strong> (ποια διεργασία σε αυτό το μηχάνημα).
+    Η IP <em>μόνη της</em> δεν αρκεί — πολλές διεργασίες τρέχουν στο ίδιο host.
+  </p>
 
-    <section id="types">
-      <div class="sh">
-        <div class="sh-icon" style="background:var(--cdim)">🔌</div>
-        <h2>Τύποι Sockets & Transport Services</h2>
+  <div class="grid2">
+    <div>
+      <div class="card">
+        <div class="card-title">The IP Layer (L3)</div>
+        <ul style="color:var(--muted);font-size:0.85rem;padding-left:16px">
+          <li><strong style="color:var(--cyan)">IPv4:</strong> 32 bits (4 octets). Π.χ. <code>147.102.12.1</code> — 4 δεκαδικοί αριθμοί χωρισμένοι με τελεία.</li>
+          <li><strong style="color:var(--cyan)">IPv6:</strong> 128 bits (8 blocks × 16 bits). Π.χ. <code>2001:0db8:0a0b:12f0::0001</code></li>
+          <li><strong style="color:var(--cyan)">Localhost:</strong> <code>127.0.0.1</code> — "μιλάω στον εαυτό μου", χωρίς να βγει πακέτο στο δίκτυο.</li>
+        </ul>
+        <div class="ibox" style="margin-top:10px">
+          <div class="lbl" style="color:var(--blue)">Addressing = IP + Port</div>
+          Π.χ. για να στείλεις HTTP request στο <code>www.di.uoa.gr</code>: IP = <code>147.52.17.2</code>, Port = <code>80</code>.
+        </div>
       </div>
-      <div class="grid2">
+      <div class="wbox" style="margin-top:10px">
+        <div class="lbl" style="color:var(--yellow)">NAT (Network Address Translation)</div>
+        Το σπίτι σου έχει μία δημόσια IP (π.χ. <code>79.166.80.131</code>) από τον ISP. Ο router δίνει εσωτερικές IPs (<code>192.168.x.y</code>) μέσω DHCP. Κρατά πίνακα ποιο πακέτο πάει σε ποιο εσωτερικό PC.
+        Αν θέλεις service εσωτερικά accessible: <strong style="color:var(--txt)">port forwarding</strong>.
+      </div>
+    </div>
+    <div>
+      <div class="card">
+        <div class="card-title">The Port Layer (L4)</div>
+        <p style="font-size:0.85rem;color:var(--muted);margin-bottom:8px">Ένα 16-bit unsigned integer (0–65535) που δείχνει <em>ποια διεργασία</em> παίρνει το πακέτο.</p>
+        <ul style="font-size:0.85rem;color:var(--muted);padding-left:16px">
+          <li><strong style="color:var(--green)">Well-known (0–1023):</strong> Δεσμευμένα. HTTP=80, SSH=22, SMTP=25, DNS=53, DHCP=67/68. Χρειάζονται root.</li>
+          <li><strong style="color:var(--yellow)">Registered (1024–49151):</strong> Για εφαρμογές. MySQL=3306, PostgreSQL=5432.</li>
+          <li><strong style="color:var(--orange)">Ephemeral (49152–65535):</strong> Προσωρινά. Ο client παίρνει αυτόματα ένα port σε αυτό το range.</li>
+        </ul>
+      </div>
+      <div class="tip">
+        <div class="tip-icon">🧠</div>
         <div>
-          <p style="color:var(--muted);margin-bottom:14px">Το OS προσφέρει δύο κύριους τύπους υπηρεσιών μεταφοράς μέσω του Socket API:</p>
-          <div class="cmd-entry">
-            <div class="cmd-head"><span class="cmd-name">TCP (SOCK_STREAM)</span></div>
-            <div class="cmd-desc"><strong>Reliable Byte Stream:</strong> Αξιόπιστη, in-order παράδοση δεδομένων (σαν "pipe").</div>
-            <ul style="color:var(--muted);margin-top:10px;padding-left:20px;font-size:0.95rem">
-              <li><strong>Connection-oriented:</strong> Απαιτείται εγκατάσταση σύνδεσης (handshake).</li>
-              <li><strong>Flow/Congestion Control:</strong> Διαχείριση ταχύτητας για αποφυγή υπερφόρτωσης.</li>
-            </ul>
-          </div>
-        </div>
-        <div>
-          <div class="cmd-entry">
-            <div class="cmd-head"><span class="cmd-name">UDP (SOCK_DGRAM)</span></div>
-            <div class="cmd-desc"><strong>Unreliable Datagrams:</strong> Γρήγορη αποστολή χωρίς εγγυήσεις.</div>
-            <ul style="color:var(--muted);margin-top:10px;padding-left:20px;font-size:0.95rem">
-              <li><strong>Connectionless:</strong> Δεν απαιτείται setup.</li>
-              <li><strong>Χρήση:</strong> Streaming, VoIP, DNS όπου το latency είναι κρίσιμο.</li>
-            </ul>
-          </div>
-          <div class="ritem">
-            <div class="rop">Network Byte Order</div>
-            <div class="rdesc">Τα δίκτυα χρησιμοποιούν <strong>Big Endian</strong>. Οι συναρτήσεις <code>htons()</code> κ.λπ. είναι απαραίτητες για μετατροπή από host order.</div>
+          <div class="tip-title">Tip — IP vs Port</div>
+          <div class="tip-text">
+            <strong>IP</strong> = η διεύθυνση του σπιτιού (ποιο κτίριο).<br>
+            <strong>Port</strong> = ο αριθμός διαμερίσματος (ποια πόρτα στο κτίριο).<br>
+            Χωρίς port, ο postman ξέρει σε ποιο κτίριο να πάει αλλά όχι σε ποιο ένοικο.
           </div>
         </div>
       </div>
-      <div class="section-quiz" data-topic="topic5" data-section="types"></div>
-    </section>
-
-    <section id="lifecycle">
-      <div class="sh">
-        <div class="sh-icon" style="background:var(--ydim)">🔄</div>
-        <h2>Server Architectures & Lifecycle</h2>
-      </div>
-      <div class="piperow" style="margin-bottom:20px; flex-direction: column; align-items: flex-start; gap: 10px;">
-        <div style="display:flex; align-items:center; gap:10px;">
-          <span class="pcmd">Server</span> <span class="psep">➔</span> <span class="fn">socket()</span> <span class="psep">➔</span> <span class="fn">bind()</span> <span class="psep">➔</span> <span class="fn">listen()</span> <span class="psep">➔</span> <span class="fn">accept()</span>
-        </div>
-        <div style="display:flex; align-items:center; gap:10px;">
-          <span class="pcmd">Client</span> <span class="psep">➔</span> <span class="fn">socket()</span> <span class="psep">➔</span> <span class="fn">connect()</span>
-        </div>
-      </div>
-      <div class="grid2">
-        <div>
-          <div class="cmd-entry">
-            <div class="cmd-head"><span class="cmd-name">Serial Server</span></div>
-            <div class="cmd-desc">Εξυπηρετεί έναν client τη φορά. Οι άλλοι περιμένουν.</div>
-            <div class="cb"><span class="fn">for</span>(;;) { newsock = <span class="fn">accept</span>(); <span class="fn">serve</span>(); <span class="fn">close</span>(); }</div>
-          </div>
-          <div class="cmd-entry">
-            <div class="cmd-head"><span class="cmd-name">Concurrent (Fork)</span></div>
-            <div class="cmd-desc">Fork ανά σύνδεση. Ο parent δέχεται, το child εξυπηρετεί.</div>
-            <div class="cb"><span class="fn">newsock</span> = <span class="fn">accept</span>();<br><span class="fn">if</span>(<span class="fn">fork</span>() == 0) { <span class="fn">serve</span>(newsock); <span class="fn">exit</span>(); }<br><span class="fn">close</span>(newsock);</div>
-          </div>
-        </div>
-        <div>
-          <div class="cmd-entry">
-            <div class="cmd-head"><span class="cmd-name">Multiplexing (select)</span></div>
-            <div class="cmd-desc">Ένα process διαχειρίζεται πολλά sockets ταυτόχρονα παρακολουθώντας events.</div>
-          </div>
-          <div class="tip">
-            <div class="tip-icon">🧩</div>
-            <div>
-              <div class="tip-title">File Descriptor Cleanup</div>
-              <div class="tip-text">Μετά το fork(), ο parent <strong>πρέπει</strong> να κλείσει το newsock για αποφυγή διαρροής FDs.</div>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="section-quiz" data-topic="topic5" data-section="lifecycle"></div>
-    </section>
-
-    <section id="api">
-      <div class="sh">
-        <div class="sh-icon" style="background:var(--gdim)">🛠️</div>
-        <h2>The Socket API Essentials</h2>
-      </div>
-      <div class="grid2">
-        <div>
-          <div class="cmd-entry">
-            <div class="cmd-head"><span class="cmd-name">socket() & bind()</span></div>
-            <div class="cb"><span class="type">int</span> s = <span class="fn">socket</span>(<span class="mc">AF_INET</span>, <span class="mc">SOCK_STREAM</span>, 0);<br><span class="fn">bind</span>(s, &addr, <span class="fn">sizeof</span>(addr));</div>
-          </div>
-          <div class="cmd-entry">
-            <div class="cmd-head"><span class="cmd-name">listen() & accept()</span></div>
-            <div class="cb"><span class="fn">listen</span>(s, 5);<br><span class="type">int</span> cl = <span class="fn">accept</span>(s, <span class="mc">NULL</span>, <span class="mc">NULL</span>);</div>
-          </div>
-        </div>
-        <div>
-          <div class="cmd-entry">
-            <div class="cmd-head"><span class="cmd-name">gethostbyname()</span></div>
-            <div class="cmd-desc">Επίλυση ονόματος (Legacy API).</div>
-            <div class="cb"><span class="type">struct</span> hostent *h = <span class="fn">gethostbyname</span>("di.uoa.gr");</div>
-          </div>
-          <div class="tip">
-            <div class="tip-icon">🛡️</div>
-            <div>
-              <div class="tip-title">SIGPIPE Handling</div>
-              <div class="tip-text">Γράψιμο σε κλειστό socket προκαλεί <strong>SIGPIPE</strong>. Απαιτείται signal handler για αποφυγή τερματισμού.</div>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="section-quiz" data-topic="topic5" data-section="api"></div>
-    </section>
-
+    </div>
   </div>
 
-  <div class="footer">K24 · Προγραμματισμός Συστήματος · ΕΚΠΑ · Topic 5: Sockets & Network IPC</div>
-</body>
+  <div class="section-quiz" data-topic="topic5" data-section="addressing"></div>
+</section>
 
+<!-- ═══════════════════════ 3. TCP vs UDP ═══════════════════════ -->
+<section id="transport">
+  <div class="sh"><div class="sh-icon" style="background:var(--ydim)">⚖️</div><h2>3. TCP vs UDP: Transport Services</h2></div>
+
+  <p style="color:var(--muted);margin-bottom:14px">
+    Το OS παρέχει δύο transport protocols μέσω του Socket API. Ο <strong style="color:var(--blue)">TCP</strong> εγγυάται αξιόπιστη, in-order παράδοση (σαν τηλεφωνική κλήση). Ο <strong style="color:var(--orange)">UDP</strong> στέλνει πακέτα "fire and forget" (σαν ταχυδρομικά γράμματα). Η εφαρμογή αποφασίζει τι χρειάζεται: data loss tolerance, timing, bandwidth.
+  </p>
+
+  <table class="vtbl">
+    <thead>
+      <tr><th>Χαρακτηριστικό</th><th style="color:var(--blue)">TCP (SOCK_STREAM)</th><th style="color:var(--orange)">UDP (SOCK_DGRAM)</th></tr>
+    </thead>
+    <tbody>
+      <tr><td><strong>Σύνδεση</strong></td><td>Connection-oriented (handshake required)</td><td>Connectionless (no setup)</td></tr>
+      <tr><td><strong>Αξιοπιστία</strong></td><td>Εγγυημένη (ACKs, retransmissions)</td><td>Best-effort (μπορεί να χαθεί!)</td></tr>
+      <tr><td><strong>Σειρά</strong></td><td>In-order παράδοση (reorder by OS)</td><td>Unordered (ό,τι φτάσει)</td></tr>
+      <tr><td><strong>Message Boundaries</strong></td><td>Όχι — byte stream, χωρίς όρια</td><td>Ναι — κάθε datagram αυτόνομο</td></tr>
+      <tr><td><strong>Flow Control</strong></td><td>Ναι (sender won't overwhelm receiver)</td><td>Όχι</td></tr>
+      <tr><td><strong>Congestion Control</strong></td><td>Ναι (throttle on overload)</td><td>Όχι</td></tr>
+      <tr><td><strong>Socket Type</strong></td><td><code>SOCK_STREAM</code></td><td><code>SOCK_DGRAM</code></td></tr>
+    </tbody>
+  </table>
+
+  <div class="compare">
+    <div class="good-side">
+      <div class="side-label" style="color:var(--blue)">Use TCP for:</div>
+      <ul style="font-size:0.85rem;color:var(--muted)">
+        <li>Web (HTTP/HTTPS) — χρειάζεται 100% αξιοπιστία</li>
+        <li>File Transfer (FTP/SCP)</li>
+        <li>Email (SMTP), Remote Login (SSH/Telnet)</li>
+        <li>Database Queries</li>
+      </ul>
+    </div>
+    <div class="bad-side" style="background:var(--odim);border-color:rgba(240,136,62,.3)">
+      <div class="side-label" style="color:var(--orange)">Use UDP for:</div>
+      <ul style="font-size:0.85rem;color:var(--muted)">
+        <li>Streaming Media — latency > quality</li>
+        <li>Online Gaming — real-time, tolerate loss</li>
+        <li>DNS Queries — single request/response</li>
+        <li>Internet Telephony (VoIP)</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="tip">
+    <div class="tip-icon">🧠</div>
+    <div>
+      <div class="tip-title">Tip — πότε UDP;</div>
+      <div class="tip-text">
+        Αν η εφαρμογή μπορεί να <strong>ανεχτεί κάποια απώλεια</strong> δεδομένων (audio, video) αλλά χρειάζεται <strong>χαμηλή καθυστέρηση</strong>, τότε UDP. Αν χρειάζεται <strong>100% reliability</strong> (αρχεία, email, web), τότε TCP. Ο TCP δεν εγγυάται timing ή bandwidth — μόνο reliability.
+      </div>
+    </div>
+  </div>
+
+  <div class="section-quiz" data-topic="topic5" data-section="transport"></div>
+</section>
+
+<!-- ═══════════════════════ 4. SOCKET FUNDAMENTALS ═══════════════════════ -->
+<section id="concepts">
+  <div class="sh"><div class="sh-icon" style="background:var(--gdim)">🔌</div><h2>4. Socket Fundamentals: Domains, Types &amp; socket()</h2></div>
+
+  <p style="color:var(--muted);margin-bottom:14px">
+    Ένα socket είναι ένα <strong style="color:var(--txt)">communication endpoint</strong>. Οι διεργασίες αναφέρονται σε αυτό μέσω ενός <em>integer file descriptor</em> — ακριβώς όπως με τα αρχεία. Η <code>socket()</code> δημιουργεί ένα socket και επιστρέφει αυτόν τον fd.
+  </p>
+
+  <div class="grid2">
+    <div>
+      <div class="card">
+        <div class="card-title">Address Domains (AF_*)</div>
+        <p style="font-size:0.85rem;color:var(--muted);margin-bottom:8px">Καθορίζει το <em>format</em> των διευθύνσεων:</p>
+        <ul style="font-size:0.85rem;color:var(--muted)">
+          <li><code style="color:var(--cyan)">AF_UNIX</code> / <code style="color:var(--cyan)">AF_LOCAL</code>: Επικοινωνία <strong>εντός ίδιου PC</strong>. Η "διεύθυνση" είναι ένα filesystem path. Γρηγορότερο γιατί δεν περνά από network stack.</li>
+          <li><code style="color:var(--cyan)">AF_INET</code>: IPv4 Internet domain. Η "διεύθυνση" = 4-byte IP + 2-byte Port. Αυτό θα χρησιμοποιούμε σχεδόν πάντα.</li>
+          <li><code style="color:var(--cyan)">AF_INET6</code>: IPv6 (16-byte IP address).</li>
+        </ul>
+      </div>
+      <div class="card" style="margin-top:10px">
+        <div class="card-title">Socket Types (SOCK_*)</div>
+        <ul style="font-size:0.85rem;color:var(--muted)">
+          <li><code style="color:var(--green)">SOCK_STREAM</code>: TCP. Reliable, in-order byte stream. Σαν σωλήνα νερού — συνεχής ροή.</li>
+          <li><code style="color:var(--orange)">SOCK_DGRAM</code>: UDP. Unreliable, independent datagrams. Σαν ταχυδρομικά γράμματα.</li>
+          <li><code style="color:var(--dim)">SOCK_RAW</code>: Bypass transport layer. Για εργαλεία όπως <code>ping</code>. Χρειάζεται root.</li>
+        </ul>
+      </div>
+    </div>
+    <div>
+      <div class="cb">
+<span class="mc">#include</span> <span class="st">&lt;sys/types.h&gt;</span>
+<span class="mc">#include</span> <span class="st">&lt;sys/socket.h&gt;</span>
+
+<span class="cm">// Prototype:</span>
+<span class="cm">// int socket(int domain, int type, int protocol)</span>
+<span class="cm">// Δημιουργεί socket, επιστρέφει fd ή -1</span>
+
+<span class="tp">int</span> sock;
+<span class="kw">if</span> ((sock = <span class="fn">socket</span>(<span class="mc">AF_INET</span>, <span class="mc">SOCK_STREAM</span>, <span class="nm">0</span>)) == -<span class="nm">1</span>)
+    <span class="fn">perror_exit</span>(<span class="st">"socket"</span>);
+
+<span class="cm">// domain:   AF_INET (IPv4), AF_INET6, AF_UNIX</span>
+<span class="cm">// type:     SOCK_STREAM (TCP), SOCK_DGRAM (UDP)</span>
+<span class="cm">// protocol: πάντα 0 (default for the type)</span></div>
+      <div class="tip">
+        <div class="tip-icon">🧠</div>
+        <div>
+          <div class="tip-title">Tip — socket = file descriptor</div>
+          <div class="tip-text">
+            Το socket <strong>είναι fd</strong>. Μπορείς να κάνεις <code>read()</code>, <code>write()</code>, <code>close()</code> πάνω του — ακριβώς όπως σε αρχείο ή pipe.<br>
+            Η μόνη διαφορά: πριν κάνεις read/write, πρέπει πρώτα να <strong>συνδέσεις</strong> τα δύο endpoints (bind, listen, connect, accept).
+          </div>
+        </div>
+      </div>
+      <div class="rbox">
+        <div class="lbl" style="color:var(--red)">Όλα τα socket syscalls</div>
+        Απαιτούν <code>#include &lt;sys/types.h&gt;</code> και <code>#include &lt;sys/socket.h&gt;</code>. Επιστρέφουν <strong>-1</strong> σε αποτυχία (πάντα ελέγχουμε!).
+      </div>
+    </div>
+  </div>
+
+  <div class="section-quiz" data-topic="topic5" data-section="concepts"></div>
+</section>
+
+<!-- ═══════════════════════ 5. BYTE ORDER ═══════════════════════ -->
+<section id="byteorder">
+  <div class="sh"><div class="sh-icon" style="background:var(--pdim)">🔢</div><h2>5. Network Byte Order</h2></div>
+
+  <p style="color:var(--muted);margin-bottom:14px">
+    Το Internet μιλάει <strong style="color:var(--txt)">Big Endian</strong> (Most Significant Byte πρώτο) — αυτό λέγεται <em>Network Byte Order</em>.
+    Οι Intel CPUs μιλάνε <strong style="color:var(--txt)">Little Endian</strong> (LSB πρώτο).
+    Αν δεν κάνουμε μετατροπή, ο αριθμός <code>0xD04C</code> στον Intel θα διαβαστεί ως <code>0x4CD0</code> στο δίκτυο!
+  </p>
+
+  <div class="grid2">
+    <div>
+      <div class="cb">
+<span class="mc">#include</span> <span class="st">&lt;sys/types.h&gt;</span>
+<span class="mc">#include</span> <span class="st">&lt;netinet/in.h&gt;</span>
+
+<span class="cm">// Οι 4 "χρυσές" συναρτήσεις μετατροπής</span>
+<span class="tp">uint16_t</span> <span class="fn">htons</span>(host_short); <span class="cm">// Host TO Network Short</span>
+<span class="tp">uint32_t</span> <span class="fn">htonl</span>(host_long);  <span class="cm">// Host TO Network Long</span>
+<span class="tp">uint16_t</span> <span class="fn">ntohs</span>(net_short);  <span class="cm">// Network TO Host Short</span>
+<span class="tp">uint32_t</span> <span class="fn">ntohl</span>(net_long);   <span class="cm">// Network TO Host Long</span>
+
+<span class="cm">// Παράδειγμα:</span>
+<span class="tp">uint16_t</span> n = <span class="nm">0xD04C</span>;
+<span class="tp">uint16_t</span> net = <span class="fn">htons</span>(n);
+<span class="cm">// Intel (LE): n bytes = 4C D0</span>
+<span class="cm">// After htons: net bytes = D0 4C (Network Order)</span>
+<span class="cm">// Σε Big Endian machine: δεν αλλάζει τίποτα!</span></div>
+    </div>
+    <div>
+      <div class="tip">
+        <div class="tip-icon">🧠</div>
+        <div>
+          <div class="tip-title">Mnemonic — h/n/s/l</div>
+          <div class="tip-text">
+            <strong>h</strong> = Host (η δική μου μηχανή).<br>
+            <strong>n</strong> = Network (Internet byte order).<br>
+            <strong>s</strong> = Short (2 bytes = 16 bits) → <strong>για ports</strong>.<br>
+            <strong>l</strong> = Long (4 bytes = 32 bits) → <strong>για IPs</strong>.<br>
+            <code>htons</code> = "Host TO Network Short" = μετατρέπω port πριν στείλω.<br>
+            <code>ntohl</code> = "Network TO Host Long" = μετατρέπω IP αφού λάβω.
+          </div>
+        </div>
+      </div>
+      <div class="rbox">
+        <div class="lbl" style="color:var(--red)">🚨 Πότε μετατρέπουμε</div>
+        <strong>ΠΑΝΤΑ</strong> πριν βάλουμε port ή IP στο <code>sockaddr_in</code>. Αλλιώς ο server ακούει σε λάθος port!<br>
+        <code>srv.sin_port = htons(8080);</code> — <em>ποτέ</em> χωρίς htons.
+      </div>
+    </div>
+  </div>
+
+  <div class="section-quiz" data-topic="topic5" data-section="byteorder"></div>
+</section>
+
+<!-- ═══════════════════════ 6. SOCKET ADDRESS STRUCTURES ═══════════════════════ -->
+<section id="sockaddr">
+  <div class="sh"><div class="sh-icon" style="background:var(--bdim)">📐</div><h2>6. Socket Address Structures (sockaddr_in)</h2></div>
+
+  <p style="color:var(--muted);margin-bottom:14px">
+    Κάθε socket function (bind, connect, accept) χρειάζεται μια <strong style="color:var(--txt)">διεύθυνση</strong>. Στο Internet domain (AF_INET) χρησιμοποιούμε την <code>struct sockaddr_in</code>, η οποία κάνει cast σε generic <code>struct sockaddr *</code>.
+  </p>
+
+  <div class="grid2">
+    <div>
+      <div class="cb">
+<span class="mc">#include</span> <span class="st">&lt;netinet/in.h&gt;</span>
+
+<span class="kw">struct</span> <span class="sf-type">sockaddr_in</span> {
+    <span class="sf-type">sa_family_t</span>    <span class="sf-field">sin_family</span>;   <span class="sf-comment">/* AF_INET */</span>
+    <span class="sf-type">in_port_t</span>      <span class="sf-field">sin_port</span>;     <span class="sf-comment">/* port σε NBO */</span>
+    <span class="kw">struct</span> <span class="sf-type">in_addr</span> <span class="sf-field">sin_addr</span>;     <span class="sf-comment">/* IPv4 address */</span>
+};
+
+<span class="kw">struct</span> <span class="sf-type">in_addr</span> {
+    <span class="sf-type">in_addr_t</span>  <span class="sf-field">s_addr</span>;  <span class="sf-comment">/* uint32_t σε NBO */</span>
+};
+
+<span class="sf-comment">/* in_port_t = uint16_t (2 bytes) */</span>
+<span class="sf-comment">/* in_addr_t = uint32_t (4 bytes) */</span>
+      </div>
+    </div>
+    <div>
+      <div class="card">
+        <div class="card-title">Πώς γεμίζουμε τη δομή</div>
+        <div class="cb" style="font-size:0.8rem">
+<span class="kw">struct</span> <span class="tp">sockaddr_in</span> server;
+
+<span class="cm">// 1. Address family: πάντα AF_INET</span>
+server.sin_family = <span class="mc">AF_INET</span>;
+
+<span class="cm">// 2. Port: ΠΑΝΤΑ htons()!</span>
+server.sin_port = <span class="fn">htons</span>(<span class="nm">8080</span>);
+
+<span class="cm">// 3. IP: INADDR_ANY = όλα τα interfaces</span>
+server.sin_addr.s_addr = <span class="fn">htonl</span>(<span class="mc">INADDR_ANY</span>);
+
+<span class="cm">// Cast σε generic sockaddr* για bind():</span>
+<span class="fn">bind</span>(sock, (<span class="kw">struct</span> <span class="tp">sockaddr</span> *)&amp;server,
+     <span class="kw">sizeof</span>(server));</div>
+      </div>
+      <div class="tip">
+        <div class="tip-icon">🧠</div>
+        <div>
+          <div class="tip-title">Tip — INADDR_ANY</div>
+          <div class="tip-text">
+            <code>INADDR_ANY</code> = <code>0.0.0.0</code> = "δέξου συνδέσεις σε <strong>όλα</strong> τα network interfaces του μηχανήματος". Αν ο server έχει πολλές κάρτες δικτύου, δεν χρειάζεται να επιλέξεις μία.
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="ibox">
+    <div class="lbl" style="color:var(--blue)">Γιατί (struct sockaddr *) cast;</div>
+    Η <code>bind()</code> δέχεται <code>struct sockaddr *</code> — μια <strong>generic</strong> δομή. Αυτό επιτρέπει στο ίδιο API να δουλεύει με AF_INET (sockaddr_in), AF_INET6 (sockaddr_in6), AF_UNIX (sockaddr_un). Εμείς πάντα περνάμε <code>sockaddr_in</code> με cast.
+  </div>
+
+  <div class="section-quiz" data-topic="topic5" data-section="sockaddr"></div>
+</section>
+
+<!-- ═══════════════════════ 7. DNS & ADDRESS CONVERSION ═══════════════════════ -->
+<section id="dns">
+  <div class="sh"><div class="sh-icon" style="background:var(--cdim)">🔍</div><h2>7. DNS Resolution &amp; Address Conversion</h2></div>
+
+  <p style="color:var(--muted);margin-bottom:14px">
+    Πρέπει να μετατρέψουμε hostnames (π.χ. <code>di.uoa.gr</code>) σε binary IP, και binary IP σε printable string. Δύο κατηγορίες: <strong style="color:var(--txt)">DNS lookup</strong> (hostname ↔ IP) και <strong style="color:var(--txt)">IP conversion</strong> (string ↔ binary).
+  </p>
+
+  <div class="grid2">
+    <div>
+      <div class="card">
+        <div class="card-title">gethostbyname() — DNS Lookup</div>
+        <div class="cb" style="font-size:0.8rem">
+<span class="mc">#include</span> <span class="st">&lt;netdb.h&gt;</span>
+
+<span class="kw">struct</span> <span class="tp">hostent</span> *h;
+h = <span class="fn">gethostbyname</span>(<span class="st">"www.google.com"</span>);
+<span class="kw">if</span> (h == <span class="mc">NULL</span>) {
+    <span class="fn">herror</span>(<span class="st">"gethostbyname"</span>);
+    <span class="fn">exit</span>(<span class="nm">1</span>);
+}
+<span class="cm">// h->h_addr_list[0] = IP σε NBO</span>
+<span class="cm">// h->h_name = official hostname</span>
+<span class="cm">// h->h_length = μήκος address (4 για IPv4)</span></div>
+        <div class="cb" style="margin-top:8px;font-size:0.8rem;line-height:1.8">
+<span class="kw">struct</span> <span class="sf-type">hostent</span> {
+    <span class="sf-type">char</span>  *<span class="sf-field">h_name</span>;       <span class="sf-comment">/* official name */</span>
+    <span class="sf-type">char</span>  **<span class="sf-field">h_aliases</span>;   <span class="sf-comment">/* alt names */</span>
+    <span class="sf-type">int</span>   <span class="sf-field">h_addrtype</span>;    <span class="sf-comment">/* AF_INET */</span>
+    <span class="sf-type">int</span>   <span class="sf-field">h_length</span>;      <span class="sf-comment">/* addr len (4) */</span>
+    <span class="sf-type">char</span>  **<span class="sf-field">h_addr_list</span>; <span class="sf-comment">/* IP array */</span>
+};
+        </div>
+      </div>
+    </div>
+    <div>
+      <div class="card">
+        <div class="card-title">IP Conversion Functions</div>
+        <div class="cb" style="font-size:0.78rem">
+<span class="mc">#include</span> <span class="st">&lt;arpa/inet.h&gt;</span>
+
+<span class="cm">// OLD: μόνο IPv4</span>
+<span class="cm">// string "1.2.3.4" → binary (NBO)</span>
+<span class="fn">inet_aton</span>(<span class="st">"1.2.3.4"</span>, &amp;addr);  <span class="cm">// returns 1/0</span>
+<span class="cm">// binary (NBO) → string "1.2.3.4"</span>
+<span class="tp">char</span> *s = <span class="fn">inet_ntoa</span>(addr);    <span class="cm">// static buffer!</span>
+
+<span class="cm">// NEW: IPv4 + IPv6 (POSIX.1-2001)</span>
+<span class="cm">// presentation → network (pton = "to network")</span>
+<span class="fn">inet_pton</span>(<span class="mc">AF_INET</span>, <span class="st">"1.2.3.4"</span>, &amp;addr);
+<span class="cm">// network → presentation (ntop = "to presentation")</span>
+<span class="fn">inet_ntop</span>(<span class="mc">AF_INET</span>, &amp;addr, buf, <span class="kw">sizeof</span>(buf));</div>
+      </div>
+      <div class="rbox" style="margin-top:8px">
+        <div class="lbl" style="color:var(--red)">🚨 Deprecation</div>
+        <code>gethostbyname()</code> είναι <strong>NOT thread-safe</strong> (static buffer). POSIX.1-2001 συστήνει <code>getaddrinfo()</code> / <code>getnameinfo()</code>. Ομοίως <code>inet_ntoa()</code> χρησιμοποιεί static buffer — prefer <code>inet_ntop()</code>.
+      </div>
+      <div class="tip">
+        <div class="tip-icon">🧠</div>
+        <div>
+          <div class="tip-title">Mnemonic — aton/ntoa/pton/ntop</div>
+          <div class="tip-text">
+            <strong>a</strong>ton = ASCII "<strong>to</strong>" <strong>n</strong>etwork.<br>
+            <strong>n</strong>to<strong>a</strong> = <strong>n</strong>etwork "to" <strong>A</strong>SCII.<br>
+            <strong>p</strong>ton = <strong>p</strong>resentation "to" <strong>n</strong>etwork.<br>
+            <strong>n</strong>to<strong>p</strong> = <strong>n</strong>etwork "to" <strong>p</strong>resentation.<br>
+            Τα "new" (pton/ntop) δουλεύουν και με <strong>IPv6</strong>.
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card" style="margin-top:12px">
+    <div class="card-title">Πλήρες παράδειγμα: hostname → IP string</div>
+    <div class="cb" style="font-size:0.78rem">
+<span class="kw">struct</span> <span class="tp">hostent</span> *mymachine;
+<span class="kw">struct</span> <span class="tp">in_addr</span> **addr_list;
+<span class="tp">char</span> symbolicip[<span class="nm">50</span>];
+
+<span class="kw">if</span> ((mymachine = <span class="fn">gethostbyname</span>(hostname)) == <span class="mc">NULL</span>) {
+    <span class="fn">herror</span>(<span class="st">"gethostbyname"</span>); <span class="fn">exit</span>(<span class="nm">1</span>);
+}
+addr_list = (<span class="kw">struct</span> <span class="tp">in_addr</span> **) mymachine-&gt;h_addr_list;
+<span class="kw">for</span> (<span class="tp">int</span> i = <span class="nm">0</span>; addr_list[i] != <span class="mc">NULL</span>; i++) {
+    <span class="fn">strcpy</span>(symbolicip, <span class="fn">inet_ntoa</span>(*addr_list[i]));
+    <span class="fn">printf</span>(<span class="st">"%s resolved to %s\n"</span>, mymachine-&gt;h_name, symbolicip);
+}
+<span class="cm">// Output: di.uoa.gr resolved to 195.134.65.123</span></div>
+  </div>
+
+  <div class="section-quiz" data-topic="topic5" data-section="dns"></div>
+</section>
+
+<!-- ═══════════════════════ 8. TCP SERVER ═══════════════════════ -->
+<section id="tcp-server">
+  <div class="sh"><div class="sh-icon" style="background:var(--gdim)">🛠️</div><h2>8. TCP Server Lifecycle — Πλήρης Ανάλυση</h2></div>
+
+  <p style="color:var(--muted);margin-bottom:14px">
+    Η ζωή ενός TCP server ακολουθεί <strong style="color:var(--txt)">αυστηρή σειρά</strong>: <code>socket()</code> → <code>bind()</code> → <code>listen()</code> → <code>accept()</code> → <code>read()/write()</code> → <code>close()</code>.
+    Κάθε βήμα είναι κρίσιμο — αν παραλείψεις ένα, ο server δεν λειτουργεί.
+  </p>
+
+  <div class="sock-lifecycle">
+    <div style="color:var(--dim);margin-bottom:8px;letter-spacing:1px">TCP SERVER LIFECYCLE</div>
+    <span class="sl-fn">socket()</span> <span class="sl-note">← δημιούργησε endpoint</span><br>
+    <span class="sl-arrow">&nbsp;&nbsp;↓</span><br>
+    <span class="sl-fn">bind()</span> <span class="sl-note">← κατοχύρωσε (IP, Port) στο OS</span><br>
+    <span class="sl-arrow">&nbsp;&nbsp;↓</span><br>
+    <span class="sl-fn">listen()</span> <span class="sl-note">← μετατρέψου σε passive socket, όρισε backlog</span><br>
+    <span class="sl-arrow">&nbsp;&nbsp;↓</span><br>
+    <span class="sl-fn">accept()</span> <span class="sl-note">← BLOCKING: περίμενε client, δώσε ΝΕΟ fd (cfd)</span><br>
+    <span class="sl-arrow">&nbsp;&nbsp;↓</span><br>
+    <span class="sl-fn">read()/write()</span> <span class="sl-note">← ανταλλαγή δεδομένων μέσω cfd</span><br>
+    <span class="sl-arrow">&nbsp;&nbsp;↓</span><br>
+    <span class="sl-fn">close(cfd)</span> <span class="sl-note">← κλείσε τη σύνδεση</span>
+  </div>
+
+  <div class="grid2" style="margin-top:14px">
+    <div>
+      <div class="card">
+        <div class="card-title">bind() — Κατοχύρωση Port</div>
+        <div class="cb" style="font-size:0.78rem">
+<span class="cm">// int bind(int socket,</span>
+<span class="cm">//   const struct sockaddr *address,</span>
+<span class="cm">//   socklen_t address_len);</span>
+
+<span class="kw">struct</span> <span class="tp">sockaddr_in</span> server;
+server.sin_family = <span class="mc">AF_INET</span>;
+server.sin_addr.s_addr = <span class="fn">htonl</span>(<span class="mc">INADDR_ANY</span>);
+server.sin_port = <span class="fn">htons</span>(port);
+<span class="kw">if</span> (<span class="fn">bind</span>(sock, (<span class="kw">struct</span> <span class="tp">sockaddr</span> *)&amp;server,
+         <span class="kw">sizeof</span>(server)) &lt; <span class="nm">0</span>)
+    <span class="fn">perror_exit</span>(<span class="st">"bind"</span>);</div>
+        <p style="font-size:0.8rem;color:var(--muted);margin-top:6px">Χωρίς bind, το OS δεν ξέρει σε ποιο port να στείλει τα εισερχόμενα πακέτα στον server.</p>
+      </div>
+      <div class="card" style="margin-top:10px">
+        <div class="card-title">listen() &amp; accept()</div>
+        <div class="cb" style="font-size:0.78rem">
+<span class="cm">// int listen(int socket, int backlog);</span>
+<span class="cm">// Μέχρι backlog connections στην ουρά</span>
+<span class="kw">if</span> (<span class="fn">listen</span>(sock, <span class="nm">5</span>) &lt; <span class="nm">0</span>)
+    <span class="fn">perror_exit</span>(<span class="st">"listen"</span>);
+
+<span class="cm">// int accept(int socket,</span>
+<span class="cm">//   struct sockaddr *address,</span>
+<span class="cm">//   socklen_t *address_len);</span>
+<span class="tp">socklen_t</span> clientlen = <span class="kw">sizeof</span>(client);
+cfd = <span class="fn">accept</span>(sock,
+    (<span class="kw">struct</span> <span class="tp">sockaddr</span> *)&amp;client,
+    &amp;clientlen);
+<span class="cm">// BLOCKS μέχρι client connects!</span>
+<span class="cm">// Επιστρέφει ΝΕΟ fd για τη σύνδεση</span>
+<span class="cm">// client struct γεμίζει με τα στοιχεία του</span></div>
+      </div>
+    </div>
+    <div>
+      <div class="ibox">
+        <div class="lbl" style="color:var(--blue)">The Two-Socket Model</div>
+        <strong style="color:var(--yellow)">lfd</strong> (Listening Socket) = η <strong>ρεσεψιόν</strong> του ξενοδοχείου. Δέχεται αιτήσεις, δεν εξυπηρετεί κανέναν.<br>
+        <strong style="color:var(--green)">cfd</strong> (Connected Socket) = το <strong>κλειδί δωματίου</strong>. Ξεχωριστό για κάθε client. Πάνω σε αυτό γίνεται η read/write.<br><br>
+        Η <code>accept()</code> αφήνει τον lfd ανέπαφο και δημιουργεί ΝΕΟ cfd. Έτσι ο server μπορεί να εξυπηρετεί <em>πολλούς</em> clients — κάθε accept() δίνει νέο cfd.
+      </div>
+      <div class="tip">
+        <div class="tip-icon">🧠</div>
+        <div>
+          <div class="tip-title">Tip — backlog parameter</div>
+          <div class="tip-text">
+            Ο αριθμός στο <code>listen(sock, 5)</code> = πόσες <strong>ολοκληρωμένες αλλά μη-αποδεκτές</strong> συνδέσεις κρατάει ο kernel στην ουρά. Αν γεμίσει, νέα connections αρνούνται. Τυπικά: 5–128.
+          </div>
+        </div>
+      </div>
+      <div class="wbox">
+        <div class="lbl" style="color:var(--yellow)">accept() — value-result pattern</div>
+        Ο <code>clientlen</code> πρέπει να αρχικοποιηθεί <strong>πριν</strong> την κλήση (δείχνει πόσο μεγάλο buffer δίνεις). Μετά την accept, περιέχει πόσα bytes <em>γράφτηκαν</em> στο client struct. Pass <code>NULL</code> αν δεν σε νοιάζει η address.
+      </div>
+    </div>
+  </div>
+
+  <div class="card" style="margin-top:14px">
+    <div class="card-title">Πλήρης Annotated TCP Server (inet_str_server)</div>
+    <div class="cb" style="font-size:0.75rem">
+<span class="mc">#include</span> <span class="st">&lt;stdio.h&gt;</span>
+<span class="mc">#include</span> <span class="st">&lt;sys/wait.h&gt;</span>        <span class="cm">/* wait */</span>
+<span class="mc">#include</span> <span class="st">&lt;sys/types.h&gt;</span>       <span class="cm">/* sockets */</span>
+<span class="mc">#include</span> <span class="st">&lt;sys/socket.h&gt;</span>      <span class="cm">/* sockets */</span>
+<span class="mc">#include</span> <span class="st">&lt;netinet/in.h&gt;</span>      <span class="cm">/* internet sockets */</span>
+<span class="mc">#include</span> <span class="st">&lt;netdb.h&gt;</span>           <span class="cm">/* gethostbyaddr */</span>
+<span class="mc">#include</span> <span class="st">&lt;unistd.h&gt;</span>          <span class="cm">/* fork, close */</span>
+<span class="mc">#include</span> <span class="st">&lt;stdlib.h&gt;</span>          <span class="cm">/* exit */</span>
+<span class="mc">#include</span> <span class="st">&lt;ctype.h&gt;</span>           <span class="cm">/* toupper */</span>
+<span class="mc">#include</span> <span class="st">&lt;signal.h&gt;</span>          <span class="cm">/* signal */</span>
+
+<span class="tp">void</span> <span class="fn">sigchld_handler</span>(<span class="tp">int</span> sig) {
+    <span class="kw">while</span> (<span class="fn">waitpid</span>(-<span class="nm">1</span>, <span class="mc">NULL</span>, <span class="mc">WNOHANG</span>) &gt; <span class="nm">0</span>);
+}
+
+<span class="tp">void</span> <span class="fn">child_server</span>(<span class="tp">int</span> newsock) {
+    <span class="tp">char</span> buf[<span class="nm">1</span>];
+    <span class="kw">while</span> (<span class="fn">read</span>(newsock, buf, <span class="nm">1</span>) &gt; <span class="nm">0</span>) {  <span class="cm">/* Receive 1 char */</span>
+        <span class="fn">putchar</span>(buf[<span class="nm">0</span>]);
+        buf[<span class="nm">0</span>] = <span class="fn">toupper</span>(buf[<span class="nm">0</span>]);           <span class="cm">/* Capitalize */</span>
+        <span class="kw">if</span> (<span class="fn">write</span>(newsock, buf, <span class="nm">1</span>) &lt; <span class="nm">0</span>)
+            <span class="fn">perror_exit</span>(<span class="st">"write"</span>);             <span class="cm">/* Reply */</span>
+    }
+    <span class="fn">printf</span>(<span class="st">"Closing connection.\n"</span>);
+    <span class="fn">close</span>(newsock);
+}
+
+<span class="tp">int</span> <span class="fn">main</span>(<span class="tp">int</span> argc, <span class="tp">char</span> *argv[]) {
+    <span class="tp">int</span> port, sock, newsock;
+    <span class="kw">struct</span> <span class="tp">sockaddr_in</span> server, client;
+    <span class="tp">socklen_t</span> clientlen;
+    <span class="kw">struct</span> <span class="tp">hostent</span> *rem;
+
+    port = <span class="fn">atoi</span>(argv[<span class="nm">1</span>]);
+    <span class="fn">signal</span>(<span class="mc">SIGCHLD</span>, sigchld_handler);         <span class="cm">/* Reap zombies */</span>
+
+    sock = <span class="fn">socket</span>(<span class="mc">AF_INET</span>, <span class="mc">SOCK_STREAM</span>, <span class="nm">0</span>);   <span class="cm">/* 1. Create socket */</span>
+    server.sin_family = <span class="mc">AF_INET</span>;
+    server.sin_addr.s_addr = <span class="fn">htonl</span>(<span class="mc">INADDR_ANY</span>);
+    server.sin_port = <span class="fn">htons</span>(port);
+    <span class="fn">bind</span>(sock, (<span class="kw">struct</span> <span class="tp">sockaddr</span>*)&amp;server,       <span class="cm">/* 2. Bind */</span>
+         <span class="kw">sizeof</span>(server));
+    <span class="fn">listen</span>(sock, <span class="nm">5</span>);                            <span class="cm">/* 3. Listen */</span>
+
+    <span class="kw">while</span> (<span class="nm">1</span>) {
+        clientlen = <span class="kw">sizeof</span>(client);
+        newsock = <span class="fn">accept</span>(sock,                    <span class="cm">/* 4. Accept (BLOCKS) */</span>
+            (<span class="kw">struct</span> <span class="tp">sockaddr</span>*)&amp;client, &amp;clientlen);
+
+        rem = <span class="fn">gethostbyaddr</span>(                      <span class="cm">/* Who connected? */</span>
+            (<span class="tp">char</span>*)&amp;client.sin_addr.s_addr,
+            <span class="kw">sizeof</span>(client.sin_addr.s_addr),
+            client.sin_family);
+        <span class="fn">printf</span>(<span class="st">"Accepted connection from %s\n"</span>, rem-&gt;h_name);
+
+        <span class="kw">switch</span> (<span class="fn">fork</span>()) {                         <span class="cm">/* 5. Fork child */</span>
+        <span class="kw">case</span> -<span class="nm">1</span>: <span class="fn">perror</span>(<span class="st">"fork"</span>); <span class="kw">break</span>;
+        <span class="kw">case</span> <span class="nm">0</span>:                                    <span class="cm">/* CHILD */</span>
+            <span class="fn">close</span>(sock);                          <span class="cm">/* Close listener! */</span>
+            <span class="fn">child_server</span>(newsock);                 <span class="cm">/* Handle client */</span>
+            <span class="fn">exit</span>(<span class="nm">0</span>);
+        }
+        <span class="fn">close</span>(newsock);  <span class="cm">/* PARENT: close client fd immediately */</span>
+    }
+}</div>
+  </div>
+
+  <div class="section-quiz" data-topic="topic5" data-section="tcp-server"></div>
+</section>
+
+<!-- ═══════════════════════ 9. TCP CLIENT ═══════════════════════ -->
+<section id="tcp-client">
+  <div class="sh"><div class="sh-icon" style="background:var(--odim)">📡</div><h2>9. TCP Client — Πλήρης Ανάλυση</h2></div>
+
+  <p style="color:var(--muted);margin-bottom:14px">
+    Ο client είναι πιο απλός: <code>socket()</code> → <code>connect()</code> → <code>read()/write()</code> → <code>close()</code>.
+    Δεν χρειάζεται bind, listen ή accept — απλά συνδέεται στον server και αρχίζει να μιλάει.
+  </p>
+
+  <div class="sock-lifecycle">
+    <div style="color:var(--dim);margin-bottom:8px;letter-spacing:1px">TCP CLIENT LIFECYCLE</div>
+    <span class="sl-fn">socket()</span> <span class="sl-note">← δημιούργησε endpoint</span><br>
+    <span class="sl-arrow">&nbsp;&nbsp;↓</span><br>
+    <span class="sl-fn">connect()</span> <span class="sl-note">← σύνδεση στον server (IP + Port)</span><br>
+    <span class="sl-arrow">&nbsp;&nbsp;↓</span><br>
+    <span class="sl-fn">read()/write()</span> <span class="sl-note">← ανταλλαγή δεδομένων</span><br>
+    <span class="sl-arrow">&nbsp;&nbsp;↓</span><br>
+    <span class="sl-fn">close()</span> <span class="sl-note">← τερματισμός</span>
+  </div>
+
+  <div class="card" style="margin-top:14px">
+    <div class="card-title">connect() — Σύνδεση στον Server</div>
+    <div class="cb" style="font-size:0.78rem">
+<span class="cm">// int connect(int socket,</span>
+<span class="cm">//   struct sockaddr *address, socklen_t address_len);</span>
+
+<span class="kw">struct</span> <span class="tp">sockaddr_in</span> server;
+<span class="kw">struct</span> <span class="tp">hostent</span> *rem;
+
+rem = <span class="fn">gethostbyname</span>(hostname);   <span class="cm">/* Resolve server IP */</span>
+server.sin_family = <span class="mc">AF_INET</span>;
+<span class="fn">memcpy</span>(&amp;server.sin_addr, rem-&gt;h_addr, rem-&gt;h_length);
+server.sin_port = <span class="fn">htons</span>(port);
+
+<span class="kw">if</span> (<span class="fn">connect</span>(sock, (<span class="kw">struct</span> <span class="tp">sockaddr</span>*)&amp;server,
+            <span class="kw">sizeof</span>(server)) &lt; <span class="nm">0</span>)
+    <span class="fn">perror_exit</span>(<span class="st">"connect"</span>);
+<span class="cm">// TCP handshake ολοκληρώνεται — μπορούμε read/write!</span></div>
+  </div>
+
+  <div class="card" style="margin-top:10px">
+    <div class="card-title">Πλήρης Annotated TCP Client (inet_str_client)</div>
+    <div class="cb" style="font-size:0.75rem">
+<span class="mc">#include</span> <span class="st">&lt;stdio.h&gt;</span>
+<span class="mc">#include</span> <span class="st">&lt;sys/types.h&gt;</span>
+<span class="mc">#include</span> <span class="st">&lt;sys/socket.h&gt;</span>
+<span class="mc">#include</span> <span class="st">&lt;netinet/in.h&gt;</span>
+<span class="mc">#include</span> <span class="st">&lt;unistd.h&gt;</span>           <span class="cm">/* read, write, close */</span>
+<span class="mc">#include</span> <span class="st">&lt;netdb.h&gt;</span>
+<span class="mc">#include</span> <span class="st">&lt;stdlib.h&gt;</span>
+<span class="mc">#include</span> <span class="st">&lt;string.h&gt;</span>
+
+<span class="tp">int</span> <span class="fn">main</span>(<span class="tp">int</span> argc, <span class="tp">char</span> *argv[]) {
+    <span class="tp">int</span> port, sock, i;
+    <span class="tp">char</span> buf[<span class="nm">256</span>];
+    <span class="kw">struct</span> <span class="tp">sockaddr_in</span> server;
+    <span class="kw">struct</span> <span class="tp">hostent</span> *rem;
+
+    <span class="cm">/* 1. Create socket */</span>
+    <span class="kw">if</span> ((sock = <span class="fn">socket</span>(<span class="mc">AF_INET</span>, <span class="mc">SOCK_STREAM</span>, <span class="nm">0</span>)) &lt; <span class="nm">0</span>)
+        <span class="fn">perror_exit</span>(<span class="st">"socket"</span>);
+
+    <span class="cm">/* 2. Resolve server &amp; connect */</span>
+    <span class="kw">if</span> ((rem = <span class="fn">gethostbyname</span>(argv[<span class="nm">1</span>])) == <span class="mc">NULL</span>) {
+        <span class="fn">herror</span>(<span class="st">"gethostbyname"</span>); <span class="fn">exit</span>(<span class="nm">1</span>); }
+    port = <span class="fn">atoi</span>(argv[<span class="nm">2</span>]);
+    server.sin_family = <span class="mc">AF_INET</span>;
+    <span class="fn">memcpy</span>(&amp;server.sin_addr, rem-&gt;h_addr, rem-&gt;h_length);
+    server.sin_port = <span class="fn">htons</span>(port);
+    <span class="kw">if</span> (<span class="fn">connect</span>(sock, (<span class="kw">struct</span> <span class="tp">sockaddr</span>*)&amp;server,
+                <span class="kw">sizeof</span>(server)) &lt; <span class="nm">0</span>)
+        <span class="fn">perror_exit</span>(<span class="st">"connect"</span>);
+    <span class="fn">printf</span>(<span class="st">"Connecting to %s port %d\n"</span>, argv[<span class="nm">1</span>], port);
+
+    <span class="cm">/* 3. Send/Receive loop */</span>
+    <span class="kw">do</span> {
+        <span class="fn">printf</span>(<span class="st">"Give input string: "</span>);
+        <span class="fn">fgets</span>(buf, <span class="kw">sizeof</span>(buf), stdin);
+        <span class="kw">for</span> (i = <span class="nm">0</span>; buf[i] != <span class="st">'\0'</span>; i++) {
+            <span class="kw">if</span> (<span class="fn">write</span>(sock, buf + i, <span class="nm">1</span>) &lt; <span class="nm">0</span>)   <span class="cm">/* Send char */</span>
+                <span class="fn">perror_exit</span>(<span class="st">"write"</span>);
+            <span class="kw">if</span> (<span class="fn">read</span>(sock, buf + i, <span class="nm">1</span>) &lt; <span class="nm">0</span>)    <span class="cm">/* Recv reply */</span>
+                <span class="fn">perror_exit</span>(<span class="st">"read"</span>);
+        }
+        <span class="fn">printf</span>(<span class="st">"Received string: %s"</span>, buf);
+    } <span class="kw">while</span> (<span class="fn">strcmp</span>(buf, <span class="st">"END\n"</span>) != <span class="nm">0</span>);
+
+    <span class="fn">close</span>(sock);                              <span class="cm">/* 4. Close */</span>
+}</div>
+  </div>
+
+  <div class="grid2" style="margin-top:10px">
+    <div class="gbox">
+      <div class="lbl" style="color:var(--green)">Client δεν χρειάζεται bind()</div>
+      Ο client δεν κάνει bind — το OS αυτόματα αναθέτει ένα ephemeral port (49152–65535). Ο server ξεχωρίζει τους clients από τα source ports.
+    </div>
+    <div class="ibox">
+      <div class="lbl" style="color:var(--blue)">shutdown() vs close()</div>
+      <code>shutdown(fd, SHUT_WR)</code> = "τελείωσα να στέλνω, αλλά μπορώ ακόμα να λαμβάνω". Χρήσιμο σε HTTP: ο client στέλνει request → shutdown(SHUT_WR) → ο server βλέπει EOF → στέλνει response → close(). Options: <code>SHUT_RD</code>, <code>SHUT_WR</code>, <code>SHUT_RDWR</code>.
+    </div>
+  </div>
+
+  <div class="section-quiz" data-topic="topic5" data-section="tcp-client"></div>
+</section>
+
+<!-- ═══════════════════════ 10. SERVER ARCHITECTURES ═══════════════════════ -->
+<section id="arch">
+  <div class="sh"><div class="sh-icon" style="background:var(--ydim)">🏗️</div><h2>10. Server Architectures</h2></div>
+
+  <p style="color:var(--muted);margin-bottom:14px">
+    Πώς διαχειριζόμαστε <em>πολλούς</em> clients ταυτόχρονα; Υπάρχουν τρεις βασικές αρχιτεκτονικές, η καθεμία με trade-offs.
+  </p>
+
+  <div class="grid2">
+    <div class="card">
+      <div class="card-title" style="color:var(--red)">1. Iterative (Serial) Server</div>
+      <div class="cb" style="font-size:0.75rem">
+<span class="kw">for</span> (;;) {
+    cfd = <span class="fn">accept</span>(lfd, ...);    <span class="cm">/* Wait for client */</span>
+    <span class="kw">while</span> (no error)
+        <span class="fn">read</span>/<span class="fn">write</span>(cfd, ...);   <span class="cm">/* Serve ONE client */</span>
+    <span class="fn">close</span>(cfd);
+}</div>
+      <ul style="font-size:0.8rem;color:var(--muted);margin-top:8px">
+        <li>Ελάχιστη μνήμη, μηδενικό overhead</li>
+        <li style="color:var(--red)">Αν ο Client 1 αργήσει, ο Client 2 <strong>κάνει timeout!</strong></li>
+        <li style="color:var(--dim)">Μόνο για πολύ γρήγορα requests (Time server)</li>
+      </ul>
+    </div>
+    <div class="card">
+      <div class="card-title" style="color:var(--green)">2. Concurrent (Fork) Server</div>
+      <div class="cb" style="font-size:0.75rem">
+<span class="kw">for</span> (;;) {
+    cfd = <span class="fn">accept</span>(lfd, ...);
+    <span class="kw">if</span> (<span class="fn">fork</span>() == <span class="nm">0</span>) {        <span class="cm">/* CHILD */</span>
+        <span class="fn">close</span>(lfd);             <span class="cm">/* Δεν χρειάζεται listener */</span>
+        <span class="fn">handle_request</span>(cfd);
+        <span class="fn">close</span>(cfd);
+        <span class="fn">exit</span>(<span class="nm">0</span>);
+    }
+    <span class="fn">close</span>(cfd);  <span class="cm">/* PARENT: κλείνει cfd ΑΜΕΣΩΣ */</span>
+}</div>
+      <ul style="font-size:0.8rem;color:var(--muted);margin-top:8px">
+        <li style="color:var(--green)">Πλήρης απομόνωση μεταξύ clients</li>
+        <li style="color:var(--green)">Απλό coding (κλασικό UNIX)</li>
+        <li style="color:var(--red)">fork() = ακριβό (copy memory)</li>
+        <li style="color:var(--red)">Δύσκολη inter-child επικοινωνία</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="rbox" style="margin-top:10px">
+    <div class="lbl" style="color:var(--red)">🚨 Γιατί ο parent κλείνει cfd;</div>
+    Τρεις λόγοι: (1) Αποφεύγει εξάντληση file descriptors. (2) Μόνο όταν <strong>ΟΛΑ</strong> τα references στο socket κλείσουν (child + client) γίνεται πραγματικός τερματισμός — αν ο parent κρατά cfd ανοιχτό, δεν κλείνει ποτέ. (3) Το child δεν θα δει EOF αν ο client κλείσει, γιατί ο parent ακόμα "κρατάει" το socket.
+  </div>
+
+  <div class="card" style="margin-top:10px">
+    <div class="card-title">SIGCHLD Handler — Zombie Prevention</div>
+    <div class="cb" style="font-size:0.78rem">
+<span class="tp">void</span> <span class="fn">sigchld_handler</span>(<span class="tp">int</span> sig) {
+    <span class="kw">while</span> (<span class="fn">waitpid</span>(-<span class="nm">1</span>, <span class="mc">NULL</span>, <span class="mc">WNOHANG</span>) &gt; <span class="nm">0</span>);
+    <span class="cm">/* Loop: μάζεψε ΟΛΑ τα τελειωμένα children */</span>
+}
+<span class="cm">// Εγκατάσταση πριν το main loop:</span>
+<span class="fn">signal</span>(<span class="mc">SIGCHLD</span>, sigchld_handler);</div>
+    <div class="tip" style="margin-top:8px">
+      <div class="tip-icon">🧠</div>
+      <div>
+        <div class="tip-title">Tip — γιατί while + WNOHANG;</div>
+        <div class="tip-text">
+          Αν πολλά children τελειώσουν ταυτόχρονα, μπορεί να λάβεις <strong>ένα μόνο SIGCHLD</strong> (signals δεν κάνουν queue). Χωρίς while loop θα μαζέψεις μόνο ένα zombie — τα υπόλοιπα μένουν. Το <code>WNOHANG</code> κάνει τον waitpid non-blocking.
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section-quiz" data-topic="topic5" data-section="arch"></div>
+</section>
+
+<!-- ═══════════════════════ 11. SELECT() ═══════════════════════ -->
+<section id="select">
+  <div class="sh"><div class="sh-icon" style="background:var(--cdim)">🔄</div><h2>11. I/O Multiplexing με select()</h2></div>
+
+  <p style="color:var(--muted);margin-bottom:14px">
+    <strong style="color:var(--txt)">Τρίτη αρχιτεκτονική:</strong> Αντί fork() per client, <em>ένα μόνο process</em> παρακολουθεί πολλά sockets ταυτόχρονα μέσω <code>select()</code>. Η select() μπλοκάρει μέχρι κάποιο fd να γίνει "ready" (δεδομένα ήρθαν, μπορείς να γράψεις, κτλ.).
+  </p>
+
+  <div class="grid2">
+    <div>
+      <div class="card">
+        <div class="card-title">select() — Prototype &amp; Logic</div>
+        <div class="cb" style="font-size:0.78rem">
+<span class="mc">#include</span> <span class="st">&lt;sys/time.h&gt;</span>
+<span class="mc">#include</span> <span class="st">&lt;sys/types.h&gt;</span>
+
+<span class="tp">int</span> <span class="fn">select</span>(
+    <span class="tp">int</span> nfds,          <span class="cm">/* highest fd + 1 */</span>
+    <span class="tp">fd_set</span> *readfds,   <span class="cm">/* watch for readable */</span>
+    <span class="tp">fd_set</span> *writefds,  <span class="cm">/* watch for writable */</span>
+    <span class="tp">fd_set</span> *exceptfds, <span class="cm">/* watch for exceptions */</span>
+    <span class="kw">struct</span> <span class="tp">timeval</span> *timeout
+);
+<span class="cm">// Returns: # ready fds, 0=timeout, -1=error</span></div>
+      </div>
+      <div class="card" style="margin-top:10px">
+        <div class="card-title">fd_set Macros</div>
+        <div class="cb" style="font-size:0.78rem">
+<span class="tp">fd_set</span> readset;
+
+<span class="fn">FD_ZERO</span>(&amp;readset);      <span class="cm">/* Καθάρισε το set */</span>
+<span class="fn">FD_SET</span>(sock, &amp;readset);  <span class="cm">/* Πρόσθεσε fd */</span>
+<span class="fn">FD_CLR</span>(sock, &amp;readset);  <span class="cm">/* Αφαίρεσε fd */</span>
+<span class="fn">FD_ISSET</span>(sock, &amp;readset);<span class="cm">/* Είναι ready; */</span></div>
+      </div>
+    </div>
+    <div>
+      <div class="tip">
+        <div class="tip-icon">🧠</div>
+        <div>
+          <div class="tip-title">Tip — Πώς δουλεύει η select()</div>
+          <div class="tip-text">
+            1. <strong>FD_ZERO</strong>: αδειάζεις το set.<br>
+            2. <strong>FD_SET</strong>: βάζεις όλα τα fds που σε ενδιαφέρουν (listening + connected sockets).<br>
+            3. <strong>select()</strong> μπλοκάρει μέχρι κάποιο fd γίνει ready.<br>
+            4. Μετά την select, η fd_set <strong>τροποποιείται</strong>: περιέχει μόνο τα ready fds.<br>
+            5. <strong>FD_ISSET</strong>: ελέγχεις ποιο fd ήταν η αιτία.<br>
+            6. <strong>Repeat!</strong> (πρέπει να ξανακάνεις FD_ZERO + FD_SET κάθε iteration)
+          </div>
+        </div>
+      </div>
+      <div class="ibox">
+        <div class="lbl" style="color:var(--blue)">Listening socket στο readset</div>
+        Αν ο <em>listening socket</em> γίνει "readable" στην select(), σημαίνει ότι ένας client κάνει <code>connect()</code>. Τότε κάνουμε <code>accept()</code> και προσθέτουμε τον νέο cfd στο set.
+      </div>
+      <div class="gbox" style="margin-top:8px">
+        <div class="lbl" style="color:var(--green)">Πλεονέκτημα select()</div>
+        Ένα μόνο process, χωρίς fork(). Κανένα overhead δημιουργίας processes. Ιδανικό για πολλούς clients με μικρό traffic.
+      </div>
+    </div>
+  </div>
+
+  <div class="card" style="margin-top:12px">
+    <div class="card-title">select() Server — Simplified Flow</div>
+    <div class="cb" style="font-size:0.75rem">
+<span class="tp">int</span> highsock;
+<span class="tp">int</span> connectlist[<span class="nm">5</span>];            <span class="cm">/* Array of connected client fds */</span>
+<span class="tp">fd_set</span> socks;
+
+<span class="cm">/* Setup: socket, bind, listen, setnonblocking */</span>
+highsock = sock;
+<span class="fn">memset</span>(connectlist, <span class="nm">0</span>, <span class="kw">sizeof</span>(connectlist));
+
+<span class="kw">while</span> (<span class="nm">1</span>) {
+    <span class="fn">FD_ZERO</span>(&amp;socks);             <span class="cm">/* Reset every iteration! */</span>
+    <span class="fn">FD_SET</span>(sock, &amp;socks);        <span class="cm">/* Add listening socket */</span>
+    <span class="kw">for</span> (<span class="tp">int</span> i = <span class="nm">0</span>; i &lt; <span class="nm">5</span>; i++)  <span class="cm">/* Add all connected clients */</span>
+        <span class="kw">if</span> (connectlist[i] != <span class="nm">0</span>) {
+            <span class="fn">FD_SET</span>(connectlist[i], &amp;socks);
+            <span class="kw">if</span> (connectlist[i] &gt; highsock)
+                highsock = connectlist[i];
+        }
+
+    <span class="cm">/* BLOCK until something happens */</span>
+    <span class="tp">int</span> ready = <span class="fn">select</span>(highsock + <span class="nm">1</span>, &amp;socks,
+                       <span class="mc">NULL</span>, <span class="mc">NULL</span>, &amp;timeout);
+
+    <span class="cm">/* New connection? */</span>
+    <span class="kw">if</span> (<span class="fn">FD_ISSET</span>(sock, &amp;socks))
+        handle_new_connection();  <span class="cm">/* accept() + add to list */</span>
+
+    <span class="cm">/* Data from existing client? */</span>
+    <span class="kw">for</span> (<span class="tp">int</span> i = <span class="nm">0</span>; i &lt; <span class="nm">5</span>; i++)
+        <span class="kw">if</span> (<span class="fn">FD_ISSET</span>(connectlist[i], &amp;socks))
+            deal_with_data(i);    <span class="cm">/* read, process, respond */</span>
+}</div>
+  </div>
+
+  <div class="rbox" style="margin-top:10px">
+    <div class="lbl" style="color:var(--red)">🚨 nfds = highest fd + 1</div>
+    Το πρώτο argument της <code>select()</code> δεν είναι ο αριθμός fds — είναι η <strong>μεγαλύτερη τιμή fd</strong> + 1. Αν έχεις fds 3, 5, 7, περνάς <code>8</code>. Αυτό λέει στον kernel πόσα bits να ελέγξει στο bitmap.
+  </div>
+
+  <div class="section-quiz" data-topic="topic5" data-section="select"></div>
+</section>
+
+<!-- ═══════════════════════ 12. UDP API ═══════════════════════ -->
+<section id="udp">
+  <div class="sh"><div class="sh-icon" style="background:var(--odim)">⚡</div><h2>12. UDP API: sendto() &amp; recvfrom()</h2></div>
+
+  <p style="color:var(--muted);margin-bottom:14px">
+    Στο UDP <strong style="color:var(--txt)">δεν υπάρχει connection</strong> — σκέψου ταχυδρομικά γράμματα, όχι τηλέφωνο. Δεν χρειάζεται listen() ή accept(). Αντί για read/write χρησιμοποιούμε <code>sendto()</code> και <code>recvfrom()</code> που περνάνε τη διεύθυνση σε κάθε πακέτο.
+  </p>
+
+  <div class="sock-lifecycle">
+    <div style="color:var(--dim);margin-bottom:8px;letter-spacing:1px">UDP LIFECYCLE</div>
+    <strong style="color:var(--yellow)">Server:</strong> <span class="sl-fn">socket(SOCK_DGRAM)</span> → <span class="sl-fn">bind()</span> → <span class="sl-fn">recvfrom()/sendto()</span> loop<br>
+    <strong style="color:var(--green)">Client:</strong> <span class="sl-fn">socket(SOCK_DGRAM)</span> → [<span class="sl-fn">bind()</span>] → <span class="sl-fn">sendto()/recvfrom()</span> loop
+  </div>
+
+  <div class="grid2" style="margin-top:12px">
+    <div>
+      <div class="card">
+        <div class="card-title">sendto() &amp; recvfrom()</div>
+        <div class="cb" style="font-size:0.78rem">
+<span class="tp">ssize_t</span> <span class="fn">sendto</span>(
+    <span class="tp">int</span> sock,
+    <span class="kw">const</span> <span class="tp">void</span> *buf,
+    <span class="tp">size_t</span> count,
+    <span class="tp">int</span> flags,
+    <span class="kw">const</span> <span class="kw">struct</span> <span class="tp">sockaddr</span> *dest,
+    <span class="tp">socklen_t</span> len
+);
+<span class="cm">// Σαν write() αλλά ορίζει destination</span>
+
+<span class="tp">ssize_t</span> <span class="fn">recvfrom</span>(
+    <span class="tp">int</span> sock,
+    <span class="tp">void</span> *buf,
+    <span class="tp">size_t</span> count,
+    <span class="tp">int</span> flags,
+    <span class="kw">struct</span> <span class="tp">sockaddr</span> *addr,
+    <span class="tp">socklen_t</span> *len
+);
+<span class="cm">// Σαν read() αλλά γεμίζει source address</span>
+<span class="cm">// addr/len μπορούν να είναι NULL</span>
+<span class="cm">// flags: συνήθως 0</span></div>
+      </div>
+    </div>
+    <div>
+      <div class="tip">
+        <div class="tip-icon">🧠</div>
+        <div>
+          <div class="tip-title">Tip — UDP vs TCP API</div>
+          <div class="tip-text">
+            <strong>TCP:</strong> socket → bind → listen → accept → read/write → close<br>
+            <strong>UDP:</strong> socket → bind → recvfrom/sendto → close<br>
+            Δεν υπάρχει <code>listen()</code>, <code>accept()</code>, <code>connect()</code> στον UDP server. Κάθε <code>recvfrom()</code> γυρίζει τη <strong>διεύθυνση αποστολέα</strong> — έτσι ξέρεις σε ποιον να απαντήσεις.
+          </div>
+        </div>
+      </div>
+      <div class="ibox">
+        <div class="lbl" style="color:var(--blue)">UDP port = 0</div>
+        Αν κάνεις <code>sin_port = htons(0)</code>, το OS <strong>αυτόματα</strong> επιλέγει ένα ελεύθερο port. Χρησιμοποίησε <code>getsockname()</code> μετά το bind για να μάθεις ποιο πήρες.
+      </div>
+    </div>
+  </div>
+
+  <div class="compare" style="margin-top:12px">
+    <div class="good-side" style="background:var(--cdim);border-color:rgba(57,212,200,.3)">
+      <div class="side-label" style="color:var(--cyan)">UDP Server</div>
+      <div class="cb" style="font-size:0.72rem;line-height:1.6">
+sock = <span class="fn">socket</span>(<span class="mc">AF_INET</span>, <span class="mc">SOCK_DGRAM</span>, <span class="nm">0</span>);
+server.sin_family = <span class="mc">AF_INET</span>;
+server.sin_addr.s_addr = <span class="fn">htonl</span>(<span class="mc">INADDR_ANY</span>);
+server.sin_port = <span class="fn">htons</span>(<span class="nm">0</span>);  <span class="cm">/* Auto-select */</span>
+<span class="fn">bind</span>(sock, serverptr, <span class="kw">sizeof</span>(server));
+<span class="fn">getsockname</span>(sock, serverptr, &amp;serverlen);
+<span class="fn">printf</span>(<span class="st">"Port: %d\n"</span>, <span class="fn">ntohs</span>(server.sin_port));
+<span class="kw">while</span> (<span class="nm">1</span>) {
+  clientlen = <span class="kw">sizeof</span>(client);
+  n = <span class="fn">recvfrom</span>(sock, buf, <span class="kw">sizeof</span>(buf), <span class="nm">0</span>,
+               clientptr, &amp;clientlen);
+  <span class="fn">sendto</span>(sock, buf, n, <span class="nm">0</span>,
+         clientptr, clientlen); <span class="cm">/* Echo back */</span>
+}</div>
+    </div>
+    <div class="good-side" style="background:var(--bdim);border-color:rgba(88,166,255,.3)">
+      <div class="side-label" style="color:var(--blue)">UDP Client</div>
+      <div class="cb" style="font-size:0.72rem;line-height:1.6">
+sock = <span class="fn">socket</span>(<span class="mc">AF_INET</span>, <span class="mc">SOCK_DGRAM</span>, <span class="nm">0</span>);
+rem = <span class="fn">gethostbyname</span>(argv[<span class="nm">1</span>]);
+server.sin_family = <span class="mc">AF_INET</span>;
+<span class="fn">memcpy</span>(&amp;server.sin_addr, rem-&gt;h_addr,
+       rem-&gt;h_length);
+server.sin_port = <span class="fn">htons</span>(<span class="fn">atoi</span>(argv[<span class="nm">2</span>]));
+client.sin_family = <span class="mc">AF_INET</span>;
+client.sin_addr.s_addr = <span class="fn">htonl</span>(<span class="mc">INADDR_ANY</span>);
+client.sin_port = <span class="fn">htons</span>(<span class="nm">0</span>);  <span class="cm">/* Auto port */</span>
+<span class="fn">bind</span>(sock, clientptr, <span class="kw">sizeof</span>(client));
+<span class="kw">while</span> (<span class="fn">fgets</span>(buf, <span class="kw">sizeof</span>(buf), stdin)) {
+  <span class="fn">sendto</span>(sock, buf, <span class="fn">strlen</span>(buf)+<span class="nm">1</span>, <span class="nm">0</span>,
+         serverptr, serverlen);
+  <span class="fn">recvfrom</span>(sock, buf, <span class="kw">sizeof</span>(buf), <span class="nm">0</span>,
+           <span class="mc">NULL</span>, <span class="mc">NULL</span>); <span class="cm">/* Don't care src */</span>
+  <span class="fn">printf</span>(<span class="st">"%s\n"</span>, buf);
+}</div>
+    </div>
+  </div>
+
+  <div class="rbox" style="margin-top:10px">
+    <div class="lbl" style="color:var(--red)">🚨 UDP είναι unreliable!</div>
+    Αν ο server αργήσει ή πακέτο χαθεί, ο client <strong>κολλάει στο recvfrom() για πάντα</strong>. Λύσεις: (1) Timeout μέσω select() πριν το recvfrom, (2) Retransmission logic στην εφαρμογή, (3) Αν χρειάζεται reliability → χρησιμοποίησε TCP!
+  </div>
+
+  <div class="section-quiz" data-topic="topic5" data-section="udp"></div>
+</section>
+
+<!-- ═══════════════════════ 13. PITFALLS ═══════════════════════ -->
+<section id="pitfalls">
+  <div class="sh"><div class="sh-icon" style="background:var(--rdim)">🚀</div><h2>13. Professional Pitfalls &amp; Common Bugs</h2></div>
+
+  <p style="color:var(--muted);margin-bottom:14px">
+    Αυτά τα θέματα εμφανίζονται <em>συνέχεια</em> σε εξετάσεις και σε real-world bugs. Μάθε τα μια φορά, σώσε ώρες debugging.
+  </p>
+
+  <div class="grid2">
+    <div>
+      <div class="card">
+        <div class="card-title" style="color:var(--red)">1. "Address Already in Use"</div>
+        <p style="font-size:0.85rem;color:var(--muted)">Σταματάς τον server, τον ξανατρέχεις: <code>bind(): Address Already in Use</code>. Γιατί; Ο kernel κρατάει το port σε <code>TIME_WAIT</code> state μετά το close (60-120 sec).</p>
+        <div class="cb" style="font-size:0.78rem">
+<span class="cm">/* ΗΗ ΛΥΣΗ: πριν το bind() */</span>
+<span class="tp">int</span> val = <span class="nm">1</span>;
+<span class="fn">setsockopt</span>(sock, <span class="mc">SOL_SOCKET</span>,
+    <span class="mc">SO_REUSEADDR</span>, &amp;val, <span class="kw">sizeof</span>(val));
+<span class="cm">/* Τώρα μπορείς να κάνεις bind ξανά αμέσως */</span></div>
+        <div class="tip" style="margin-top:6px">
+          <div class="tip-icon">🧠</div>
+          <div>
+            <div class="tip-title">Tip — ΠΑΝΤΑ SO_REUSEADDR</div>
+            <div class="tip-text">Βάλε το <strong>πριν κάθε bind()</strong> σε server. Δεν υπάρχει λόγος να μην το βάζεις. Εξετάσεις: αν λείπει, αφαίρεση βαθμών.</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card" style="margin-top:10px">
+        <div class="card-title" style="color:var(--red)">2. SIGPIPE — Silent Server Death</div>
+        <p style="font-size:0.85rem;color:var(--muted)">Ο client κλείνει. Εσύ κάνεις <code>write()</code> στο κλειστό socket. Το OS στέλνει <code>SIGPIPE</code> → ο server <strong>πεθαίνει σιωπηλά</strong>!</p>
+        <div class="compare">
+          <div class="bad-side">
+            <div class="side-label">Before</div>
+            <p style="font-size:0.8rem">write() σε closed socket → SIGPIPE → server killed, χωρίς μήνυμα λάθους.</p>
+          </div>
+          <div class="good-side">
+            <div class="side-label">After</div>
+            <div class="cb" style="font-size:0.75rem;margin:0">
+<span class="fn">signal</span>(<span class="mc">SIGPIPE</span>, <span class="mc">SIG_IGN</span>);</div>
+            <p style="font-size:0.8rem;margin-top:4px">write() επιστρέφει -1, errno=EPIPE. Ο server μένει όρθιος!</p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div>
+      <div class="card">
+        <div class="card-title" style="color:var(--yellow)">3. Partial Reads &amp; Writes</div>
+        <p style="font-size:0.85rem;color:var(--muted)">Στο TCP, αν στείλεις 100 bytes, η <code>read()</code> μπορεί να επιστρέψει 40 τώρα και 60 αργότερα. Το TCP είναι <strong>byte stream</strong>, όχι πακέτα. <em>Ποτέ</em> μην υποθέσεις ότι ένα read() διαβάζει τα πάντα.</p>
+        <div class="cb" style="font-size:0.75rem">
+<span class="cm">/* write_all: γράψε μέχρι τελειώσουν ΟΛΑ */</span>
+<span class="tp">int</span> <span class="fn">write_all</span>(<span class="tp">int</span> fd, <span class="tp">void</span> *buf, <span class="tp">size_t</span> size) {
+    <span class="tp">int</span> sent, n;
+    <span class="kw">for</span> (sent = <span class="nm">0</span>; sent &lt; size; sent += n) {
+        <span class="kw">if</span> ((n = <span class="fn">write</span>(fd, buf+sent,
+                       size-sent)) == -<span class="nm">1</span>)
+            <span class="kw">return</span> -<span class="nm">1</span>;
+    }
+    <span class="kw">return</span> sent;
+}</div>
+        <div class="rbox" style="margin-top:6px">
+          <div class="lbl" style="color:var(--red)">Golden Rule</div>
+          <strong>ΠΑΝΤΑ</strong> loop γύρω από read/write μέχρι τα αναμενόμενα bytes μεταφερθούν (ή error/EOF).
+        </div>
+      </div>
+
+      <div class="card" style="margin-top:10px">
+        <div class="card-title">4. Useful Functions</div>
+        <div class="cb" style="font-size:0.75rem">
+<span class="cm">/* Βρες τη διεύθυνση ΤΟΥ socket σου */</span>
+<span class="fn">getsockname</span>(sock, &amp;addr, &amp;addrlen);
+
+<span class="cm">/* Βρες τη διεύθυνση ΤΟΥ peer (remote) */</span>
+<span class="fn">getpeername</span>(sock, &amp;addr, &amp;addrlen);
+
+<span class="cm">/* Half-close: τέλος αποστολής αλλά */</span>
+<span class="cm">/* μπορώ ακόμα να λαμβάνω */</span>
+<span class="fn">shutdown</span>(fd, <span class="mc">SHUT_WR</span>);
+<span class="cm">/* Options: SHUT_RD, SHUT_WR, SHUT_RDWR */</span></div>
+        <div class="ibox" style="margin-top:6px">
+          <div class="lbl" style="color:var(--blue)">netstat</div>
+          <code>netstat -n -l -p</code>: δείξε listening sockets, numeric, με process info. <code>-t</code>/<code>-u</code> = TCP/UDP only. <code>-a</code> = all states (LISTEN, ESTABLISHED, TIME_WAIT).
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section-quiz" data-topic="topic5" data-section="pitfalls"></div>
+</section>
+
+<!-- ═══════════════════════ 14. REAL-WORLD EXAMPLES ═══════════════════════ -->
+<section id="examples">
+  <div class="sh"><div class="sh-icon" style="background:var(--gdim)">📁</div><h2>14. Real-world Examples</h2></div>
+
+  <p style="color:var(--muted);margin-bottom:14px">
+    Δύο πρακτικά παραδείγματα από τα slides που δείχνουν πώς συνδυάζονται <em>όλα</em>: sockets, fork, pipes, DNS resolution.
+  </p>
+
+  <div class="grid2">
+    <div>
+      <div class="card">
+        <div class="card-title">rlsd / rls — Remote ls</div>
+        <p style="font-size:0.85rem;color:var(--muted);margin-bottom:8px">
+          <strong style="color:var(--yellow)">Server (rlsd):</strong> Δέχεται TCP connection, διαβάζει directory name, τρέχει <code>ls</code> μέσω <code>popen()</code>, στέλνει αποτέλεσμα στον client.
+        </p>
+        <div class="cb" style="font-size:0.72rem">
+<span class="cm">/* rlsd: key logic */</span>
+csock = <span class="fn">accept</span>(lsock, <span class="mc">NULL</span>, <span class="mc">NULL</span>);
+sock_fp = <span class="fn">fdopen</span>(csock, <span class="st">"r+"</span>);
+<span class="fn">fgets</span>(dirname, <span class="mc">BUFSIZ</span>, sock_fp);
+<span class="fn">sanitize</span>(dirname);  <span class="cm">/* ← SECURITY! */</span>
+<span class="fn">snprintf</span>(command, <span class="mc">BUFSIZ</span>, <span class="st">"ls %s"</span>, dirname);
+pipe_fp = <span class="fn">popen</span>(command, <span class="st">"r"</span>);
+<span class="kw">while</span> ((c = <span class="fn">getc</span>(pipe_fp)) != <span class="mc">EOF</span>)
+    <span class="fn">putc</span>(c, sock_fp);  <span class="cm">/* pipe → socket */</span>
+<span class="fn">pclose</span>(pipe_fp); <span class="fn">fclose</span>(sock_fp);</div>
+        <p style="font-size:0.85rem;color:var(--muted);margin-top:6px">
+          <strong style="color:var(--green)">Client (rls):</strong> connect → send directory name → read response → stdout. Χρησιμοποιεί <code>write_all()</code> pattern.
+        </p>
+        <div class="rbox" style="margin-top:6px">
+          <div class="lbl" style="color:var(--red)">🚨 Security — sanitize()</div>
+          Αν ο client στείλει <code>"; rm *"</code> ως dirname, η <code>popen("ls ; rm *")</code> θα <strong>σβήσει τα πάντα</strong>! Η sanitize() κρατάει μόνο alphanumerics και slashes.
+        </div>
+      </div>
+    </div>
+    <div>
+      <div class="card">
+        <div class="card-title">PRS Game — Paper Rock Scissors</div>
+        <p style="font-size:0.85rem;color:var(--muted);margin-bottom:8px">Συνδυάζει pipes <strong>και</strong> sockets σε ένα πρόγραμμα. Τρεις διεργασίες: Referee, Player 1 (local), Player 2 (remote).</p>
+        <ul style="font-size:0.82rem;color:var(--muted)">
+          <li><strong style="color:var(--yellow)">Referee (prsref):</strong> Parent process. Μιλάει στον Player 1 μέσω <strong>pipes</strong> (fork) και στον Player 2 μέσω <strong>socket</strong> (TCP accept).</li>
+          <li><strong style="color:var(--green)">Player 1:</strong> Child process του referee. Επικοινωνεί μέσω fd1 (parent→child) και fd2 (child→parent).</li>
+          <li><strong style="color:var(--blue)">Player 2:</strong> Remote process. Κάνει connect() στον referee. Στέλνει/λαμβάνει μέσω socket.</li>
+        </ul>
+        <div class="ibox" style="margin-top:8px">
+          <div class="lbl" style="color:var(--blue)">Protocol Design</div>
+          Τα μηνύματα χρησιμοποιούν length-prefixed format: πρώτα 1 byte (μήκος string), μετά τα bytes. Αυτό λύνει το πρόβλημα "πότε τελείωσε το μήνυμα" σε TCP streams.
+        </div>
+        <div class="tip" style="margin-top:8px">
+          <div class="tip-icon">🧠</div>
+          <div>
+            <div class="tip-title">Exam Tip — Pipes + Sockets</div>
+            <div class="tip-text">Αυτό είναι κλασικό θέμα εξέτασης: ένα πρόγραμμα που χρησιμοποιεί <strong>και pipes και sockets</strong> — ο ένας παίκτης είναι τοπικός (pipe) και ο άλλος απομακρυσμένος (socket). Βεβαιώσου ότι κλείνεις τα σωστά ends σε κάθε process!</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section-quiz" data-topic="topic5" data-section="examples"></div>
+</section>
+
+</div>
+
+<div class="footer">K24 · Προγραμματισμός Συστήματος · ΕΚΠΑ · Topic 5: Sockets &amp; Network IPC</div>
+</body>
 </html>

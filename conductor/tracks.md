@@ -4,5 +4,5 @@ This file tracks all major tracks for the project. Each track has its own detail
 
 ---
 
-- [ ] **Track: Implement web notes and quiz for Topic 5: Sockets**
+- [~] **Track: Implement web notes and quiz for Topic 5: Sockets**
   *Link: [./tracks/topic5_sockets_20260512/](./tracks/topic5_sockets_20260512/)*
