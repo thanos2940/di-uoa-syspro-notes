@@ -9,6 +9,8 @@ const topics = [
     { id: 'topic3', title: 'I/O & Signals', path: 'topic3_io_signals.html', icon: '📡' },
     { id: 'topic4', title: 'Fork & Pipes', path: 'topic4_fork_pipes.html', icon: '🔀' },
     { id: 'topic5', title: 'Sockets & IPC', path: 'topic5_sockets.html', icon: '🌐' },
+    { id: 'topic6', title: 'Threads', path: 'topic6_threads.html', icon: '🧵' },
+    { id: 'topic7', title: 'System V IPC', path: 'topic7_ipc.html', icon: '📬' },
     { id: 'quiz', title: 'Interactive Quiz', path: 'interactive_quiz.html', icon: '📝' }
 ];
 

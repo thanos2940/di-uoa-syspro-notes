@@ -2931,5 +2931,502 @@ window.quizData = {
                 }
             ]
         }
+    },
+    "topic6": {
+        "intro": {
+            "title": "What Are Threads",
+            "questions": [
+                {
+                    "q": "Τι μοιράζονται τα threads μιας διεργασίας;",
+                    "options": [
+                        {"text": "Τον χώρο διευθύνσεων (code, data, heap), τα open file descriptors, τα signal handlers.", "correct": true, "explanation": "Τα threads μοιράζονται τα πάντα εκτός από stack, PC, registers."},
+                        {"text": "Μόνο τον κώδικα (code segment), τίποτα άλλο.", "correct": false, "explanation": "Μοιράζονται πολύ περισσότερα: data, heap, file descriptors κλπ."},
+                        {"text": "Τίποτα — κάθε thread έχει δικό του address space.", "correct": false, "explanation": "Αυτό ισχύει για processes, όχι threads."}
+                    ]
+                },
+                {
+                    "q": "Πώς γίνεται compile ένα πρόγραμμα με pthreads;",
+                    "options": [
+                        {"text": "gcc prog.c -lpthread (ή -pthread)", "correct": true, "explanation": "Χωρίς το -lpthread ο linker δεν βρίσκει τις pthread_ συναρτήσεις."},
+                        {"text": "gcc prog.c -lthread", "correct": false, "explanation": "Η σωστή βιβλιοθήκη είναι -lpthread."},
+                        {"text": "Δεν χρειάζεται ειδικό flag, αρκεί το #include <pthread.h>.", "correct": false, "explanation": "Το header δεν αρκεί — πρέπει να γίνει link η βιβλιοθήκη."}
+                    ]
+                }
+            ]
+        },
+        "comparison": {
+            "title": "Thread vs Process",
+            "questions": [
+                {
+                    "q": "Αν ένα thread κάνει segfault, τι γίνεται με τα υπόλοιπα threads;",
+                    "options": [
+                        {"text": "Ολόκληρη η διεργασία τερματίζεται, μαζί και όλα τα threads.", "correct": true, "explanation": "Τα threads δεν έχουν isolation — ένα crash σκοτώνει τα πάντα."},
+                        {"text": "Μόνο το thread που έκανε segfault τερματίζεται.", "correct": false, "explanation": "Δεν υπάρχει isolation μεταξύ threads."},
+                        {"text": "Τα υπόλοιπα threads συνεχίζουν κανονικά.", "correct": false, "explanation": "Αδύνατο — μοιράζονται address space."}
+                    ]
+                },
+                {
+                    "q": "Ποιο είναι το κύριο πλεονέκτημα των threads έναντι processes;",
+                    "options": [
+                        {"text": "Ταχύτερη δημιουργία και κοινή πρόσβαση σε δεδομένα χωρίς IPC.", "correct": true, "explanation": "Δεν γίνεται αντιγραφή address space, η επικοινωνία γίνεται μέσω shared memory."},
+                        {"text": "Μεγαλύτερη ασφάλεια και isolation.", "correct": false, "explanation": "Τα processes έχουν καλύτερη isolation."},
+                        {"text": "Δεν χρειάζονται mutexes.", "correct": false, "explanation": "Χρειάζονται mutexes ακριβώς λόγω της κοινής μνήμης!"}
+                    ]
+                }
+            ]
+        },
+        "create": {
+            "title": "pthread_create & exit",
+            "questions": [
+                {
+                    "q": "Ποιο είναι το signature μιας thread function;",
+                    "options": [
+                        {"text": "void *function(void *arg) — δέχεται void* και επιστρέφει void*.", "correct": true, "explanation": "Αυτό είναι mandatory. Ο void* επιτρέπει να περαστεί/επιστραφεί οποιοδήποτε τύπο."},
+                        {"text": "int function(int arg) — δέχεται int και επιστρέφει int.", "correct": false, "explanation": "Η pthread_create απαιτεί void *(*)(void *)."},
+                        {"text": "void function(void) — δεν δέχεται ούτε επιστρέφει τίποτα.", "correct": false, "explanation": "Πρέπει να δέχεται void* και να επιστρέφει void*."}
+                    ]
+                },
+                {
+                    "q": "Τι γίνεται αν η main() τερματίσει με return πριν τα threads;",
+                    "options": [
+                        {"text": "Η διεργασία τερματίζεται, σκοτώνοντας όλα τα threads.", "correct": true, "explanation": "Η return από main() = exit() = θάνατος για ολόκληρη τη διεργασία. Χρησιμοποίησε pthread_exit() στη main αν θέλεις τα threads να συνεχίσουν."},
+                        {"text": "Τα threads συνεχίζουν ανεξάρτητα.", "correct": false, "explanation": "Χωρίς τη διεργασία δεν υπάρχουν threads."},
+                        {"text": "Η main() περιμένει αυτόματα τα threads.", "correct": false, "explanation": "Δεν γίνεται αυτόματο join."}
+                    ]
+                },
+                {
+                    "q": "Γιατί δεν πρέπει να περάσουμε &i (loop variable) στο pthread_create;",
+                    "options": [
+                        {"text": "Η τιμή του i μπορεί να αλλάξει πριν το thread τη διαβάσει (race condition).", "correct": true, "explanation": "Όλα τα threads μοιράζονται τη variable i. Χρησιμοποίησε ξεχωριστό array."},
+                        {"text": "Δεν γίνεται να περάσεις pointer σε int.", "correct": false, "explanation": "Γίνεται, αλλά η τιμή αλλάζει."},
+                        {"text": "Ο compiler δεν το επιτρέπει.", "correct": false, "explanation": "Ο compiler δεν ελέγχει logic bugs."}
+                    ]
+                }
+            ]
+        },
+        "management": {
+            "title": "Thread Management",
+            "questions": [
+                {
+                    "q": "Τι γίνεται αν δεν κάνεις ούτε join ούτε detach ένα thread;",
+                    "options": [
+                        {"text": "Resource leak (thread leak) — τα resources δεν ελευθερώνονται.", "correct": true, "explanation": "Σαν zombie processes. Πρέπει πάντα join ή detach."},
+                        {"text": "Τίποτα, τα resources καθαρίζονται αυτόματα.", "correct": false, "explanation": "Μόνο detached threads καθαρίζονται αυτόματα."},
+                        {"text": "Η διεργασία κρασάρει.", "correct": false, "explanation": "Δεν κρασάρει, αλλά χάνεις πόρους."}
+                    ]
+                },
+                {
+                    "q": "Ποια η διαφορά join vs detach;",
+                    "options": [
+                        {"text": "join: περιμένεις τερματισμό + παίρνεις αποτέλεσμα. detach: τρέχει ελεύθερα, resources ελευθερώνονται αυτόματα.", "correct": true, "explanation": "Χρειάζεσαι αποτέλεσμα → join. Fire-and-forget → detach."},
+                        {"text": "join: τερματίζει αμέσως. detach: περιμένει.", "correct": false, "explanation": "Ακριβώς ανάποδα."},
+                        {"text": "Δεν υπάρχει διαφορά.", "correct": false, "explanation": "Είναι εντελώς διαφορετικές λειτουργίες."}
+                    ]
+                }
+            ]
+        },
+        "errors": {
+            "title": "Error Handling",
+            "questions": [
+                {
+                    "q": "Γιατί χρησιμοποιούμε strerror() αντί perror() στις pthread functions;",
+                    "options": [
+                        {"text": "Οι pthread functions δεν θέτουν errno — επιστρέφουν τον error code απευθείας.", "correct": true, "explanation": "perror() ελέγχει errno. Οι pthread functions return error code ≥ 0, οπότε χρειαζόμαστε strerror(err)."},
+                        {"text": "Η perror() δεν είναι thread-safe.", "correct": false, "explanation": "Δεν είναι θέμα safety αλλά interface."},
+                        {"text": "Δεν υπάρχει λόγος — μπορείς να χρησιμοποιήσεις οποιαδήποτε.", "correct": false, "explanation": "Η perror() θα τυπώσει λάθος μήνυμα γιατί δεν ελέγχει τη σωστή τιμή."}
+                    ]
+                },
+                {
+                    "q": "Γιατί δεν πρέπει να επιστρέφεις pointer σε τοπική μεταβλητή από thread;",
+                    "options": [
+                        {"text": "Το stack του thread καταστρέφεται μετά το pthread_exit() — dangling pointer!", "correct": true, "explanation": "Χρησιμοποίησε malloc, string literals, ή globals αντί local variables."},
+                        {"text": "Οι τοπικές μεταβλητές δεν μπορούν να γίνουν pointer.", "correct": false, "explanation": "Γίνεται, αλλά η μνήμη δεν υπάρχει μετά."},
+                        {"text": "Δεν υπάρχει πρόβλημα αν κάνεις join αμέσως.", "correct": false, "explanation": "Ακόμα και τότε, η μνήμη δεν εγγυάται ότι υπάρχει."}
+                    ]
+                }
+            ]
+        },
+        "races": {
+            "title": "Race Conditions",
+            "questions": [
+                {
+                    "q": "Γιατί η total_words += count δεν είναι ασφαλής σε multi-threaded πρόγραμμα;",
+                    "options": [
+                        {"text": "Δεν είναι atomic — αποτελείται από LOAD, ADD, STORE. Αν δύο threads εκτελέσουν ταυτόχρονα, ένα update χάνεται.", "correct": true, "explanation": "Κλασικό read-modify-write race condition. Χρειάζεται mutex."},
+                        {"text": "Η += δεν υποστηρίζεται σε threads.", "correct": false, "explanation": "Η += λειτουργεί αλλά δεν είναι thread-safe."},
+                        {"text": "Τα threads δεν μπορούν να γράψουν σε globals.", "correct": false, "explanation": "Μπορούν, αλλά χρειάζεται synchronization."}
+                    ]
+                }
+            ]
+        },
+        "mutexes": {
+            "title": "POSIX Mutexes",
+            "questions": [
+                {
+                    "q": "Τι κάνει η pthread_mutex_trylock() σε σχέση με τη lock();",
+                    "options": [
+                        {"text": "Αν ο mutex είναι κλειδωμένος, επιστρέφει αμέσως EBUSY αντί να μπλοκάρει.", "correct": true, "explanation": "Non-blocking εναλλακτική. Χρήσιμο για busy-wait ή deadlock avoidance."},
+                        {"text": "Κλειδώνει μόνο αν δεν υπάρχει κανείς στην ουρά.", "correct": false, "explanation": "Δεν εξετάζει ουρές — ελέγχει μόνο αν είναι free."},
+                        {"text": "Δοκιμάζει πολλές φορές πριν εγκαταλείψει.", "correct": false, "explanation": "Δοκιμάζει μόνο μία φορά."}
+                    ]
+                },
+                {
+                    "q": "Ποιοι είναι οι βασικοί κανόνες χρήσης mutex;",
+                    "options": [
+                        {"text": "Μόνο ο κάτοχος κάνει unlock, κράτα τα critical sections μικρά, πάντα ξεκλείδωνε.", "correct": true, "explanation": "Αν ξεχάσεις unlock → deadlock. Αν τα CS είναι μεγάλα → χαμηλή απόδοση."},
+                        {"text": "Κλείδωνε τα πάντα με ένα global mutex.", "correct": false, "explanation": "Αυτό δουλεύει αλλά σειριοποιεί τα πάντα (coarse-grained)."},
+                        {"text": "Ο mutex δεν χρειάζεται destroy.", "correct": false, "explanation": "Πάντα κάνε pthread_mutex_destroy() για cleanup."}
+                    ]
+                }
+            ]
+        },
+        "condvars": {
+            "title": "Condition Variables",
+            "questions": [
+                {
+                    "q": "Τι κάνει η pthread_cond_wait() ατομικά;",
+                    "options": [
+                        {"text": "Ξεκλειδώνει τον mutex, κοιμίζει το thread, και μετά στο wakeup ξανακλειδώνει τον mutex.", "correct": true, "explanation": "Τα unlock+sleep γίνονται ατομικά. Στο wakeup, η re-lock μπορεί να μπλοκάρει αν κάποιος άλλος τον κρατά."},
+                        {"text": "Κλειδώνει τον mutex και περιμένει σήμα.", "correct": false, "explanation": "Ξεκλειδώνει τον mutex πρώτα (αλλιώς κανείς δεν θα μπορούσε να στείλει signal)."},
+                        {"text": "Στέλνει ένα signal σε όλα τα threads.", "correct": false, "explanation": "Αυτό κάνει η pthread_cond_broadcast()."}
+                    ]
+                },
+                {
+                    "q": "Ποια η διαφορά signal vs broadcast;",
+                    "options": [
+                        {"text": "signal ξυπνά ΕΝΑ thread, broadcast ξυπνά ΟΛΑ τα threads που περιμένουν.", "correct": true, "explanation": "Χρησιμοποίησε broadcast αν πολλαπλά threads μπορεί να πρέπει να ξυπνήσουν."},
+                        {"text": "signal ξυπνά όλα, broadcast στέλνει μήνυμα.", "correct": false, "explanation": "Ανάποδα."},
+                        {"text": "Δεν υπάρχει διαφορά.", "correct": false, "explanation": "Μεγάλη διαφορά — signal=1, broadcast=all."}
+                    ]
+                }
+            ]
+        },
+        "monitor": {
+            "title": "Monitor-Style",
+            "questions": [
+                {
+                    "q": "Γιατί πρέπει να χρησιμοποιούμε while αντί if γύρω από pthread_cond_wait;",
+                    "options": [
+                        {"text": "Για προστασία από spurious wakeups — μπορεί να ξυπνήσεις χωρίς η συνθήκη να είναι αληθής.", "correct": true, "explanation": "Με while ξαναελέγχεις τη συνθήκη μετά το wakeup. Με if μπορεί να προχωρήσεις λάθος."},
+                        {"text": "Γιατί η if δεν λειτουργεί με condition variables.", "correct": false, "explanation": "Λειτουργεί, αλλά δεν είναι ασφαλές."},
+                        {"text": "Γιατί το while είναι πιο γρήγορο.", "correct": false, "explanation": "Δεν είναι θέμα ταχύτητας αλλά ορθότητας."}
+                    ]
+                }
+            ]
+        },
+        "safety": {
+            "title": "Thread Safety",
+            "questions": [
+                {
+                    "q": "Γιατί η strtok() δεν είναι thread-safe;",
+                    "options": [
+                        {"text": "Χρησιμοποιεί internal static pointer — δύο ταυτόχρονα threads πατάνε ο ένας τη θέση του άλλου.", "correct": true, "explanation": "Η strtok_r() λύνει αυτό δεχόμενη saveptr ως argument."},
+                        {"text": "Δεν μπορεί να χειριστεί μεγάλα strings.", "correct": false, "explanation": "Αυτό δεν σχετίζεται με thread safety."},
+                        {"text": "Δεν υποστηρίζεται σε POSIX.", "correct": false, "explanation": "Η strtok() υπάρχει σε POSIX αλλά δεν είναι thread-safe."}
+                    ]
+                },
+                {
+                    "q": "Τι σημαίνει το _r suffix σε functions (π.χ. strtok_r);",
+                    "options": [
+                        {"text": "reentrant — η thread-safe εκδοχή που δέχεται εξωτερικό buffer αντί internal static storage.", "correct": true, "explanation": "Ο caller παρέχει state, κάθε thread χρησιμοποιεί δικό του buffer."},
+                        {"text": "recursive — μπορεί να κληθεί μέσα σε εαυτή.", "correct": false, "explanation": "Αν και σχετικές έννοιες, το _r σημαίνει reentrant."},
+                        {"text": "restricted — μόνο για root χρήστες.", "correct": false, "explanation": "Δεν σχετίζεται με δικαιώματα."}
+                    ]
+                }
+            ]
+        },
+        "prodcons": {
+            "title": "Producer-Consumer",
+            "questions": [
+                {
+                    "q": "Στο Producer-Consumer, γιατί χρειαζόμαστε ΔΥΟ condition variables;",
+                    "options": [
+                        {"text": "Μία (cond_nonfull) για τον producer να περιμένει όταν ο buffer είναι γεμάτος, μία (cond_nonempty) για τον consumer όταν είναι άδειος.", "correct": true, "explanation": "Κάθε CV αντιστοιχεί σε διαφορετική συνθήκη αναμονής."},
+                        {"text": "Μία αρκεί — χρησιμοποιούμε broadcast.", "correct": false, "explanation": "Θα δούλευε αλλά δεν είναι αποδοτικό."},
+                        {"text": "Χρειαζόμαστε τρεις — μία για κάθε θέση στον buffer.", "correct": false, "explanation": "Δύο αρκούν: full/empty conditions."}
+                    ]
+                },
+                {
+                    "q": "Τι γίνεται αν αλλάξεις τον usleep σε usleep(0) στον producer;",
+                    "options": [
+                        {"text": "Ο producer τρέχει πολύ γρηγορότερα, γεμίζει τον buffer, εμφανίζονται 'Found Buffer Full' μηνύματα.", "correct": true, "explanation": "Η σχεδίαση με condition variables αποτρέπει busy-waiting — ο producer μπλοκάρει κανονικά."},
+                        {"text": "Τίποτα δεν αλλάζει.", "correct": false, "explanation": "Η ταχύτητα αλλάζει δραματικά."},
+                        {"text": "Crash λόγω buffer overflow.", "correct": false, "explanation": "Δεν γίνεται overflow — ο producer μπλοκάρει αν γεμίσει."}
+                    ]
+                }
+            ]
+        },
+        "concurrency": {
+            "title": "Concurrency Errors",
+            "questions": [
+                {
+                    "q": "Ποια η διαφορά μεταξύ data race και atomicity violation;",
+                    "options": [
+                        {"text": "Data race: κανένα lock. Atomicity violation: υπάρχει lock αλλά δεν καλύπτει ολόκληρη τη λογική operation.", "correct": true, "explanation": "Π.χ. check-then-act πρέπει να είναι atomic, αλλά αν κλειδωθεί μόνο το check..."},
+                        {"text": "Δεν υπάρχει διαφορά.", "correct": false, "explanation": "Είναι ξεχωριστές κατηγορίες σφαλμάτων."},
+                        {"text": "Atomicity violation αφορά μόνο databases.", "correct": false, "explanation": "Αφορά οποιοδήποτε multi-threaded κώδικα."}
+                    ]
+                },
+                {
+                    "q": "Πώς αποτρέπεται ένα deadlock;",
+                    "options": [
+                        {"text": "Πάντα κλείδωνε mutexes με σταθερή σειρά (lock ordering) — π.χ. πάντα m1 πριν m2.", "correct": true, "explanation": "Σπάει τον κύκλο αμοιβαίας αναμονής."},
+                        {"text": "Μην χρησιμοποιείς mutexes.", "correct": false, "explanation": "Τότε θα έχεις data races!"},
+                        {"text": "Χρησιμοποίησε περισσότερα mutexes.", "correct": false, "explanation": "Περισσότερα mutexes αυξάνουν τον κίνδυνο."}
+                    ]
+                }
+            ]
+        },
+        "locking": {
+            "title": "Locking Strategies",
+            "questions": [
+                {
+                    "q": "Τι σημαίνει 'no composability' στο multi-threaded programming;",
+                    "options": [
+                        {"text": "Δεν μπορείς να φτιάξεις safe υπηρεσίες συνδυάζοντας safe sub-υπηρεσίες.", "correct": true, "explanation": "Π.χ. synch_withdraw + synch_deposit = non-atomic move. Η ασφάλεια δεν είναι composable."},
+                        {"text": "Δεν μπορείς να χρησιμοποιήσεις composition σε κλάσεις C++.", "correct": false, "explanation": "Δεν σχετίζεται με OOP."},
+                        {"text": "Δεν μπορείς να έχεις πάνω από 2 threads.", "correct": false, "explanation": "Δεν σχετίζεται με αριθμό threads."}
+                    ]
+                },
+                {
+                    "q": "Στο Account Library example, γιατί η move(A,B) || move(B,A) δημιουργεί deadlock;",
+                    "options": [
+                        {"text": "Η πρώτη κλειδώνει A (περιμένει B), η δεύτερη κλειδώνει B (περιμένει A) — κυκλική αναμονή.", "correct": true, "explanation": "Λύση: κλείδωνε πάντα τον λογαριασμό με τη μικρότερη διεύθυνση πρώτα."},
+                        {"text": "Η move δεν μπορεί να τρέξει παράλληλα.", "correct": false, "explanation": "Μπορεί — και αυτό είναι το πρόβλημα."},
+                        {"text": "Τα locks δεν λειτουργούν μεταξύ διαφορετικών accounts.", "correct": false, "explanation": "Κάθε account έχει δικό του lock."}
+                    ]
+                }
+            ]
+        }
+    },
+    "topic7": {
+        "intro": {
+            "title": "System V IPC Overview",
+            "questions": [
+                {
+                    "q": "Ποιοι είναι οι βασικοί περιορισμοί των pipes;",
+                    "options": [
+                        {"text": "Μονόδρομα, μόνο μεταξύ related processes, χωρίς message boundaries, χωρίς priorities.", "correct": true, "explanation": "Αυτοί οι περιορισμοί οδήγησαν στη δημιουργία System V IPC."},
+                        {"text": "Δεν μπορούν να μεταφέρουν binary δεδομένα.", "correct": false, "explanation": "Τα pipes μεταφέρουν οποιαδήποτε bytes."},
+                        {"text": "Λειτουργούν μόνο σε TCP δίκτυα.", "correct": false, "explanation": "Τα pipes είναι local IPC, δεν σχετίζονται με δίκτυα."}
+                    ]
+                },
+                {
+                    "q": "Τι σημαίνει 'Kernel Lifetime' για τα IPC objects;",
+                    "options": [
+                        {"text": "Τα IPC objects ζουν στον kernel μέχρι ρητή διαγραφή (IPC_RMID ή ipcrm), ακόμα και αν πεθάνουν οι διεργασίες.", "correct": true, "explanation": "Αν ξεχάσεις τον καθαρισμό, μένουν μέχρι reboot."},
+                        {"text": "Τα IPC objects ζουν όσο ζει η διεργασία.", "correct": false, "explanation": "Αυτό ισχύει για pipes, όχι System V IPC."},
+                        {"text": "Τα IPC objects ζουν στο filesystem.", "correct": false, "explanation": "Δεν χρησιμοποιούν inodes ούτε file descriptors."}
+                    ]
+                }
+            ]
+        },
+        "keys": {
+            "title": "IPC Keys & Access",
+            "questions": [
+                {
+                    "q": "Τι κάνει η ftok() και πώς λειτουργεί;",
+                    "options": [
+                        {"text": "Δημιουργεί ένα key_t συνδυάζοντας τον inode number ενός αρχείου + proj_id byte.", "correct": true, "explanation": "Δύο unrelated processes με τα ίδια arguments παίρνουν το ίδιο key."},
+                        {"text": "Δημιουργεί ένα random κλειδί κάθε φορά.", "correct": false, "explanation": "Είναι ντετερμινιστική — ίδια inputs, ίδιο output."},
+                        {"text": "Ανοίγει ένα αρχείο και επιστρέφει fd.", "correct": false, "explanation": "Η ftok δεν ανοίγει αρχεία — χρησιμοποιεί τον inode."}
+                    ]
+                },
+                {
+                    "q": "Πότε χρησιμοποιούμε IPC_PRIVATE;",
+                    "options": [
+                        {"text": "Όταν μόνο parent-child processes χρειάζονται πρόσβαση — δημιουργεί unique key.", "correct": true, "explanation": "Ο parent δημιουργεί, τα children κληρονομούν τον ID μέσω fork."},
+                        {"text": "Για κρυπτογράφηση IPC.", "correct": false, "explanation": "Το IPC_PRIVATE δεν σχετίζεται με ασφάλεια."},
+                        {"text": "Για shared memory μεταξύ unrelated processes.", "correct": false, "explanation": "Unrelated processes δεν μπορούν να βρουν IPC_PRIVATE objects."}
+                    ]
+                }
+            ]
+        },
+        "msgq": {
+            "title": "Message Queues API",
+            "questions": [
+                {
+                    "q": "Τι πρέπει να είναι πάντα > 0 στο message struct;",
+                    "options": [
+                        {"text": "Το mtype — ο τύπος μηνύματος. Αν δεν είναι θετικό, η msgsnd() αποτυγχάνει.", "correct": true, "explanation": "Αρνητικά mtype χρησιμοποιούνται στη msgrcv() για priority selection."},
+                        {"text": "Το μέγεθος του mtext.", "correct": false, "explanation": "Μπορεί να είναι 0 (μήνυμα χωρίς δεδομένα)."},
+                        {"text": "Ο αριθμός μηνυμάτων στην ουρά.", "correct": false, "explanation": "Ο αριθμός δεν ελέγχεται από τον χρήστη."}
+                    ]
+                },
+                {
+                    "q": "Τι κάνει η msgrcv() με msgtyp = -3;",
+                    "options": [
+                        {"text": "Λαμβάνει το πρώτο μήνυμα με type ≤ 3 (π.χ. 1, 2, ή 3), εξυπηρετώντας μικρότερα types πρώτα (priority queue).", "correct": true, "explanation": "Αρνητικό msgtyp = λαμβάνει μήνυμα με τον μικρότερο τύπο ≤ |msgtyp|."},
+                        {"text": "Λαμβάνει 3 μηνύματα ταυτόχρονα.", "correct": false, "explanation": "Η msgrcv() λαμβάνει πάντα ΕΝΑ μήνυμα."},
+                        {"text": "Αποτυγχάνει γιατί msgtyp δεν μπορεί να είναι αρνητικό.", "correct": false, "explanation": "Αρνητικό msgtyp είναι valid και πολύ χρήσιμο."}
+                    ]
+                }
+            ]
+        },
+        "msgex": {
+            "title": "Message Queue Examples",
+            "questions": [
+                {
+                    "q": "Πώς βρίσκει ένας client ένα υπάρχον message queue;",
+                    "options": [
+                        {"text": "Χρησιμοποιεί msgget() με το ίδιο key (χωρίς IPC_CREAT) — βρίσκει το υπάρχον.", "correct": true, "explanation": "Τα unrelated processes συμφωνούν σε ένα key (π.χ. μέσω header file ή ftok)."},
+                        {"text": "Λαμβάνει τον ID μέσω pipe.", "correct": false, "explanation": "Αυτό θα απαιτούσε ήδη IPC μεταξύ τους."},
+                        {"text": "Σκανάρει όλα τα queue IDs μέχρι να βρει.", "correct": false, "explanation": "Αυτό δεν είναι πρακτικό."}
+                    ]
+                }
+            ]
+        },
+        "shm": {
+            "title": "Shared Memory API",
+            "questions": [
+                {
+                    "q": "Γιατί η Shared Memory είναι ο ταχύτερος IPC μηχανισμός;",
+                    "options": [
+                        {"text": "Δεν γίνεται αντιγραφή δεδομένων μεταξύ user space και kernel — οι διεργασίες βλέπουν τις ίδιες physical pages.", "correct": true, "explanation": "Zero-copy. Στα message queues τα δεδομένα αντιγράφονται στον kernel και πίσω."},
+                        {"text": "Χρησιμοποιεί ειδικό hardware.", "correct": false, "explanation": "Χρησιμοποιεί κανονική RAM."},
+                        {"text": "Δεν χρειάζεται system calls.", "correct": false, "explanation": "Χρειάζεται shmget/shmat — μετά η πρόσβαση γίνεται χωρίς syscalls."}
+                    ]
+                },
+                {
+                    "q": "Τι κάνει η shmdt() και τι ΔΕΝ κάνει;",
+                    "options": [
+                        {"text": "Αποκολλά τη shared memory από το address space. ΔΕΝ σβήνει τα δεδομένα (γι αυτό χρειάζεται shmctl IPC_RMID).", "correct": true, "explanation": "Η μνήμη παραμένει στον kernel μετά το detach."},
+                        {"text": "Σβήνει τη shared memory.", "correct": false, "explanation": "Αυτό κάνει η shmctl(IPC_RMID)."},
+                        {"text": "Κλειδώνει τη shared memory.", "correct": false, "explanation": "Η shmdt δεν σχετίζεται με locking."}
+                    ]
+                }
+            ]
+        },
+        "shmex": {
+            "title": "Shared Memory Examples",
+            "questions": [
+                {
+                    "q": "Στο sharedMem1.c / sharedMem2.c, ποιο πρόβλημα δεν αντιμετωπίζεται;",
+                    "options": [
+                        {"text": "Δεν υπάρχει synchronization — αν δύο διεργασίες γράψουν ταυτόχρονα, γίνεται race condition.", "correct": true, "explanation": "Χρειάζονται semaphores για ασφαλή πρόσβαση."},
+                        {"text": "Δεν μπορούν να τρέξουν σε διαφορετικά μηχανήματα.", "correct": false, "explanation": "Shared memory είναι local IPC — αυτό δεν είναι bug."},
+                        {"text": "Δεν κλείνουν τα file descriptors.", "correct": false, "explanation": "Shared memory δεν χρησιμοποιεί fd."}
+                    ]
+                }
+            ]
+        },
+        "semconcepts": {
+            "title": "Semaphore Concepts",
+            "questions": [
+                {
+                    "q": "Τι κάνει η DOWN (P) operation σε semaphore;",
+                    "options": [
+                        {"text": "Αν semval > 0: μειώνει κατά 1. Αν semval = 0: μπλοκάρει μέχρι κάποιος κάνει UP.", "correct": true, "explanation": "Ατομική πράξη. Η διεργασία κοιμάται αν δεν υπάρχει πόρος."},
+                        {"text": "Αυξάνει τον counter κατά 1.", "correct": false, "explanation": "Αυτό κάνει η UP (V)."},
+                        {"text": "Σβήνει τον semaphore.", "correct": false, "explanation": "Αυτό κάνει η semctl(IPC_RMID)."}
+                    ]
+                },
+                {
+                    "q": "Τι σημαίνει ότι οι semaphores είναι 'advisory';",
+                    "options": [
+                        {"text": "Δεν εμποδίζουν φυσικά την πρόσβαση — οι διεργασίες πρέπει να συνεργάζονται.", "correct": true, "explanation": "Σαν τα traffic lights — δεν σταματούν φυσικά τα αυτοκίνητα."},
+                        {"text": "Δίνουν συμβουλές στον kernel για optimization.", "correct": false, "explanation": "Δεν σχετίζεται με optimization."},
+                        {"text": "Μπορούν να χρησιμοποιηθούν μόνο σε advisory mode.", "correct": false, "explanation": "Στο Linux δεν υπάρχει mandatory mode για semaphores."}
+                    ]
+                }
+            ]
+        },
+        "semapi": {
+            "title": "Semaphore API",
+            "questions": [
+                {
+                    "q": "Γιατί πρέπει να ορίσεις εσύ το union semun;",
+                    "options": [
+                        {"text": "Πολλά συστήματα δεν το ορίζουν στα headers — πρέπει ο programmer να το δηλώσει.", "correct": true, "explanation": "Κλασική ερώτηση εξέτασης! Ορίζεις: int val, struct semid_ds *buf, unsigned short *array."},
+                        {"text": "Γιατί το union πρέπει να περιέχει custom πεδία.", "correct": false, "explanation": "Τα πεδία είναι σταθερά (val, buf, array)."},
+                        {"text": "Δεν χρειάζεται — απλά χρησιμοποίησε int.", "correct": false, "explanation": "Η semctl() απαιτεί union semun — int δεν αρκεί."}
+                    ]
+                },
+                {
+                    "q": "Τι σημαίνει sem_op = 0 στη semop();",
+                    "options": [
+                        {"text": "Wait-for-zero: η διεργασία μπλοκάρει μέχρι η τιμή του semaphore γίνει 0.", "correct": true, "explanation": "Χρήσιμο για synchronization — π.χ. περίμενε μέχρι όλοι οι πόροι απελευθερωθούν."},
+                        {"text": "Δεν κάνει τίποτα (no-op).", "correct": false, "explanation": "Κάνει wait — μπλοκάρει αν η τιμή δεν είναι 0."},
+                        {"text": "Θέτει την τιμή σε 0.", "correct": false, "explanation": "Αυτό κάνει η semctl(SETVAL, 0)."}
+                    ]
+                }
+            ]
+        },
+        "semex": {
+            "title": "Semaphore Examples",
+            "questions": [
+                {
+                    "q": "Στο fork+shm+semaphore counter, γιατί ο counter είναι σωστός (200000);",
+                    "options": [
+                        {"text": "Ο semaphore (init=1) εξασφαλίζει mutual exclusion — μόνο μία διεργασία τη φορά αυξάνει τον counter.", "correct": true, "explanation": "sem_P (DOWN) πριν, sem_V (UP) μετά — binary semaphore = mutex."},
+                        {"text": "Η shared memory αυτόματα synchronize τις εγγραφές.", "correct": false, "explanation": "Δεν γίνεται αυτόματα — χρειάζεται ρητός synchronization."},
+                        {"text": "Το fork() εξασφαλίζει σειριακή εκτέλεση.", "correct": false, "explanation": "Μετά το fork, parent/child τρέχουν παράλληλα."}
+                    ]
+                }
+            ]
+        },
+        "semchallenge": {
+            "title": "Semaphore Challenges",
+            "questions": [
+                {
+                    "q": "Τι κάνει η flag SEM_UNDO;",
+                    "options": [
+                        {"text": "Αν η διεργασία πεθάνει, ο kernel αναιρεί αυτόματα τις semaphore operations — αποτρέπει orphaned locks.", "correct": true, "explanation": "Χωρίς SEM_UNDO, αν μια διεργασία crashάρει κρατώντας semaphore, μένει locked για πάντα."},
+                        {"text": "Αναιρεί την τελευταία semop() κλήση.", "correct": false, "explanation": "Δεν είναι manual undo — ενεργοποιείται αυτόματα στον τερματισμό."},
+                        {"text": "Κάνει undo ολόκληρου του semaphore set.", "correct": false, "explanation": "Αφορά μόνο τις πράξεις της τρέχουσας διεργασίας."}
+                    ]
+                },
+                {
+                    "q": "Ποια η διαφορά mutex (pthread) vs semaphore (System V);",
+                    "options": [
+                        {"text": "Mutex: intra-process (threads), binary μόνο, ο κάτοχος ξεκλειδώνει. Semaphore: inter-process, counting > 1, κάποιος άλλος μπορεί να κάνει UP.", "correct": true, "explanation": "System V semaphores δουλεύουν μεταξύ unrelated processes — mutexes μόνο μεταξύ threads."},
+                        {"text": "Δεν υπάρχει ουσιαστική διαφορά.", "correct": false, "explanation": "Μεγάλες διαφορές σε scope, functionality, API."},
+                        {"text": "Mutex > semaphore σε κάθε περίπτωση.", "correct": false, "explanation": "Εξαρτάται από τις ανάγκες — inter-process απαιτεί semaphores."}
+                    ]
+                }
+            ]
+        },
+        "filelock": {
+            "title": "File Locking",
+            "questions": [
+                {
+                    "q": "Ποια η διαφορά F_SETLK vs F_SETLKW;",
+                    "options": [
+                        {"text": "F_SETLK: non-blocking (αποτυχία αν δεν μπορεί). F_SETLKW: blocking (περιμένει μέχρι να γίνει δυνατό).", "correct": true, "explanation": "F_SETLK επιστρέφει -1 αν locked. F_SETLKW κοιμάται μέχρι unlock."},
+                        {"text": "F_SETLK κλειδώνει write, F_SETLKW κλειδώνει read.", "correct": false, "explanation": "Τον τύπο lock τον καθορίζει το l_type (F_RDLCK/F_WRLCK)."},
+                        {"text": "F_SETLK είναι mandatory, F_SETLKW advisory.", "correct": false, "explanation": "Και τα δύο είναι advisory στο Linux."}
+                    ]
+                },
+                {
+                    "q": "Τι σημαίνει l_len = 0 στο struct flock;",
+                    "options": [
+                        {"text": "Κλειδώνει από l_start μέχρι το τέλος του αρχείου (ακόμα και bytes που δεν υπάρχουν ακόμα).", "correct": true, "explanation": "Χρήσιμο για append operations — κλειδώνει ό,τι γραφτεί μετά."},
+                        {"text": "Δεν κλειδώνει τίποτα.", "correct": false, "explanation": "0 = until EOF, δεν σημαίνει 0 bytes."},
+                        {"text": "Κλειδώνει ολόκληρο τον δίσκο.", "correct": false, "explanation": "Κλειδώνει μόνο μέσα στο αρχείο."}
+                    ]
+                }
+            ]
+        },
+        "filelockex": {
+            "title": "File Locking Examples",
+            "questions": [
+                {
+                    "q": "Στο deadlock example, πώς εντοπίζεται το πρόβλημα;",
+                    "options": [
+                        {"text": "Ο parent χρησιμοποιεί F_SETLK (non-blocking) αντί F_SETLKW — αν αποτύχει, ξέρει ότι υπάρχει πρόβλημα και τερματίζει.", "correct": true, "explanation": "Non-blocking lock = try-lock pattern. Αν αποτύχει → EAGAIN → ο parent μπορεί να πάρει αποφάσεις."},
+                        {"text": "Ο kernel ανιχνεύει αυτόματα deadlock.", "correct": false, "explanation": "Σε κάποια OS γίνεται, αλλά δεν είναι guaranteed."},
+                        {"text": "Δεν εντοπίζεται — τρέχει για πάντα.", "correct": false, "explanation": "Με F_SETLK (non-blocking) εντοπίζεται."}
+                    ]
+                },
+                {
+                    "q": "Στο lockit.c, γιατί ο child μπλοκάρει στο fcntl(F_SETLKW);",
+                    "options": [
+                        {"text": "Ο parent κρατά write lock στα bytes 0-9, και ο child ζητά lock στα bytes 0-4 (υποσύνολο). F_SETLKW περιμένει.", "correct": true, "explanation": "Τα byte ranges επικαλύπτονται. Ο child περιμένει μέχρι ο parent κάνει unlock."},
+                        {"text": "Ο child δεν έχει δικαιώματα στο αρχείο.", "correct": false, "explanation": "Ο child κληρονόμησε το fd από τον parent (fork)."},
+                        {"text": "Ο child χρησιμοποιεί λάθος file descriptor.", "correct": false, "explanation": "Χρησιμοποιεί τον κληρονομημένο fd."}
+                    ]
+                }
+            ]
+        }
     }
 };

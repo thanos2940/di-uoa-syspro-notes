@@ -1,0 +1,1112 @@
+<!DOCTYPE html>
+<html lang="el">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Topic 7 · System V IPC</title>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;700&family=Syne:wght@400;700;800&family=Lora:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles/base.css">
+<style>
+:root{--bg:#0d1117;--bg-rgb:13,17,23;--surf:#161b22;--surf2:#1c2230;--border:#30363d;--blue:#58a6ff;--blue-rgb:88,166,255;--bdim:#0d1f40;--green:#3fb950;--green-rgb:63,185,80;--gdim:#0d2218;--yellow:#e3b341;--ydim:#2d2208;--red:#f85149;--rdim:#2d1010;--cyan:#39d4c8;--cdim:#0a2422;--purple:#bc8cff;--purple-rgb:188,140,255;--pdim:#1a1040;--orange:#f0883e;--orange-rgb:240,136,62;--odim:#2d1800;--txt:#e6edf3;--muted:#8b949e;--dim:#6e7681}
+.hero{background:linear-gradient(150deg,#0d1117 0%,#1a1040 55%,#0d1117 100%)}
+.hero::after{content:'$ ipcs -a';position:absolute;right:32px;bottom:16px;font-family:'JetBrains Mono',monospace;font-size:clamp(1rem,3vw,2.2rem);color:rgba(188,140,255,.06);pointer-events:none;font-weight:700}
+.cb{background:#060a10}
+.kw{color:var(--blue);font-weight:600}.fn{color:var(--yellow);font-weight:600}.st{color:var(--orange)}.cm{color:var(--dim);font-style:italic}.nm{color:var(--purple)}.tp{color:var(--cyan)}.mc{color:var(--purple);font-weight:600}.pr{color:var(--muted)}
+.struct-box{background:#060a10;border:1px solid var(--border);border-radius:10px;padding:18px 22px;font-family:'JetBrains Mono',monospace;line-height:2}
+.sf-type{color:var(--cyan)}.sf-field{color:var(--txt)}.sf-comment{color:var(--dim);font-style:italic}
+.ipc-diagram{background:#060a10;border:1px solid var(--border);border-radius:10px;padding:18px;font-family:'JetBrains Mono',monospace;text-align:center;line-height:2.4}
+.compare{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:12px 0}
+.good-side{background:var(--gdim);border:1px solid rgba(63,185,80,.2);border-radius:8px;padding:12px}
+.bad-side{background:var(--rdim);border:1px solid rgba(248,81,73,.2);border-radius:8px;padding:12px}
+.side-label{font-size:0.8125rem;font-family:'JetBrains Mono',monospace;letter-spacing:1px;font-weight:700;margin-bottom:0.5rem;text-transform:uppercase}
+.retval-row{display:flex;gap:10px;flex-wrap:wrap;margin:12px 0}
+.retval{flex:1;min-width:120px;background:var(--surf);border:1px solid var(--border);border-radius:8px;padding:12px;text-align:center}
+.retval-num{font-family:'JetBrains Mono',monospace;font-weight:700;margin-bottom:4px}
+.retval-desc{color:var(--muted)}
+</style>
+<script src="js/nav.js" defer></script>
+<script src="data/questions.js" defer></script><script src="js/quiz-loader.js" defer></script>
+</head>
+<body>
+<div id="site-nav"></div>
+
+<div class="hero">
+  <div class="hero-label">K24 · Topic 7</div>
+  <h1>System V <em>IPC</em></h1>
+  <p>Message Queues, Shared Memory, Semaphores, File Locking — πλήρη ανάλυση με annotated κώδικα, struct visualizations, και tips εξετάσεων.</p>
+  <div class="chips">
+    <span class="chip">message queues</span><span class="chip">shared memory</span><span class="chip">semaphores</span>
+    <span class="chip">ftok</span><span class="chip">semop</span><span class="chip">fcntl locking</span>
+  </div>
+</div>
+
+<nav class="toc">
+  <a href="#intro">Overview</a><a href="#keys">Keys &amp; Access</a><a href="#msgq">Message Queues</a>
+  <a href="#msgex">MQ Examples</a><a href="#shm">Shared Memory</a><a href="#shmex">SHM Examples</a>
+  <a href="#semconcepts">Semaphore Concepts</a><a href="#semapi">Semaphore API</a><a href="#semex">SEM Examples</a>
+  <a href="#semchallenge">SEM Challenges</a><a href="#filelock">File Locking</a><a href="#filelockex">Lock Examples</a>
+</nav>
+
+<div class="wrap">
+
+<!-- ═══════════════════════ 1. OVERVIEW ═══════════════════════ -->
+<section id="intro">
+  <div class="sh"><div class="sh-icon" style="background:var(--pdim)">📬</div><h2>1. System V IPC Overview</h2></div>
+
+  <p style="color:var(--muted);margin-bottom:14px">
+    Τα <strong style="color:var(--purple)">System V IPC</strong> mechanisms επεκτείνουν τις δυνατότητες επικοινωνίας μεταξύ διεργασιών πέρα από τα pipes. Ενώ τα pipes είναι απλά, έχουν σημαντικούς <em>περιορισμούς</em>. Το System V IPC παρέχει 3 μηχανισμούς: Message Queues, Shared Memory, Semaphores.
+  </p>
+
+  <div class="grid2">
+    <div>
+      <div class="card">
+        <div class="card-title">Pipe Limitations</div>
+        <ul style="color:var(--muted);font-size:0.85rem;padding-left:16px">
+          <li style="margin-bottom:6px"><strong style="color:var(--red)">Unidirectional:</strong> Μονόδρομα — χρειάζεσαι 2 pipes για αμφίδρομη επικοινωνία</li>
+          <li style="margin-bottom:6px"><strong style="color:var(--red)">Related processes:</strong> Anonymous pipes λειτουργούν μόνο μεταξύ parent-child</li>
+          <li style="margin-bottom:6px"><strong style="color:var(--red)">No message boundaries:</strong> Byte stream — δεν ξέρεις πού τελειώνει ένα μήνυμα</li>
+          <li style="margin-bottom:6px"><strong style="color:var(--red)">Process lifetime:</strong> Καταστρέφονται μαζί με τη διεργασία</li>
+          <li><strong style="color:var(--red)">No priorities:</strong> FIFO μόνο — δεν μπορείς να δώσεις προτεραιότητα</li>
+        </ul>
+      </div>
+
+      <div class="card" style="margin-top:10px">
+        <div class="card-title">Three IPC Mechanisms</div>
+        <table class="vtbl" style="font-size:0.82rem">
+          <thead><tr><th>Mechanism</th><th>Purpose</th></tr></thead>
+          <tbody>
+            <tr><td><strong style="color:var(--blue)">Message Queues</strong></td><td>Ανταλλαγή δομημένων μηνυμάτων με τύπο/προτεραιότητα</td></tr>
+            <tr><td><strong style="color:var(--green)">Shared Memory</strong></td><td>Κοινόχρηστη μνήμη — ο ταχύτερος IPC μηχανισμός</td></tr>
+            <tr><td><strong style="color:var(--orange)">Semaphores</strong></td><td>Synchronization — έλεγχος πρόσβασης σε κοινούς πόρους</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <div>
+      <div class="card">
+        <div class="card-title">System V IPC Characteristics</div>
+        <ul style="color:var(--muted);font-size:0.85rem;padding-left:16px">
+          <li style="margin-bottom:8px"><strong style="color:var(--purple)">Kernel Lifetime:</strong> Τα IPC objects ζουν στον kernel — δεν καταστρέφονται όταν πεθάνουν οι διεργασίες! Πρέπει να τα σβήσεις ρητά (<code>ipcrm</code>) ή με <code>IPC_RMID</code>.</li>
+          <li style="margin-bottom:8px"><strong style="color:var(--purple)">Key-based:</strong> Κάθε IPC object αναγνωρίζεται από ένα <code>key_t</code> — ένα integer key. Οι unrelated processes μπορούν να βρουν τον ίδιο πόρο χρησιμοποιώντας το ίδιο key.</li>
+          <li style="margin-bottom:8px"><strong style="color:var(--purple)">No file descriptors:</strong> Δεν χρησιμοποιούν fd — δεν μπαίνουν στον file descriptor table, δεν έχουν inodes.</li>
+          <li><strong style="color:var(--purple)">Access permissions:</strong> Κάθε IPC object έχει permissions (owner, group, mode) — όπως τα αρχεία.</li>
+        </ul>
+      </div>
+
+      <div class="tip">
+        <div class="tip-icon">🧠</div>
+        <div>
+          <div class="tip-title">Tip — ipcs &amp; ipcrm commands</div>
+          <div class="tip-text">
+            <code>ipcs</code>: Δείχνει τα ενεργά IPC resources (message queues, shared memory, semaphores).<br>
+            <code>ipcrm -q &lt;id&gt;</code>: Σβήνει message queue. <code>ipcrm -m &lt;id&gt;</code>: Σβήνει shared memory. <code>ipcrm -s &lt;id&gt;</code>: Σβήνει semaphore set.<br>
+            <strong>Exam tip:</strong> Αν ξεχάσεις να σβήσεις IPC objects, μένουν στον kernel μέχρι reboot ή ipcrm!
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section-quiz" data-topic="topic7" data-section="intro"></div>
+</section>
+
+<!-- ═══════════════════════ 2. KEYS & ACCESS ═══════════════════════ -->
+<section id="keys">
+  <div class="sh"><div class="sh-icon" style="background:var(--bdim)">🔑</div><h2>2. IPC Keys &amp; Access Control</h2></div>
+
+  <p style="color:var(--muted);margin-bottom:14px">
+    Κάθε IPC object χρειάζεται ένα <strong style="color:var(--blue)">key</strong> (<code>key_t</code>) για δημιουργία/σύνδεση. Υπάρχουν 3 τρόποι: <code>ftok()</code> (recommended), <code>IPC_PRIVATE</code> (parent-child), ή hard-coded integer (bad practice).
+  </p>
+
+  <div class="grid2">
+    <div>
+      <div class="card">
+        <div class="card-title">ftok() — Generate Key</div>
+        <div class="cb" style="padding:14px;border-radius:8px;font-family:'JetBrains Mono',monospace;font-size:0.82rem;line-height:1.9;overflow-x:auto">
+<span class="tp">key_t</span> <span class="fn">ftok</span>(<span class="kw">const char</span> *<span class="sf-field">pathname</span>, <span class="kw">int</span> <span class="sf-field">proj_id</span>);
+<span class="cm">// pathname: πρέπει να υπάρχει (χρησιμοποιεί inode)</span>
+<span class="cm">// proj_id: 8-bit integer (non-zero)</span>
+<span class="cm">// Returns: key_t or -1 on error</span>
+
+<span class="cm">// Example:</span>
+<span class="tp">key_t</span> key = <span class="fn">ftok</span>(<span class="st">"/tmp/myfile"</span>, <span class="nm">'A'</span>);
+<span class="kw">if</span> (key == -<span class="nm">1</span>) { <span class="fn">perror</span>(<span class="st">"ftok"</span>); <span class="fn">exit</span>(<span class="nm">1</span>); }
+        </div>
+        <div class="ibox" style="margin-top:8px">
+          <div class="lbl" style="color:var(--blue)">How ftok works</div>
+          Συνδυάζει τον inode number του αρχείου + proj_id byte + device number → μοναδικό key. Αν δύο unrelated processes καλέσουν ftok με τα ίδια arguments, παίρνουν το <strong>ίδιο key</strong>.
+        </div>
+      </div>
+
+      <div class="card" style="margin-top:10px">
+        <div class="card-title">IPC_PRIVATE</div>
+        <div class="cb" style="padding:14px;border-radius:8px;font-family:'JetBrains Mono',monospace;font-size:0.82rem;line-height:1.9">
+<span class="cm">// Creates a unique key (guaranteed new object)</span>
+<span class="kw">int</span> id = <span class="fn">msgget</span>(<span class="mc">IPC_PRIVATE</span>, <span class="nm">0666</span>);
+<span class="cm">// Only parent + children can access (must pass ID)</span>
+        </div>
+        <p style="font-size:0.82rem;color:var(--muted);margin-top:6px">
+          Χρήσιμο όταν <strong>μόνο</strong> parent-child χρειάζονται πρόσβαση. Ο parent δημιουργεί, και τα children κληρονομούν τον ID μέσω fork().
+        </p>
+      </div>
+    </div>
+    <div>
+      <div class="card">
+        <div class="card-title">Access Permissions — struct ipc_perm</div>
+        <div class="struct-box" style="font-size:0.78rem;line-height:2">
+<span class="kw">struct</span> <span class="tp">ipc_perm</span> {<br>
+&nbsp;&nbsp;<span class="sf-type">uid_t</span>  <span class="sf-field">uid</span>;   <span class="sf-comment">// owner's effective user ID</span><br>
+&nbsp;&nbsp;<span class="sf-type">gid_t</span>  <span class="sf-field">gid</span>;   <span class="sf-comment">// owner's effective group ID</span><br>
+&nbsp;&nbsp;<span class="sf-type">uid_t</span>  <span class="sf-field">cuid</span>;  <span class="sf-comment">// creator's effective user ID</span><br>
+&nbsp;&nbsp;<span class="sf-type">gid_t</span>  <span class="sf-field">cgid</span>;  <span class="sf-comment">// creator's effective group ID</span><br>
+&nbsp;&nbsp;<span class="sf-type">mode_t</span> <span class="sf-field">mode</span>;  <span class="sf-comment">// permissions (read/write)</span><br>
+};
+        </div>
+        <p style="font-size:0.82rem;color:var(--muted);margin-top:8px">
+          Τα permissions δηλώνονται σαν file permissions: <code>0666</code> = read/write for all. Η <code>IPC_CREAT</code> flag δημιουργεί αν δεν υπάρχει. Η <code>IPC_EXCL</code> + <code>IPC_CREAT</code> = error αν ήδη υπάρχει.
+        </p>
+      </div>
+
+      <div class="wbox" style="margin-top:10px">
+        <div class="lbl" style="color:var(--yellow)">Common Flags Pattern</div>
+        <div class="cb" style="padding:8px;border-radius:6px;font-family:'JetBrains Mono',monospace;font-size:0.78rem;line-height:1.7;margin-top:8px">
+<span class="cm">// Create new (or get existing)</span>
+id = <span class="fn">msgget</span>(key, <span class="mc">IPC_CREAT</span> | <span class="nm">0666</span>);
+
+<span class="cm">// Create new (FAIL if exists)</span>
+id = <span class="fn">msgget</span>(key, <span class="mc">IPC_CREAT</span> | <span class="mc">IPC_EXCL</span> | <span class="nm">0666</span>);
+
+<span class="cm">// Get existing (FAIL if doesn't exist)</span>
+id = <span class="fn">msgget</span>(key, <span class="nm">0</span>);
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section-quiz" data-topic="topic7" data-section="keys"></div>
+</section>
+
+<!-- ═══════════════════════ 3. MESSAGE QUEUES ═══════════════════════ -->
+<section id="msgq">
+  <div class="sh"><div class="sh-icon" style="background:var(--bdim)">📨</div><h2>3. Message Queues API</h2></div>
+
+  <p style="color:var(--muted);margin-bottom:14px">
+    Τα <strong style="color:var(--blue)">Message Queues</strong> επιτρέπουν ανταλλαγή δομημένων μηνυμάτων μεταξύ διεργασιών. Κάθε μήνυμα έχει ένα <em>type</em> (long integer), που επιτρέπει selective receiving — κάτι αδύνατο με pipes!
+  </p>
+
+  <div class="grid2">
+    <div>
+      <div class="card">
+        <div class="card-title">msgget() — Create/Get Queue</div>
+        <div class="cb" style="padding:14px;border-radius:8px;font-family:'JetBrains Mono',monospace;font-size:0.82rem;line-height:1.9;overflow-x:auto">
+<span class="mc">#include</span> <span class="st">&lt;sys/msg.h&gt;</span>
+
+<span class="kw">int</span> <span class="fn">msgget</span>(<span class="tp">key_t</span> <span class="sf-field">key</span>, <span class="kw">int</span> <span class="sf-field">msgflg</span>);
+<span class="cm">// Returns: queue ID (>= 0) or -1 on error</span>
+        </div>
+      </div>
+
+      <div class="card" style="margin-top:10px">
+        <div class="card-title">Message Structure</div>
+        <div class="struct-box" style="font-size:0.82rem;line-height:2">
+<span class="kw">struct</span> <span class="tp">message</span> {<br>
+&nbsp;&nbsp;<span class="sf-type">long</span> <span class="sf-field">mtype</span>;    <span class="sf-comment">// message type (MUST be > 0)</span><br>
+&nbsp;&nbsp;<span class="sf-type">char</span> <span class="sf-field">mtext</span>[<span class="nm">1</span>]; <span class="sf-comment">// message data (flexible)</span><br>
+};
+        </div>
+        <div class="ibox" style="margin-top:8px">
+          <div class="lbl" style="color:var(--blue)">Flexible Message Body</div>
+          Το <code>mtext</code> μπορεί να είναι οποιοδήποτε μέγεθος. Ορίζεις δικό σου struct με μεγαλύτερο array ή επιπλέον πεδία. Το <code>mtype</code> πρέπει πάντα να είναι <strong>θετικό</strong>.
+        </div>
+      </div>
+
+      <div class="card" style="margin-top:10px">
+        <div class="card-title">msgsnd() — Send Message</div>
+        <div class="cb" style="padding:14px;border-radius:8px;font-family:'JetBrains Mono',monospace;font-size:0.82rem;line-height:1.9;overflow-x:auto">
+<span class="kw">int</span> <span class="fn">msgsnd</span>(<span class="kw">int</span> <span class="sf-field">msqid</span>,
+          <span class="kw">const void</span> *<span class="sf-field">msgp</span>,  <span class="cm">// pointer to message struct</span>
+          <span class="tp">size_t</span> <span class="sf-field">msgsz</span>,      <span class="cm">// size of mtext (NOT entire struct!)</span>
+          <span class="kw">int</span> <span class="sf-field">msgflg</span>);       <span class="cm">// IPC_NOWAIT or 0</span>
+<span class="cm">// Returns: 0 on success, -1 on error</span>
+        </div>
+        <div class="wbox" style="margin-top:8px">
+          <div class="lbl" style="color:var(--yellow)">msgsz = sizeof data ONLY</div>
+          Πέρνα μέγεθος μόνο του <code>mtext</code> μέρους, ΟΧΙ ολόκληρου του struct! Δηλαδή <code>sizeof(msg) - sizeof(long)</code>.
+        </div>
+      </div>
+    </div>
+    <div>
+      <div class="card">
+        <div class="card-title">msgrcv() — Receive Message</div>
+        <div class="cb" style="padding:14px;border-radius:8px;font-family:'JetBrains Mono',monospace;font-size:0.82rem;line-height:1.9;overflow-x:auto">
+<span class="tp">ssize_t</span> <span class="fn">msgrcv</span>(<span class="kw">int</span> <span class="sf-field">msqid</span>,
+               <span class="kw">void</span> *<span class="sf-field">msgp</span>,     <span class="cm">// output buffer</span>
+               <span class="tp">size_t</span> <span class="sf-field">msgsz</span>,   <span class="cm">// max size of mtext</span>
+               <span class="kw">long</span> <span class="sf-field">msgtyp</span>,    <span class="cm">// which message type</span>
+               <span class="kw">int</span> <span class="sf-field">msgflg</span>);    <span class="cm">// IPC_NOWAIT or 0</span>
+<span class="cm">// Returns: number of bytes received, or -1</span>
+        </div>
+        <div class="card" style="margin-top:8px;background:var(--surf2)">
+          <div class="card-title">msgtyp Values — Selective Receive</div>
+          <table class="vtbl" style="font-size:0.82rem">
+            <thead><tr><th>msgtyp</th><th>Behavior</th></tr></thead>
+            <tbody>
+              <tr><td><code style="color:var(--green)">= 0</code></td><td>Πρώτο μήνυμα στην ουρά (FIFO)</td></tr>
+              <tr><td><code style="color:var(--blue)">&gt; 0</code></td><td>Πρώτο μήνυμα με <strong>αυτό ακριβώς</strong> το type</td></tr>
+              <tr><td><code style="color:var(--orange)">&lt; 0</code></td><td>Πρώτο μήνυμα με type ≤ |msgtyp| (μικρότερο ή ίσο)</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="card" style="margin-top:10px">
+        <div class="card-title">msgctl() — Control Operations</div>
+        <div class="cb" style="padding:14px;border-radius:8px;font-family:'JetBrains Mono',monospace;font-size:0.82rem;line-height:1.9">
+<span class="kw">int</span> <span class="fn">msgctl</span>(<span class="kw">int</span> <span class="sf-field">msqid</span>, <span class="kw">int</span> <span class="sf-field">cmd</span>, <span class="kw">struct</span> <span class="tp">msqid_ds</span> *<span class="sf-field">buf</span>);
+<span class="cm">// cmd = IPC_STAT : read queue info into buf</span>
+<span class="cm">// cmd = IPC_SET  : modify permissions</span>
+<span class="cm">// cmd = IPC_RMID : delete queue (buf=NULL)</span>
+        </div>
+      </div>
+
+      <div class="tip" style="margin-top:10px">
+        <div class="tip-icon">🧠</div>
+        <div>
+          <div class="tip-title">Exam Tip — msgtyp &lt; 0</div>
+          <div class="tip-text">
+            Με <code>msgtyp = -3</code>, λαμβάνεις το πρώτο μήνυμα με type 1, 2, ή 3 (ό,τι υπάρχει πρώτο). Αυτό φτιάχνει <strong>priority queue</strong>: μικρότερα types = υψηλότερη προτεραιότητα!
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section-quiz" data-topic="topic7" data-section="msgq"></div>
+</section>
+
+<!-- ═══════════════════════ 4. MESSAGE QUEUE EXAMPLES ═══════════════════════ -->
+<section id="msgex">
+  <div class="sh"><div class="sh-icon" style="background:var(--cdim)">💻</div><h2>4. Message Queue Examples</h2></div>
+
+  <p style="color:var(--muted);margin-bottom:14px">
+    Παραδείγματα server-client αρχιτεκτονικής και priority queue χρησιμοποιώντας message queues. Δείχνουν πώς unrelated processes ανταλλάσσουν μηνύματα.
+  </p>
+
+  <div class="grid2">
+    <div>
+      <div class="card">
+        <div class="card-title">Server — Creates Queue &amp; Receives</div>
+        <div class="cb" style="padding:14px;border-radius:8px;font-family:'JetBrains Mono',monospace;font-size:0.75rem;line-height:1.7;overflow-x:auto">
+<span class="mc">#define</span> <span class="nm">MSGKEY</span> <span class="nm">1234</span>
+
+<span class="kw">struct</span> <span class="tp">message</span> {
+    <span class="kw">long</span> <span class="sf-field">mtype</span>;
+    <span class="kw">char</span> <span class="sf-field">mtext</span>[<span class="nm">64</span>];
+};
+
+<span class="kw">int</span> <span class="fn">main</span>() {
+    <span class="kw">int</span> msqid = <span class="fn">msgget</span>(<span class="nm">MSGKEY</span>, <span class="nm">0666</span> | <span class="mc">IPC_CREAT</span>);
+    <span class="kw">struct</span> <span class="tp">message</span> msg;
+
+    <span class="kw">while</span> (<span class="nm">1</span>) {
+        <span class="fn">msgrcv</span>(msqid, &amp;msg, <span class="kw">sizeof</span>(msg.mtext),
+               <span class="nm">0</span>, <span class="nm">0</span>);  <span class="cm">// type=0: any message</span>
+        <span class="fn">printf</span>(<span class="st">"Received [type=%ld]: %s\n"</span>,
+               msg.mtype, msg.mtext);
+    }
+    <span class="fn">msgctl</span>(msqid, <span class="mc">IPC_RMID</span>, <span class="nm">NULL</span>);
+    <span class="kw">return</span> <span class="nm">0</span>;
+}
+        </div>
+      </div>
+
+      <div class="card" style="margin-top:10px">
+        <div class="card-title">Client 1 — Sends type=1 messages</div>
+        <div class="cb" style="padding:14px;border-radius:8px;font-family:'JetBrains Mono',monospace;font-size:0.75rem;line-height:1.7;overflow-x:auto">
+<span class="kw">int</span> <span class="fn">main</span>() {
+    <span class="kw">int</span> msqid = <span class="fn">msgget</span>(<span class="nm">MSGKEY</span>, <span class="nm">0</span>); <span class="cm">// get existing</span>
+    <span class="kw">struct</span> <span class="tp">message</span> msg;
+    msg.mtype = <span class="nm">1</span>;
+    <span class="fn">strcpy</span>(msg.mtext, <span class="st">"Hello from client 1"</span>);
+    <span class="fn">msgsnd</span>(msqid, &amp;msg, <span class="kw">sizeof</span>(msg.mtext), <span class="nm">0</span>);
+    <span class="kw">return</span> <span class="nm">0</span>;
+}
+        </div>
+      </div>
+    </div>
+    <div>
+      <div class="card">
+        <div class="card-title">Priority Queue — Using msgtyp</div>
+        <p style="font-size:0.82rem;color:var(--muted);margin-bottom:8px">
+          Χρησιμοποιώντας negative msgtyp, μπορούμε να φτιάξουμε priority queue:
+        </p>
+        <div class="cb" style="padding:14px;border-radius:8px;font-family:'JetBrains Mono',monospace;font-size:0.75rem;line-height:1.7;overflow-x:auto">
+<span class="cm">// q.h — Shared header</span>
+<span class="mc">#define</span> <span class="nm">MAXOBN</span> <span class="nm">50</span>
+<span class="mc">#define</span> <span class="nm">MAXPRIOR</span> <span class="nm">10</span>
+
+<span class="kw">struct</span> <span class="tp">message</span> {
+    <span class="kw">long</span> <span class="sf-field">mtype</span>;  <span class="cm">// 1=highest, MAXPRIOR=lowest</span>
+    <span class="kw">char</span> <span class="sf-field">mtext</span>[<span class="nm">MAXOBN</span>];
+};
+
+<span class="cm">// enter.c — Add to queue with priority</span>
+msg.mtype = priority;  <span class="cm">// lower = higher priority</span>
+<span class="fn">msgsnd</span>(qid, &amp;msg, <span class="kw">sizeof</span>(msg.mtext), <span class="nm">0</span>);
+
+<span class="cm">// serve.c — Get highest priority first</span>
+<span class="fn">msgrcv</span>(qid, &amp;msg, <span class="kw">sizeof</span>(msg.mtext),
+       -<span class="nm">MAXPRIOR</span>, <span class="nm">0</span>);  <span class="cm">// ← negative!</span>
+<span class="cm">// Gets lowest-numbered type first = highest priority</span>
+        </div>
+      </div>
+
+      <div class="card" style="margin-top:10px">
+        <div class="card-title">Message Queues vs Pipes</div>
+        <table class="vtbl" style="font-size:0.82rem">
+          <thead><tr><th>Feature</th><th style="color:var(--blue)">Msg Queue</th><th style="color:var(--green)">Pipe</th></tr></thead>
+          <tbody>
+            <tr><td><strong>Message boundaries</strong></td><td>Yes (typed messages)</td><td>No (byte stream)</td></tr>
+            <tr><td><strong>Priority</strong></td><td>Yes (via msgtyp)</td><td>No (FIFO only)</td></tr>
+            <tr><td><strong>Unrelated processes</strong></td><td>Yes (via key)</td><td>Only named pipes</td></tr>
+            <tr><td><strong>Lifetime</strong></td><td>Kernel (persists!)</td><td>Process</td></tr>
+            <tr><td><strong>Direction</strong></td><td>Bidirectional</td><td>Unidirectional</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <div class="section-quiz" data-topic="topic7" data-section="msgex"></div>
+</section>
+
+<!-- ═══════════════════════ 5. SHARED MEMORY ═══════════════════════ -->
+<section id="shm">
+  <div class="sh"><div class="sh-icon" style="background:var(--gdim)">🧠</div><h2>5. Shared Memory API</h2></div>
+
+  <p style="color:var(--muted);margin-bottom:14px">
+    Η <strong style="color:var(--green)">Shared Memory</strong> είναι ο <em>ταχύτερος</em> IPC μηχανισμός γιατί τα δεδομένα δεν αντιγράφονται μεταξύ user space και kernel space. Οι διεργασίες βλέπουν <strong>απευθείας</strong> τις ίδιες physical pages μνήμης. Αλλά χρειάζεται <em>synchronization</em> (semaphores/mutexes).
+  </p>
+
+  <div class="grid2">
+    <div>
+      <div class="card">
+        <div class="card-title">shmget() — Create/Get Segment</div>
+        <div class="cb" style="padding:14px;border-radius:8px;font-family:'JetBrains Mono',monospace;font-size:0.82rem;line-height:1.9;overflow-x:auto">
+<span class="mc">#include</span> <span class="st">&lt;sys/shm.h&gt;</span>
+
+<span class="kw">int</span> <span class="fn">shmget</span>(<span class="tp">key_t</span> <span class="sf-field">key</span>,
+           <span class="tp">size_t</span> <span class="sf-field">size</span>,     <span class="cm">// bytes</span>
+           <span class="kw">int</span> <span class="sf-field">shmflg</span>);     <span class="cm">// IPC_CREAT | perms</span>
+<span class="cm">// Returns: shared memory ID or -1</span>
+        </div>
+      </div>
+
+      <div class="card" style="margin-top:10px">
+        <div class="card-title">shmat() — Attach Segment</div>
+        <div class="cb" style="padding:14px;border-radius:8px;font-family:'JetBrains Mono',monospace;font-size:0.82rem;line-height:1.9;overflow-x:auto">
+<span class="kw">void</span> *<span class="fn">shmat</span>(<span class="kw">int</span> <span class="sf-field">shmid</span>,
+            <span class="kw">const void</span> *<span class="sf-field">shmaddr</span>,  <span class="cm">// NULL = kernel picks</span>
+            <span class="kw">int</span> <span class="sf-field">shmflg</span>);           <span class="cm">// 0 or SHM_RDONLY</span>
+<span class="cm">// Returns: pointer to segment or (void *)-1</span>
+        </div>
+        <div class="ibox" style="margin-top:8px">
+          <div class="lbl" style="color:var(--blue)">How it works</div>
+          Η <code>shmat()</code> "κολλάει" το shared memory segment στο address space της διεργασίας. Μετά, η διεργασία μπορεί να γράψει/διαβάσει <em>σαν κανονική μνήμη</em> (ποίντερ).
+        </div>
+      </div>
+
+      <div class="card" style="margin-top:10px">
+        <div class="card-title">shmdt() — Detach Segment</div>
+        <div class="cb" style="padding:14px;border-radius:8px;font-family:'JetBrains Mono',monospace;font-size:0.82rem;line-height:1.9">
+<span class="kw">int</span> <span class="fn">shmdt</span>(<span class="kw">const void</span> *<span class="sf-field">shmaddr</span>);
+<span class="cm">// "Αποκολλά" τη shared memory</span>
+<span class="cm">// ΔΕΝ σβήνει τα δεδομένα!</span>
+        </div>
+      </div>
+    </div>
+    <div>
+      <div class="card">
+        <div class="card-title">shmctl() — Control Operations</div>
+        <div class="cb" style="padding:14px;border-radius:8px;font-family:'JetBrains Mono',monospace;font-size:0.82rem;line-height:1.9">
+<span class="kw">int</span> <span class="fn">shmctl</span>(<span class="kw">int</span> <span class="sf-field">shmid</span>, <span class="kw">int</span> <span class="sf-field">cmd</span>,
+           <span class="kw">struct</span> <span class="tp">shmid_ds</span> *<span class="sf-field">buf</span>);
+<span class="cm">// IPC_STAT : read segment info</span>
+<span class="cm">// IPC_SET  : modify permissions</span>
+<span class="cm">// IPC_RMID : mark for deletion</span>
+<span class="cm">//   (actual deletion when shm_nattch reaches 0)</span>
+        </div>
+      </div>
+
+      <div class="card" style="margin-top:10px">
+        <div class="card-title">struct shmid_ds</div>
+        <div class="struct-box" style="font-size:0.78rem;line-height:2">
+<span class="kw">struct</span> <span class="tp">shmid_ds</span> {<br>
+&nbsp;&nbsp;<span class="kw">struct</span> <span class="sf-type">ipc_perm</span> <span class="sf-field">shm_perm</span>;  <span class="sf-comment">// permissions</span><br>
+&nbsp;&nbsp;<span class="sf-type">size_t</span>  <span class="sf-field">shm_segsz</span>;          <span class="sf-comment">// segment size (bytes)</span><br>
+&nbsp;&nbsp;<span class="sf-type">pid_t</span>   <span class="sf-field">shm_cpid</span>;           <span class="sf-comment">// PID of creator</span><br>
+&nbsp;&nbsp;<span class="sf-type">pid_t</span>   <span class="sf-field">shm_lpid</span>;           <span class="sf-comment">// PID of last shmat/shmdt</span><br>
+&nbsp;&nbsp;<span class="sf-type">shmatt_t</span> <span class="sf-field">shm_nattch</span>;        <span class="sf-comment">// # current attaches</span><br>
+&nbsp;&nbsp;<span class="sf-type">time_t</span>  <span class="sf-field">shm_atime</span>;          <span class="sf-comment">// last attach time</span><br>
+&nbsp;&nbsp;<span class="sf-type">time_t</span>  <span class="sf-field">shm_dtime</span>;          <span class="sf-comment">// last detach time</span><br>
+};
+        </div>
+      </div>
+
+      <div class="ipc-diagram" style="margin-top:10px">
+        <div style="color:var(--green);font-weight:700;margin-bottom:6px">── Shared Memory Lifecycle ──</div>
+        <div style="font-size:0.82rem;color:var(--muted)">
+          <span style="color:var(--yellow);font-weight:700">shmget()</span> → create/get<br>
+          <span style="color:var(--dim)">↓</span><br>
+          <span style="color:var(--yellow);font-weight:700">shmat()</span> → attach to address space<br>
+          <span style="color:var(--dim)">↓</span><br>
+          <span style="color:var(--txt)">read/write via pointer</span><br>
+          <span style="color:var(--dim)">↓</span><br>
+          <span style="color:var(--yellow);font-weight:700">shmdt()</span> → detach<br>
+          <span style="color:var(--dim)">↓</span><br>
+          <span style="color:var(--yellow);font-weight:700">shmctl(IPC_RMID)</span> → delete
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section-quiz" data-topic="topic7" data-section="shm"></div>
+</section>
+
+<!-- ═══════════════════════ 6. SHARED MEMORY EXAMPLES ═══════════════════════ -->
+<section id="shmex">
+  <div class="sh"><div class="sh-icon" style="background:var(--gdim)">💻</div><h2>6. Shared Memory Examples</h2></div>
+
+  <div class="grid2">
+    <div>
+      <div class="card">
+        <div class="card-title">sharedMem1.c — Create &amp; Attach (IPC_PRIVATE)</div>
+        <div class="cb" style="padding:14px;border-radius:8px;font-family:'JetBrains Mono',monospace;font-size:0.75rem;line-height:1.7;overflow-x:auto">
+<span class="kw">int</span> <span class="fn">main</span>() {
+    <span class="kw">int</span> shmid;
+    <span class="kw">char</span> *ptr;
+
+    <span class="cm">// Create shared memory (64 bytes)</span>
+    shmid = <span class="fn">shmget</span>(<span class="mc">IPC_PRIVATE</span>, <span class="nm">64</span>,
+                    <span class="mc">IPC_CREAT</span> | <span class="nm">0666</span>);
+    <span class="kw">if</span> (shmid == -<span class="nm">1</span>) {
+        <span class="fn">perror</span>(<span class="st">"shmget"</span>);
+        <span class="fn">exit</span>(<span class="nm">1</span>);
+    }
+    <span class="fn">printf</span>(<span class="st">"Shared Memory ID: %d\n"</span>, shmid);
+
+    <span class="cm">// Attach to our address space</span>
+    ptr = (<span class="kw">char</span> *) <span class="fn">shmat</span>(shmid, <span class="nm">NULL</span>, <span class="nm">0</span>);
+    <span class="kw">if</span> (ptr == (<span class="kw">char</span> *) -<span class="nm">1</span>) {
+        <span class="fn">perror</span>(<span class="st">"shmat"</span>);
+        <span class="fn">exit</span>(<span class="nm">1</span>);
+    }
+
+    <span class="cm">// Write data</span>
+    <span class="fn">strcpy</span>(ptr, <span class="st">"Hello shared memory!"</span>);
+    <span class="fn">printf</span>(<span class="st">"Data: %s\n"</span>, ptr);
+
+    <span class="cm">// Detach (don't delete — other process can use it)</span>
+    <span class="fn">shmdt</span>(ptr);
+    <span class="kw">return</span> <span class="nm">0</span>;
+}
+        </div>
+      </div>
+    </div>
+    <div>
+      <div class="card">
+        <div class="card-title">sharedMem2.c — Attach by ID &amp; Read</div>
+        <div class="cb" style="padding:14px;border-radius:8px;font-family:'JetBrains Mono',monospace;font-size:0.75rem;line-height:1.7;overflow-x:auto">
+<span class="kw">int</span> <span class="fn">main</span>(<span class="kw">int</span> argc, <span class="kw">char</span> *argv[]) {
+    <span class="kw">int</span> shmid = <span class="fn">atoi</span>(argv[<span class="nm">1</span>]); <span class="cm">// ID from cmdline</span>
+    <span class="kw">char</span> *ptr;
+
+    <span class="cm">// Attach to existing segment</span>
+    ptr = (<span class="kw">char</span> *) <span class="fn">shmat</span>(shmid, <span class="nm">NULL</span>, <span class="nm">0</span>);
+    <span class="kw">if</span> (ptr == (<span class="kw">char</span> *) -<span class="nm">1</span>) {
+        <span class="fn">perror</span>(<span class="st">"shmat"</span>);
+        <span class="fn">exit</span>(<span class="nm">1</span>);
+    }
+
+    <span class="cm">// Read what was written</span>
+    <span class="fn">printf</span>(<span class="st">"Read: %s\n"</span>, ptr);
+
+    <span class="cm">// Modify</span>
+    <span class="fn">strcat</span>(ptr, <span class="st">" - modified!"</span>);
+
+    <span class="cm">// Detach and delete</span>
+    <span class="fn">shmdt</span>(ptr);
+    <span class="fn">shmctl</span>(shmid, <span class="mc">IPC_RMID</span>, <span class="nm">NULL</span>);
+    <span class="kw">return</span> <span class="nm">0</span>;
+}
+        </div>
+      </div>
+
+      <div class="wbox" style="margin-top:10px">
+        <div class="lbl" style="color:var(--yellow)">No synchronization!</div>
+        Αυτά τα παραδείγματα <strong>δεν</strong> χρησιμοποιούν synchronization. Αν δύο διεργασίες γράφουν ταυτόχρονα → <strong style="color:var(--red)">race condition</strong>! Χρειάζονται semaphores (δες §8-9).
+      </div>
+
+      <div class="tip" style="margin-top:10px">
+        <div class="tip-icon">🧠</div>
+        <div>
+          <div class="tip-title">Tip — SHM vs Message Queues</div>
+          <div class="tip-text">
+            <strong>Shared Memory:</strong> Ταχύτατο (zero-copy), αλλά χρειάζεται manual synchronization.<br>
+            <strong>Message Queues:</strong> Πιο αργό (kernel copies), αλλά built-in synchronization (msgsnd/msgrcv block).<br>
+            Χρησιμοποίησε shared memory + semaphores για performance-critical εφαρμογές.
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section-quiz" data-topic="topic7" data-section="shmex"></div>
+</section>
+
+<!-- ═══════════════════════ 7. SEMAPHORE CONCEPTS ═══════════════════════ -->
+<section id="semconcepts">
+  <div class="sh"><div class="sh-icon" style="background:var(--odim)">🚦</div><h2>7. Semaphore Concepts</h2></div>
+
+  <p style="color:var(--muted);margin-bottom:14px">
+    Ένας <strong style="color:var(--orange)">semaphore</strong> είναι ένας μη-αρνητικός counter που χρησιμοποιείται για synchronization. Δύο ατομικές πράξεις: <strong style="color:var(--green)">UP (V)</strong> = αύξηση, <strong style="color:var(--red)">DOWN (P)</strong> = μείωση (μπλοκάρει αν ο counter είναι 0).
+  </p>
+
+  <div class="grid2">
+    <div>
+      <div class="card">
+        <div class="card-title">UP &amp; DOWN Operations</div>
+        <div class="ipc-diagram" style="text-align:left;font-size:0.85rem;line-height:2.2">
+<span style="color:var(--green);font-weight:700">UP (V / signal / release):</span><br>
+&nbsp;&nbsp;semaphore_value++<br>
+&nbsp;&nbsp;<span class="cm">Αν κάποιος περιμένει → ξύπνησέ τον</span><br>
+<br>
+<span style="color:var(--red);font-weight:700">DOWN (P / wait / acquire):</span><br>
+&nbsp;&nbsp;<span class="kw">if</span> (semaphore_value &gt; 0)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;semaphore_value--<br>
+&nbsp;&nbsp;<span class="kw">else</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="cm">BLOCK until value becomes &gt; 0</span>
+        </div>
+        <div class="ibox" style="margin-top:8px">
+          <div class="lbl" style="color:var(--blue)">Naming Convention</div>
+          <strong>P</strong> = Proberen (Dutch: "to test") = DOWN = wait.<br>
+          <strong>V</strong> = Verhogen (Dutch: "to increment") = UP = signal.<br>
+          Dijkstra's original naming. Εναλλακτικά: <strong>wait/signal</strong>, <strong>acquire/release</strong>.
+        </div>
+      </div>
+    </div>
+    <div>
+      <div class="card">
+        <div class="card-title">Semaphore Properties</div>
+        <ul style="color:var(--muted);font-size:0.85rem;padding-left:16px">
+          <li style="margin-bottom:8px"><strong style="color:var(--orange)">Advisory:</strong> Δεν εμποδίζουν φυσικά την πρόσβαση. Οι διεργασίες πρέπει να συνεργάζονται (σαν τα traffic lights — δεν σταματούν αυτοκίνητα φυσικά).</li>
+          <li style="margin-bottom:8px"><strong style="color:var(--orange)">Atomic:</strong> Οι UP/DOWN πράξεις εκτελούνται ατομικά από τον kernel.</li>
+          <li style="margin-bottom:8px"><strong style="color:var(--orange)">Binary semaphore (0/1):</strong> Ισοδύναμο με mutex — mutual exclusion.</li>
+          <li style="margin-bottom:8px"><strong style="color:var(--orange)">Counting semaphore:</strong> Τιμή > 1 — ελέγχει πρόσβαση σε N πόρους (π.χ. N tape drives).</li>
+          <li><strong style="color:var(--orange)">Blocking:</strong> Αν DOWN σε semaphore=0, η διεργασία κοιμάται μέχρι κάποιος κάνει UP.</li>
+        </ul>
+      </div>
+
+      <div class="card" style="margin-top:10px">
+        <div class="card-title">Mutual Exclusion with Semaphore (init=1)</div>
+        <div class="cb" style="padding:10px;border-radius:6px;font-family:'JetBrains Mono',monospace;font-size:0.78rem;line-height:1.7">
+<span class="cm">// semaphore S initialized to 1</span>
+<span class="fn">DOWN</span>(S);  <span class="cm">// S: 1→0 (enter critical section)</span>
+<span class="cm">/* critical section */</span>
+<span class="fn">UP</span>(S);    <span class="cm">// S: 0→1 (leave critical section)</span>
+        </div>
+        <p style="font-size:0.82rem;color:var(--muted);margin-top:6px">
+          Αν ένα δεύτερο process κάνει DOWN ενώ S=0, θα μπλοκάρει μέχρι το πρώτο κάνει UP.
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <div class="section-quiz" data-topic="topic7" data-section="semconcepts"></div>
+</section>
+
+<!-- ═══════════════════════ 8. SEMAPHORE API ═══════════════════════ -->
+<section id="semapi">
+  <div class="sh"><div class="sh-icon" style="background:var(--odim)">⚙️</div><h2>8. System V Semaphore API</h2></div>
+
+  <p style="color:var(--muted);margin-bottom:14px">
+    Τα System V semaphores λειτουργούν σε <strong style="color:var(--txt)">sets</strong> (σύνολα). Ένα <code>semget()</code> δημιουργεί ένα <em>set</em> από πολλαπλά semaphores. Η <code>semop()</code> μπορεί να κάνει ατομικές πράξεις σε <em>πολλαπλά</em> semaphores ταυτόχρονα.
+  </p>
+
+  <div class="grid2">
+    <div>
+      <div class="card">
+        <div class="card-title">semget() — Create/Get Semaphore Set</div>
+        <div class="cb" style="padding:14px;border-radius:8px;font-family:'JetBrains Mono',monospace;font-size:0.82rem;line-height:1.9;overflow-x:auto">
+<span class="mc">#include</span> <span class="st">&lt;sys/sem.h&gt;</span>
+
+<span class="kw">int</span> <span class="fn">semget</span>(<span class="tp">key_t</span> <span class="sf-field">key</span>,
+           <span class="kw">int</span> <span class="sf-field">nsems</span>,    <span class="cm">// # semaphores in set</span>
+           <span class="kw">int</span> <span class="sf-field">semflg</span>);  <span class="cm">// IPC_CREAT | perms</span>
+<span class="cm">// Returns: semaphore set ID or -1</span>
+        </div>
+        <p style="font-size:0.82rem;color:var(--muted);margin-top:8px">
+          Π.χ. <code>semget(key, 3, IPC_CREAT|0666)</code> δημιουργεί ένα set με <strong>3 semaphores</strong> (αριθμημένοι 0, 1, 2).
+        </p>
+      </div>
+
+      <div class="card" style="margin-top:10px">
+        <div class="card-title">semop() — Semaphore Operations</div>
+        <div class="cb" style="padding:14px;border-radius:8px;font-family:'JetBrains Mono',monospace;font-size:0.82rem;line-height:1.9;overflow-x:auto">
+<span class="kw">int</span> <span class="fn">semop</span>(<span class="kw">int</span> <span class="sf-field">semid</span>,
+          <span class="kw">struct</span> <span class="tp">sembuf</span> *<span class="sf-field">sops</span>,  <span class="cm">// array of operations</span>
+          <span class="tp">size_t</span> <span class="sf-field">nsops</span>);         <span class="cm">// # operations</span>
+        </div>
+        <div class="struct-box" style="margin-top:8px;font-size:0.78rem;line-height:2">
+<span class="kw">struct</span> <span class="tp">sembuf</span> {<br>
+&nbsp;&nbsp;<span class="sf-type">unsigned short</span> <span class="sf-field">sem_num</span>; <span class="sf-comment">// which semaphore (index)</span><br>
+&nbsp;&nbsp;<span class="sf-type">short</span> <span class="sf-field">sem_op</span>;           <span class="sf-comment">// operation value</span><br>
+&nbsp;&nbsp;<span class="sf-type">short</span> <span class="sf-field">sem_flg</span>;          <span class="sf-comment">// IPC_NOWAIT, SEM_UNDO</span><br>
+};
+        </div>
+      </div>
+
+      <div class="card" style="margin-top:10px">
+        <div class="card-title">sem_op Values</div>
+        <table class="vtbl" style="font-size:0.82rem">
+          <thead><tr><th>sem_op</th><th>Action</th></tr></thead>
+          <tbody>
+            <tr><td><code style="color:var(--green)">&gt; 0</code></td><td><strong>UP:</strong> Add sem_op to semval (release resources)</td></tr>
+            <tr><td><code style="color:var(--red)">&lt; 0</code></td><td><strong>DOWN:</strong> Subtract |sem_op| from semval. If semval &lt; |sem_op|, <strong>BLOCK</strong> until possible.</td></tr>
+            <tr><td><code style="color:var(--yellow)">= 0</code></td><td><strong>WAIT-FOR-ZERO:</strong> Block until semval becomes 0.</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <div>
+      <div class="card">
+        <div class="card-title">semctl() — Control Operations</div>
+        <div class="cb" style="padding:14px;border-radius:8px;font-family:'JetBrains Mono',monospace;font-size:0.82rem;line-height:1.9;overflow-x:auto">
+<span class="kw">int</span> <span class="fn">semctl</span>(<span class="kw">int</span> <span class="sf-field">semid</span>, <span class="kw">int</span> <span class="sf-field">semnum</span>,
+           <span class="kw">int</span> <span class="sf-field">cmd</span>, ... <span class="cm">/* union semun arg */</span>);
+        </div>
+        <div class="struct-box" style="margin-top:8px;font-size:0.78rem;line-height:2">
+<span class="kw">union</span> <span class="tp">semun</span> {  <span class="sf-comment">// Must define yourself!</span><br>
+&nbsp;&nbsp;<span class="sf-type">int</span>              <span class="sf-field">val</span>;    <span class="sf-comment">// for SETVAL</span><br>
+&nbsp;&nbsp;<span class="kw">struct</span> <span class="sf-type">semid_ds</span> *<span class="sf-field">buf</span>;    <span class="sf-comment">// for IPC_STAT/IPC_SET</span><br>
+&nbsp;&nbsp;<span class="sf-type">unsigned short</span>  *<span class="sf-field">array</span>;  <span class="sf-comment">// for GETALL/SETALL</span><br>
+};
+        </div>
+        <p style="font-size:0.82rem;color:var(--muted);margin-top:8px">
+          <strong>Commands:</strong> <code>SETVAL</code> (set value), <code>GETVAL</code> (get value), <code>SETALL</code> (set all), <code>GETALL</code> (get all), <code>IPC_RMID</code> (delete), <code>IPC_STAT</code> (read info).
+        </p>
+      </div>
+
+      <div class="card" style="margin-top:10px">
+        <div class="card-title">Helper Functions Pattern</div>
+        <div class="cb" style="padding:14px;border-radius:8px;font-family:'JetBrains Mono',monospace;font-size:0.75rem;line-height:1.7;overflow-x:auto">
+<span class="kw">void</span> <span class="fn">sem_P</span>(<span class="kw">int</span> semid, <span class="kw">int</span> sem_num) {  <span class="cm">// DOWN</span>
+    <span class="kw">struct</span> <span class="tp">sembuf</span> sb;
+    sb.sem_num = sem_num;
+    sb.sem_op = -<span class="nm">1</span>;    <span class="cm">// decrement</span>
+    sb.sem_flg = <span class="nm">0</span>;
+    <span class="fn">semop</span>(semid, &amp;sb, <span class="nm">1</span>);
+}
+
+<span class="kw">void</span> <span class="fn">sem_V</span>(<span class="kw">int</span> semid, <span class="kw">int</span> sem_num) {  <span class="cm">// UP</span>
+    <span class="kw">struct</span> <span class="tp">sembuf</span> sb;
+    sb.sem_num = sem_num;
+    sb.sem_op = <span class="nm">1</span>;     <span class="cm">// increment</span>
+    sb.sem_flg = <span class="nm">0</span>;
+    <span class="fn">semop</span>(semid, &amp;sb, <span class="nm">1</span>);
+}
+
+<span class="kw">void</span> <span class="fn">sem_Init</span>(<span class="kw">int</span> semid, <span class="kw">int</span> sem_num, <span class="kw">int</span> val) {
+    <span class="kw">union</span> <span class="tp">semun</span> arg;
+    arg.val = val;
+    <span class="fn">semctl</span>(semid, sem_num, <span class="mc">SETVAL</span>, arg);
+}
+        </div>
+      </div>
+
+      <div class="tip" style="margin-top:10px">
+        <div class="tip-icon">🧠</div>
+        <div>
+          <div class="tip-title">Tip — union semun</div>
+          <div class="tip-text">
+            Το <code>union semun</code> <strong>δεν ορίζεται</strong> από τα headers σε πολλά συστήματα — πρέπει να το ορίσεις ο ίδιος! Κλασική εξεταστική ερώτηση.
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section-quiz" data-topic="topic7" data-section="semapi"></div>
+</section>
+
+<!-- ═══════════════════════ 9. SEMAPHORE EXAMPLES ═══════════════════════ -->
+<section id="semex">
+  <div class="sh"><div class="sh-icon" style="background:var(--odim)">💻</div><h2>9. Semaphore Examples</h2></div>
+
+  <div class="grid2">
+    <div>
+      <div class="card">
+        <div class="card-title">Server + SHM + Semaphore</div>
+        <div class="cb" style="padding:14px;border-radius:8px;font-family:'JetBrains Mono',monospace;font-size:0.75rem;line-height:1.7;overflow-x:auto">
+<span class="mc">#define</span> <span class="nm">SHMKEY</span>  <span class="nm">1000</span>
+<span class="mc">#define</span> <span class="nm">SEMKEY</span>  <span class="nm">2000</span>
+
+<span class="kw">int</span> <span class="fn">main</span>() {
+    <span class="cm">// Create shared memory</span>
+    <span class="kw">int</span> shmid = <span class="fn">shmget</span>(<span class="nm">SHMKEY</span>, <span class="nm">64</span>, <span class="mc">IPC_CREAT</span>|<span class="nm">0666</span>);
+    <span class="kw">char</span> *ptr = (<span class="kw">char</span> *)<span class="fn">shmat</span>(shmid, <span class="nm">NULL</span>, <span class="nm">0</span>);
+
+    <span class="cm">// Create semaphore (init to 0 = locked)</span>
+    <span class="kw">int</span> semid = <span class="fn">semget</span>(<span class="nm">SEMKEY</span>, <span class="nm">1</span>, <span class="mc">IPC_CREAT</span>|<span class="nm">0666</span>);
+    <span class="kw">union</span> <span class="tp">semun</span> arg;
+    arg.val = <span class="nm">0</span>;
+    <span class="fn">semctl</span>(semid, <span class="nm">0</span>, <span class="mc">SETVAL</span>, arg);
+
+    <span class="cm">// Write data</span>
+    <span class="fn">strcpy</span>(ptr, <span class="st">"Hello from server"</span>);
+
+    <span class="cm">// Signal client (UP: 0→1)</span>
+    <span class="kw">struct</span> <span class="tp">sembuf</span> sb = {<span class="nm">0</span>, <span class="nm">1</span>, <span class="nm">0</span>};  <span class="cm">// sem_op=+1</span>
+    <span class="fn">semop</span>(semid, &amp;sb, <span class="nm">1</span>);
+    <span class="fn">printf</span>(<span class="st">"Server: data written, signaled\n"</span>);
+
+    <span class="fn">shmdt</span>(ptr);
+    <span class="kw">return</span> <span class="nm">0</span>;
+}
+        </div>
+      </div>
+
+      <div class="card" style="margin-top:10px">
+        <div class="card-title">Client — Wait then Read</div>
+        <div class="cb" style="padding:14px;border-radius:8px;font-family:'JetBrains Mono',monospace;font-size:0.75rem;line-height:1.7;overflow-x:auto">
+<span class="kw">int</span> <span class="fn">main</span>() {
+    <span class="kw">int</span> shmid = <span class="fn">shmget</span>(<span class="nm">SHMKEY</span>, <span class="nm">0</span>, <span class="nm">0</span>);
+    <span class="kw">char</span> *ptr = (<span class="kw">char</span> *)<span class="fn">shmat</span>(shmid, <span class="nm">NULL</span>, <span class="nm">0</span>);
+
+    <span class="kw">int</span> semid = <span class="fn">semget</span>(<span class="nm">SEMKEY</span>, <span class="nm">0</span>, <span class="nm">0</span>);
+
+    <span class="cm">// Wait for server (DOWN: blocks if sem=0)</span>
+    <span class="kw">struct</span> <span class="tp">sembuf</span> sb = {<span class="nm">0</span>, -<span class="nm">1</span>, <span class="nm">0</span>}; <span class="cm">// sem_op=-1</span>
+    <span class="fn">semop</span>(semid, &amp;sb, <span class="nm">1</span>);
+
+    <span class="fn">printf</span>(<span class="st">"Client read: %s\n"</span>, ptr);
+
+    <span class="cm">// Cleanup</span>
+    <span class="fn">shmdt</span>(ptr);
+    <span class="fn">shmctl</span>(shmid, <span class="mc">IPC_RMID</span>, <span class="nm">NULL</span>);
+    <span class="fn">semctl</span>(semid, <span class="nm">0</span>, <span class="mc">IPC_RMID</span>);
+    <span class="kw">return</span> <span class="nm">0</span>;
+}
+        </div>
+      </div>
+    </div>
+    <div>
+      <div class="card">
+        <div class="card-title">Fork + SHM + Semaphore Counter</div>
+        <div class="cb" style="padding:14px;border-radius:8px;font-family:'JetBrains Mono',monospace;font-size:0.75rem;line-height:1.7;overflow-x:auto">
+<span class="kw">int</span> <span class="fn">main</span>() {
+    <span class="cm">// Shared counter via shared memory</span>
+    <span class="kw">int</span> shmid = <span class="fn">shmget</span>(<span class="mc">IPC_PRIVATE</span>, <span class="kw">sizeof</span>(<span class="kw">int</span>),
+                       <span class="mc">IPC_CREAT</span>|<span class="nm">0666</span>);
+    <span class="kw">int</span> *counter = (<span class="kw">int</span> *)<span class="fn">shmat</span>(shmid, <span class="nm">NULL</span>, <span class="nm">0</span>);
+    *counter = <span class="nm">0</span>;
+
+    <span class="cm">// Semaphore for mutual exclusion (init=1)</span>
+    <span class="kw">int</span> semid = <span class="fn">semget</span>(<span class="mc">IPC_PRIVATE</span>, <span class="nm">1</span>, <span class="mc">IPC_CREAT</span>|<span class="nm">0666</span>);
+    <span class="fn">sem_Init</span>(semid, <span class="nm">0</span>, <span class="nm">1</span>);
+
+    <span class="kw">if</span> (<span class="fn">fork</span>() == <span class="nm">0</span>) {
+        <span class="cm">// Child: increment 100000 times</span>
+        <span class="kw">for</span> (<span class="kw">int</span> i = <span class="nm">0</span>; i &lt; <span class="nm">100000</span>; i++) {
+            <span class="fn">sem_P</span>(semid, <span class="nm">0</span>);  <span class="cm">// DOWN (lock)</span>
+            (*counter)++;
+            <span class="fn">sem_V</span>(semid, <span class="nm">0</span>);  <span class="cm">// UP (unlock)</span>
+        }
+        <span class="fn">exit</span>(<span class="nm">0</span>);
+    }
+    <span class="cm">// Parent: same</span>
+    <span class="kw">for</span> (<span class="kw">int</span> i = <span class="nm">0</span>; i &lt; <span class="nm">100000</span>; i++) {
+        <span class="fn">sem_P</span>(semid, <span class="nm">0</span>);
+        (*counter)++;
+        <span class="fn">sem_V</span>(semid, <span class="nm">0</span>);
+    }
+    <span class="fn">wait</span>(<span class="nm">NULL</span>);
+    <span class="fn">printf</span>(<span class="st">"Counter = %d\n"</span>, *counter);
+    <span class="cm">// Should be 200000 (correct with semaphore)</span>
+
+    <span class="fn">shmdt</span>(counter);
+    <span class="fn">shmctl</span>(shmid, <span class="mc">IPC_RMID</span>, <span class="nm">NULL</span>);
+    <span class="fn">semctl</span>(semid, <span class="nm">0</span>, <span class="mc">IPC_RMID</span>);
+    <span class="kw">return</span> <span class="nm">0</span>;
+}
+        </div>
+        <div class="gbox" style="margin-top:8px">
+          <div class="lbl" style="color:var(--green)">Without semaphore</div>
+          Χωρίς τα sem_P/sem_V, ο counter θα ήταν λιγότερο από 200000 λόγω race condition!
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section-quiz" data-topic="topic7" data-section="semex"></div>
+</section>
+
+<!-- ═══════════════════════ 10. SEMAPHORE CHALLENGES ═══════════════════════ -->
+<section id="semchallenge">
+  <div class="sh"><div class="sh-icon" style="background:var(--rdim)">⚠️</div><h2>10. Semaphore Challenges</h2></div>
+
+  <p style="color:var(--muted);margin-bottom:14px">
+    Τα semaphores λύνουν προβλήματα αλλά δημιουργούν νέα αν δεν χρησιμοποιηθούν σωστά. Τρεις βασικοί κίνδυνοι: <strong style="color:var(--red)">Deadlock</strong>, <strong style="color:var(--yellow)">Starvation</strong>, <strong style="color:var(--orange)">Priority Inversion</strong>.
+  </p>
+
+  <div class="grid2">
+    <div>
+      <div class="card">
+        <div class="card-title">Deadlock with Semaphores</div>
+        <div class="cb" style="padding:10px;border-radius:6px;font-family:'JetBrains Mono',monospace;font-size:0.78rem;line-height:1.7">
+<span class="cm">// Process A          // Process B</span>
+<span class="fn">DOWN</span>(S1);             <span class="fn">DOWN</span>(S2);
+  ...                   ...
+<span class="fn">DOWN</span>(S2); <span class="cm">// WAIT!</span>  <span class="fn">DOWN</span>(S1); <span class="cm">// WAIT!</span>
+<span class="cm">// DEADLOCK: A waits for S2 (held by B)</span>
+<span class="cm">//           B waits for S1 (held by A)</span>
+        </div>
+        <p style="font-size:0.82rem;color:var(--muted);margin-top:8px">
+          <strong style="color:var(--txt)">Prevention:</strong> Πάντα acquire semaphores με <strong>σταθερή σειρά</strong> (total ordering). Αν S1 &lt; S2 σε αρίθμηση, πάντα DOWN(S1) πριν DOWN(S2).
+        </p>
+      </div>
+
+      <div class="card" style="margin-top:10px">
+        <div class="card-title">Starvation</div>
+        <p style="font-size:0.82rem;color:var(--muted)">
+          Μια διεργασία <strong style="color:var(--yellow)">δεν παίρνει ποτέ</strong> πρόσβαση στον πόρο, ενώ άλλες τρέχουν κανονικά. Συμβαίνει αν ο scheduler ή ο αλγόριθμος δεν είναι δίκαιος (fair). Π.χ. σε Readers/Writers, αν συνεχώς έρχονται νέοι readers, ο writer δεν θα γράψει ποτέ!
+        </p>
+      </div>
+    </div>
+    <div>
+      <div class="card">
+        <div class="card-title">Mutual Exclusion Guarantee</div>
+        <div class="cb" style="padding:10px;border-radius:6px;font-family:'JetBrains Mono',monospace;font-size:0.78rem;line-height:1.7">
+<span class="cm">// Binary semaphore (init=1) guarantees:</span>
+<span class="cm">// At most ONE process in critical section</span>
+
+<span class="fn">sem_P</span>(sem, <span class="nm">0</span>);     <span class="cm">// enter CS</span>
+<span class="cm">/* critical section — only one process here */</span>
+<span class="fn">sem_V</span>(sem, <span class="nm">0</span>);     <span class="cm">// leave CS</span>
+        </div>
+        <div class="wbox" style="margin-top:10px">
+          <div class="lbl" style="color:var(--yellow)">SEM_UNDO Flag</div>
+          Αν μια διεργασία πεθάνει κρατώντας ένα semaphore, μπορεί να αφήσει τον πόρο locked (<strong>orphaned lock</strong>). Η flag <code>SEM_UNDO</code> λέει στον kernel να αναιρέσει αυτόματα τις semaphore operations αν η διεργασία τερματιστεί.
+        </div>
+      </div>
+
+      <div class="tip" style="margin-top:10px">
+        <div class="tip-icon">🧠</div>
+        <div>
+          <div class="tip-title">Exam Tip — Semaphore vs Mutex</div>
+          <div class="tip-text">
+            <strong>Mutex (pthread):</strong> Intra-process (threads), ένα thread κλειδώνει/ξεκλειδώνει, lock ordering πρέπει να τηρηθεί.<br>
+            <strong>Semaphore (System V):</strong> Inter-process (processes), ένα process μπορεί να κάνει UP χωρίς να έχει κάνει DOWN, counting &gt; 1 possible, SEM_UNDO available.
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section-quiz" data-topic="topic7" data-section="semchallenge"></div>
+</section>
+
+<!-- ═══════════════════════ 11. FILE LOCKING ═══════════════════════ -->
+<section id="filelock">
+  <div class="sh"><div class="sh-icon" style="background:var(--ydim)">🔐</div><h2>11. File Locking with fcntl</h2></div>
+
+  <p style="color:var(--muted);margin-bottom:14px">
+    Η <code style="color:var(--yellow)">fcntl()</code> επιτρέπει <strong style="color:var(--txt)">record locking</strong> — κλείδωμα <em>τμημάτων</em> ενός αρχείου (byte-range locking). Υποστηρίζει read locks (πολλοί ταυτόχρονα) και write locks (αποκλειστικό). Advisory — δεν εμποδίζει τη φυσική πρόσβαση.
+  </p>
+
+  <div class="grid2">
+    <div>
+      <div class="card">
+        <div class="card-title">struct flock</div>
+        <div class="struct-box" style="font-size:0.82rem;line-height:2">
+<span class="kw">struct</span> <span class="tp">flock</span> {<br>
+&nbsp;&nbsp;<span class="sf-type">short</span>  <span class="sf-field">l_type</span>;   <span class="sf-comment">// F_RDLCK, F_WRLCK, F_UNLCK</span><br>
+&nbsp;&nbsp;<span class="sf-type">short</span>  <span class="sf-field">l_whence</span>; <span class="sf-comment">// SEEK_SET, SEEK_CUR, SEEK_END</span><br>
+&nbsp;&nbsp;<span class="sf-type">off_t</span>  <span class="sf-field">l_start</span>;  <span class="sf-comment">// starting offset</span><br>
+&nbsp;&nbsp;<span class="sf-type">off_t</span>  <span class="sf-field">l_len</span>;    <span class="sf-comment">// # bytes (0 = to EOF)</span><br>
+&nbsp;&nbsp;<span class="sf-type">pid_t</span>  <span class="sf-field">l_pid</span>;    <span class="sf-comment">// PID of blocking process</span><br>
+};
+        </div>
+      </div>
+
+      <div class="card" style="margin-top:10px">
+        <div class="card-title">fcntl() Commands for Locking</div>
+        <table class="vtbl" style="font-size:0.82rem">
+          <thead><tr><th>Command</th><th>Behavior</th></tr></thead>
+          <tbody>
+            <tr><td><code style="color:var(--blue)">F_GETLK</code></td><td>Test if lock is possible. Fills in <code>l_pid</code> of blocker. Δεν κλειδώνει!</td></tr>
+            <tr><td><code style="color:var(--green)">F_SETLK</code></td><td>Set lock. Returns <strong>immediately</strong> with error if can't.</td></tr>
+            <tr><td><code style="color:var(--orange)">F_SETLKW</code></td><td>Set lock. <strong>Blocks (waits)</strong> until lock is acquired.</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="card" style="margin-top:10px">
+        <div class="card-title">Lock Types</div>
+        <table class="vtbl" style="font-size:0.82rem">
+          <thead><tr><th>Type</th><th>Compatibility</th></tr></thead>
+          <tbody>
+            <tr><td><code style="color:var(--blue)">F_RDLCK</code></td><td>Read lock. <strong>Multiple</strong> readers OK simultaneously.</td></tr>
+            <tr><td><code style="color:var(--red)">F_WRLCK</code></td><td>Write lock. <strong>Exclusive</strong> — blocks all other locks.</td></tr>
+            <tr><td><code style="color:var(--green)">F_UNLCK</code></td><td>Unlock. Release the byte range.</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <div>
+      <div class="card">
+        <div class="card-title">Usage Pattern</div>
+        <div class="cb" style="padding:14px;border-radius:8px;font-family:'JetBrains Mono',monospace;font-size:0.78rem;line-height:1.8;overflow-x:auto">
+<span class="mc">#include</span> <span class="st">&lt;fcntl.h&gt;</span>
+
+<span class="kw">struct</span> <span class="tp">flock</span> my_lock;
+
+<span class="cm">// Lock first 10 bytes for writing</span>
+my_lock.l_type   = <span class="mc">F_WRLCK</span>;
+my_lock.l_whence = <span class="mc">SEEK_SET</span>;
+my_lock.l_start  = <span class="nm">0</span>;
+my_lock.l_len    = <span class="nm">10</span>;
+
+<span class="kw">int</span> fd = <span class="fn">open</span>(<span class="st">"datafile"</span>, <span class="mc">O_RDWR</span>);
+
+<span class="cm">// Blocking lock (waits if locked)</span>
+<span class="kw">if</span> (<span class="fn">fcntl</span>(fd, <span class="mc">F_SETLKW</span>, &amp;my_lock) == -<span class="nm">1</span>) {
+    <span class="fn">perror</span>(<span class="st">"lock"</span>);
+    <span class="fn">exit</span>(<span class="nm">1</span>);
+}
+
+<span class="cm">/* ... access bytes 0-9 safely ... */</span>
+
+<span class="cm">// Unlock</span>
+my_lock.l_type = <span class="mc">F_UNLCK</span>;
+<span class="fn">fcntl</span>(fd, <span class="mc">F_SETLK</span>, &amp;my_lock);
+        </div>
+      </div>
+
+      <div class="tip" style="margin-top:10px">
+        <div class="tip-icon">🧠</div>
+        <div>
+          <div class="tip-title">Tip — F_SETLK vs F_SETLKW</div>
+          <div class="tip-text">
+            <strong>F_SETLK:</strong> Non-blocking. Αν δεν μπορεί να κλειδώσει, επιστρέφει αμέσως -1 (errno=EAGAIN). Χρήσιμο για try-lock pattern.<br>
+            <strong>F_SETLKW:</strong> Blocking. Περιμένει μέχρι να γίνει δυνατό το lock. Κίνδυνος deadlock!<br>
+            <strong>l_len=0:</strong> Κλειδώνει μέχρι το τέλος του αρχείου (ακόμα και bytes που θα γραφτούν αργότερα).
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section-quiz" data-topic="topic7" data-section="filelock"></div>
+</section>
+
+<!-- ═══════════════════════ 12. FILE LOCKING EXAMPLES ═══════════════════════ -->
+<section id="filelockex">
+  <div class="sh"><div class="sh-icon" style="background:var(--rdim)">💻</div><h2>12. File Locking Examples</h2></div>
+
+  <div class="grid2">
+    <div>
+      <div class="card">
+        <div class="card-title">lockit.c — Parent-Child Lock Example</div>
+        <div class="cb" style="padding:14px;border-radius:8px;font-family:'JetBrains Mono',monospace;font-size:0.75rem;line-height:1.7;overflow-x:auto">
+<span class="kw">struct</span> <span class="tp">flock</span> my_lock;
+my_lock.l_type   = <span class="mc">F_WRLCK</span>;
+my_lock.l_whence = <span class="mc">SEEK_SET</span>;
+my_lock.l_start  = <span class="nm">0</span>;
+my_lock.l_len    = <span class="nm">10</span>;
+
+<span class="kw">int</span> fd = <span class="fn">open</span>(<span class="st">"locktest"</span>, <span class="mc">O_RDWR</span>);
+<span class="fn">fcntl</span>(fd, <span class="mc">F_SETLKW</span>, &amp;my_lock); <span class="cm">// parent locks bytes 0-9</span>
+<span class="fn">printf</span>(<span class="st">"parent: locked record\n"</span>);
+
+<span class="kw">switch</span>(<span class="fn">fork</span>()) {
+  <span class="kw">case</span> <span class="nm">0</span>: <span class="cm">// child</span>
+    <span class="fn">printf</span>(<span class="st">"child: trying to lock file\n"</span>);
+    my_lock.l_len = <span class="nm">5</span>;
+    <span class="fn">fcntl</span>(fd, <span class="mc">F_SETLKW</span>, &amp;my_lock); <span class="cm">// BLOCKS!</span>
+    <span class="fn">printf</span>(<span class="st">"child: locked\n"</span>);
+    <span class="fn">sleep</span>(<span class="nm">1</span>);
+    <span class="fn">printf</span>(<span class="st">"child: exiting\n"</span>);
+    <span class="fn">exit</span>(<span class="nm">1</span>);
+  <span class="kw">default</span>: <span class="cm">// parent</span>
+    <span class="fn">printf</span>(<span class="st">"parent: about to unlock\n"</span>);
+    <span class="fn">sleep</span>(<span class="nm">5</span>);
+    my_lock.l_type = <span class="mc">F_UNLCK</span>;
+    <span class="fn">fcntl</span>(fd, <span class="mc">F_SETLK</span>, &amp;my_lock);
+    <span class="fn">printf</span>(<span class="st">"parent: unlocked\n"</span>);
+    <span class="fn">wait</span>(<span class="nm">NULL</span>);
+}
+        </div>
+        <div class="ibox" style="margin-top:8px">
+          <div class="lbl" style="color:var(--blue)">Execution Output</div>
+          <div style="font-family:'JetBrains Mono',monospace;font-size:0.78rem;color:var(--muted);line-height:1.8">
+            parent: locked record<br>
+            child: trying to lock file<br>
+            parent: just about unlocking now<br>
+            parent: unlocking -now-<br>
+            child: locked<br>
+            parent: has unlocked and is now exiting<br>
+            child: exiting
+          </div>
+        </div>
+      </div>
+    </div>
+    <div>
+      <div class="card">
+        <div class="card-title">Deadlock with File Locks</div>
+        <div class="cb" style="padding:14px;border-radius:8px;font-family:'JetBrains Mono',monospace;font-size:0.75rem;line-height:1.7;overflow-x:auto">
+<span class="cm">// Parent locks bytes 0-9 (first_lock)</span>
+<span class="cm">// Child locks bytes 10-14 (second_lock)</span>
+<span class="cm">// Then...</span>
+
+<span class="kw">case</span> <span class="nm">0</span>: <span class="cm">// child</span>
+  <span class="fn">fcntl</span>(fd, <span class="mc">F_SETLKW</span>, &amp;second_lock); <span class="cm">// OK: got B</span>
+  <span class="fn">printf</span>(<span class="st">"B: lock obtained\n"</span>);
+  <span class="fn">fcntl</span>(fd, <span class="mc">F_SETLKW</span>, &amp;first_lock);  <span class="cm">// BLOCKS: wants A</span>
+  <span class="cm">// ...</span>
+
+<span class="kw">default</span>: <span class="cm">// parent</span>
+  <span class="fn">printf</span>(<span class="st">"Parent sleeping\n"</span>);
+  <span class="fn">sleep</span>(<span class="nm">10</span>);
+  <span class="cm">// Try non-blocking lock</span>
+  <span class="kw">if</span> (<span class="fn">fcntl</span>(fd, <span class="mc">F_SETLK</span>, &amp;second_lock) == -<span class="nm">1</span>) {
+    <span class="fn">perror</span>(<span class="st">"D: Resource temporarily unavailable"</span>);
+    <span class="cm">// Parent detects deadlock and exits!</span>
+  }
+        </div>
+        <div class="rbox" style="margin-top:8px">
+          <div class="lbl" style="color:var(--red)">Deadlock Scenario</div>
+          Parent κρατά A, child κρατά B. Child θέλει A (F_SETLKW → blocks). Parent θέλει B — αν χρησιμοποιήσει <strong>F_SETLK</strong> (non-blocking), ανιχνεύει το πρόβλημα και μπορεί να τερματίσει. Αν χρησιμοποιούσε <strong>F_SETLKW</strong>, θα ήταν <strong style="color:var(--red)">deadlock</strong>!
+        </div>
+      </div>
+
+      <div class="tip" style="margin-top:10px">
+        <div class="tip-icon">🧠</div>
+        <div>
+          <div class="tip-title">Exam Tip — Deadlock Prevention</div>
+          <div class="tip-text">
+            Χρησιμοποίησε <strong>F_SETLK</strong> (non-blocking) αντί F_SETLKW για τη δεύτερη κλήση. Αν αποτύχει, ξεκλείδωσε τα πάντα και δοκίμασε ξανά. Αυτό αποτρέπει deadlock αλλά μπορεί να οδηγήσει σε livelock αν δεν σχεδιαστεί σωστά. Εναλλακτικά: κλείδωνε πάντα με <strong>σταθερή σειρά</strong> (byte ranges σε αύξουσα σειρά).
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section-quiz" data-topic="topic7" data-section="filelockex"></div>
+</section>
+
+</div>
+
+<div class="footer">K24 · Προγραμματισμός Συστήματος · ΕΚΠΑ · Topic 7: System V IPC</div>
+</body>
+</html>
