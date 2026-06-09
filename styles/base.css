@@ -1246,3 +1246,5 @@ html[data-theme="light"] .tree-text.root-t {
         padding: 10px 20px;
     }
 }
+html[data-theme='light'] .hero { background: #ffffff !important; border-bottom: 1px solid var(--border); }
+html[data-theme='light'] .hero h1, html[data-theme='light'] .hero p { color: var(--txt); text-shadow: none; }
