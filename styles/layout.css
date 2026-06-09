@@ -19,3 +19,6 @@
     word-wrap: break-word;
     max-width: 100%;
 }
+
+.grid2 { background: var(--surf); border: 1px solid var(--border); border-radius: 10px; padding: 18px 20px; margin-bottom: 20px; }
+.grid2 > div { margin-bottom: 12px; }
