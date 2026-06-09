@@ -12,10 +12,10 @@
 - [x] Task: Conductor - User Manual Verification 'Phase 2: Refactor Topic Pages 1-3' (Protocol in workflow.md) 3e7f481
 
 ## Phase 3: Refactor Topic Pages 4-7
-- [ ] Task: Extract inline styles from `topic4_fork_pipes.html` into appropriate classes.
-- [ ] Task: Extract inline styles from `topic5_sockets.html` into appropriate classes.
-- [ ] Task: Extract inline styles from `topic6_threads.html` into appropriate classes.
-- [ ] Task: Extract inline styles from `topic7_ipc.html` into appropriate classes.
+- [x] Task: Extract inline styles from `topic4_fork_pipes.html` into appropriate classes. fd522f8
+- [x] Task: Extract inline styles from `topic5_sockets.html` into appropriate classes. fd522f8
+- [x] Task: Extract inline styles from `topic6_threads.html` into appropriate classes. fd522f8
+- [x] Task: Extract inline styles from `topic7_ipc.html` into appropriate classes. fd522f8
 - [ ] Task: Conductor - User Manual Verification 'Phase 3: Refactor Topic Pages 4-7' (Protocol in workflow.md)
 
 ## Phase 4: Standardization and Review
