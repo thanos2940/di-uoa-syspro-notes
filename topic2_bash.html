@@ -177,11 +177,11 @@
           <div class="card">
             <div class="card-title">source vs execute</div>
             <div class="cb">
-<span class="cm"># νέο subshell — αλλαγές δεν επηρεάζουν parent</span>
-<span class="pr">$</span> ./script.sh
-<span class="cm"># τρέχει στο ΤΡΕΧΟΝ shell — αλλαγές ισχύουν</span>
-<span class="pr">$</span> source script.sh
-<span class="pr">$</span> . script.sh <span class="cm"># ίδιο με source</span>
+              <span class="cm"># νέο subshell — αλλαγές δεν επηρεάζουν parent</span>
+              <span class="pr">$</span> ./script.sh
+              <span class="cm"># τρέχει στο ΤΡΕΧΟΝ shell — αλλαγές ισχύουν</span>
+              <span class="pr">$</span> source script.sh
+              <span class="pr">$</span> . script.sh <span class="cm"># ίδιο με source</span>
             </div>
             <div class="tip">
               <div class="tip-icon">🧠</div>
@@ -210,37 +210,37 @@
       <div class="grid2">
         <div>
           <div class="cb">
-<span class="cm"># ορισμός — χωρίς $ μπροστά, χωρίς spaces</span>
-<span class="vr">MY_VAR</span>=<span class="st">"hello world"</span>
-<span class="vr">COUNT</span>=<span class="nm">42</span>
-<span class="cm"># χρήση — πάντα με $</span>
-<span class="kw">echo</span> <span class="st">"$MY_VAR"</span> <span class="cm"># ΠΑΝΤΑμε quotes!</span>
-<span class="kw">echo</span> <span class="st">"${MY_VAR}s"</span> <span class="cm"># {} για
-  concatenation</span>
-<span class="cm"># command substitution</span>
-<span class="vr">TODAY</span>=$(<span class="kw">date</span> +%Y-%m-%d) <span class="cm"># εκτελεί
-  εντολή</span>
-<span class="vr">FILES</span>=$(<span class="kw">ls</span> | <span class="kw">wc</span> -l)
-<span class="kw">unset</span> <span class="vr">MY_VAR</span> <span class="cm"># διαγράφει τη
-  μεταβλητή</span>
-<span class="kw">readonly</span> <span class="vr">MAX</span>=<span class="nm">100</span> <span class="cm">#
-  δεν μπορεί να αλλάξει</span>
+            <span class="cm"># ορισμός — χωρίς $ μπροστά, χωρίς spaces</span>
+            <span class="vr">MY_VAR</span>=<span class="st">"hello world"</span>
+            <span class="vr">COUNT</span>=<span class="nm">42</span>
+            <span class="cm"># χρήση — πάντα με $</span>
+            <span class="kw">echo</span> <span class="st">"$MY_VAR"</span> <span class="cm"># ΠΑΝΤΑμε quotes!</span>
+            <span class="kw">echo</span> <span class="st">"${MY_VAR}s"</span> <span class="cm"># {} για
+              concatenation</span>
+            <span class="cm"># command substitution</span>
+            <span class="vr">TODAY</span>=$(<span class="kw">date</span> +%Y-%m-%d) <span class="cm"># εκτελεί
+              εντολή</span>
+            <span class="vr">FILES</span>=$(<span class="kw">ls</span> | <span class="kw">wc</span> -l)
+            <span class="kw">unset</span> <span class="vr">MY_VAR</span> <span class="cm"># διαγράφει τη
+              μεταβλητή</span>
+            <span class="kw">readonly</span> <span class="vr">MAX</span>=<span class="nm">100</span> <span class="cm">#
+              δεν μπορεί να αλλάξει</span>
           </div>
         </div>
         <div>
           <div class="card">
             <div class="card-title">Quoting — κρίσιμο!</div>
             <div class="cb">
-<span class="vr">NAME</span>=<span class="st">"John Doe"</span>
-<span class="cm"># Double quotes: επεκτείνει μεταβλητές</span>
-<span class="kw">echo</span> <span class="st">"Hello $NAME"</span> <span class="cm"># Hello John
-  Doe</span>
-<span class="cm"># Single quotes: ΤΙΠΟΤΑ δεν επεκτείνεται</span>
-<span class="kw">echo</span> <span class="st">'Hello $NAME'</span> <span class="cm"># Hello $NAME
-  (literal)</span>
-<span class="cm"># Χωρίς quotes: word splitting!</span>
-<span class="kw">echo</span> $NAME <span class="cm"># επικίνδυνο αν έχει spaces</span>
-<span class="kw">echo</span> <span class="st">"$NAME"</span> <span class="cm"># πάντα έτσι ✓</span>
+              <span class="vr">NAME</span>=<span class="st">"John Doe"</span>
+              <span class="cm"># Double quotes: επεκτείνει μεταβλητές</span>
+              <span class="kw">echo</span> <span class="st">"Hello $NAME"</span> <span class="cm"># Hello John
+                Doe</span>
+              <span class="cm"># Single quotes: ΤΙΠΟΤΑ δεν επεκτείνεται</span>
+              <span class="kw">echo</span> <span class="st">'Hello $NAME'</span> <span class="cm"># Hello $NAME
+                (literal)</span>
+              <span class="cm"># Χωρίς quotes: word splitting!</span>
+              <span class="kw">echo</span> $NAME <span class="cm"># επικίνδυνο αν έχει spaces</span>
+              <span class="kw">echo</span> <span class="st">"$NAME"</span> <span class="cm"># πάντα έτσι ✓</span>
             </div>
             <div class="tip">
               <div class="tip-icon">🧠</div>
@@ -349,36 +349,36 @@
       <div class="grid2">
         <div>
           <div class="cb">
-<span class="cm">#!/bin/bash</span>
-<span class="cm"># ελεγχω αν δοθηκαν σωστα args</span>
-<span class="kw">if</span> [ <span class="vr">$#</span> <span class="op">-ne</span> <span
-  class="nm">2</span> ]; <span class="kw">then</span>
-<span class="kw">echo</span> <span class="st">"Usage: $0 &lt;src&gt; &lt;dst&gt;"</span> &gt;&amp;2
-<span class="kw">exit</span> <span class="nm">1</span>
-<span class="kw">fi</span>
-<span class="vr">SRC</span>=<span class="st">"$1"</span>
-<span class="vr">DST</span>=<span class="st">"$2"</span>
-<span class="cm"># επαναλαμβανω ολα τα arguments</span>
-<span class="kw">for</span> <span class="vr">arg</span> <span class="kw">in</span> <span
-  class="st">"$@"</span>; <span class="kw">do</span>
-<span class="kw">echo</span> <span class="st">"Arg: $arg"</span>
-<span class="kw">done</span>
+            <span class="cm">#!/bin/bash</span>
+            <span class="cm"># ελεγχω αν δοθηκαν σωστα args</span>
+            <span class="kw">if</span> [ <span class="vr">$#</span> <span class="op">-ne</span> <span
+              class="nm">2</span> ]; <span class="kw">then</span>
+            <span class="kw">echo</span> <span class="st">"Usage: $0 &lt;src&gt; &lt;dst&gt;"</span> &gt;&amp;2
+            <span class="kw">exit</span> <span class="nm">1</span>
+            <span class="kw">fi</span>
+            <span class="vr">SRC</span>=<span class="st">"$1"</span>
+            <span class="vr">DST</span>=<span class="st">"$2"</span>
+            <span class="cm"># επαναλαμβανω ολα τα arguments</span>
+            <span class="kw">for</span> <span class="vr">arg</span> <span class="kw">in</span> <span
+              class="st">"$@"</span>; <span class="kw">do</span>
+            <span class="kw">echo</span> <span class="st">"Arg: $arg"</span>
+            <span class="kw">done</span>
           </div>
         </div>
         <div>
           <div class="cb">
-<span class="cm"># διαβασμα από χρήστη</span>
-<span class="kw">read</span> <span class="op">-p</span> <span class="st">"Δώσε όνομα: "</span> <span
-  class="vr">NAME</span>
-<span class="kw">echo</span> <span class="st">"Hello, $NAME"</span>
-<span class="cm"># read με timeout</span>
-<span class="kw">read</span> <span class="op">-t</span> <span class="nm">5</span> <span class="op">-p</span>
-<span class="st">"Input (5s): "</span> <span class="vr">X</span>
-<span class="cm"># read αρχείο γραμμή-γραμμή</span>
-<span class="kw">while</span> <span class="kw">read</span> <span class="op">-r</span> <span
-  class="vr">line</span>; <span class="kw">do</span>
-<span class="kw">echo</span> <span class="st">"Line: $line"</span>
-<span class="kw">done</span> &lt; <span class="st">"input.txt"</span>
+            <span class="cm"># διαβασμα από χρήστη</span>
+            <span class="kw">read</span> <span class="op">-p</span> <span class="st">"Δώσε όνομα: "</span> <span
+              class="vr">NAME</span>
+            <span class="kw">echo</span> <span class="st">"Hello, $NAME"</span>
+            <span class="cm"># read με timeout</span>
+            <span class="kw">read</span> <span class="op">-t</span> <span class="nm">5</span> <span class="op">-p</span>
+            <span class="st">"Input (5s): "</span> <span class="vr">X</span>
+            <span class="cm"># read αρχείο γραμμή-γραμμή</span>
+            <span class="kw">while</span> <span class="kw">read</span> <span class="op">-r</span> <span
+              class="vr">line</span>; <span class="kw">do</span>
+            <span class="kw">echo</span> <span class="st">"Line: $line"</span>
+            <span class="kw">done</span> &lt; <span class="st">"input.txt"</span>
           </div>
           <div class="tip">
             <div class="tip-icon">🧠</div>
@@ -406,26 +406,26 @@
       <div class="grid2">
         <div>
           <div class="cb">
-<span class="cm"># if-elif-else</span>
-<span class="kw">if</span> [ <span class="st">"$1"</span> <span class="op">==</span> <span
-  class="st">"hello"</span> ]; <span class="kw">then</span>
-<span class="kw">echo</span> <span class="st">"greeting"</span>
-<span class="kw">elif</span> [ <span class="st">"$1"</span> <span class="op">==</span> <span
-  class="st">"bye"</span> ]; <span class="kw">then</span>
-<span class="kw">echo</span> <span class="st">"farewell"</span>
-<span class="kw">else</span>
-<span class="kw">echo</span> <span class="st">"unknown"</span>
-<span class="kw">fi</span>
-<span class="cm"># έλεγχος αρχείου</span>
-<span class="kw">if</span> [ <span class="op">-f</span> <span class="st">"$FILE"</span> ]; <span
-  class="kw">then</span>
-<span class="kw">echo</span> <span class="st">"file exists"</span>
-<span class="kw">fi</span>
-<span class="cm"># λογικοί τελεστές</span>
-<span class="kw">if</span> [ <span class="op">-f</span> <span class="st">"$F"</span> ] &amp;&amp; [ <span
-  class="op">-r</span> <span class="st">"$F"</span> ]; <span class="kw">then</span>
-<span class="kw">echo</span> <span class="st">"exists and readable"</span>
-<span class="kw">fi</span>
+            <span class="cm"># if-elif-else</span>
+            <span class="kw">if</span> [ <span class="st">"$1"</span> <span class="op">==</span> <span
+              class="st">"hello"</span> ]; <span class="kw">then</span>
+            <span class="kw">echo</span> <span class="st">"greeting"</span>
+            <span class="kw">elif</span> [ <span class="st">"$1"</span> <span class="op">==</span> <span
+              class="st">"bye"</span> ]; <span class="kw">then</span>
+            <span class="kw">echo</span> <span class="st">"farewell"</span>
+            <span class="kw">else</span>
+            <span class="kw">echo</span> <span class="st">"unknown"</span>
+            <span class="kw">fi</span>
+            <span class="cm"># έλεγχος αρχείου</span>
+            <span class="kw">if</span> [ <span class="op">-f</span> <span class="st">"$FILE"</span> ]; <span
+              class="kw">then</span>
+            <span class="kw">echo</span> <span class="st">"file exists"</span>
+            <span class="kw">fi</span>
+            <span class="cm"># λογικοί τελεστές</span>
+            <span class="kw">if</span> [ <span class="op">-f</span> <span class="st">"$F"</span> ] &amp;&amp; [ <span
+              class="op">-r</span> <span class="st">"$F"</span> ]; <span class="kw">then</span>
+            <span class="kw">echo</span> <span class="st">"exists and readable"</span>
+            <span class="kw">fi</span>
           </div>
         </div>
         <div>
@@ -469,17 +469,17 @@
             </div>
           </div>
           <div class="cb">
-<span class="cm"># case statement</span>
-<span class="kw">case</span> <span class="st">"$1"</span> <span class="kw">in</span>
-<span class="st">"start"</span>)
-<span class="kw">echo</span> <span class="st">"starting..."</span> ;;
-<span class="st">"stop"</span>|<span class="st">"quit"</span>) <span class="cm"># OR με |</span>
-<span class="kw">echo</span> <span class="st">"stopping..."</span> ;;
-<span class="st">*.txt</span>) <span class="cm"># pattern matching</span>
-<span class="kw">echo</span> <span class="st">"text file"</span> ;;
-*) <span class="cm"># default</span>
-<span class="kw">echo</span> <span class="st">"unknown"</span> ;;
-<span class="kw">esac</span>
+            <span class="cm"># case statement</span>
+            <span class="kw">case</span> <span class="st">"$1"</span> <span class="kw">in</span>
+            <span class="st">"start"</span>)
+            <span class="kw">echo</span> <span class="st">"starting..."</span> ;;
+            <span class="st">"stop"</span>|<span class="st">"quit"</span>) <span class="cm"># OR με |</span>
+            <span class="kw">echo</span> <span class="st">"stopping..."</span> ;;
+            <span class="st">*.txt</span>) <span class="cm"># pattern matching</span>
+            <span class="kw">echo</span> <span class="st">"text file"</span> ;;
+            *) <span class="cm"># default</span>
+            <span class="kw">echo</span> <span class="st">"unknown"</span> ;;
+            <span class="kw">esac</span>
           </div>
         </div>
       </div>
@@ -501,50 +501,50 @@
       <div class="grid2">
         <div>
           <div class="cb">
-<span class="cm"># for με list</span>
-<span class="kw">for</span> <span class="vr">i</span> <span class="kw">in</span> 1 2 3 4 5; <span
-  class="kw">do</span>
-<span class="kw">echo</span> <span class="st">"Number: $i"</span>
-<span class="kw">done</span>
-<span class="cm"># for με range {start..end}</span>
-<span class="kw">for</span> <span class="vr">i</span> <span class="kw">in</span> {1..10}; <span
-  class="kw">do</span>
-<span class="kw">echo</span> <span class="vr">$i</span>
-<span class="kw">done</span>
-<span class="cm"># for C-style</span>
-<span class="kw">for</span> (( <span class="vr">i</span>=0; <span class="vr">i</span>&lt;10; <span
-  class="vr">i</span>++ )); <span class="kw">do</span>
-<span class="kw">echo</span> <span class="vr">$i</span>
-<span class="kw">done</span>
-<span class="cm"># for σε αρχεία (glob)</span>
-<span class="kw">for</span> <span class="vr">f</span> <span class="kw">in</span> *.c; <span
-  class="kw">do</span>
-<span class="kw">echo</span> <span class="st">"Compiling: $f"</span>
-<span class="kw">done</span>
+            <span class="cm"># for με list</span>
+            <span class="kw">for</span> <span class="vr">i</span> <span class="kw">in</span> 1 2 3 4 5; <span
+              class="kw">do</span>
+            <span class="kw">echo</span> <span class="st">"Number: $i"</span>
+            <span class="kw">done</span>
+            <span class="cm"># for με range {start..end}</span>
+            <span class="kw">for</span> <span class="vr">i</span> <span class="kw">in</span> {1..10}; <span
+              class="kw">do</span>
+            <span class="kw">echo</span> <span class="vr">$i</span>
+            <span class="kw">done</span>
+            <span class="cm"># for C-style</span>
+            <span class="kw">for</span> (( <span class="vr">i</span>=0; <span class="vr">i</span>&lt;10; <span
+              class="vr">i</span>++ )); <span class="kw">do</span>
+            <span class="kw">echo</span> <span class="vr">$i</span>
+            <span class="kw">done</span>
+            <span class="cm"># for σε αρχεία (glob)</span>
+            <span class="kw">for</span> <span class="vr">f</span> <span class="kw">in</span> *.c; <span
+              class="kw">do</span>
+            <span class="kw">echo</span> <span class="st">"Compiling: $f"</span>
+            <span class="kw">done</span>
           </div>
         </div>
         <div>
           <div class="cb">
-<span class="cm"># while loop</span>
-<span class="vr">COUNT</span>=<span class="nm">0</span>
-<span class="kw">while</span> [ <span class="vr">$COUNT</span> <span class="op">-lt</span> <span
-  class="nm">5</span> ]; <span class="kw">do</span>
-<span class="kw">echo</span> <span class="st">"Count: $COUNT"</span>
-<span class="vr">COUNT</span>=$(( <span class="vr">COUNT</span> + 1 ))
-<span class="kw">done</span>
-<span class="cm"># infinite loop με break</span>
-<span class="kw">while</span> <span class="kw">true</span>; <span class="kw">do</span>
-<span class="kw">read</span> <span class="op">-p</span> <span class="st">"Input (q=quit): "</span> <span
-  class="vr">X</span>
-[ <span class="st">"$X"</span> <span class="op">==</span> <span class="st">"q"</span> ] &amp;&amp; <span
-  class="kw">break</span>
-<span class="kw">echo</span> <span class="st">"Said: $X"</span>
-<span class="kw">done</span>
-<span class="cm"># until = αντίστροφο while (τρέχει ΕΩΣ ότου)</span>
-<span class="kw">until</span> [ <span class="vr">$COUNT</span> <span class="op">-ge</span> <span
-  class="nm">10</span> ]; <span class="kw">do</span>
-<span class="vr">COUNT</span>=$(( <span class="vr">COUNT</span> + 1 ))
-<span class="kw">done</span>
+            <span class="cm"># while loop</span>
+            <span class="vr">COUNT</span>=<span class="nm">0</span>
+            <span class="kw">while</span> [ <span class="vr">$COUNT</span> <span class="op">-lt</span> <span
+              class="nm">5</span> ]; <span class="kw">do</span>
+            <span class="kw">echo</span> <span class="st">"Count: $COUNT"</span>
+            <span class="vr">COUNT</span>=$(( <span class="vr">COUNT</span> + 1 ))
+            <span class="kw">done</span>
+            <span class="cm"># infinite loop με break</span>
+            <span class="kw">while</span> <span class="kw">true</span>; <span class="kw">do</span>
+            <span class="kw">read</span> <span class="op">-p</span> <span class="st">"Input (q=quit): "</span> <span
+              class="vr">X</span>
+            [ <span class="st">"$X"</span> <span class="op">==</span> <span class="st">"q"</span> ] &amp;&amp; <span
+              class="kw">break</span>
+            <span class="kw">echo</span> <span class="st">"Said: $X"</span>
+            <span class="kw">done</span>
+            <span class="cm"># until = αντίστροφο while (τρέχει ΕΩΣ ότου)</span>
+            <span class="kw">until</span> [ <span class="vr">$COUNT</span> <span class="op">-ge</span> <span
+              class="nm">10</span> ]; <span class="kw">do</span>
+            <span class="vr">COUNT</span>=$(( <span class="vr">COUNT</span> + 1 ))
+            <span class="kw">done</span>
           </div>
           <div class="tip">
             <div class="tip-icon">🧠</div>
@@ -577,39 +577,39 @@
       <div class="grid2">
         <div>
           <div class="cb">
-<span class="cm"># 1. $(( )) — η σύγχρονη προσέγγιση</span>
-<span class="vr">A</span>=<span class="nm">10</span>; <span class="vr">B</span>=<span class="nm">3</span>
-<span class="vr">SUM</span>=$(( <span class="vr">A</span> + <span class="vr">B</span> )) <span class="cm">#
-  13</span>
-<span class="vr">DIV</span>=$(( <span class="vr">A</span> / <span class="vr">B</span> )) <span class="cm">#
-  3 (integer! όχι 3.33)</span>
-<span class="vr">MOD</span>=$(( <span class="vr">A</span> % <span class="vr">B</span> )) <span class="cm">#
-  1 (υπόλοιπο)</span>
-<span class="vr">POW</span>=$(( <span class="vr">A</span> ** <span class="nm">2</span> )) <span class="cm">#
-  100 (δύναμη)</span>
-(( <span class="vr">A</span>++ )) <span class="cm"># increment</span>
-(( <span class="vr">A</span> += 5 )) <span class="cm"># A = A + 5</span>
-<span class="cm"># σύγκριση με (( ))</span>
-<span class="kw">if</span> (( <span class="vr">A</span> &gt; <span class="vr">B</span> )); <span
-  class="kw">then</span>
-<span class="kw">echo</span> <span class="st">"A > B"</span>
-<span class="kw">fi</span>
+            <span class="cm"># 1. $(( )) — η σύγχρονη προσέγγιση</span>
+            <span class="vr">A</span>=<span class="nm">10</span>; <span class="vr">B</span>=<span class="nm">3</span>
+            <span class="vr">SUM</span>=$(( <span class="vr">A</span> + <span class="vr">B</span> )) <span class="cm">#
+              13</span>
+            <span class="vr">DIV</span>=$(( <span class="vr">A</span> / <span class="vr">B</span> )) <span class="cm">#
+              3 (integer! όχι 3.33)</span>
+            <span class="vr">MOD</span>=$(( <span class="vr">A</span> % <span class="vr">B</span> )) <span class="cm">#
+              1 (υπόλοιπο)</span>
+            <span class="vr">POW</span>=$(( <span class="vr">A</span> ** <span class="nm">2</span> )) <span class="cm">#
+              100 (δύναμη)</span>
+            (( <span class="vr">A</span>++ )) <span class="cm"># increment</span>
+            (( <span class="vr">A</span> += 5 )) <span class="cm"># A = A + 5</span>
+            <span class="cm"># σύγκριση με (( ))</span>
+            <span class="kw">if</span> (( <span class="vr">A</span> &gt; <span class="vr">B</span> )); <span
+              class="kw">then</span>
+            <span class="kw">echo</span> <span class="st">"A > B"</span>
+            <span class="kw">fi</span>
           </div>
         </div>
         <div>
           <div class="cb">
-<span class="cm"># 2. let — παλιότερο</span>
-<span class="kw">let</span> <span class="st">"RESULT = A * 2 + 1"</span>
-<span class="cm"># 3. expr — για παλιά συστήματα</span>
-<span class="vr">SUM</span>=$(<span class="kw">expr</span> <span class="vr">$A</span> + <span
-  class="vr">$B</span>)
-<span class="vr">MUL</span>=$(<span class="kw">expr</span> <span class="vr">$A</span> \* <span
-  class="vr">$B</span>) <span class="cm"># escape το *</span>
-<span class="cm"># 4. bc — για δεκαδικούς!</span>
-<span class="vr">PI</span>=$(<span class="kw">echo</span> <span class="st">"scale=4; 22/7"</span> | bc)
-<span class="kw">echo</span> <span class="vr">$PI</span> <span class="cm"># 3.1428</span>
-<span class="vr">SQRT</span>=$(<span class="kw">echo</span> <span class="st">"sqrt(2)"</span> | bc -l)
-<span class="kw">echo</span> <span class="vr">$SQRT</span> <span class="cm"># 1.41421356...</span>
+            <span class="cm"># 2. let — παλιότερο</span>
+            <span class="kw">let</span> <span class="st">"RESULT = A * 2 + 1"</span>
+            <span class="cm"># 3. expr — για παλιά συστήματα</span>
+            <span class="vr">SUM</span>=$(<span class="kw">expr</span> <span class="vr">$A</span> + <span
+              class="vr">$B</span>)
+            <span class="vr">MUL</span>=$(<span class="kw">expr</span> <span class="vr">$A</span> \* <span
+              class="vr">$B</span>) <span class="cm"># escape το *</span>
+            <span class="cm"># 4. bc — για δεκαδικούς!</span>
+            <span class="vr">PI</span>=$(<span class="kw">echo</span> <span class="st">"scale=4; 22/7"</span> | bc)
+            <span class="kw">echo</span> <span class="vr">$PI</span> <span class="cm"># 3.1428</span>
+            <span class="vr">SQRT</span>=$(<span class="kw">echo</span> <span class="st">"sqrt(2)"</span> | bc -l)
+            <span class="kw">echo</span> <span class="vr">$SQRT</span> <span class="cm"># 1.41421356...</span>
           </div>
           <div class="tip">
             <div class="tip-icon">🧠</div>
@@ -638,38 +638,38 @@
       <div class="grid2">
         <div>
           <div class="cb">
-<span class="cm">#!/bin/bash</span>
-<span class="cm"># ορισμός (δύο συντακτικοί τρόποι, ίδιο αποτέλεσμα)</span>
-<span class="kw">function</span> greet() {
-<span class="kw">echo</span> <span class="st">"Hello, $1!"</span> <span class="cm"># $1 = πρώτο arg της
-  function</span>
-}
-say_bye() {
-<span class="kw">echo</span> <span class="st">"Bye, $1"</span>
-<span class="kw">return</span> <span class="nm">0</span> <span class="cm"># exit status (0-255)</span>
-}
-<span class="cm"># κλήση — πάντα ΜΕΤΑ τον ορισμό</span>
-greet <span class="st">"Alice"</span>
-say_bye <span class="st">"Bob"</span>
+            <span class="cm">#!/bin/bash</span>
+            <span class="cm"># ορισμός (δύο συντακτικοί τρόποι, ίδιο αποτέλεσμα)</span>
+            <span class="kw">function</span> greet() {
+            <span class="kw">echo</span> <span class="st">"Hello, $1!"</span> <span class="cm"># $1 = πρώτο arg της
+              function</span>
+            }
+            say_bye() {
+            <span class="kw">echo</span> <span class="st">"Bye, $1"</span>
+            <span class="kw">return</span> <span class="nm">0</span> <span class="cm"># exit status (0-255)</span>
+            }
+            <span class="cm"># κλήση — πάντα ΜΕΤΑ τον ορισμό</span>
+            greet <span class="st">"Alice"</span>
+            say_bye <span class="st">"Bob"</span>
           </div>
         </div>
         <div>
           <div class="cb">
-<span class="cm"># local variables</span>
-<span class="vr">X</span>=<span class="st">"global"</span>
-my_func() {
-<span class="kw">local</span> <span class="vr">X</span>=<span class="st">"local"</span> <span class="cm">#
-  δεν επηρεάζει global X</span>
-<span class="kw">echo</span> <span class="st">"inside: $X"</span> <span class="cm"># local</span>
-}
-my_func
-<span class="kw">echo</span> <span class="st">"outside: $X"</span> <span class="cm"># global</span>
-<span class="cm"># επιστροφή τιμής: echo + $()</span>
-add() {
-<span class="kw">echo</span> $(( $1 + $2 )) <span class="cm"># "επιστρέφω" με echo</span>
-}
-<span class="vr">RESULT</span>=$(add 3 5) <span class="cm"># "πιάνω" με $()</span>
-<span class="kw">echo</span> <span class="vr">$RESULT</span> <span class="cm"># 8</span>
+            <span class="cm"># local variables</span>
+            <span class="vr">X</span>=<span class="st">"global"</span>
+            my_func() {
+            <span class="kw">local</span> <span class="vr">X</span>=<span class="st">"local"</span> <span class="cm">#
+              δεν επηρεάζει global X</span>
+            <span class="kw">echo</span> <span class="st">"inside: $X"</span> <span class="cm"># local</span>
+            }
+            my_func
+            <span class="kw">echo</span> <span class="st">"outside: $X"</span> <span class="cm"># global</span>
+            <span class="cm"># επιστροφή τιμής: echo + $()</span>
+            add() {
+            <span class="kw">echo</span> $(( $1 + $2 )) <span class="cm"># "επιστρέφω" με echo</span>
+            }
+            <span class="vr">RESULT</span>=$(add 3 5) <span class="cm"># "πιάνω" με $()</span>
+            <span class="kw">echo</span> <span class="vr">$RESULT</span> <span class="cm"># 8</span>
           </div>
           <div class="tip">
             <div class="tip-icon">🧠</div>
@@ -699,23 +699,23 @@ add() {
       <div class="card">
         <div class="card-title">Parameter Expansion — οι πιο χρήσιμες</div>
         <div class="cb">
-<span class="vr">F</span>=<span class="st">"hello_world.txt"</span>
-<span class="cm"># μήκος string</span>
-<span class="kw">echo</span> ${#<span class="vr">F</span>} <span class="cm"># 15</span>
-<span class="cm"># αφαίρεση suffix (% = από δεξιά)</span>
-<span class="kw">echo</span> ${<span class="vr">F</span>%.txt} <span class="cm"># hello_world ← πολύ
-  χρήσιμο!</span>
-<span class="kw">echo</span> ${<span class="vr">F</span>%.*} <span class="cm"># hello_world (αφαιρεί
-  extension)</span>
-<span class="cm"># αφαίρεση prefix (# = από αριστερά)</span>
-<span class="kw">echo</span> ${<span class="vr">F</span>#hello_} <span class="cm"># world.txt</span>
-<span class="kw">echo</span> ${<span class="vr">F</span>##*/} <span class="cm"># μόνο filename (αφαιρεί
-  path)</span>
-<span class="cm"># replace</span>
-<span class="kw">echo</span> ${<span class="vr">F</span>/world/bash} <span class="cm"># hello_bash.txt</span>
-<span class="cm"># substring ${var:start:length}</span>
-<span class="kw">echo</span> ${<span class="vr">F</span>:0:5} <span class="cm"># hello</span>
-<span class="kw">echo</span> ${<span class="vr">F</span>:6} <span class="cm"># world.txt (από pos 6)</span>
+          <span class="vr">F</span>=<span class="st">"hello_world.txt"</span>
+          <span class="cm"># μήκος string</span>
+          <span class="kw">echo</span> ${#<span class="vr">F</span>} <span class="cm"># 15</span>
+          <span class="cm"># αφαίρεση suffix (% = από δεξιά)</span>
+          <span class="kw">echo</span> ${<span class="vr">F</span>%.txt} <span class="cm"># hello_world ← πολύ
+            χρήσιμο!</span>
+          <span class="kw">echo</span> ${<span class="vr">F</span>%.*} <span class="cm"># hello_world (αφαιρεί
+            extension)</span>
+          <span class="cm"># αφαίρεση prefix (# = από αριστερά)</span>
+          <span class="kw">echo</span> ${<span class="vr">F</span>#hello_} <span class="cm"># world.txt</span>
+          <span class="kw">echo</span> ${<span class="vr">F</span>##*/} <span class="cm"># μόνο filename (αφαιρεί
+            path)</span>
+          <span class="cm"># replace</span>
+          <span class="kw">echo</span> ${<span class="vr">F</span>/world/bash} <span class="cm"># hello_bash.txt</span>
+          <span class="cm"># substring ${var:start:length}</span>
+          <span class="kw">echo</span> ${<span class="vr">F</span>:0:5} <span class="cm"># hello</span>
+          <span class="kw">echo</span> ${<span class="vr">F</span>:6} <span class="cm"># world.txt (από pos 6)</span>
         </div>
         <div class="tip">
           <div class="tip-icon">🧠</div>
