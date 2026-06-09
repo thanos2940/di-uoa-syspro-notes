@@ -10,7 +10,17 @@
 <link rel="stylesheet" href="styles/components.css">
 <style>
 :root{--bg:#0d1117;--bg-rgb:13,17,23;--surf:#161b22;--surf2:#1c2230;--border:#30363d;--blue:#58a6ff;--blue-rgb:88,166,255;--bdim:#0d1f40;--green:#3fb950;--green-rgb:63,185,80;--gdim:#0d2218;--yellow:#e3b341;--ydim:#2d2208;--red:#f85149;--rdim:#2d1010;--cyan:#39d4c8;--cdim:#0a2422;--purple:#bc8cff;--purple-rgb:188,140,255;--pdim:#1a1040;--orange:#f0883e;--orange-rgb:240,136,62;--odim:#2d1800;--txt:#e6edf3;--muted:#8b949e;--dim:#6e7681}
-.hero{background:linear-gradient(150deg,#0d1117 0%,#0d1f40 55%,#0d1117 100%)}
+.hero {
+      background: var(--hero-bg);
+      background-image: linear-gradient(150deg, rgb(13, 17, 23) 0%, rgb(13, 34, 24) 55%, rgb(13, 17, 23) 100%);
+      background-position-x: initial;
+      background-position-y: initial;
+      background-size: initial;
+      background-repeat: initial;
+      background-attachment: initial;
+      background-origin: initial;
+      background-clip: initial;
+    }
 .hero::after{content:'$ netstat -an';position:absolute;right:32px;bottom:16px;font-family:'JetBrains Mono',monospace;font-size:clamp(1rem,3vw,2.2rem);color:rgba(88,166,255,.06);pointer-events:none;font-weight:700}
 .cb{background:#060a10}
 .kw{color:var(--blue);font-weight:600}.fn{color:var(--yellow);font-weight:600}.st{color:var(--orange)}.cm{color:var(--dim);font-style:italic}.nm{color:var(--purple)}.tp{color:var(--cyan)}.mc{color:var(--purple);font-weight:600}.pr{color:var(--muted)}
@@ -28,7 +38,15 @@
 .retval-num{font-family:'JetBrains Mono',monospace;font-weight:700;margin-bottom:4px}
 .retval-desc{color:var(--muted)}
     html[data-theme="light"] .hero {
-      background: linear-gradient(150deg, rgb(248, 250, 252) 0%, rgb(226, 232, 240) 55%, rgb(248, 250, 252) 100%);
+      background: var(--hero-bg);
+      background-image: linear-gradient(150deg, rgb(248, 250, 252) 0%, rgb(240, 253, 244) 55%, rgb(248, 250, 252) 100%);
+      background-position-x: initial;
+      background-position-y: initial;
+      background-size: initial;
+      background-repeat: initial;
+      background-attachment: initial;
+      background-origin: initial;
+      background-clip: initial;
     }
 
     html[data-theme="light"] .hero::after {
