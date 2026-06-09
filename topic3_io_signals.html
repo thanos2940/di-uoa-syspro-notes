@@ -10,7 +10,7 @@
 <link rel="stylesheet" href="styles/components.css">
 <style>
 :root{--bg:#08080f;--bg-rgb: 8, 8, 15;--surf:#0e0e1a;--surf2:#14142a;--border:#252548;--blue:#7c9fff;--bdim:#0a0f2e;--green:#50fa7b;--green-rgb: 80, 250, 123;--gdim:#091a0e;--yellow:#f1fa8c;--ydim:#1a1a08;--red:#ff5555;--rdim:#1a0808;--purple:#bd93f9;--purple-rgb: 189, 147, 249;--pdim:#120a28;--cyan:#8be9fd;--orange:#ffb86c;--odim:#251800;--pink:#ff79c6;--txt:#f8f8f2;--muted:#9a9abf;--dim:#4a4a6a}
-.hero{background:linear-gradient(150deg,#08080f 0%,#120a28 55%,#08080f 100%);}
+
 .cb{background:#030308;}
 .kw{color:var(--pink);font-weight:600}.fn{color:var(--green)}.st{color:var(--yellow)}.cm{color:var(--dim);font-style:italic}.nm{color:var(--purple)}.tp{color:var(--cyan)}.mc{color:var(--orange)}.pr{color:var(--muted)}
 .fdarr{color:var(--dim)}.fdtgt{color:var(--muted)}
@@ -23,7 +23,16 @@
 .fitem{background:var(--surf);border:1px solid var(--border);border-radius:6px;padding:10px 13px}
 .fname{font-family:'JetBrains Mono',monospace;color:var(--orange);font-weight:700;margin-bottom:4px}
 .fdesc{color:var(--muted);}
-</style>
+
+    html[data-theme="light"] .hero {
+      background: linear-gradient(150deg, var(--bg) 0%, var(--surf2) 100%);
+    }
+
+    html[data-theme="light"] .hero::after {
+      color: rgba(var(--green-rgb), 0.15);
+    }
+
+    </style>
 <script src="js/nav.js" defer></script>
   <script src="data/questions.js" defer></script><script src="js/quiz-loader.js" defer></script>
 </head>

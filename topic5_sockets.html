@@ -27,7 +27,16 @@
 .retval{flex:1;min-width:120px;background:var(--surf);border:1px solid var(--border);border-radius:8px;padding:12px;text-align:center}
 .retval-num{font-family:'JetBrains Mono',monospace;font-weight:700;margin-bottom:4px}
 .retval-desc{color:var(--muted)}
-</style>
+
+    html[data-theme="light"] .hero {
+      background: linear-gradient(150deg, var(--bg) 0%, var(--surf2) 100%);
+    }
+
+    html[data-theme="light"] .hero::after {
+      color: rgba(var(--green-rgb), 0.15);
+    }
+
+    </style>
 <script src="js/nav.js" defer></script>
 <script src="data/questions.js" defer></script><script src="js/quiz-loader.js" defer></script>
 </head>

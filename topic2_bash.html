@@ -37,9 +37,7 @@
       --dim: #3a5a3a
     }
 
-    .hero {
-      background: linear-gradient(150deg, #080e0a 0%, #0a2010 55%, #080e0a 100%);
-    }
+    
 
     .hero::after {
       content: '#!/bin/bash';
@@ -119,7 +117,16 @@
       font-weight: 700;
       margin-bottom: 0.5rem
     }
-  </style>
+  
+    html[data-theme="light"] .hero {
+      background: linear-gradient(150deg, var(--bg) 0%, var(--surf2) 100%);
+    }
+
+    html[data-theme="light"] .hero::after {
+      color: rgba(var(--green-rgb), 0.15);
+    }
+
+    </style>
   <script src="js/nav.js" defer></script>
   <script src="data/questions.js" defer></script><script src="js/quiz-loader.js" defer></script>
 </head>

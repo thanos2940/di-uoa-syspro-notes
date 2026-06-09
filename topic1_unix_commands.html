@@ -40,9 +40,7 @@
       --dim: #6e7681;
     }
 
-    .hero {
-      background: linear-gradient(150deg, #0d1117 0%, #0d2218 55%, #0d1117 100%);
-    }
+    
 
     .hero::after {
       content: '$ man unix';
@@ -169,7 +167,16 @@
       font-size: 1.25rem;
       padding: 0 0.625rem
     }
-  </style>
+  
+    html[data-theme="light"] .hero {
+      background: linear-gradient(150deg, var(--bg) 0%, var(--surf2) 100%);
+    }
+
+    html[data-theme="light"] .hero::after {
+      color: rgba(var(--green-rgb), 0.15);
+    }
+
+    </style>
   <script src="js/nav.js" defer></script>
   <script src="data/questions.js" defer></script>
   <script src="js/quiz-loader.js" defer></script>
