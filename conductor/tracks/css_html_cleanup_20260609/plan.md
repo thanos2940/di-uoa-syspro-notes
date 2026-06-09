@@ -19,6 +19,6 @@
 - [x] Task: Conductor - User Manual Verification 'Phase 3: Refactor Topic Pages 4-7' (Protocol in workflow.md) 552179b
 
 ## Phase 4: Standardization and Review
-- [ ] Task: Review the newly created CSS files and standardize all hardcoded values to use `base.css` variables.
-- [ ] Task: Conduct a visual review to ensure all pages render correctly and consistently.
-- [ ] Task: Conductor - User Manual Verification 'Phase 4: Standardization and Review' (Protocol in workflow.md)
+- [x] Task: Review the newly created CSS files and standardize all hardcoded values to use `base.css` variables. c3f3bc6
+- [~] Task: Conduct a visual review to ensure all pages render correctly and consistently.
+- [~] Task: Conductor - User Manual Verification 'Phase 4: Standardization and Review' (Protocol in workflow.md)
