@@ -1,7 +1,7 @@
 # Implementation Plan: CSS and HTML Cleanup
 
 ## Phase 1: CSS Architecture Setup
-- [ ] Task: Create new CSS files `styles/layout.css` and `styles/components.css`.
+- [x] Task: Create new CSS files `styles/layout.css` and `styles/components.css`. 7c6a041
 - [ ] Task: Add `<link>` tags for the new CSS files to the `<head>` of all HTML files (`index.html`, `interactive_quiz.html`, `topic1_unix_commands.html` through `topic7_ipc.html`).
 - [ ] Task: Conductor - User Manual Verification 'Phase 1: CSS Architecture Setup' (Protocol in workflow.md)
 
