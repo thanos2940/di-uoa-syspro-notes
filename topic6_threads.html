@@ -64,11 +64,11 @@
     <div>
       <div class="card">
         <div class="card-title">Thread = Lightweight Process (LWP)</div>
-        <ul style="color:var(--muted);list-style:none;padding:0">
-          <li style="margin-bottom:12px">
+        <ul class="auto-style-bb8f98">
+          <li class="auto-style-fa3e1c">
             <strong class="text-green">Shared:</strong> Address space (code, data, heap), open file descriptors, signal handlers, current directory, user/group IDs.
           </li>
-          <li style="margin-bottom:12px">
+          <li class="auto-style-fa3e1c">
             <strong class="text-cyan">Private (per-thread):</strong> Thread ID, Program Counter, registers, stack, errno, signal mask, scheduling priority.
           </li>
           <li>
@@ -78,44 +78,44 @@
       </div>
 
       <div class="topic-section-card">
-        <div style="color:var(--green);font-weight:700;margin-bottom:12px;font-family:'JetBrains Mono',monospace;font-size:0.9rem;text-transform:uppercase">Process Address Space</div>
-        <div style="display:flex;flex-direction:column;gap:12px">
+        <div class="auto-style-72a045">Process Address Space</div>
+        <div class="auto-style-bbc017">
           
           <!-- Shared Segment -->
-          <div style="background:var(--bg);border:1.5px solid var(--blue);border-radius:8px;padding:12px">
-            <div style="color:var(--blue);font-size:0.75rem;font-family:'JetBrains Mono',monospace;font-weight:700;margin-bottom:8px;text-transform:uppercase">Shared Address Space (Κοινόχρηστο)</div>
-            <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;font-family:'JetBrains Mono',monospace;font-size:0.8rem">
-              <div style="background:var(--surf);padding:6px 10px;border-radius:4px;border-left:3px solid var(--cyan)">Code (Text)</div>
-              <div style="background:var(--surf);padding:6px 10px;border-radius:4px;border-left:3px solid var(--cyan)">Global Data</div>
-              <div style="background:var(--surf);padding:6px 10px;border-radius:4px;border-left:3px solid var(--cyan)">Heap (malloc)</div>
-              <div style="background:var(--surf);padding:6px 10px;border-radius:4px;border-left:3px solid var(--cyan)">Open File Descriptors</div>
+          <div class="auto-style-b472b0">
+            <div class="auto-style-e65a5b">Shared Address Space (Κοινόχρηστο)</div>
+            <div class="auto-style-f5dc2d">
+              <div class="auto-style-43c67c">Code (Text)</div>
+              <div class="auto-style-43c67c">Global Data</div>
+              <div class="auto-style-43c67c">Heap (malloc)</div>
+              <div class="auto-style-43c67c">Open File Descriptors</div>
             </div>
           </div>
           
           <!-- Threads Private Segment -->
-          <div style="display:flex;gap:10px;width:100%">
+          <div class="auto-style-45ef11">
             <!-- Thread 1 -->
-            <div style="flex:1;background:var(--bg);border:1.5px solid var(--green);border-radius:8px;padding:10px;text-align:center">
-              <div style="color:var(--green);font-size:0.75rem;font-family:'JetBrains Mono',monospace;font-weight:700;margin-bottom:6px">Thread 1</div>
-              <div style="font-family:'JetBrains Mono',monospace;font-size:0.7rem;color:var(--muted);display:flex;flex-direction:column;gap:4px">
-                <div style="background:var(--surf);padding:4px;border-radius:2px">Stack T1</div>
-                <div style="background:var(--surf);padding:4px;border-radius:2px">PC & Regs</div>
+            <div class="auto-style-6779a6">
+              <div class="auto-style-d0b981">Thread 1</div>
+              <div class="auto-style-72be48">
+                <div class="auto-style-c285a8">Stack T1</div>
+                <div class="auto-style-c285a8">PC & Regs</div>
               </div>
             </div>
             <!-- Thread 2 -->
-            <div style="flex:1;background:var(--bg);border:1.5px solid var(--yellow);border-radius:8px;padding:10px;text-align:center">
-              <div style="color:var(--yellow);font-size:0.75rem;font-family:'JetBrains Mono',monospace;font-weight:700;margin-bottom:6px">Thread 2</div>
-              <div style="font-family:'JetBrains Mono',monospace;font-size:0.7rem;color:var(--muted);display:flex;flex-direction:column;gap:4px">
-                <div style="background:var(--surf);padding:4px;border-radius:2px">Stack T2</div>
-                <div style="background:var(--surf);padding:4px;border-radius:2px">PC & Regs</div>
+            <div class="auto-style-1912c9">
+              <div class="auto-style-e7aa02">Thread 2</div>
+              <div class="auto-style-72be48">
+                <div class="auto-style-c285a8">Stack T2</div>
+                <div class="auto-style-c285a8">PC & Regs</div>
               </div>
             </div>
             <!-- Thread 3 -->
-            <div style="flex:1;background:var(--bg);border:1.5px solid var(--orange);border-radius:8px;padding:10px;text-align:center">
-              <div style="color:var(--orange);font-size:0.75rem;font-family:'JetBrains Mono',monospace;font-weight:700;margin-bottom:6px">Thread 3</div>
-              <div style="font-family:'JetBrains Mono',monospace;font-size:0.7rem;color:var(--muted);display:flex;flex-direction:column;gap:4px">
-                <div style="background:var(--surf);padding:4px;border-radius:2px">Stack T3</div>
-                <div style="background:var(--surf);padding:4px;border-radius:2px">PC & Regs</div>
+            <div class="auto-style-f216a5">
+              <div class="auto-style-dda180">Thread 3</div>
+              <div class="auto-style-72be48">
+                <div class="auto-style-c285a8">Stack T3</div>
+                <div class="auto-style-c285a8">PC & Regs</div>
               </div>
             </div>
           </div>
@@ -137,8 +137,8 @@
 
       <div class="card">
         <div class="card-title">POSIX Threads (pthreads)</div>
-        <p style="color:var(--muted);font-size:0.85rem;margin-bottom:8px">Το πρότυπο POSIX.1c (IEEE Std 1003.1c-1995) ορίζει το pthreads API:</p>
-        <ul style="font-size:0.85rem;color:var(--muted)">
+        <p class="auto-style-9bfa52">Το πρότυπο POSIX.1c (IEEE Std 1003.1c-1995) ορίζει το pthreads API:</p>
+        <ul class="auto-style-1b41d3">
           <li><code class="text-cyan">#include &lt;pthread.h&gt;</code> — header αρχείο</li>
           <li>Compile: <code class="text-green">gcc prog.c -lpthread</code> ή <code class="text-green">-pthread</code></li>
           <li>Πάνω από 60 συναρτήσεις στο API</li>
@@ -152,7 +152,7 @@
 
       <div class="card mt-10">
         <div class="card-title">Two-Level Thread Model</div>
-        <p style="color:var(--muted);font-size:0.85rem">
+        <p class="auto-style-ca4b5e">
           Στο Linux, τα user-level threads αντιστοιχούν σε <strong class="text-primary">kernel threads</strong> μέσω <strong class="text-green">Lightweight Processes (LWP)</strong>. Ο kernel scheduler βλέπει τα LWP, όχι τα user threads. Αυτό σημαίνει ότι τα threads μπορούν να τρέχουν σε <em>διαφορετικούς πυρήνες</em> (true parallelism).
         </p>
       </div>
@@ -188,7 +188,7 @@
   <div class="compare">
     <div class="good-side">
       <div class="side-label text-green">Thread Advantages</div>
-      <ul style="font-size:0.85rem;color:var(--muted)">
+      <ul class="auto-style-1b41d3">
         <li>Γρηγορότερη δημιουργία/τερματισμός</li>
         <li>Εύκολη κοινή χρήση δεδομένων (shared address space)</li>
         <li>Λιγότεροι πόροι (δεν γίνεται copy address space)</li>
@@ -197,7 +197,7 @@
     </div>
     <div class="bad-side">
       <div class="side-label text-red">Thread Dangers</div>
-      <ul style="font-size:0.85rem;color:var(--muted)">
+      <ul class="auto-style-1b41d3">
         <li>Κοινή μνήμη = Race conditions, data corruption</li>
         <li>Ένα thread crash = ολόκληρη η διεργασία πεθαίνει</li>
         <li>Δύσκολο debugging (non-deterministic bugs)</li>
@@ -233,7 +233,7 @@
     <div>
       <div class="card">
         <div class="card-title">pthread_create()</div>
-        <div class="cb" style="padding:14px;border-radius:8px;font-family:'JetBrains Mono',monospace;font-size:0.82rem;line-height:1.9;overflow-x:auto">
+        <div class="cb auto-style-1c027c">
 <span class="kw">int</span> <span class="fn">pthread_create</span>(
     <span class="tp">pthread_t</span> *<span class="sf-field">thread</span>,          <span class="cm">// output: thread ID</span>
     <span class="kw">const</span> <span class="tp">pthread_attr_t</span> *<span class="sf-field">attr</span>, <span class="cm">// NULL = defaults</span>
@@ -253,7 +253,7 @@
 
       <div class="card mt-10">
         <div class="card-title">pthread_exit()</div>
-        <div class="cb" style="padding:14px;border-radius:8px;font-family:'JetBrains Mono',monospace;font-size:0.82rem;line-height:1.9">
+        <div class="cb auto-style-ebc108">
 <span class="kw">void</span> <span class="fn">pthread_exit</span>(<span class="kw">void</span> *<span class="sf-field">retval</span>);
 <span class="cm">// Τερματίζει μόνο το ΤΡΕΧΟΝ thread</span>
 <span class="cm">// Δεν τερματίζει ολόκληρη τη διεργασία!</span>
@@ -268,7 +268,7 @@
     <div>
       <div class="card">
         <div class="card-title">Example — multi_hello.c</div>
-        <div class="cb" style="padding:14px;border-radius:8px;font-family:'JetBrains Mono',monospace;font-size:0.78rem;line-height:1.8;overflow-x:auto">
+        <div class="cb auto-style-f73641">
 <span class="mc">#include</span> <span class="st">&lt;stdio.h&gt;</span>
 <span class="mc">#include</span> <span class="st">&lt;stdlib.h&gt;</span>
 <span class="mc">#include</span> <span class="st">&lt;pthread.h&gt;</span>
@@ -302,7 +302,7 @@
 
       <div class="rbox mt-10">
         <div class="lbl text-red">Common Bug — Passing Shared Variable</div>
-        <div class="cb" style="padding:10px;border-radius:6px;font-family:'JetBrains Mono',monospace;font-size:0.78rem;line-height:1.8;margin:8px 0">
+        <div class="cb auto-style-a699e8">
 <span class="cm">// ❌ WRONG: all threads may see i=5!</span>
 <span class="kw">for</span> (i = <span class="nm">0</span>; i &lt; <span class="nm">5</span>; i++)
     <span class="fn">pthread_create</span>(&amp;tid[i], <span class="nm">NULL</span>, hello, &amp;i);
@@ -332,32 +332,32 @@
     <div>
       <div class="card">
         <div class="card-title">pthread_join() — Wait for thread</div>
-        <div class="cb" style="padding:14px;border-radius:8px;font-family:'JetBrains Mono',monospace;font-size:0.82rem;line-height:1.9">
+        <div class="cb auto-style-ebc108">
 <span class="kw">int</span> <span class="fn">pthread_join</span>(<span class="tp">pthread_t</span> <span class="sf-field">thread</span>, <span class="kw">void</span> **<span class="sf-field">retval</span>);
 <span class="cm">// Blocks until thread terminates</span>
 <span class="cm">// retval receives the exit value</span>
 <span class="cm">// Σαν τη wait() για processes!</span>
         </div>
-        <p style="font-size:0.85rem;color:var(--muted);margin-top:8px">
+        <p class="auto-style-fd762a">
           Αν δεν σε νοιάζει η τιμή επιστροφής, πέρνα <code>NULL</code> ως δεύτερο argument. Κάθε thread μπορεί να γίνει join <strong>μόνο μία φορά</strong>.
         </p>
       </div>
 
       <div class="card mt-10">
         <div class="card-title">pthread_detach() — Fire and forget</div>
-        <div class="cb" style="padding:14px;border-radius:8px;font-family:'JetBrains Mono',monospace;font-size:0.82rem;line-height:1.9">
+        <div class="cb auto-style-ebc108">
 <span class="kw">int</span> <span class="fn">pthread_detach</span>(<span class="tp">pthread_t</span> <span class="sf-field">thread</span>);
 <span class="cm">// Resources freed automatically on termination</span>
 <span class="cm">// Cannot join a detached thread!</span>
         </div>
-        <p style="font-size:0.85rem;color:var(--muted);margin-top:8px">
+        <p class="auto-style-fd762a">
           Χρήσιμο για "background" threads. Δεν χρειάζεται κάποιος να τα περιμένει. Όταν τελειώσουν, καθαρίζονται αυτόματα.
         </p>
       </div>
 
       <div class="card mt-10">
         <div class="card-title">pthread_self() — Get own ID</div>
-        <div class="cb" style="padding:14px;border-radius:8px;font-family:'JetBrains Mono',monospace;font-size:0.82rem;line-height:1.9">
+        <div class="cb auto-style-ebc108">
 <span class="tp">pthread_t</span> <span class="fn">pthread_self</span>(<span class="kw">void</span>);
 <span class="cm">// Returns the calling thread's ID</span>
 <span class="cm">// Like getpid() for threads</span>
@@ -367,20 +367,20 @@
     <div>
       <div class="card">
         <div class="card-title">pthread_cancel() — Request cancellation</div>
-        <div class="cb" style="padding:14px;border-radius:8px;font-family:'JetBrains Mono',monospace;font-size:0.82rem;line-height:1.9">
+        <div class="cb auto-style-ebc108">
 <span class="kw">int</span> <span class="fn">pthread_cancel</span>(<span class="tp">pthread_t</span> <span class="sf-field">thread</span>);
 <span class="cm">// Sends cancellation request</span>
 <span class="cm">// Thread may not die immediately!</span>
 <span class="cm">// Depends on cancellation state/type</span>
         </div>
-        <p style="font-size:0.85rem;color:var(--muted);margin-top:8px">
+        <p class="auto-style-fd762a">
           Η ακύρωση δεν είναι instant — το thread ελέγχει σε <em>cancellation points</em> (π.χ. μέσα σε pthread_join, read, sleep). Μπορεί να απενεργοποιηθεί.
         </p>
       </div>
 
       <div class="card mt-10">
         <div class="card-title">pthread_kill() — Send signal to thread</div>
-        <div class="cb" style="padding:14px;border-radius:8px;font-family:'JetBrains Mono',monospace;font-size:0.82rem;line-height:1.9">
+        <div class="cb auto-style-ebc108">
 <span class="kw">int</span> <span class="fn">pthread_kill</span>(<span class="tp">pthread_t</span> <span class="sf-field">thread</span>, <span class="kw">int</span> <span class="sf-field">sig</span>);
 <span class="cm">// Like kill() but for a specific thread</span>
 <span class="cm">// sig=0 tests if thread exists</span>
@@ -415,7 +415,7 @@
     <div>
       <div class="card">
         <div class="card-title">Error Handling Pattern</div>
-        <div class="cb" style="padding:14px;border-radius:8px;font-family:'JetBrains Mono',monospace;font-size:0.78rem;line-height:1.8;overflow-x:auto">
+        <div class="cb auto-style-f73641">
 <span class="kw">int</span> err;
 err = <span class="fn">pthread_create</span>(&amp;tid, <span class="nm">NULL</span>, func, arg);
 <span class="kw">if</span> (err != <span class="nm">0</span>) {
@@ -434,11 +434,11 @@ err = <span class="fn">pthread_create</span>(&amp;tid, <span class="nm">NULL</sp
     <div>
       <div class="card">
         <div class="card-title">Safe Return Values from Threads</div>
-        <p style="color:var(--muted);font-size:0.85rem;margin-bottom:8px">Τι μπορεί να επιστρέψει ένα thread μέσω <code>pthread_exit()</code>;</p>
+        <p class="auto-style-9bfa52">Τι μπορεί να επιστρέψει ένα thread μέσω <code>pthread_exit()</code>;</p>
 
         <div class="good-side mb-8">
           <div class="side-label text-green">✅ Safe</div>
-          <ul style="font-size:0.82rem;color:var(--muted)">
+          <ul class="auto-style-2fd4f2">
             <li><strong>malloc'd memory:</strong> <code>int *p = malloc(sizeof(int)); *p = 42; pthread_exit(p);</code></li>
             <li><strong>String literals:</strong> <code>pthread_exit("done");</code> — ζουν στο .rodata segment</li>
             <li><strong>Global variables:</strong> Ζουν στο data segment (αλλά πρόσεξε concurrent access!)</li>
@@ -447,7 +447,7 @@ err = <span class="fn">pthread_create</span>(&amp;tid, <span class="nm">NULL</sp
 
         <div class="bad-side">
           <div class="side-label text-red">❌ Unsafe</div>
-          <ul style="font-size:0.82rem;color:var(--muted)">
+          <ul class="auto-style-2fd4f2">
             <li><strong>Automatic (local) variables:</strong> <code>int x = 42; pthread_exit(&amp;x);</code> — Το stack του thread καταστρέφεται μετά το exit! Dangling pointer!</li>
           </ul>
         </div>
@@ -459,7 +459,7 @@ err = <span class="fn">pthread_create</span>(&amp;tid, <span class="nm">NULL</sp
           <div class="tip-text">
             Μην επιστρέφεις <strong>ποτέ</strong> δείκτη σε τοπική (automatic) μεταβλητή από ένα thread. Όταν το thread τερματίζει, το stack frame του καταστρέφεται και η μνήμη αποδεσμεύεται. Ο δείκτης γίνεται <strong>dangling pointer</strong>, και οποιαδήποτε προσπάθεια πρόσβασης σε αυτόν από το thread-caller (μέσω <code>pthread_join</code>) θα οδηγήσει σε garbage values ή Segmentation Fault.<br>
             <strong>Ασφαλείς τρόποι επιστροφής:</strong>
-            <ul style="margin-top:4px;padding-left:1.5rem">
+            <ul class="auto-style-d87f7c">
               <li>Δέσμευση στο heap μέσω <code>malloc()</code> (ο caller αναλαμβάνει το <code>free()</code>).</li>
               <li>Χρήση static ή global μεταβλητών (με προσοχή στο synchronization).</li>
               <li>Casting της ίδιας της τιμής σε <code>void*</code> (αν χωράει, π.χ. <code>pthread_exit((void*)(intptr_t)x)</code>) χωρίς pointer reference.</li>
@@ -485,7 +485,7 @@ err = <span class="fn">pthread_create</span>(&amp;tid, <span class="nm">NULL</sp
     <div>
       <div class="card">
         <div class="card-title">Example — wordcount1.c (Buggy!)</div>
-        <div class="cb" style="padding:14px;border-radius:8px;font-family:'JetBrains Mono',monospace;font-size:0.78rem;line-height:1.8;overflow-x:auto">
+        <div class="cb auto-style-f73641">
 <span class="kw">int</span> <span class="sf-field">total_words</span> = <span class="nm">0</span>;  <span class="cm">// GLOBAL — shared by all threads!</span>
 
 <span class="kw">void</span> *<span class="fn">count_words</span>(<span class="kw">void</span> *<span class="sf-field">arg</span>) {
@@ -509,7 +509,7 @@ err = <span class="fn">pthread_create</span>(&amp;tid, <span class="nm">NULL</sp
     <div>
       <div class="card">
         <div class="card-title">Race Condition Visualization</div>
-        <div class="thread-diagram" style="text-align:left;font-size:0.78rem;line-height:2">
+        <div class="thread-diagram auto-style-a3b7a3">
 <span class="text-dim">total_words = 100 αρχικά</span><br>
 <span class="text-green">Thread A:</span> LOAD 100 → regA<br>
 <span class="text-yellow">Thread B:</span> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; LOAD 100 → regB<br>
@@ -517,7 +517,7 @@ err = <span class="fn">pthread_create</span>(&amp;tid, <span class="nm">NULL</sp
 <span class="text-yellow">Thread B:</span> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ADD 3 → 103<br>
 <span class="text-green">Thread A:</span> STORE 105 → total_words<br>
 <span class="text-yellow">Thread B:</span> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; STORE 103 → total_words<br>
-<span style="color:var(--red);font-weight:700">Result: 103 (should be 108!)</span> <span class="cm">← Thread A's work LOST!</span>
+<span class="auto-style-b7c7b3">Result: 103 (should be 108!)</span> <span class="cm">← Thread A's work LOST!</span>
         </div>
       </div>
 
@@ -548,7 +548,7 @@ err = <span class="fn">pthread_create</span>(&amp;tid, <span class="nm">NULL</sp
     <div>
       <div class="card">
         <div class="card-title">Mutex API</div>
-        <div class="cb" style="padding:14px;border-radius:8px;font-family:'JetBrains Mono',monospace;font-size:0.78rem;line-height:1.9;overflow-x:auto">
+        <div class="cb auto-style-aab09c">
 <span class="cm">// Initialization (two ways)</span>
 <span class="tp">pthread_mutex_t</span> mtx = <span class="mc">PTHREAD_MUTEX_INITIALIZER</span>; <span class="cm">// static</span>
 <span class="fn">pthread_mutex_init</span>(&amp;mtx, <span class="nm">NULL</span>);                   <span class="cm">// dynamic</span>
@@ -570,7 +570,7 @@ err = <span class="fn">pthread_create</span>(&amp;tid, <span class="nm">NULL</sp
 
       <div class="card mt-10">
         <div class="card-title">Critical Section Pattern</div>
-        <div class="cb" style="padding:14px;border-radius:8px;font-family:'JetBrains Mono',monospace;font-size:0.78rem;line-height:1.8">
+        <div class="cb auto-style-bbf441">
 <span class="fn">pthread_mutex_lock</span>(&amp;mtx);
 <span class="cm">/* ── Critical Section ── */</span>
 <span class="cm">/* Μόνο ΕΝΑ thread μπορεί </span>
@@ -584,7 +584,7 @@ total_words += count;
     <div>
       <div class="card">
         <div class="card-title">wordcount2.c — Fixed with Mutex</div>
-        <div class="cb" style="padding:14px;border-radius:8px;font-family:'JetBrains Mono',monospace;font-size:0.78rem;line-height:1.8;overflow-x:auto">
+        <div class="cb auto-style-f73641">
 <span class="kw">int</span> <span class="sf-field">total_words</span> = <span class="nm">0</span>;
 <span class="tp">pthread_mutex_t</span> <span class="sf-field">count_mutex</span> = <span class="mc">PTHREAD_MUTEX_INITIALIZER</span>;
 
@@ -608,7 +608,7 @@ total_words += count;
 
       <div class="wbox mt-10">
         <div class="lbl text-yellow">Mutex Rules</div>
-        <ul style="font-size:0.85rem;color:var(--muted)">
+        <ul class="auto-style-1b41d3">
           <li>Μόνο ο <strong>κάτοχος</strong> μπορεί να κάνει unlock</li>
           <li>Κάνε lock <strong>μόνο</strong> στο μικρότερο δυνατό section κώδικα</li>
           <li>Πάντα <strong>ξεκλείδωνε</strong> τον mutex — αν ξεχάσεις = <strong class="text-red">deadlock</strong></li>
@@ -633,7 +633,7 @@ total_words += count;
     <div>
       <div class="card">
         <div class="card-title">Condition Variable API</div>
-        <div class="cb" style="padding:14px;border-radius:8px;font-family:'JetBrains Mono',monospace;font-size:0.78rem;line-height:1.9;overflow-x:auto">
+        <div class="cb auto-style-aab09c">
 <span class="cm">// Initialization</span>
 <span class="tp">pthread_cond_t</span> cv = <span class="mc">PTHREAD_COND_INITIALIZER</span>; <span class="cm">// static</span>
 <span class="fn">pthread_cond_init</span>(&amp;cv, <span class="nm">NULL</span>);                  <span class="cm">// dynamic</span>
@@ -654,13 +654,13 @@ total_words += count;
 
       <div class="card mt-10">
         <div class="card-title">How pthread_cond_wait() Works</div>
-        <div class="thread-diagram" style="text-align:left;font-size:0.82rem;line-height:2.2">
-<span style="color:var(--yellow);font-weight:700">pthread_cond_wait(&amp;cv, &amp;mtx):</span><br>
-<span style="color:var(--nm)">1.</span> <span class="text-red">Unlock</span> mutex (ατομικά)<br>
-<span style="color:var(--nm)">2.</span> <span class="text-muted">Sleep</span> — thread μπαίνει σε αναμονή<br>
-<span style="color:var(--nm)">3.</span> <span class="text-green">Wake up</span> (σήμα ελήφθη)<br>
-<span style="color:var(--nm)">4.</span> <span class="text-blue">Re-lock</span> mutex (μπλοκάρει αν χρειαστεί)<br>
-<span style="color:var(--nm)">5.</span> <span class="text-primary">Return</span> — ο caller ξανακρατάει τον mutex
+        <div class="thread-diagram auto-style-9d4976">
+<span class="auto-style-2de001">pthread_cond_wait(&amp;cv, &amp;mtx):</span><br>
+<span class="auto-style-c0a681">1.</span> <span class="text-red">Unlock</span> mutex (ατομικά)<br>
+<span class="auto-style-c0a681">2.</span> <span class="text-muted">Sleep</span> — thread μπαίνει σε αναμονή<br>
+<span class="auto-style-c0a681">3.</span> <span class="text-green">Wake up</span> (σήμα ελήφθη)<br>
+<span class="auto-style-c0a681">4.</span> <span class="text-blue">Re-lock</span> mutex (μπλοκάρει αν χρειαστεί)<br>
+<span class="auto-style-c0a681">5.</span> <span class="text-primary">Return</span> — ο caller ξανακρατάει τον mutex
         </div>
         <div class="ibox mt-8">
           <div class="lbl text-blue">Atomic unlock+sleep</div>
@@ -671,7 +671,7 @@ total_words += count;
     <div>
       <div class="card">
         <div class="card-title">Example — mutex_condvar.c</div>
-        <div class="cb" style="padding:14px;border-radius:8px;font-family:'JetBrains Mono',monospace;font-size:0.75rem;line-height:1.7;overflow-x:auto">
+        <div class="cb auto-style-98b404">
 <span class="tp">pthread_mutex_t</span> mtx = <span class="mc">PTHREAD_MUTEX_INITIALIZER</span>;
 <span class="tp">pthread_cond_t</span>  cv  = <span class="mc">PTHREAD_COND_INITIALIZER</span>;
 <span class="kw">int</span> <span class="sf-field">ready</span> = <span class="nm">0</span>;
@@ -699,10 +699,10 @@ total_words += count;
 
       <div class="card mt-10">
         <div class="card-title">counter.c — Threshold Signaling</div>
-        <p style="font-size:0.82rem;color:var(--muted)">
+        <p class="auto-style-2fd4f2">
           3 threads αυξάνουν ένα counter. Ένα 4ο thread κοιμάται μέχρι ο counter φτάσει ένα threshold:
         </p>
-        <div class="cb" style="padding:10px;border-radius:8px;font-family:'JetBrains Mono',monospace;font-size:0.75rem;line-height:1.7">
+        <div class="cb auto-style-23dace">
 <span class="cm">// Incrementer thread</span>
 <span class="fn">pthread_mutex_lock</span>(&amp;count_mutex);
 count++;
@@ -739,7 +739,7 @@ count++;
         <div class="compare">
           <div class="bad-side">
             <div class="side-label text-red">❌ if (wrong)</div>
-            <div class="cb" style="padding:8px;border-radius:6px;font-family:'JetBrains Mono',monospace;font-size:0.75rem;line-height:1.7">
+            <div class="cb auto-style-7bf338">
 <span class="kw">if</span> (!ready)  <span class="cm">// check once</span>
     <span class="fn">pthread_cond_wait</span>(&amp;cv, &amp;m);
 <span class="cm">// may proceed when not ready!</span>
@@ -747,14 +747,14 @@ count++;
           </div>
           <div class="good-side">
             <div class="side-label text-green">✅ while (correct)</div>
-            <div class="cb" style="padding:8px;border-radius:6px;font-family:'JetBrains Mono',monospace;font-size:0.75rem;line-height:1.7">
+            <div class="cb auto-style-7bf338">
 <span class="kw">while</span> (!ready)  <span class="cm">// re-check</span>
     <span class="fn">pthread_cond_wait</span>(&amp;cv, &amp;m);
 <span class="cm">// guaranteed ready == true!</span>
             </div>
           </div>
         </div>
-        <p style="font-size:0.82rem;color:var(--muted);margin-top:8px">
+        <p class="auto-style-1a0979">
           <strong class="text-primary">Γιατί;</strong> Ένα thread μπορεί να ξυπνήσει χωρίς λόγο (<em>spurious wakeup</em>) — είτε από τον scheduler, είτε γιατί κάποιο άλλο thread "έφαγε" τη συνθήκη μεταξύ signal και re-lock. Με <code>while</code>, ξαναελέγχεις τη συνθήκη μετά το wakeup.
         </p>
       </div>
@@ -765,7 +765,7 @@ count++;
           <div class="tip-title">Exam Tip — Spurious Wakeups &amp; Condition Variables</div>
           <div class="tip-text">
             Η χρήση της <code>while</code> γύρω από την <code>pthread_cond_wait()</code> είναι <strong>υποχρεωτική</strong> για δύο λόγους:
-            <ul style="margin-top:4px;padding-left:1.5rem">
+            <ul class="auto-style-d87f7c">
               <li><strong>Spurious Wakeup:</strong> Ο scheduler του λειτουργικού συστήματος μπορεί να ξυπνήσει ένα μπλοκαρισμένο thread χωρίς να έχει σταλεί signal (συμβαίνει για λόγους απόδοσης και χαμηλού επιπέδου αρχιτεκτονικής).</li>
               <li><strong>Mesa/Lampson Semantics:</strong> Όταν ένα thread λαμβάνει signal και ξυπνάει, <em>δεν εκτελείται αμέσως</em>. Πρέπει πρώτα να ξανα-αποκτήσει το mutex. Στο ενδιάμεσο διάστημα, ένα άλλο thread μπορεί να μπει, να αποκτήσει το mutex, να καταναλώσει τον πόρο (ready = false) και να βγει. Αν είχαμε <code>if</code>, το ξυπνημένο thread θα συνέχιζε τυφλά και θα προσπελαύανε μη έγκυρο state.</li>
             </ul>
@@ -775,7 +775,7 @@ count++;
 
       <div class="card mt-10">
         <div class="card-title">Abstract Monitor Operations</div>
-        <table class="vtbl" style="font-size:0.82rem">
+        <table class="vtbl auto-style-6863e7">
           <thead><tr><th>Operation</th><th>Effect</th></tr></thead>
           <tbody>
             <tr><td><code class="text-yellow">lock(m)</code></td><td>Acquire mutex. Block if already held.</td></tr>
@@ -790,8 +790,8 @@ count++;
     <div>
       <div class="card">
         <div class="card-title">Golden Rules of Monitor-Style Programming</div>
-        <div style="background:var(--gdim);border:1px solid rgba(63,185,80,.2);border-radius:8px;padding:14px;margin-bottom:10px">
-          <ol style="font-size:0.85rem;color:var(--muted);padding-left:18px">
+        <div class="auto-style-70ab05">
+          <ol class="auto-style-df9ba5">
             <li class="mb-8"><strong class="text-green">Πάντα κλείδωνε τον mutex</strong> πριν ελέγξεις ή αλλάξεις τη shared μεταβλητή</li>
             <li class="mb-8"><strong class="text-green">Πάντα while loop</strong> γύρω από <code>pthread_cond_wait()</code></li>
             <li class="mb-8"><strong class="text-green">Σηματοδότησε (signal/broadcast)</strong> ενώ κρατάς τον mutex (ή αμέσως μετά το unlock)</li>
@@ -803,8 +803,8 @@ count++;
 
       <div class="card mt-10">
         <div class="card-title">Readers/Writers Pattern</div>
-        <p style="font-size:0.82rem;color:var(--muted);margin-bottom:8px">Πολλαπλοί readers ταυτόχρονα ΟΚ, αλλά μόνο ένας writer:</p>
-        <div class="cb" style="padding:10px;border-radius:6px;font-family:'JetBrains Mono',monospace;font-size:0.75rem;line-height:1.7;overflow-x:auto">
+        <p class="auto-style-f70c40">Πολλαπλοί readers ταυτόχρονα ΟΚ, αλλά μόνο ένας writer:</p>
+        <div class="cb auto-style-b7fdac">
 <span class="cm">// Reader</span>
 <span class="fn">lock</span>(m);
 <span class="kw">while</span> (active_writers &gt; <span class="nm">0</span>) <span class="fn">wait</span>(cv, m);
@@ -843,7 +843,7 @@ active_writers++;
     <div>
       <div class="card">
         <div class="card-title">Thread-Unsafe Functions</div>
-        <table class="vtbl" style="font-size:0.82rem">
+        <table class="vtbl auto-style-6863e7">
           <thead><tr><th>Unsafe</th><th>Thread-safe Alternative</th></tr></thead>
           <tbody>
             <tr><td><code>strtok()</code></td><td><code class="text-green">strtok_r()</code></td></tr>
@@ -863,8 +863,8 @@ active_writers++;
     <div>
       <div class="card">
         <div class="card-title">Making a Function Thread-Safe</div>
-        <p style="font-size:0.82rem;color:var(--muted);margin-bottom:8px">3 στρατηγικές:</p>
-        <ol style="font-size:0.82rem;color:var(--muted);padding-left:18px">
+        <p class="auto-style-f70c40">3 στρατηγικές:</p>
+        <ol class="auto-style-264644">
           <li class="mb-8"><strong class="text-green">Replace static with caller-provided buffer:</strong> Η <code>strtok_r()</code> δέχεται <code>char **saveptr</code> αντί internal state.</li>
           <li class="mb-8"><strong class="text-yellow">Lock with mutex:</strong> Wrap non-safe calls με mutex. Απλό αλλά μειώνει parallelism.</li>
           <li><strong class="text-cyan">Thread-Local Storage:</strong> Κάθε thread έχει δικό του αντίγραφο (TLS).</li>
@@ -898,7 +898,7 @@ active_writers++;
     <div>
       <div class="card">
         <div class="card-title">Bounded Cyclical Buffer</div>
-        <div class="cb" style="padding:14px;border-radius:8px;font-family:'JetBrains Mono',monospace;font-size:0.75rem;line-height:1.8;overflow-x:auto">
+        <div class="cb auto-style-4180a9">
 <span class="mc">#define</span> <span class="nm">BUFSIZE</span> <span class="nm">8</span>
 
 <span class="kw">typedef struct</span> {
@@ -936,7 +936,7 @@ active_writers++;
     <div>
       <div class="card">
         <div class="card-title">prod-cons.c — Full Program</div>
-        <div class="cb" style="padding:14px;border-radius:8px;font-family:'JetBrains Mono',monospace;font-size:0.75rem;line-height:1.7;overflow-x:auto">
+        <div class="cb auto-style-98b404">
 <span class="tp">pthread_mutex_t</span> mtx;
 <span class="tp">pthread_cond_t</span>  cond_nonempty, cond_nonfull;
 <span class="tp">pool_t</span> pool;
@@ -1013,7 +1013,7 @@ active_writers++;
           <div class="lbl text-red">Definition</div>
           Δύο ή περισσότερα threads προσπελαύνουν τα ίδια δεδομένα ταυτόχρονα, τουλάχιστον ένα γράφει, και <strong>δεν υπάρχει synchronization</strong>.
         </div>
-        <p style="font-size:0.82rem;color:var(--muted)"><strong class="text-primary">Fix:</strong> Mutex γύρω από κάθε shared variable access.</p>
+        <p class="auto-style-2fd4f2"><strong class="text-primary">Fix:</strong> Mutex γύρω από κάθε shared variable access.</p>
       </div>
 
       <div class="card mt-10">
@@ -1022,12 +1022,12 @@ active_writers++;
           <div class="lbl text-red">Definition</div>
           Μια σειρά λειτουργιών που <em>πρέπει</em> να εκτελεστεί ατομικά, αλλά κάποιο thread παρεμβαίνει μεταξύ τους.
         </div>
-        <div class="cb" style="padding:8px;border-radius:6px;font-family:'JetBrains Mono',monospace;font-size:0.75rem;line-height:1.7">
+        <div class="cb auto-style-7bf338">
 <span class="cm">// Thread A: check + use must be atomic!</span>
 <span class="kw">if</span> (ptr != <span class="nm">NULL</span>)   <span class="cm">// ← Thread B sets ptr=NULL here!</span>
     ptr-&gt;field = <span class="nm">42</span>; <span class="cm">// ← CRASH: null dereference</span>
         </div>
-        <p style="font-size:0.82rem;color:var(--muted)"><strong class="text-primary">Fix:</strong> Wrap check-then-act σε ένα mutex.</p>
+        <p class="auto-style-2fd4f2"><strong class="text-primary">Fix:</strong> Wrap check-then-act σε ένα mutex.</p>
       </div>
     </div>
     <div>
@@ -1037,7 +1037,7 @@ active_writers++;
           <div class="lbl text-red">Definition</div>
           Η εκτέλεση πρέπει να ακολουθεί μια <em>λογική σειρά</em> (π.χ. init πριν use), αλλά δεν εξασφαλίζεται.
         </div>
-        <p style="font-size:0.82rem;color:var(--muted)"><strong class="text-primary">Fix:</strong> Condition variables για ordering guarantees.</p>
+        <p class="auto-style-2fd4f2"><strong class="text-primary">Fix:</strong> Condition variables για ordering guarantees.</p>
       </div>
 
       <div class="card mt-10">
@@ -1046,12 +1046,12 @@ active_writers++;
           <div class="lbl text-red">Definition</div>
           Δύο ή περισσότερα threads <em>περιμένουν αμοιβαία</em> — κανένα δεν μπορεί να προχωρήσει. Κλασική κατάσταση: Thread A κρατά Lock 1 και θέλει Lock 2, Thread B κρατά Lock 2 και θέλει Lock 1.
         </div>
-        <div class="thread-diagram" style="text-align:left;font-size:0.78rem;line-height:2">
+        <div class="thread-diagram auto-style-a3b7a3">
 <span class="text-green">Thread A:</span> lock(m1) → ... → lock(m2) <span class="text-red">BLOCKED</span><br>
 <span class="text-yellow">Thread B:</span> lock(m2) → ... → lock(m1) <span class="text-red">BLOCKED</span><br>
-<span style="color:var(--red);font-weight:700">DEADLOCK!</span> Κανένα δεν μπορεί να συνεχίσει.
+<span class="auto-style-b7c7b3">DEADLOCK!</span> Κανένα δεν μπορεί να συνεχίσει.
         </div>
-        <p style="font-size:0.82rem;color:var(--muted);margin-top:8px"><strong class="text-primary">Fix:</strong> Πάντα κλείδωνε τα mutexes με <strong>σταθερή σειρά</strong> (lock ordering). Ή χρησιμοποίησε trylock().</p>
+        <p class="auto-style-1a0979"><strong class="text-primary">Fix:</strong> Πάντα κλείδωνε τα mutexes με <strong>σταθερή σειρά</strong> (lock ordering). Ή χρησιμοποίησε trylock().</p>
       </div>
     </div>
   </div>
@@ -1081,7 +1081,7 @@ active_writers++;
     <div>
       <div class="card">
         <div class="card-title">Coarse vs Fine-Grained Locking</div>
-        <table class="vtbl" style="font-size:0.82rem">
+        <table class="vtbl auto-style-6863e7">
           <thead><tr><th>Aspect</th><th class="text-purple">Coarse</th><th class="text-cyan">Fine</th></tr></thead>
           <tbody>
             <tr><td><strong>Locks</strong></td><td>Ένα lock για όλα</td><td>Πολλά locks (ένα ανά resource)</td></tr>
@@ -1095,10 +1095,10 @@ active_writers++;
 
       <div class="card mt-10">
         <div class="card-title">Why Multi-Threaded Code Is Hard</div>
-        <ul style="font-size:0.82rem;color:var(--muted);padding-left:16px">
-          <li style="margin-bottom:6px"><strong class="text-primary">Locks are global:</strong> Η ιδιότητα "ποιο lock κρατώ" επηρεάζει ολόκληρο το πρόγραμμα — δεν κρύβεται πίσω από interface.</li>
-          <li style="margin-bottom:6px"><strong class="text-primary">No modularity:</strong> Callers πρέπει να ξέρουν τι locks παίρνουν τα callees.</li>
-          <li style="margin-bottom:6px"><strong class="text-primary">Condition variables are non-local:</strong> Πρέπει να ξέρεις ποια CV να σηματοδοτήσεις κάθε φορά.</li>
+        <ul class="auto-style-aa23d4">
+          <li class="auto-style-2937bf"><strong class="text-primary">Locks are global:</strong> Η ιδιότητα "ποιο lock κρατώ" επηρεάζει ολόκληρο το πρόγραμμα — δεν κρύβεται πίσω από interface.</li>
+          <li class="auto-style-2937bf"><strong class="text-primary">No modularity:</strong> Callers πρέπει να ξέρουν τι locks παίρνουν τα callees.</li>
+          <li class="auto-style-2937bf"><strong class="text-primary">Condition variables are non-local:</strong> Πρέπει να ξέρεις ποια CV να σηματοδοτήσεις κάθε φορά.</li>
           <li><strong class="text-primary">No composability:</strong> Δεν μπορείς να φτιάξεις safe services από safe sub-services!</li>
         </ul>
       </div>
@@ -1106,7 +1106,7 @@ active_writers++;
     <div>
       <div class="card">
         <div class="card-title">Account Library — Composability Problem</div>
-        <div class="cb" style="padding:14px;border-radius:8px;font-family:'JetBrains Mono',monospace;font-size:0.75rem;line-height:1.7;overflow-x:auto">
+        <div class="cb auto-style-98b404">
 <span class="kw">typedef struct</span> {
     <span class="kw">int</span> <span class="sf-field">balance</span>;
     <span class="tp">pthread_mutex_t</span> <span class="sf-field">account_mutex</span>;
@@ -1129,7 +1129,7 @@ active_writers++;
           <div class="lbl text-red">Problem 1: Atomicity</div>
           Μεταξύ withdraw και deposit, κάποιος μπορεί να δει ότι χρήματα "εξαφανίστηκαν".
         </div>
-        <div class="cb" style="padding:10px;border-radius:6px;font-family:'JetBrains Mono',monospace;font-size:0.75rem;line-height:1.7;margin-top:8px">
+        <div class="cb auto-style-542e89">
 <span class="cm">// Fix attempt — DEADLOCK RISK!</span>
 <span class="kw">void</span> <span class="fn">atomic_move</span>(<span class="tp">account_type</span> *acc1, <span class="tp">account_type</span> *acc2, <span class="kw">int</span> amt) {
     <span class="fn">lock</span>(acc1-&gt;account_mutex);

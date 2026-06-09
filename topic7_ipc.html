@@ -63,18 +63,18 @@
     <div>
       <div class="card">
         <div class="card-title">Pipe Limitations</div>
-        <ul style="color:var(--muted);font-size:0.85rem;padding-left:16px">
-          <li style="margin-bottom:6px"><strong class="text-red">Unidirectional:</strong> Μονόδρομα — χρειάζεσαι 2 pipes για αμφίδρομη επικοινωνία</li>
-          <li style="margin-bottom:6px"><strong class="text-red">Related processes:</strong> Anonymous pipes λειτουργούν μόνο μεταξύ parent-child</li>
-          <li style="margin-bottom:6px"><strong class="text-red">No message boundaries:</strong> Byte stream — δεν ξέρεις πού τελειώνει ένα μήνυμα</li>
-          <li style="margin-bottom:6px"><strong class="text-red">Process lifetime:</strong> Καταστρέφονται μαζί με τη διεργασία</li>
+        <ul class="auto-style-21f439">
+          <li class="auto-style-2937bf"><strong class="text-red">Unidirectional:</strong> Μονόδρομα — χρειάζεσαι 2 pipes για αμφίδρομη επικοινωνία</li>
+          <li class="auto-style-2937bf"><strong class="text-red">Related processes:</strong> Anonymous pipes λειτουργούν μόνο μεταξύ parent-child</li>
+          <li class="auto-style-2937bf"><strong class="text-red">No message boundaries:</strong> Byte stream — δεν ξέρεις πού τελειώνει ένα μήνυμα</li>
+          <li class="auto-style-2937bf"><strong class="text-red">Process lifetime:</strong> Καταστρέφονται μαζί με τη διεργασία</li>
           <li><strong class="text-red">No priorities:</strong> FIFO μόνο — δεν μπορείς να δώσεις προτεραιότητα</li>
         </ul>
       </div>
 
       <div class="card mt-10">
         <div class="card-title">Three IPC Mechanisms</div>
-        <table class="vtbl" style="font-size:0.82rem">
+        <table class="vtbl auto-style-6863e7">
           <thead><tr><th>Mechanism</th><th>Purpose</th></tr></thead>
           <tbody>
             <tr><td><strong class="text-blue">Message Queues</strong></td><td>Ανταλλαγή δομημένων μηνυμάτων με τύπο/προτεραιότητα</td></tr>
@@ -87,7 +87,7 @@
     <div>
       <div class="card">
         <div class="card-title">System V IPC Characteristics</div>
-        <ul style="color:var(--muted);font-size:0.85rem;padding-left:16px">
+        <ul class="auto-style-21f439">
           <li class="mb-8"><strong class="text-purple">Kernel Lifetime:</strong> Τα IPC objects ζουν στον kernel — δεν καταστρέφονται όταν πεθάνουν οι διεργασίες! Πρέπει να τα σβήσεις ρητά (<code>ipcrm</code>) ή με <code>IPC_RMID</code>.</li>
           <li class="mb-8"><strong class="text-purple">Key-based:</strong> Κάθε IPC object αναγνωρίζεται από ένα <code>key_t</code> — ένα integer key. Οι unrelated processes μπορούν να βρουν τον ίδιο πόρο χρησιμοποιώντας το ίδιο key.</li>
           <li class="mb-8"><strong class="text-purple">No file descriptors:</strong> Δεν χρησιμοποιούν fd — δεν μπαίνουν στον file descriptor table, δεν έχουν inodes.</li>
@@ -124,7 +124,7 @@
     <div>
       <div class="card">
         <div class="card-title">ftok() — Generate Key</div>
-        <div class="cb" style="padding:14px;border-radius:8px;font-family:'JetBrains Mono',monospace;font-size:0.82rem;line-height:1.9;overflow-x:auto">
+        <div class="cb auto-style-1c027c">
 <span class="tp">key_t</span> <span class="fn">ftok</span>(<span class="kw">const char</span> *<span class="sf-field">pathname</span>, <span class="kw">int</span> <span class="sf-field">proj_id</span>);
 <span class="cm">// pathname: πρέπει να υπάρχει (χρησιμοποιεί inode)</span>
 <span class="cm">// proj_id: 8-bit integer (non-zero)</span>
@@ -142,12 +142,12 @@
 
       <div class="card mt-10">
         <div class="card-title">IPC_PRIVATE</div>
-        <div class="cb" style="padding:14px;border-radius:8px;font-family:'JetBrains Mono',monospace;font-size:0.82rem;line-height:1.9">
+        <div class="cb auto-style-ebc108">
 <span class="cm">// Creates a unique key (guaranteed new object)</span>
 <span class="kw">int</span> id = <span class="fn">msgget</span>(<span class="mc">IPC_PRIVATE</span>, <span class="nm">0666</span>);
 <span class="cm">// Only parent + children can access (must pass ID)</span>
         </div>
-        <p style="font-size:0.82rem;color:var(--muted);margin-top:6px">
+        <p class="auto-style-238f58">
           Χρήσιμο όταν <strong>μόνο</strong> parent-child χρειάζονται πρόσβαση. Ο parent δημιουργεί, και τα children κληρονομούν τον ID μέσω fork().
         </p>
       </div>
@@ -155,7 +155,7 @@
     <div>
       <div class="card">
         <div class="card-title">Access Permissions — struct ipc_perm</div>
-        <div class="struct-box" style="font-size:0.78rem;line-height:2">
+        <div class="struct-box auto-style-96b980">
 <span class="kw">struct</span> <span class="tp">ipc_perm</span> {<br>
 &nbsp;&nbsp;<span class="sf-type">uid_t</span>  <span class="sf-field">uid</span>;   <span class="sf-comment">// owner's effective user ID</span><br>
 &nbsp;&nbsp;<span class="sf-type">gid_t</span>  <span class="sf-field">gid</span>;   <span class="sf-comment">// owner's effective group ID</span><br>
@@ -164,14 +164,14 @@
 &nbsp;&nbsp;<span class="sf-type">mode_t</span> <span class="sf-field">mode</span>;  <span class="sf-comment">// permissions (read/write)</span><br>
 };
         </div>
-        <p style="font-size:0.82rem;color:var(--muted);margin-top:8px">
+        <p class="auto-style-1a0979">
           Τα permissions δηλώνονται σαν file permissions: <code>0666</code> = read/write for all. Η <code>IPC_CREAT</code> flag δημιουργεί αν δεν υπάρχει. Η <code>IPC_EXCL</code> + <code>IPC_CREAT</code> = error αν ήδη υπάρχει.
         </p>
       </div>
 
       <div class="wbox mt-10">
         <div class="lbl text-yellow">Common Flags Pattern</div>
-        <div class="cb" style="padding:8px;border-radius:6px;font-family:'JetBrains Mono',monospace;font-size:0.78rem;line-height:1.7;margin-top:8px">
+        <div class="cb auto-style-d77dad">
 <span class="cm">// Create new (or get existing)</span>
 id = <span class="fn">msgget</span>(key, <span class="mc">IPC_CREAT</span> | <span class="nm">0666</span>);
 
@@ -200,7 +200,7 @@ id = <span class="fn">msgget</span>(key, <span class="nm">0</span>);
     <div>
       <div class="card">
         <div class="card-title">msgget() — Create/Get Queue</div>
-        <div class="cb" style="padding:14px;border-radius:8px;font-family:'JetBrains Mono',monospace;font-size:0.82rem;line-height:1.9;overflow-x:auto">
+        <div class="cb auto-style-1c027c">
 <span class="mc">#include</span> <span class="st">&lt;sys/msg.h&gt;</span>
 
 <span class="kw">int</span> <span class="fn">msgget</span>(<span class="tp">key_t</span> <span class="sf-field">key</span>, <span class="kw">int</span> <span class="sf-field">msgflg</span>);
@@ -210,7 +210,7 @@ id = <span class="fn">msgget</span>(key, <span class="nm">0</span>);
 
       <div class="card mt-10">
         <div class="card-title">Message Structure</div>
-        <div class="struct-box" style="font-size:0.82rem;line-height:2">
+        <div class="struct-box auto-style-b10bd9">
 <span class="kw">struct</span> <span class="tp">message</span> {<br>
 &nbsp;&nbsp;<span class="sf-type">long</span> <span class="sf-field">mtype</span>;    <span class="sf-comment">// message type (MUST be > 0)</span><br>
 &nbsp;&nbsp;<span class="sf-type">char</span> <span class="sf-field">mtext</span>[<span class="nm">1</span>]; <span class="sf-comment">// message data (flexible)</span><br>
@@ -224,7 +224,7 @@ id = <span class="fn">msgget</span>(key, <span class="nm">0</span>);
 
       <div class="card mt-10">
         <div class="card-title">msgsnd() — Send Message</div>
-        <div class="cb" style="padding:14px;border-radius:8px;font-family:'JetBrains Mono',monospace;font-size:0.82rem;line-height:1.9;overflow-x:auto">
+        <div class="cb auto-style-1c027c">
 <span class="kw">int</span> <span class="fn">msgsnd</span>(<span class="kw">int</span> <span class="sf-field">msqid</span>,
           <span class="kw">const void</span> *<span class="sf-field">msgp</span>,  <span class="cm">// pointer to message struct</span>
           <span class="tp">size_t</span> <span class="sf-field">msgsz</span>,      <span class="cm">// size of mtext (NOT entire struct!)</span>
@@ -240,7 +240,7 @@ id = <span class="fn">msgget</span>(key, <span class="nm">0</span>);
     <div>
       <div class="card">
         <div class="card-title">msgrcv() — Receive Message</div>
-        <div class="cb" style="padding:14px;border-radius:8px;font-family:'JetBrains Mono',monospace;font-size:0.82rem;line-height:1.9;overflow-x:auto">
+        <div class="cb auto-style-1c027c">
 <span class="tp">ssize_t</span> <span class="fn">msgrcv</span>(<span class="kw">int</span> <span class="sf-field">msqid</span>,
                <span class="kw">void</span> *<span class="sf-field">msgp</span>,     <span class="cm">// output buffer</span>
                <span class="tp">size_t</span> <span class="sf-field">msgsz</span>,   <span class="cm">// max size of mtext</span>
@@ -248,9 +248,9 @@ id = <span class="fn">msgget</span>(key, <span class="nm">0</span>);
                <span class="kw">int</span> <span class="sf-field">msgflg</span>);    <span class="cm">// IPC_NOWAIT or 0</span>
 <span class="cm">// Returns: number of bytes received, or -1</span>
         </div>
-        <div class="card" style="margin-top:8px;background:var(--surf2)">
+        <div class="card auto-style-66f4e1">
           <div class="card-title">msgtyp Values — Selective Receive</div>
-          <table class="vtbl" style="font-size:0.82rem">
+          <table class="vtbl auto-style-6863e7">
             <thead><tr><th>msgtyp</th><th>Behavior</th></tr></thead>
             <tbody>
               <tr><td><code class="text-green">= 0</code></td><td>Πρώτο μήνυμα στην ουρά (FIFO)</td></tr>
@@ -263,7 +263,7 @@ id = <span class="fn">msgget</span>(key, <span class="nm">0</span>);
 
       <div class="card mt-10">
         <div class="card-title">msgctl() — Control Operations</div>
-        <div class="cb" style="padding:14px;border-radius:8px;font-family:'JetBrains Mono',monospace;font-size:0.82rem;line-height:1.9">
+        <div class="cb auto-style-ebc108">
 <span class="kw">int</span> <span class="fn">msgctl</span>(<span class="kw">int</span> <span class="sf-field">msqid</span>, <span class="kw">int</span> <span class="sf-field">cmd</span>, <span class="kw">struct</span> <span class="tp">msqid_ds</span> *<span class="sf-field">buf</span>);
 <span class="cm">// cmd = IPC_STAT : read queue info into buf</span>
 <span class="cm">// cmd = IPC_SET  : modify permissions</span>
@@ -298,7 +298,7 @@ id = <span class="fn">msgget</span>(key, <span class="nm">0</span>);
     <div>
       <div class="card">
         <div class="card-title">Server — Creates Queue &amp; Receives</div>
-        <div class="cb" style="padding:14px;border-radius:8px;font-family:'JetBrains Mono',monospace;font-size:0.75rem;line-height:1.7;overflow-x:auto">
+        <div class="cb auto-style-98b404">
 <span class="mc">#define</span> <span class="nm">MSGKEY</span> <span class="nm">1234</span>
 
 <span class="kw">struct</span> <span class="tp">message</span> {
@@ -324,7 +324,7 @@ id = <span class="fn">msgget</span>(key, <span class="nm">0</span>);
 
       <div class="card mt-10">
         <div class="card-title">Client 1 — Sends type=1 messages</div>
-        <div class="cb" style="padding:14px;border-radius:8px;font-family:'JetBrains Mono',monospace;font-size:0.75rem;line-height:1.7;overflow-x:auto">
+        <div class="cb auto-style-98b404">
 <span class="kw">int</span> <span class="fn">main</span>() {
     <span class="kw">int</span> msqid = <span class="fn">msgget</span>(<span class="nm">MSGKEY</span>, <span class="nm">0</span>); <span class="cm">// get existing</span>
     <span class="kw">struct</span> <span class="tp">message</span> msg;
@@ -339,10 +339,10 @@ id = <span class="fn">msgget</span>(key, <span class="nm">0</span>);
     <div>
       <div class="card">
         <div class="card-title">Priority Queue — Using msgtyp</div>
-        <p style="font-size:0.82rem;color:var(--muted);margin-bottom:8px">
+        <p class="auto-style-f70c40">
           Χρησιμοποιώντας negative msgtyp, μπορούμε να φτιάξουμε priority queue:
         </p>
-        <div class="cb" style="padding:14px;border-radius:8px;font-family:'JetBrains Mono',monospace;font-size:0.75rem;line-height:1.7;overflow-x:auto">
+        <div class="cb auto-style-98b404">
 <span class="cm">// q.h — Shared header</span>
 <span class="mc">#define</span> <span class="nm">MAXOBN</span> <span class="nm">50</span>
 <span class="mc">#define</span> <span class="nm">MAXPRIOR</span> <span class="nm">10</span>
@@ -365,7 +365,7 @@ msg.mtype = priority;  <span class="cm">// lower = higher priority</span>
 
       <div class="card mt-10">
         <div class="card-title">Message Queues vs Pipes</div>
-        <table class="vtbl" style="font-size:0.82rem">
+        <table class="vtbl auto-style-6863e7">
           <thead><tr><th>Feature</th><th class="text-blue">Msg Queue</th><th class="text-green">Pipe</th></tr></thead>
           <tbody>
             <tr><td><strong>Message boundaries</strong></td><td>Yes (typed messages)</td><td>No (byte stream)</td></tr>
@@ -394,7 +394,7 @@ msg.mtype = priority;  <span class="cm">// lower = higher priority</span>
     <div>
       <div class="card">
         <div class="card-title">shmget() — Create/Get Segment</div>
-        <div class="cb" style="padding:14px;border-radius:8px;font-family:'JetBrains Mono',monospace;font-size:0.82rem;line-height:1.9;overflow-x:auto">
+        <div class="cb auto-style-1c027c">
 <span class="mc">#include</span> <span class="st">&lt;sys/shm.h&gt;</span>
 
 <span class="kw">int</span> <span class="fn">shmget</span>(<span class="tp">key_t</span> <span class="sf-field">key</span>,
@@ -406,7 +406,7 @@ msg.mtype = priority;  <span class="cm">// lower = higher priority</span>
 
       <div class="card mt-10">
         <div class="card-title">shmat() — Attach Segment</div>
-        <div class="cb" style="padding:14px;border-radius:8px;font-family:'JetBrains Mono',monospace;font-size:0.82rem;line-height:1.9;overflow-x:auto">
+        <div class="cb auto-style-1c027c">
 <span class="kw">void</span> *<span class="fn">shmat</span>(<span class="kw">int</span> <span class="sf-field">shmid</span>,
             <span class="kw">const void</span> *<span class="sf-field">shmaddr</span>,  <span class="cm">// NULL = kernel picks</span>
             <span class="kw">int</span> <span class="sf-field">shmflg</span>);           <span class="cm">// 0 or SHM_RDONLY</span>
@@ -420,7 +420,7 @@ msg.mtype = priority;  <span class="cm">// lower = higher priority</span>
 
       <div class="card mt-10">
         <div class="card-title">shmdt() — Detach Segment</div>
-        <div class="cb" style="padding:14px;border-radius:8px;font-family:'JetBrains Mono',monospace;font-size:0.82rem;line-height:1.9">
+        <div class="cb auto-style-ebc108">
 <span class="kw">int</span> <span class="fn">shmdt</span>(<span class="kw">const void</span> *<span class="sf-field">shmaddr</span>);
 <span class="cm">// "Αποκολλά" τη shared memory</span>
 <span class="cm">// ΔΕΝ σβήνει τα δεδομένα!</span>
@@ -430,7 +430,7 @@ msg.mtype = priority;  <span class="cm">// lower = higher priority</span>
     <div>
       <div class="card">
         <div class="card-title">shmctl() — Control Operations</div>
-        <div class="cb" style="padding:14px;border-radius:8px;font-family:'JetBrains Mono',monospace;font-size:0.82rem;line-height:1.9">
+        <div class="cb auto-style-ebc108">
 <span class="kw">int</span> <span class="fn">shmctl</span>(<span class="kw">int</span> <span class="sf-field">shmid</span>, <span class="kw">int</span> <span class="sf-field">cmd</span>,
            <span class="kw">struct</span> <span class="tp">shmid_ds</span> *<span class="sf-field">buf</span>);
 <span class="cm">// IPC_STAT : read segment info</span>
@@ -442,7 +442,7 @@ msg.mtype = priority;  <span class="cm">// lower = higher priority</span>
 
       <div class="card mt-10">
         <div class="card-title">struct shmid_ds</div>
-        <div class="struct-box" style="font-size:0.78rem;line-height:2">
+        <div class="struct-box auto-style-96b980">
 <span class="kw">struct</span> <span class="tp">shmid_ds</span> {<br>
 &nbsp;&nbsp;<span class="kw">struct</span> <span class="sf-type">ipc_perm</span> <span class="sf-field">shm_perm</span>;  <span class="sf-comment">// permissions</span><br>
 &nbsp;&nbsp;<span class="sf-type">size_t</span>  <span class="sf-field">shm_segsz</span>;          <span class="sf-comment">// segment size (bytes)</span><br>
@@ -455,57 +455,57 @@ msg.mtype = priority;  <span class="cm">// lower = higher priority</span>
         </div>
       </div>
 
-      <div style="background:var(--surf);border:1px solid var(--border);border-radius:12px;padding:20px 16px;margin:20px 0;box-shadow:0 4px 6px rgba(0,0,0,0.1)">
-        <div style="color:var(--green);font-weight:700;margin-bottom:14px;text-align:center;font-family:'JetBrains Mono',monospace;font-size:0.9rem;text-transform:uppercase">Shared Memory Lifecycle</div>
-        <div style="display:flex;flex-wrap:wrap;align-items:center;justify-content:center;gap:8px;width:100%">
+      <div class="auto-style-11acc9">
+        <div class="auto-style-7d5d92">Shared Memory Lifecycle</div>
+        <div class="auto-style-fe2261">
           <!-- Step 1 -->
-          <div style="background:var(--bg);border:1.5px solid var(--yellow);padding:10px;border-radius:8px;flex:1;min-width:140px;text-align:center;box-shadow:0 4px 6px rgba(0,0,0,0.1)">
-            <div style="color:var(--yellow);font-weight:700;font-size:0.85rem;font-family:'JetBrains Mono',monospace">shmget()</div>
-            <div style="color:var(--muted);font-size:0.7rem;margin-top:4px">Δημιουργία / λήψη ID τμήματος μνήμης</div>
+          <div class="auto-style-4746d3">
+            <div class="auto-style-d2ffd4">shmget()</div>
+            <div class="auto-style-baa163">Δημιουργία / λήψη ID τμήματος μνήμης</div>
           </div>
           
           <!-- Arrow -->
-          <div style="display:flex;flex-direction:column;align-items:center;color:var(--dim);font-size:0.9rem;min-width:20px">
+          <div class="auto-style-afaa74">
             <span>&rarr;</span>
           </div>
 
           <!-- Step 2 -->
-          <div style="background:var(--bg);border:1.5px solid var(--yellow);padding:10px;border-radius:8px;flex:1;min-width:140px;text-align:center;box-shadow:0 4px 6px rgba(0,0,0,0.1)">
-            <div style="color:var(--yellow);font-weight:700;font-size:0.85rem;font-family:'JetBrains Mono',monospace">shmat()</div>
-            <div style="color:var(--muted);font-size:0.7rem;margin-top:4px">Προσάρτηση (attach) στο address space</div>
+          <div class="auto-style-4746d3">
+            <div class="auto-style-d2ffd4">shmat()</div>
+            <div class="auto-style-baa163">Προσάρτηση (attach) στο address space</div>
           </div>
 
           <!-- Arrow -->
-          <div style="display:flex;flex-direction:column;align-items:center;color:var(--dim);font-size:0.9rem;min-width:20px">
+          <div class="auto-style-afaa74">
             <span>&rarr;</span>
           </div>
 
           <!-- Step 3 -->
-          <div style="background:var(--bg);border:1.5px solid var(--cyan);padding:10px;border-radius:8px;flex:1;min-width:140px;text-align:center;box-shadow:0 4px 6px rgba(0,0,0,0.1)">
-            <div style="color:var(--cyan);font-weight:700;font-size:0.85rem">R/W Pointer</div>
-            <div style="color:var(--muted);font-size:0.7rem;margin-top:4px">Ανάγνωση / εγγραφή απευθείας στη μνήμη</div>
+          <div class="auto-style-87259e">
+            <div class="auto-style-78702f">R/W Pointer</div>
+            <div class="auto-style-baa163">Ανάγνωση / εγγραφή απευθείας στη μνήμη</div>
           </div>
 
           <!-- Arrow -->
-          <div style="display:flex;flex-direction:column;align-items:center;color:var(--dim);font-size:0.9rem;min-width:20px">
+          <div class="auto-style-afaa74">
             <span>&rarr;</span>
           </div>
 
           <!-- Step 4 -->
-          <div style="background:var(--bg);border:1.5px solid var(--yellow);padding:10px;border-radius:8px;flex:1;min-width:140px;text-align:center;box-shadow:0 4px 6px rgba(0,0,0,0.1)">
-            <div style="color:var(--yellow);font-weight:700;font-size:0.85rem;font-family:'JetBrains Mono',monospace">shmdt()</div>
-            <div style="color:var(--muted);font-size:0.7rem;margin-top:4px">Αποπροσάρτηση (detach) τμήματος</div>
+          <div class="auto-style-4746d3">
+            <div class="auto-style-d2ffd4">shmdt()</div>
+            <div class="auto-style-baa163">Αποπροσάρτηση (detach) τμήματος</div>
           </div>
 
           <!-- Arrow -->
-          <div style="display:flex;flex-direction:column;align-items:center;color:var(--dim);font-size:0.9rem;min-width:20px">
+          <div class="auto-style-afaa74">
             <span>&rarr;</span>
           </div>
 
           <!-- Step 5 -->
-          <div style="background:var(--bg);border:1.5px solid var(--red);padding:10px;border-radius:8px;flex:1;min-width:140px;text-align:center;box-shadow:0 4px 6px rgba(0,0,0,0.1)">
-            <div style="color:var(--red);font-weight:700;font-size:0.85rem;font-family:'JetBrains Mono',monospace">shmctl(IPC_RMID)</div>
-            <div style="color:var(--muted);font-size:0.7rem;margin-top:4px">Διαγραφή (remove) από τον πυρήνα</div>
+          <div class="auto-style-aeedbf">
+            <div class="auto-style-6faca6">shmctl(IPC_RMID)</div>
+            <div class="auto-style-baa163">Διαγραφή (remove) από τον πυρήνα</div>
           </div>
         </div>
       </div>
@@ -523,7 +523,7 @@ msg.mtype = priority;  <span class="cm">// lower = higher priority</span>
     <div>
       <div class="card">
         <div class="card-title">sharedMem1.c — Create &amp; Attach (IPC_PRIVATE)</div>
-        <div class="cb" style="padding:14px;border-radius:8px;font-family:'JetBrains Mono',monospace;font-size:0.75rem;line-height:1.7;overflow-x:auto">
+        <div class="cb auto-style-98b404">
 <span class="kw">int</span> <span class="fn">main</span>() {
     <span class="kw">int</span> shmid;
     <span class="kw">char</span> *ptr;
@@ -558,7 +558,7 @@ msg.mtype = priority;  <span class="cm">// lower = higher priority</span>
     <div>
       <div class="card">
         <div class="card-title">sharedMem2.c — Attach by ID &amp; Read</div>
-        <div class="cb" style="padding:14px;border-radius:8px;font-family:'JetBrains Mono',monospace;font-size:0.75rem;line-height:1.7;overflow-x:auto">
+        <div class="cb auto-style-98b404">
 <span class="kw">int</span> <span class="fn">main</span>(<span class="kw">int</span> argc, <span class="kw">char</span> *argv[]) {
     <span class="kw">int</span> shmid = <span class="fn">atoi</span>(argv[<span class="nm">1</span>]); <span class="cm">// ID from cmdline</span>
     <span class="kw">char</span> *ptr;
@@ -618,18 +618,18 @@ msg.mtype = priority;  <span class="cm">// lower = higher priority</span>
     <div>
       <div class="card">
         <div class="card-title">UP &amp; DOWN Operations</div>
-        <div class="compare" style="margin:12px 0">
-          <div style="background:var(--gdim);border:1px solid rgba(63,185,80,.2);border-radius:8px;padding:16px">
-            <div class="side-label" style="color:var(--green);font-weight:700;font-size:0.85rem;font-family:'JetBrains Mono',monospace">UP (V / signal)</div>
-            <div class="cb" style="margin:8px 0;padding:10px;font-size:0.8rem;line-height:1.6">
+        <div class="compare auto-style-6a11a0">
+          <div class="auto-style-ca10e1">
+            <div class="side-label auto-style-573306">UP (V / signal)</div>
+            <div class="cb auto-style-5c72cb">
 semaphore_value++;
 <span class="cm">// Αν κάποιος περιμένει:</span>
 <span class="cm">// ξύπνησέ τον (wake up)</span>
             </div>
           </div>
-          <div style="background:var(--rdim);border:1px solid rgba(248,81,73,.2);border-radius:8px;padding:16px">
-            <div class="side-label" style="color:var(--red);font-weight:700;font-size:0.85rem;font-family:'JetBrains Mono',monospace">DOWN (P / wait)</div>
-            <div class="cb" style="margin:8px 0;padding:10px;font-size:0.8rem;line-height:1.6">
+          <div class="auto-style-a4b686">
+            <div class="side-label auto-style-6faca6">DOWN (P / wait)</div>
+            <div class="cb auto-style-5c72cb">
 <span class="kw">if</span> (semaphore_value &gt; <span class="nm">0</span>) {
     semaphore_value--;
 } <span class="kw">else</span> {
@@ -650,7 +650,7 @@ semaphore_value++;
     <div>
       <div class="card">
         <div class="card-title">Semaphore Properties</div>
-        <ul style="color:var(--muted);font-size:0.85rem;padding-left:16px">
+        <ul class="auto-style-21f439">
           <li class="mb-8"><strong class="text-orange">Advisory:</strong> Δεν εμποδίζουν φυσικά την πρόσβαση. Οι διεργασίες πρέπει να συνεργάζονται (σαν τα traffic lights — δεν σταματούν αυτοκίνητα φυσικά).</li>
           <li class="mb-8"><strong class="text-orange">Atomic:</strong> Οι UP/DOWN πράξεις εκτελούνται ατομικά από τον kernel.</li>
           <li class="mb-8"><strong class="text-orange">Binary semaphore (0/1):</strong> Ισοδύναμο με mutex — mutual exclusion.</li>
@@ -661,13 +661,13 @@ semaphore_value++;
 
       <div class="card mt-10">
         <div class="card-title">Mutual Exclusion with Semaphore (init=1)</div>
-        <div class="cb" style="padding:10px;border-radius:6px;font-family:'JetBrains Mono',monospace;font-size:0.78rem;line-height:1.7">
+        <div class="cb auto-style-a00bca">
 <span class="cm">// semaphore S initialized to 1</span>
 <span class="fn">DOWN</span>(S);  <span class="cm">// S: 1→0 (enter critical section)</span>
 <span class="cm">/* critical section */</span>
 <span class="fn">UP</span>(S);    <span class="cm">// S: 0→1 (leave critical section)</span>
         </div>
-        <p style="font-size:0.82rem;color:var(--muted);margin-top:6px">
+        <p class="auto-style-238f58">
           Αν ένα δεύτερο process κάνει DOWN ενώ S=0, θα μπλοκάρει μέχρι το πρώτο κάνει UP.
         </p>
       </div>
@@ -689,7 +689,7 @@ semaphore_value++;
     <div>
       <div class="card">
         <div class="card-title">semget() — Create/Get Semaphore Set</div>
-        <div class="cb" style="padding:14px;border-radius:8px;font-family:'JetBrains Mono',monospace;font-size:0.82rem;line-height:1.9;overflow-x:auto">
+        <div class="cb auto-style-1c027c">
 <span class="mc">#include</span> <span class="st">&lt;sys/sem.h&gt;</span>
 
 <span class="kw">int</span> <span class="fn">semget</span>(<span class="tp">key_t</span> <span class="sf-field">key</span>,
@@ -697,19 +697,19 @@ semaphore_value++;
            <span class="kw">int</span> <span class="sf-field">semflg</span>);  <span class="cm">// IPC_CREAT | perms</span>
 <span class="cm">// Returns: semaphore set ID or -1</span>
         </div>
-        <p style="font-size:0.82rem;color:var(--muted);margin-top:8px">
+        <p class="auto-style-1a0979">
           Π.χ. <code>semget(key, 3, IPC_CREAT|0666)</code> δημιουργεί ένα set με <strong>3 semaphores</strong> (αριθμημένοι 0, 1, 2).
         </p>
       </div>
 
       <div class="card mt-10">
         <div class="card-title">semop() — Semaphore Operations</div>
-        <div class="cb" style="padding:14px;border-radius:8px;font-family:'JetBrains Mono',monospace;font-size:0.82rem;line-height:1.9;overflow-x:auto">
+        <div class="cb auto-style-1c027c">
 <span class="kw">int</span> <span class="fn">semop</span>(<span class="kw">int</span> <span class="sf-field">semid</span>,
           <span class="kw">struct</span> <span class="tp">sembuf</span> *<span class="sf-field">sops</span>,  <span class="cm">// array of operations</span>
           <span class="tp">size_t</span> <span class="sf-field">nsops</span>);         <span class="cm">// # operations</span>
         </div>
-        <div class="struct-box" style="margin-top:8px;font-size:0.78rem;line-height:2">
+        <div class="struct-box auto-style-7b4496">
 <span class="kw">struct</span> <span class="tp">sembuf</span> {<br>
 &nbsp;&nbsp;<span class="sf-type">unsigned short</span> <span class="sf-field">sem_num</span>; <span class="sf-comment">// which semaphore (index)</span><br>
 &nbsp;&nbsp;<span class="sf-type">short</span> <span class="sf-field">sem_op</span>;           <span class="sf-comment">// operation value</span><br>
@@ -720,7 +720,7 @@ semaphore_value++;
 
       <div class="card mt-10">
         <div class="card-title">sem_op Values</div>
-        <table class="vtbl" style="font-size:0.82rem">
+        <table class="vtbl auto-style-6863e7">
           <thead><tr><th>sem_op</th><th>Action</th></tr></thead>
           <tbody>
             <tr><td><code class="text-green">&gt; 0</code></td><td><strong>UP:</strong> Add sem_op to semval (release resources)</td></tr>
@@ -733,25 +733,25 @@ semaphore_value++;
     <div>
       <div class="card">
         <div class="card-title">semctl() — Control Operations</div>
-        <div class="cb" style="padding:14px;border-radius:8px;font-family:'JetBrains Mono',monospace;font-size:0.82rem;line-height:1.9;overflow-x:auto">
+        <div class="cb auto-style-1c027c">
 <span class="kw">int</span> <span class="fn">semctl</span>(<span class="kw">int</span> <span class="sf-field">semid</span>, <span class="kw">int</span> <span class="sf-field">semnum</span>,
            <span class="kw">int</span> <span class="sf-field">cmd</span>, ... <span class="cm">/* union semun arg */</span>);
         </div>
-        <div class="struct-box" style="margin-top:8px;font-size:0.78rem;line-height:2">
+        <div class="struct-box auto-style-7b4496">
 <span class="kw">union</span> <span class="tp">semun</span> {  <span class="sf-comment">// Must define yourself!</span><br>
 &nbsp;&nbsp;<span class="sf-type">int</span>              <span class="sf-field">val</span>;    <span class="sf-comment">// for SETVAL</span><br>
 &nbsp;&nbsp;<span class="kw">struct</span> <span class="sf-type">semid_ds</span> *<span class="sf-field">buf</span>;    <span class="sf-comment">// for IPC_STAT/IPC_SET</span><br>
 &nbsp;&nbsp;<span class="sf-type">unsigned short</span>  *<span class="sf-field">array</span>;  <span class="sf-comment">// for GETALL/SETALL</span><br>
 };
         </div>
-        <p style="font-size:0.82rem;color:var(--muted);margin-top:8px">
+        <p class="auto-style-1a0979">
           <strong>Commands:</strong> <code>SETVAL</code> (set value), <code>GETVAL</code> (get value), <code>SETALL</code> (set all), <code>GETALL</code> (get all), <code>IPC_RMID</code> (delete), <code>IPC_STAT</code> (read info).
         </p>
       </div>
 
       <div class="card mt-10">
         <div class="card-title">Helper Functions Pattern</div>
-        <div class="cb" style="padding:14px;border-radius:8px;font-family:'JetBrains Mono',monospace;font-size:0.75rem;line-height:1.7;overflow-x:auto">
+        <div class="cb auto-style-98b404">
 <span class="kw">void</span> <span class="fn">sem_P</span>(<span class="kw">int</span> semid, <span class="kw">int</span> sem_num) {  <span class="cm">// DOWN</span>
     <span class="kw">struct</span> <span class="tp">sembuf</span> sb;
     sb.sem_num = sem_num;
@@ -799,7 +799,7 @@ semaphore_value++;
     <div>
       <div class="card">
         <div class="card-title">Server + SHM + Semaphore</div>
-        <div class="cb" style="padding:14px;border-radius:8px;font-family:'JetBrains Mono',monospace;font-size:0.75rem;line-height:1.7;overflow-x:auto">
+        <div class="cb auto-style-98b404">
 <span class="mc">#define</span> <span class="nm">SHMKEY</span>  <span class="nm">1000</span>
 <span class="mc">#define</span> <span class="nm">SEMKEY</span>  <span class="nm">2000</span>
 
@@ -830,7 +830,7 @@ semaphore_value++;
 
       <div class="card mt-10">
         <div class="card-title">Client — Wait then Read</div>
-        <div class="cb" style="padding:14px;border-radius:8px;font-family:'JetBrains Mono',monospace;font-size:0.75rem;line-height:1.7;overflow-x:auto">
+        <div class="cb auto-style-98b404">
 <span class="kw">int</span> <span class="fn">main</span>() {
     <span class="kw">int</span> shmid = <span class="fn">shmget</span>(<span class="nm">SHMKEY</span>, <span class="nm">0</span>, <span class="nm">0</span>);
     <span class="kw">char</span> *ptr = (<span class="kw">char</span> *)<span class="fn">shmat</span>(shmid, <span class="nm">NULL</span>, <span class="nm">0</span>);
@@ -855,7 +855,7 @@ semaphore_value++;
     <div>
       <div class="card">
         <div class="card-title">Fork + SHM + Semaphore Counter</div>
-        <div class="cb" style="padding:14px;border-radius:8px;font-family:'JetBrains Mono',monospace;font-size:0.75rem;line-height:1.7;overflow-x:auto">
+        <div class="cb auto-style-98b404">
 <span class="kw">int</span> <span class="fn">main</span>() {
     <span class="cm">// Shared counter via shared memory</span>
     <span class="kw">int</span> shmid = <span class="fn">shmget</span>(<span class="mc">IPC_PRIVATE</span>, <span class="kw">sizeof</span>(<span class="kw">int</span>),
@@ -915,7 +915,7 @@ semaphore_value++;
     <div>
       <div class="card">
         <div class="card-title">Deadlock with Semaphores</div>
-        <div class="cb" style="padding:10px;border-radius:6px;font-family:'JetBrains Mono',monospace;font-size:0.78rem;line-height:1.7">
+        <div class="cb auto-style-a00bca">
 <span class="cm">// Process A          // Process B</span>
 <span class="fn">DOWN</span>(S1);             <span class="fn">DOWN</span>(S2);
   ...                   ...
@@ -923,14 +923,14 @@ semaphore_value++;
 <span class="cm">// DEADLOCK: A waits for S2 (held by B)</span>
 <span class="cm">//           B waits for S1 (held by A)</span>
         </div>
-        <p style="font-size:0.82rem;color:var(--muted);margin-top:8px">
+        <p class="auto-style-1a0979">
           <strong class="text-primary">Prevention:</strong> Πάντα acquire semaphores με <strong>σταθερή σειρά</strong> (total ordering). Αν S1 &lt; S2 σε αρίθμηση, πάντα DOWN(S1) πριν DOWN(S2).
         </p>
       </div>
 
       <div class="card mt-10">
         <div class="card-title">Starvation</div>
-        <p style="font-size:0.82rem;color:var(--muted)">
+        <p class="auto-style-2fd4f2">
           Μια διεργασία <strong class="text-yellow">δεν παίρνει ποτέ</strong> πρόσβαση στον πόρο, ενώ άλλες τρέχουν κανονικά. Συμβαίνει αν ο scheduler ή ο αλγόριθμος δεν είναι δίκαιος (fair). Π.χ. σε Readers/Writers, αν συνεχώς έρχονται νέοι readers, ο writer δεν θα γράψει ποτέ!
         </p>
       </div>
@@ -938,7 +938,7 @@ semaphore_value++;
     <div>
       <div class="card">
         <div class="card-title">Mutual Exclusion Guarantee</div>
-        <div class="cb" style="padding:10px;border-radius:6px;font-family:'JetBrains Mono',monospace;font-size:0.78rem;line-height:1.7">
+        <div class="cb auto-style-a00bca">
 <span class="cm">// Binary semaphore (init=1) guarantees:</span>
 <span class="cm">// At most ONE process in critical section</span>
 
@@ -986,7 +986,7 @@ semaphore_value++;
     <div>
       <div class="card">
         <div class="card-title">struct flock</div>
-        <div class="struct-box" style="font-size:0.82rem;line-height:2">
+        <div class="struct-box auto-style-b10bd9">
 <span class="kw">struct</span> <span class="tp">flock</span> {<br>
 &nbsp;&nbsp;<span class="sf-type">short</span>  <span class="sf-field">l_type</span>;   <span class="sf-comment">// F_RDLCK, F_WRLCK, F_UNLCK</span><br>
 &nbsp;&nbsp;<span class="sf-type">short</span>  <span class="sf-field">l_whence</span>; <span class="sf-comment">// SEEK_SET, SEEK_CUR, SEEK_END</span><br>
@@ -999,7 +999,7 @@ semaphore_value++;
 
       <div class="card mt-10">
         <div class="card-title">fcntl() Commands for Locking</div>
-        <table class="vtbl" style="font-size:0.82rem">
+        <table class="vtbl auto-style-6863e7">
           <thead><tr><th>Command</th><th>Behavior</th></tr></thead>
           <tbody>
             <tr><td><code class="text-blue">F_GETLK</code></td><td>Test if lock is possible. Fills in <code>l_pid</code> of blocker. Δεν κλειδώνει!</td></tr>
@@ -1011,7 +1011,7 @@ semaphore_value++;
 
       <div class="card mt-10">
         <div class="card-title">Lock Types</div>
-        <table class="vtbl" style="font-size:0.82rem">
+        <table class="vtbl auto-style-6863e7">
           <thead><tr><th>Type</th><th>Compatibility</th></tr></thead>
           <tbody>
             <tr><td><code class="text-blue">F_RDLCK</code></td><td>Read lock. <strong>Multiple</strong> readers OK simultaneously.</td></tr>
@@ -1024,7 +1024,7 @@ semaphore_value++;
     <div>
       <div class="card">
         <div class="card-title">Usage Pattern</div>
-        <div class="cb" style="padding:14px;border-radius:8px;font-family:'JetBrains Mono',monospace;font-size:0.78rem;line-height:1.8;overflow-x:auto">
+        <div class="cb auto-style-f73641">
 <span class="mc">#include</span> <span class="st">&lt;fcntl.h&gt;</span>
 
 <span class="kw">struct</span> <span class="tp">flock</span> my_lock;
@@ -1067,7 +1067,7 @@ my_lock.l_type = <span class="mc">F_UNLCK</span>;
           <div class="tip-title">Exam Tip — Advisory vs Mandatory Locking</div>
           <div class="tip-text">
             Μια κρίσιμη ερώτηση θεωρίας είναι η διάκριση των τύπων κλειδώματος:
-            <ul style="margin-top:4px;padding-left:1.5rem">
+            <ul class="auto-style-d87f7c">
               <li><strong>Advisory Locking (Συμβουλευτικό - default):</strong> Ο kernel καταγράφει ποια αρχεία/τμήματα είναι κλειδωμένα, αλλά <em>δεν εμποδίζει</em> μια άλλη διεργασία να κάνει <code>read()</code> ή <code>write()</code> απευθείας στο αρχείο αν αυτή δεν χρησιμοποιεί την <code>fcntl()</code>. Όλες οι διεργασίες πρέπει να συνεργάζονται οικειοθελώς (coordinate voluntarily) χρησιμοποιώντας <code>fcntl()</code> πριν την πρόσβαση.</li>
               <li><strong>Mandatory Locking (Υποχρεωτικό):</strong> Ο ίδιος ο kernel ελέγχει κάθε <code>read()</code> και <code>write()</code> syscall. Αν μια διεργασία προσπαθήσει να γράψει σε περιοχή που έχει write-locked κάποια άλλη, ο kernel θα την μπλοκάρει, ακόμα κι αν δεν χρησιμοποίησε την <code>fcntl()</code>. Απαιτεί ειδικό mount option και permissions στο αρχείο (set-group-ID bit active, group execute bit inactive).</li>
             </ul>
@@ -1088,7 +1088,7 @@ my_lock.l_type = <span class="mc">F_UNLCK</span>;
     <div>
       <div class="card">
         <div class="card-title">lockit.c — Parent-Child Lock Example</div>
-        <div class="cb" style="padding:14px;border-radius:8px;font-family:'JetBrains Mono',monospace;font-size:0.75rem;line-height:1.7;overflow-x:auto">
+        <div class="cb auto-style-98b404">
 <span class="kw">struct</span> <span class="tp">flock</span> my_lock;
 my_lock.l_type   = <span class="mc">F_WRLCK</span>;
 my_lock.l_whence = <span class="mc">SEEK_SET</span>;
@@ -1119,7 +1119,7 @@ my_lock.l_len    = <span class="nm">10</span>;
         </div>
         <div class="ibox mt-8">
           <div class="lbl text-blue">Execution Output</div>
-          <div style="font-family:'JetBrains Mono',monospace;font-size:0.78rem;color:var(--muted);line-height:1.8">
+          <div class="auto-style-24428d">
             parent: locked record<br>
             child: trying to lock file<br>
             parent: just about unlocking now<br>
@@ -1134,7 +1134,7 @@ my_lock.l_len    = <span class="nm">10</span>;
     <div>
       <div class="card">
         <div class="card-title">Deadlock with File Locks</div>
-        <div class="cb" style="padding:14px;border-radius:8px;font-family:'JetBrains Mono',monospace;font-size:0.75rem;line-height:1.7;overflow-x:auto">
+        <div class="cb auto-style-98b404">
 <span class="cm">// Parent locks bytes 0-9 (first_lock)</span>
 <span class="cm">// Child locks bytes 10-14 (second_lock)</span>
 <span class="cm">// Then...</span>
