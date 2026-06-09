@@ -2,6 +2,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&family=JetBrains+Mono:wght@400;600&display=swap');
 
 :root {
+    --hero-bg: linear-gradient(150deg, #0d1117 0%, #0d2218 55%, #0d1117 100%);
     --transition: 0.2s cubic-bezier(0.4, 0, 0.2, 1);
     --shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
     --radius: 12px;
@@ -146,6 +147,7 @@ h4 {
     position: relative;
     overflow: hidden;
     border-bottom: 1px solid var(--border);
+    background: var(--hero-bg);
 }
 
 .hero-label,
@@ -977,6 +979,7 @@ body, header, footer, section, div, p, span, a, button, circle, rect, line, path
 
 /* Light Mode Variables Overrides with high specificity */
 html[data-theme="light"] {
+    --hero-bg: linear-gradient(150deg, #f8fafc 0%, #e2e8f0 100%);
     --bg: #f8fafc;
     --bg-rgb: 248, 250, 252;
     --surf: #ffffff;
@@ -1246,5 +1249,4 @@ html[data-theme="light"] .tree-text.root-t {
         padding: 10px 20px;
     }
 }
-html[data-theme='light'] .hero { background: #ffffff !important; border-bottom: 1px solid var(--border); }
 html[data-theme='light'] .hero h1, html[data-theme='light'] .hero p { color: var(--txt); text-shadow: none; }
