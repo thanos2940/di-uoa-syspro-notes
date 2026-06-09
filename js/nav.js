@@ -1,3 +1,6 @@
+// Immediately set theme to avoid visual flashing
+document.documentElement.setAttribute('data-theme', localStorage.getItem('theme') || 'dark');
+
 /**
  * nav.js - Modular Navigation for WebNotes
  */
@@ -19,15 +22,15 @@ function initNav() {
     if (!navContainer) return;
 
     const currentPath = window.location.pathname.split('/').pop() || 'index.html';
-    
+
     const logo = document.createElement('a');
     logo.href = 'index.html';
     logo.className = 'nav-logo';
     logo.innerHTML = `<span>⚡</span> System Programming`;
-    
+
     const linksContainer = document.createElement('div');
     linksContainer.className = 'nav-links';
-    
+
     topics.forEach(topic => {
         const link = document.createElement('a');
         link.href = topic.path;
@@ -39,12 +42,31 @@ function initNav() {
         link.innerHTML = `<span>${topic.icon}</span> ${topic.title}`;
         linksContainer.appendChild(link);
     });
-    
+
     const navWrapper = document.createElement('div');
     navWrapper.className = 'nav-wrapper';
     navWrapper.appendChild(logo);
-    navWrapper.appendChild(linksContainer);
+
+    const overlay = document.createElement('div');
+    overlay.className = 'sidebar-overlay';
+    document.body.appendChild(overlay);
+
+    const hamburger = document.createElement('button');
+    hamburger.className = 'hamburger-btn';
+    hamburger.innerHTML = '☰';
+    hamburger.setAttribute('aria-label', 'Toggle Menu');
     
+    const toggleMenu = () => {
+        linksContainer.classList.toggle('show');
+        overlay.classList.toggle('show');
+    };
+
+    hamburger.addEventListener('click', toggleMenu);
+    overlay.addEventListener('click', toggleMenu);
+    navWrapper.appendChild(hamburger);
+
+    navWrapper.appendChild(linksContainer);
+
     navContainer.appendChild(navWrapper);
 }
 
@@ -63,7 +85,30 @@ function initSearch() {
     });
 }
 
+function initTheme() {
+    const currentTheme = localStorage.getItem('theme') || 'dark';
+    const linksContainer = document.querySelector('.nav-links');
+    if (!linksContainer) return;
+
+    const toggleBtn = document.createElement('button');
+    toggleBtn.className = 'theme-toggle';
+    toggleBtn.setAttribute('aria-label', 'Toggle Theme');
+    toggleBtn.innerHTML = currentTheme === 'light' ? '🌙' : '☀️';
+
+    toggleBtn.addEventListener('click', () => {
+        const activeTheme = document.documentElement.getAttribute('data-theme');
+        const newTheme = activeTheme === 'light' ? 'dark' : 'light';
+        
+        document.documentElement.setAttribute('data-theme', newTheme);
+        localStorage.setItem('theme', newTheme);
+        toggleBtn.innerHTML = newTheme === 'light' ? '🌙' : '☀️';
+    });
+
+    linksContainer.appendChild(toggleBtn);
+}
+
 document.addEventListener('DOMContentLoaded', () => {
     initNav();
+    initTheme();
     initSearch();
 });

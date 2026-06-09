@@ -75,18 +75,49 @@
         </ul>
       </div>
 
-      <div class="thread-diagram">
-        <div style="color:var(--green);font-weight:700;margin-bottom:8px">── Process Address Space ──</div>
-        <div style="color:var(--muted);font-size:0.85rem">
-          ┌──────────────────────────────┐<br>
-          │ <span style="color:var(--cyan)">Code (Text)</span> &nbsp;&nbsp; <span class="cm">← shared</span> │<br>
-          │ <span style="color:var(--cyan)">Global Data</span> &nbsp; <span class="cm">← shared</span> │<br>
-          │ <span style="color:var(--cyan)">Heap (malloc)</span> <span class="cm">← shared</span> │<br>
-          │ <span style="color:var(--cyan)">Open FDs</span> &nbsp;&nbsp;&nbsp;&nbsp; <span class="cm">← shared</span> │<br>
-          ├──────────────────────────────┤<br>
-          │ <span style="color:var(--green)">Stack T1</span> │ <span style="color:var(--yellow)">Stack T2</span> │ <span style="color:var(--orange)">Stack T3</span> │<br>
-          │ <span style="color:var(--green)">PC, Regs</span>│ <span style="color:var(--yellow)">PC, Regs</span>│ <span style="color:var(--orange)">PC, Regs</span>│<br>
-          └──────────────────────────────┘
+      <div style="background:var(--surf);border:1px solid var(--border);border-radius:12px;padding:20px;margin:16px 0;box-shadow:0 4px 6px rgba(0,0,0,0.1)">
+        <div style="color:var(--green);font-weight:700;margin-bottom:12px;font-family:'JetBrains Mono',monospace;font-size:0.9rem;text-transform:uppercase">Process Address Space</div>
+        <div style="display:flex;flex-direction:column;gap:12px">
+          
+          <!-- Shared Segment -->
+          <div style="background:var(--bg);border:1.5px solid var(--blue);border-radius:8px;padding:12px">
+            <div style="color:var(--blue);font-size:0.75rem;font-family:'JetBrains Mono',monospace;font-weight:700;margin-bottom:8px;text-transform:uppercase">Shared Address Space (Κοινόχρηστο)</div>
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;font-family:'JetBrains Mono',monospace;font-size:0.8rem">
+              <div style="background:var(--surf);padding:6px 10px;border-radius:4px;border-left:3px solid var(--cyan)">Code (Text)</div>
+              <div style="background:var(--surf);padding:6px 10px;border-radius:4px;border-left:3px solid var(--cyan)">Global Data</div>
+              <div style="background:var(--surf);padding:6px 10px;border-radius:4px;border-left:3px solid var(--cyan)">Heap (malloc)</div>
+              <div style="background:var(--surf);padding:6px 10px;border-radius:4px;border-left:3px solid var(--cyan)">Open File Descriptors</div>
+            </div>
+          </div>
+          
+          <!-- Threads Private Segment -->
+          <div style="display:flex;gap:10px;width:100%">
+            <!-- Thread 1 -->
+            <div style="flex:1;background:var(--bg);border:1.5px solid var(--green);border-radius:8px;padding:10px;text-align:center">
+              <div style="color:var(--green);font-size:0.75rem;font-family:'JetBrains Mono',monospace;font-weight:700;margin-bottom:6px">Thread 1</div>
+              <div style="font-family:'JetBrains Mono',monospace;font-size:0.7rem;color:var(--muted);display:flex;flex-direction:column;gap:4px">
+                <div style="background:var(--surf);padding:4px;border-radius:2px">Stack T1</div>
+                <div style="background:var(--surf);padding:4px;border-radius:2px">PC & Regs</div>
+              </div>
+            </div>
+            <!-- Thread 2 -->
+            <div style="flex:1;background:var(--bg);border:1.5px solid var(--yellow);border-radius:8px;padding:10px;text-align:center">
+              <div style="color:var(--yellow);font-size:0.75rem;font-family:'JetBrains Mono',monospace;font-weight:700;margin-bottom:6px">Thread 2</div>
+              <div style="font-family:'JetBrains Mono',monospace;font-size:0.7rem;color:var(--muted);display:flex;flex-direction:column;gap:4px">
+                <div style="background:var(--surf);padding:4px;border-radius:2px">Stack T2</div>
+                <div style="background:var(--surf);padding:4px;border-radius:2px">PC & Regs</div>
+              </div>
+            </div>
+            <!-- Thread 3 -->
+            <div style="flex:1;background:var(--bg);border:1.5px solid var(--orange);border-radius:8px;padding:10px;text-align:center">
+              <div style="color:var(--orange);font-size:0.75rem;font-family:'JetBrains Mono',monospace;font-weight:700;margin-bottom:6px">Thread 3</div>
+              <div style="font-family:'JetBrains Mono',monospace;font-size:0.7rem;color:var(--muted);display:flex;flex-direction:column;gap:4px">
+                <div style="background:var(--surf);padding:4px;border-radius:2px">Stack T3</div>
+                <div style="background:var(--surf);padding:4px;border-radius:2px">PC & Regs</div>
+              </div>
+            </div>
+          </div>
+
         </div>
       </div>
     </div>
@@ -419,6 +450,21 @@ err = <span class="fn">pthread_create</span>(&amp;tid, <span class="nm">NULL</sp
           </ul>
         </div>
       </div>
+      <div class="tip" style="margin-top:10px">
+        <div class="tip-icon">🧠</div>
+        <div>
+          <div class="tip-title">Exam Tip — Thread Return Memory Safety</div>
+          <div class="tip-text">
+            Μην επιστρέφεις <strong>ποτέ</strong> δείκτη σε τοπική (automatic) μεταβλητή από ένα thread. Όταν το thread τερματίζει, το stack frame του καταστρέφεται και η μνήμη αποδεσμεύεται. Ο δείκτης γίνεται <strong>dangling pointer</strong>, και οποιαδήποτε προσπάθεια πρόσβασης σε αυτόν από το thread-caller (μέσω <code>pthread_join</code>) θα οδηγήσει σε garbage values ή Segmentation Fault.<br>
+            <strong>Ασφαλείς τρόποι επιστροφής:</strong>
+            <ul style="margin-top:4px;padding-left:1.5rem">
+              <li>Δέσμευση στο heap μέσω <code>malloc()</code> (ο caller αναλαμβάνει το <code>free()</code>).</li>
+              <li>Χρήση static ή global μεταβλητών (με προσοχή στο synchronization).</li>
+              <li>Casting της ίδιας της τιμής σε <code>void*</code> (αν χωράει, π.χ. <code>pthread_exit((void*)(intptr_t)x)</code>) χωρίς pointer reference.</li>
+            </ul>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 
@@ -709,6 +755,20 @@ count++;
         <p style="font-size:0.82rem;color:var(--muted);margin-top:8px">
           <strong style="color:var(--txt)">Γιατί;</strong> Ένα thread μπορεί να ξυπνήσει χωρίς λόγο (<em>spurious wakeup</em>) — είτε από τον scheduler, είτε γιατί κάποιο άλλο thread "έφαγε" τη συνθήκη μεταξύ signal και re-lock. Με <code>while</code>, ξαναελέγχεις τη συνθήκη μετά το wakeup.
         </p>
+      </div>
+
+      <div class="tip" style="margin-top:10px">
+        <div class="tip-icon">🧠</div>
+        <div>
+          <div class="tip-title">Exam Tip — Spurious Wakeups &amp; Condition Variables</div>
+          <div class="tip-text">
+            Η χρήση της <code>while</code> γύρω από την <code>pthread_cond_wait()</code> είναι <strong>υποχρεωτική</strong> για δύο λόγους:
+            <ul style="margin-top:4px;padding-left:1.5rem">
+              <li><strong>Spurious Wakeup:</strong> Ο scheduler του λειτουργικού συστήματος μπορεί να ξυπνήσει ένα μπλοκαρισμένο thread χωρίς να έχει σταλεί signal (συμβαίνει για λόγους απόδοσης και χαμηλού επιπέδου αρχιτεκτονικής).</li>
+              <li><strong>Mesa/Lampson Semantics:</strong> Όταν ένα thread λαμβάνει signal και ξυπνάει, <em>δεν εκτελείται αμέσως</em>. Πρέπει πρώτα να ξανα-αποκτήσει το mutex. Στο ενδιάμεσο διάστημα, ένα άλλο thread μπορεί να μπει, να αποκτήσει το mutex, να καταναλώσει τον πόρο (ready = false) και να βγει. Αν είχαμε <code>if</code>, το ξυπνημένο thread θα συνέχιζε τυφλά και θα προσπελαύανε μη έγκυρο state.</li>
+            </ul>
+          </div>
+        </div>
       </div>
 
       <div class="card" style="margin-top:10px">

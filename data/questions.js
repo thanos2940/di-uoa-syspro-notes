@@ -74,12 +74,12 @@ window.quizData = {
                         {
                             "text": "Section 1: System calls, Section 2: Αρχεία ρυθμίσεων, Section 3: Παιχνίδια.",
                             "correct": false,
-                            "explanation": ""
+                            "explanation": "Τα system calls ανήκουν στο Section 2 και τα αρχεία ρυθμίσεων στο Section 5, όχι στα 1 και 2."
                         },
                         {
                             "text": "Section 1: Library calls, Section 2: Δίκτυο, Section 3: System calls.",
                             "correct": false,
-                            "explanation": ""
+                            "explanation": "Τα library calls ανήκουν στο Section 3 και τα system calls στο Section 2."
                         }
                     ]
                 },
@@ -2577,7 +2577,7 @@ window.quizData = {
                     "q": "Τι είναι τα 'Well-known ports' (0-1023);",
                     "options": [
                         {"text": "Θύρες δεσμευμένες για γνωστές υπηρεσίες (π.χ. 80 για HTTP) που απαιτούν δικαιώματα root για να κάνεις bind().", "correct": true, "explanation": "Αυστηρός κανόνας του Unix/Linux για ασφάλεια."},
-                        {"text": "Προσωρινές θύρες που δίνει αυτόματα το λειτουργικό στους clients.", "correct": false, "explanation": ""},
+                        {"text": "Προσωρινές θύρες που δίνει αυτόματα το λειτουργικό στους clients.", "correct": false, "explanation": "Αυτές οι θύρες ονομάζονται ephemeral ports (συνήθως στο range 49152–65535)."},
                         {"text": "Θύρες που χρησιμοποιούνται αποκλειστικά για UDP.", "correct": false, "explanation": "Υπάρχουν well-known ports και για TCP και για UDP."}
                     ]
                 },

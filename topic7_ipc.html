@@ -453,18 +453,58 @@ msg.mtype = priority;  <span class="cm">// lower = higher priority</span>
         </div>
       </div>
 
-      <div class="ipc-diagram" style="margin-top:10px">
-        <div style="color:var(--green);font-weight:700;margin-bottom:6px">── Shared Memory Lifecycle ──</div>
-        <div style="font-size:0.82rem;color:var(--muted)">
-          <span style="color:var(--yellow);font-weight:700">shmget()</span> → create/get<br>
-          <span style="color:var(--dim)">↓</span><br>
-          <span style="color:var(--yellow);font-weight:700">shmat()</span> → attach to address space<br>
-          <span style="color:var(--dim)">↓</span><br>
-          <span style="color:var(--txt)">read/write via pointer</span><br>
-          <span style="color:var(--dim)">↓</span><br>
-          <span style="color:var(--yellow);font-weight:700">shmdt()</span> → detach<br>
-          <span style="color:var(--dim)">↓</span><br>
-          <span style="color:var(--yellow);font-weight:700">shmctl(IPC_RMID)</span> → delete
+      <div style="background:var(--surf);border:1px solid var(--border);border-radius:12px;padding:20px 16px;margin:20px 0;box-shadow:0 4px 6px rgba(0,0,0,0.1)">
+        <div style="color:var(--green);font-weight:700;margin-bottom:14px;text-align:center;font-family:'JetBrains Mono',monospace;font-size:0.9rem;text-transform:uppercase">Shared Memory Lifecycle</div>
+        <div style="display:flex;flex-wrap:wrap;align-items:center;justify-content:center;gap:8px;width:100%">
+          <!-- Step 1 -->
+          <div style="background:var(--bg);border:1.5px solid var(--yellow);padding:10px;border-radius:8px;flex:1;min-width:140px;text-align:center;box-shadow:0 4px 6px rgba(0,0,0,0.1)">
+            <div style="color:var(--yellow);font-weight:700;font-size:0.85rem;font-family:'JetBrains Mono',monospace">shmget()</div>
+            <div style="color:var(--muted);font-size:0.7rem;margin-top:4px">Δημιουργία / λήψη ID τμήματος μνήμης</div>
+          </div>
+          
+          <!-- Arrow -->
+          <div style="display:flex;flex-direction:column;align-items:center;color:var(--dim);font-size:0.9rem;min-width:20px">
+            <span>&rarr;</span>
+          </div>
+
+          <!-- Step 2 -->
+          <div style="background:var(--bg);border:1.5px solid var(--yellow);padding:10px;border-radius:8px;flex:1;min-width:140px;text-align:center;box-shadow:0 4px 6px rgba(0,0,0,0.1)">
+            <div style="color:var(--yellow);font-weight:700;font-size:0.85rem;font-family:'JetBrains Mono',monospace">shmat()</div>
+            <div style="color:var(--muted);font-size:0.7rem;margin-top:4px">Προσάρτηση (attach) στο address space</div>
+          </div>
+
+          <!-- Arrow -->
+          <div style="display:flex;flex-direction:column;align-items:center;color:var(--dim);font-size:0.9rem;min-width:20px">
+            <span>&rarr;</span>
+          </div>
+
+          <!-- Step 3 -->
+          <div style="background:var(--bg);border:1.5px solid var(--cyan);padding:10px;border-radius:8px;flex:1;min-width:140px;text-align:center;box-shadow:0 4px 6px rgba(0,0,0,0.1)">
+            <div style="color:var(--cyan);font-weight:700;font-size:0.85rem">R/W Pointer</div>
+            <div style="color:var(--muted);font-size:0.7rem;margin-top:4px">Ανάγνωση / εγγραφή απευθείας στη μνήμη</div>
+          </div>
+
+          <!-- Arrow -->
+          <div style="display:flex;flex-direction:column;align-items:center;color:var(--dim);font-size:0.9rem;min-width:20px">
+            <span>&rarr;</span>
+          </div>
+
+          <!-- Step 4 -->
+          <div style="background:var(--bg);border:1.5px solid var(--yellow);padding:10px;border-radius:8px;flex:1;min-width:140px;text-align:center;box-shadow:0 4px 6px rgba(0,0,0,0.1)">
+            <div style="color:var(--yellow);font-weight:700;font-size:0.85rem;font-family:'JetBrains Mono',monospace">shmdt()</div>
+            <div style="color:var(--muted);font-size:0.7rem;margin-top:4px">Αποπροσάρτηση (detach) τμήματος</div>
+          </div>
+
+          <!-- Arrow -->
+          <div style="display:flex;flex-direction:column;align-items:center;color:var(--dim);font-size:0.9rem;min-width:20px">
+            <span>&rarr;</span>
+          </div>
+
+          <!-- Step 5 -->
+          <div style="background:var(--bg);border:1.5px solid var(--red);padding:10px;border-radius:8px;flex:1;min-width:140px;text-align:center;box-shadow:0 4px 6px rgba(0,0,0,0.1)">
+            <div style="color:var(--red);font-weight:700;font-size:0.85rem;font-family:'JetBrains Mono',monospace">shmctl(IPC_RMID)</div>
+            <div style="color:var(--muted);font-size:0.7rem;margin-top:4px">Διαγραφή (remove) από τον πυρήνα</div>
+          </div>
         </div>
       </div>
     </div>
@@ -576,16 +616,26 @@ msg.mtype = priority;  <span class="cm">// lower = higher priority</span>
     <div>
       <div class="card">
         <div class="card-title">UP &amp; DOWN Operations</div>
-        <div class="ipc-diagram" style="text-align:left;font-size:0.85rem;line-height:2.2">
-<span style="color:var(--green);font-weight:700">UP (V / signal / release):</span><br>
-&nbsp;&nbsp;semaphore_value++<br>
-&nbsp;&nbsp;<span class="cm">Αν κάποιος περιμένει → ξύπνησέ τον</span><br>
-<br>
-<span style="color:var(--red);font-weight:700">DOWN (P / wait / acquire):</span><br>
-&nbsp;&nbsp;<span class="kw">if</span> (semaphore_value &gt; 0)<br>
-&nbsp;&nbsp;&nbsp;&nbsp;semaphore_value--<br>
-&nbsp;&nbsp;<span class="kw">else</span><br>
-&nbsp;&nbsp;&nbsp;&nbsp;<span class="cm">BLOCK until value becomes &gt; 0</span>
+        <div class="compare" style="margin:12px 0">
+          <div style="background:var(--gdim);border:1px solid rgba(63,185,80,.2);border-radius:8px;padding:16px">
+            <div class="side-label" style="color:var(--green);font-weight:700;font-size:0.85rem;font-family:'JetBrains Mono',monospace">UP (V / signal)</div>
+            <div class="cb" style="margin:8px 0;padding:10px;font-size:0.8rem;line-height:1.6">
+semaphore_value++;
+<span class="cm">// Αν κάποιος περιμένει:</span>
+<span class="cm">// ξύπνησέ τον (wake up)</span>
+            </div>
+          </div>
+          <div style="background:var(--rdim);border:1px solid rgba(248,81,73,.2);border-radius:8px;padding:16px">
+            <div class="side-label" style="color:var(--red);font-weight:700;font-size:0.85rem;font-family:'JetBrains Mono',monospace">DOWN (P / wait)</div>
+            <div class="cb" style="margin:8px 0;padding:10px;font-size:0.8rem;line-height:1.6">
+<span class="kw">if</span> (semaphore_value &gt; <span class="nm">0</span>) {
+    semaphore_value--;
+} <span class="kw">else</span> {
+    <span class="cm">// BLOCK (αναμονή) μέχρι</span>
+    <span class="cm">// η τιμή να γίνει &gt; 0</span>
+}
+            </div>
+          </div>
         </div>
         <div class="ibox" style="margin-top:8px">
           <div class="lbl" style="color:var(--blue)">Naming Convention</div>
@@ -894,9 +944,15 @@ msg.mtype = priority;  <span class="cm">// lower = higher priority</span>
 <span class="cm">/* critical section — only one process here */</span>
 <span class="fn">sem_V</span>(sem, <span class="nm">0</span>);     <span class="cm">// leave CS</span>
         </div>
-        <div class="wbox" style="margin-top:10px">
-          <div class="lbl" style="color:var(--yellow)">SEM_UNDO Flag</div>
-          Αν μια διεργασία πεθάνει κρατώντας ένα semaphore, μπορεί να αφήσει τον πόρο locked (<strong>orphaned lock</strong>). Η flag <code>SEM_UNDO</code> λέει στον kernel να αναιρέσει αυτόματα τις semaphore operations αν η διεργασία τερματιστεί.
+        <div class="tip" style="margin-top:10px">
+          <div class="tip-icon">🧠</div>
+          <div>
+            <div class="tip-title">Exam Tip — SEM_UNDO &amp; Orphaned Locks</div>
+            <div class="tip-text">
+              Αν μια διεργασία εκτελέσει <code>DOWN</code> (κλειδώσει έναν πόρο) και μετά τερματιστεί απρόσμενα (π.χ. λόγω Crash / SIGSEGV) πριν κάνει <code>UP</code>, ο semaphore θα παραμείνει στο 0 για πάντα. Αυτό ονομάζεται <strong>orphaned lock</strong> και προκαλεί μόνιμο deadlock σε όλες τις άλλες διεργασίες που περιμένουν.<br>
+              <strong>Η λύση:</strong> Θέτουμε τη flag <code>SEM_UNDO</code> στο <code>sem_flg</code> της δομής <code>sembuf</code>. Ο kernel κρατάει ιστορικό των αλλαγών κάθε διεργασίας και, αν αυτή πεθάνει, <strong>αναιρεί αυτόματα</strong> όλες τις πράξεις της, επαναφέροντας τον semaphore στην αρχική του κατάσταση!
+            </div>
+          </div>
         </div>
       </div>
 
@@ -1000,7 +1056,19 @@ my_lock.l_type = <span class="mc">F_UNLCK</span>;
           <div class="tip-text">
             <strong>F_SETLK:</strong> Non-blocking. Αν δεν μπορεί να κλειδώσει, επιστρέφει αμέσως -1 (errno=EAGAIN). Χρήσιμο για try-lock pattern.<br>
             <strong>F_SETLKW:</strong> Blocking. Περιμένει μέχρι να γίνει δυνατό το lock. Κίνδυνος deadlock!<br>
-            <strong>l_len=0:</strong> Κλειδώνει μέχρι το τέλος του αρχείου (ακόμα και bytes που θα γραφτούν αργότερα).
+          </div>
+        </div>
+      </div>
+      <div class="tip" style="margin-top:10px">
+        <div class="tip-icon">🧠</div>
+        <div>
+          <div class="tip-title">Exam Tip — Advisory vs Mandatory Locking</div>
+          <div class="tip-text">
+            Μια κρίσιμη ερώτηση θεωρίας είναι η διάκριση των τύπων κλειδώματος:
+            <ul style="margin-top:4px;padding-left:1.5rem">
+              <li><strong>Advisory Locking (Συμβουλευτικό - default):</strong> Ο kernel καταγράφει ποια αρχεία/τμήματα είναι κλειδωμένα, αλλά <em>δεν εμποδίζει</em> μια άλλη διεργασία να κάνει <code>read()</code> ή <code>write()</code> απευθείας στο αρχείο αν αυτή δεν χρησιμοποιεί την <code>fcntl()</code>. Όλες οι διεργασίες πρέπει να συνεργάζονται οικειοθελώς (coordinate voluntarily) χρησιμοποιώντας <code>fcntl()</code> πριν την πρόσβαση.</li>
+              <li><strong>Mandatory Locking (Υποχρεωτικό):</strong> Ο ίδιος ο kernel ελέγχει κάθε <code>read()</code> και <code>write()</code> syscall. Αν μια διεργασία προσπαθήσει να γράψει σε περιοχή που έχει write-locked κάποια άλλη, ο kernel θα την μπλοκάρει, ακόμα κι αν δεν χρησιμοποίησε την <code>fcntl()</code>. Απαιτεί ειδικό mount option και permissions στο αρχείο (set-group-ID bit active, group execute bit inactive).</li>
+            </ul>
           </div>
         </div>
       </div>

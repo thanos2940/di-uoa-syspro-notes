@@ -1,14 +1,32 @@
 <!DOCTYPE html>
-<html lang="el">
+<!--
+  📝 INTERACTIVE QUIZ TEMPLATE — copy to ../interactive_quiz.html
+
+  This is the CROSS-CHAPTER quiz page. It reads from data/questions.js automatically
+  and aggregates questions from ALL chapters.
+
+  Required edits:
+    [[LANG]]             - 'el' or 'en'
+    [[COURSE_TITLE]]     - shown in tab title (e.g. "Algorithms · Interactive Quiz")
+    [[QUIZ_TAGLINE]]     - intro sentence on the start screen
+
+  Dependencies (must exist in parent dir):
+    - styles/base.css            (shared)
+    - styles/quiz.css            (copy from assets/styles/quiz.css)
+    - js/nav.js                  (shared)
+    - js/interactive_quiz.js     (copy from assets/js/interactive_quiz.js)
+    - data/questions.js          (your quiz data)
+-->
+<html lang="[[LANG]]">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Interactive Quiz | WebNotes — System Programming</title>
+    <title>[[COURSE_TITLE]] · Interactive Quiz</title>
     
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Lora:ital,wght@0,400..700;1,400..700&family=Syne:wght@700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Roboto:ital,wght@0,400;0,500;0,700;1,400&display=swap" rel="stylesheet">
     
     <!-- Styles -->
     <link rel="stylesheet" href="styles/base.css">
@@ -39,7 +57,7 @@
     <main class="quiz-app-container">
         <!-- Start Screen -->
         <div id="start-screen" class="glass-card start-screen">
-            <h1>System Quiz</h1>
+            <h1>Course Quiz</h1>
             <p>Επίλεξε τις ενότητες που θέλεις να εξεταστείς και ξεκίνα το τεστ!</p>
             
             <div id="topic-selector" class="topic-selector">
@@ -81,7 +99,7 @@
     </main>
 
     <footer class="footer">
-        &copy; 2026 WebNotes Project — Advanced System Programming
+        &copy; 2026 WebNotes Project — [[COURSE_TITLE]]
     </footer>
 
     <!-- Scripts -->

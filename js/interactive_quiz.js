@@ -29,8 +29,14 @@
     function initTopicButtons() {
         if (!db) return;
         
+        // Use navTopics for better names if available
+        const topicNames = {};
+        if (window.navTopics) {
+            window.navTopics.forEach(t => topicNames[t.id] = t.title);
+        }
+        
         Object.keys(db).forEach(topicId => {
-            const topicName = topicId.charAt(0).toUpperCase() + topicId.slice(1);
+            const topicName = topicNames[topicId] || (topicId.charAt(0).toUpperCase() + topicId.slice(1).replace(/_/g, ' '));
             const btn = document.createElement('button');
             btn.className = 'topic-btn';
             btn.textContent = topicName;
@@ -133,9 +139,28 @@
             const feedbackText = document.createElement('div');
             feedbackText.className = 'feedback-text';
             
+            feedbackArea.appendChild(feedbackTitle);
+            feedbackArea.appendChild(feedbackText);
+            
+            // New Navigation Area
+            const navArea = document.createElement('div');
+            navArea.className = 'quiz-nav';
+            
+            const prevBtn = document.createElement('button');
+            prevBtn.className = 'prev-btn';
+            prevBtn.textContent = 'Προηγούμενη';
+            prevBtn.disabled = index === 0;
+            prevBtn.onclick = () => {
+                if (currentQuestionIndex > 0) {
+                    currentQuestionIndex--;
+                    updateView();
+                    window.scrollTo({ top: 0, behavior: 'smooth' });
+                }
+            };
+
             const nextBtn = document.createElement('button');
             nextBtn.className = 'next-btn';
-            nextBtn.textContent = index < quizQuestions.length - 1 ? 'Επόμενη Ερώτηση' : 'Ολοκλήρωση';
+            nextBtn.textContent = index < quizQuestions.length - 1 ? 'Επόμενη' : 'Ολοκλήρωση';
             nextBtn.onclick = () => {
                 if (index < quizQuestions.length - 1) {
                     currentQuestionIndex++;
@@ -146,11 +171,11 @@
                 }
             };
             
-            feedbackArea.appendChild(feedbackTitle);
-            feedbackArea.appendChild(feedbackText);
-            feedbackArea.appendChild(nextBtn);
+            navArea.appendChild(prevBtn);
+            navArea.appendChild(nextBtn);
             
             block.appendChild(feedbackArea);
+            block.appendChild(navArea);
             questionsWrapper.appendChild(block);
         });
 
@@ -247,9 +272,6 @@
             blocks.forEach((b, i) => {
                 if (i === currentQuestionIndex) {
                     b.classList.add('active');
-                    const nextBtn = b.querySelector('.next-btn');
-                    const q = quizQuestions[i];
-                    if (nextBtn) nextBtn.style.display = q.answered ? 'block' : 'none';
                 } else {
                     b.classList.remove('active');
                 }
@@ -277,7 +299,7 @@
         const percent = Math.round((score / total) * 100);
         
         let msg = '';
-        if (percent === 100) msg = 'Εξαιρετικά! Είσαι ειδικός στο System Programming! 🔥';
+        if (percent === 100) msg = 'Εξαιρετικά! Είσαι ειδικός στο αντικείμενο! 🔥';
         else if (percent >= 80) msg = 'Πολύ καλά! Έχεις πολύ γερές βάσεις. 💪';
         else if (percent >= 50) msg = 'Καλή προσπάθεια, αλλά χρειάζεται λίγη ακόμα μελέτη. 📚';
         else msg = 'Μάλλον πρέπει να ξαναδείς τις σημειώσεις. Μην απογοητεύεσαι! 🛠️';

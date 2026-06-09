@@ -500,6 +500,20 @@ addr_list = (<span class="kw">struct</span> <span class="tp">in_addr</span> **) 
 <span class="cm">// Output: di.uoa.gr resolved to 195.134.65.123</span></div>
   </div>
 
+  <div class="tip" style="margin-top:12px">
+    <div class="tip-icon">🧠</div>
+    <div>
+      <div class="tip-title">Exam Tip — Thread-Safety &amp; DNS / Address Conversion</div>
+      <div class="tip-text">
+        Στις εξετάσεις ζητείται συχνά η εξήγηση γιατί οι κλασικές συναρτήσεις δικτύου δεν είναι thread-safe:<br>
+        <ul style="margin-top:6px;margin-bottom:6px">
+          <li><strong>gethostbyname() &amp; inet_ntoa():</strong> Επιστρέφουν pointer σε έναν <strong>κοινόχρηστο static buffer</strong> που διαχειρίζεται το OS. Αν δύο threads τις καλέσουν ταυτόχρονα, τα δεδομένα του ενός θα υπεργράψουν του άλλου (data corruption).</li>
+          <li><strong>getaddrinfo() &amp; inet_ntop():</strong> Είναι οι σύγχρονες reentrant εναλλακτικές. Η <code>getaddrinfo()</code> δεσμεύει <strong>δυναμικά μνήμη (heap)</strong> ανά κλήση (πρέπει να την ελευθερώσεις με <code>freeaddrinfo()</code>), ενώ η <code>inet_ntop()</code> απαιτεί από τον caller να περάσει δικό του buffer (<strong>caller-owned memory</strong>), εξαλείφοντας το κοινόχρηστο state.</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
   <div class="section-quiz" data-topic="topic5" data-section="dns"></div>
 </section>
 
@@ -512,19 +526,62 @@ addr_list = (<span class="kw">struct</span> <span class="tp">in_addr</span> **) 
     Κάθε βήμα είναι κρίσιμο — αν παραλείψεις ένα, ο server δεν λειτουργεί.
   </p>
 
-  <div class="sock-lifecycle">
-    <div style="color:var(--dim);margin-bottom:8px;letter-spacing:1px">TCP SERVER LIFECYCLE</div>
-    <span class="sl-fn">socket()</span> <span class="sl-note">← δημιούργησε endpoint</span><br>
-    <span class="sl-arrow">&nbsp;&nbsp;↓</span><br>
-    <span class="sl-fn">bind()</span> <span class="sl-note">← κατοχύρωσε (IP, Port) στο OS</span><br>
-    <span class="sl-arrow">&nbsp;&nbsp;↓</span><br>
-    <span class="sl-fn">listen()</span> <span class="sl-note">← μετατρέψου σε passive socket, όρισε backlog</span><br>
-    <span class="sl-arrow">&nbsp;&nbsp;↓</span><br>
-    <span class="sl-fn">accept()</span> <span class="sl-note">← BLOCKING: περίμενε client, δώσε ΝΕΟ fd (cfd)</span><br>
-    <span class="sl-arrow">&nbsp;&nbsp;↓</span><br>
-    <span class="sl-fn">read()/write()</span> <span class="sl-note">← ανταλλαγή δεδομένων μέσω cfd</span><br>
-    <span class="sl-arrow">&nbsp;&nbsp;↓</span><br>
-    <span class="sl-fn">close(cfd)</span> <span class="sl-note">← κλείσε τη σύνδεση</span>
+  <div style="background:var(--surf);border:1px solid var(--border);border-radius:12px;padding:24px 20px;margin:24px 0">
+    <div style="color:var(--dim);font-family:'JetBrains Mono',monospace;font-size:0.8rem;margin-bottom:16px;letter-spacing:1px;text-transform:uppercase">TCP Server Lifecycle</div>
+    <div style="display:flex;flex-wrap:wrap;align-items:center;justify-content:center;gap:12px;width:100%">
+      
+      <!-- Step 1 -->
+      <div style="background:var(--bg);border:1.5px solid var(--blue);padding:12px;border-radius:8px;flex:1;min-width:140px;text-align:center;box-shadow:0 4px 6px rgba(0,0,0,0.1)">
+        <div style="color:var(--blue);font-weight:700;font-size:0.85rem;font-family:'JetBrains Mono',monospace">socket()</div>
+        <div style="color:var(--muted);font-size:0.7rem;margin-top:4px">Δημιουργία endpoint</div>
+      </div>
+      
+      <!-- Arrow -->
+      <div style="display:flex;align-items:center;color:var(--dim);font-size:1.2rem;line-height:1">&rarr;</div>
+
+      <!-- Step 2 -->
+      <div style="background:var(--bg);border:1.5px solid var(--cyan);padding:12px;border-radius:8px;flex:1;min-width:140px;text-align:center;box-shadow:0 4px 6px rgba(0,0,0,0.1)">
+        <div style="color:var(--cyan);font-weight:700;font-size:0.85rem;font-family:'JetBrains Mono',monospace">bind()</div>
+        <div style="color:var(--muted);font-size:0.7rem;margin-top:4px">Κατοχύρωση IP & Port</div>
+      </div>
+
+      <!-- Arrow -->
+      <div style="display:flex;align-items:center;color:var(--dim);font-size:1.2rem;line-height:1">&rarr;</div>
+
+      <!-- Step 3 -->
+      <div style="background:var(--bg);border:1.5px solid var(--yellow);padding:12px;border-radius:8px;flex:1;min-width:140px;text-align:center;box-shadow:0 4px 6px rgba(0,0,0,0.1)">
+        <div style="color:var(--yellow);font-weight:700;font-size:0.85rem;font-family:'JetBrains Mono',monospace">listen()</div>
+        <div style="color:var(--muted);font-size:0.7rem;margin-top:4px">Passive mode (backlog)</div>
+      </div>
+
+      <!-- Arrow -->
+      <div style="display:flex;align-items:center;color:var(--dim);font-size:1.2rem;line-height:1">&rarr;</div>
+
+      <!-- Step 4 -->
+      <div style="background:var(--bg);border:1.5px solid var(--purple);padding:12px;border-radius:8px;flex:1;min-width:140px;text-align:center;box-shadow:0 4px 6px rgba(0,0,0,0.1)">
+        <div style="color:var(--purple);font-weight:700;font-size:0.85rem;font-family:'JetBrains Mono',monospace">accept()</div>
+        <div style="color:var(--muted);font-size:0.7rem;margin-top:4px">Αναμονή για Client</div>
+      </div>
+
+      <!-- Arrow -->
+      <div style="display:flex;align-items:center;color:var(--dim);font-size:1.2rem;line-height:1">&rarr;</div>
+
+      <!-- Step 5 -->
+      <div style="background:var(--bg);border:1.5px solid var(--green);padding:12px;border-radius:8px;flex:1;min-width:140px;text-align:center;box-shadow:0 4px 6px rgba(0,0,0,0.1)">
+        <div style="color:var(--green);font-weight:700;font-size:0.85rem;font-family:'JetBrains Mono',monospace">read() / write()</div>
+        <div style="color:var(--muted);font-size:0.7rem;margin-top:4px">Ανταλλαγή δεδομένων</div>
+      </div>
+
+      <!-- Arrow -->
+      <div style="display:flex;align-items:center;color:var(--dim);font-size:1.2rem;line-height:1">&rarr;</div>
+
+      <!-- Step 6 -->
+      <div style="background:var(--bg);border:1.5px solid var(--red);padding:12px;border-radius:8px;flex:1;min-width:140px;text-align:center;box-shadow:0 4px 6px rgba(0,0,0,0.1)">
+        <div style="color:var(--red);font-weight:700;font-size:0.85rem;font-family:'JetBrains Mono',monospace">close()</div>
+        <div style="color:var(--muted);font-size:0.7rem;margin-top:4px">Κλείσιμο σύνδεσης</div>
+      </div>
+
+    </div>
   </div>
 
   <div class="grid2" style="margin-top:14px">
@@ -581,9 +638,19 @@ cfd = <span class="fn">accept</span>(sock,
           </div>
         </div>
       </div>
-      <div class="wbox">
-        <div class="lbl" style="color:var(--yellow)">accept() — value-result pattern</div>
-        Ο <code>clientlen</code> πρέπει να αρχικοποιηθεί <strong>πριν</strong> την κλήση (δείχνει πόσο μεγάλο buffer δίνεις). Μετά την accept, περιέχει πόσα bytes <em>γράφτηκαν</em> στο client struct. Pass <code>NULL</code> αν δεν σε νοιάζει η address.
+      <div class="tip">
+        <div class="tip-icon">🧠</div>
+        <div>
+          <div class="tip-title">Exam Tip — accept() &amp; Value-Result Parameters</div>
+          <div class="tip-text">
+            Η παράμετρος <code>clientlen</code> στην <code>accept()</code> είναι κλασικό παράδειγμα <strong>Value-Result Parameter</strong>:<br>
+            <ul style="margin-top:6px;margin-bottom:6px;padding-left:1.5rem">
+              <li><strong>Value (Είσοδος):</strong> Πριν την κλήση, πρέπει να θέσεις <code>clientlen = sizeof(client)</code>. Αυτό ενημερώνει τον kernel για το μέγιστο διαθέσιμο μέγεθος του buffer (π.χ. size of struct sockaddr_in).</li>
+              <li><strong>Result (Έξοδος):</strong> Όταν η <code>accept()</code> επιστρέψει, ο kernel γράφει στο <code>clientlen</code> το <em>πραγματικό</em> μέγεθος της διεύθυνσης του client που αποθηκεύτηκε.</li>
+            </ul>
+            <strong>🚨 Κίνδυνος:</strong> Αν ξεχάσεις να αρχικοποιήσεις το <code>clientlen</code>, η <code>accept()</code> θα διαβάσει τυχαία τιμή από τη μνήμη (σκουπίδια). Αν αυτή η τιμή τύχει να είναι πολύ μικρή (π.χ. 0), η κλήση θα αποτύχει ή θα επιστρέψει ατελή/κατεστραμμένα στοιχεία!
+          </div>
+        </div>
       </div>
     </div>
   </div>
@@ -670,15 +737,44 @@ cfd = <span class="fn">accept</span>(sock,
     Δεν χρειάζεται bind, listen ή accept — απλά συνδέεται στον server και αρχίζει να μιλάει.
   </p>
 
-  <div class="sock-lifecycle">
-    <div style="color:var(--dim);margin-bottom:8px;letter-spacing:1px">TCP CLIENT LIFECYCLE</div>
-    <span class="sl-fn">socket()</span> <span class="sl-note">← δημιούργησε endpoint</span><br>
-    <span class="sl-arrow">&nbsp;&nbsp;↓</span><br>
-    <span class="sl-fn">connect()</span> <span class="sl-note">← σύνδεση στον server (IP + Port)</span><br>
-    <span class="sl-arrow">&nbsp;&nbsp;↓</span><br>
-    <span class="sl-fn">read()/write()</span> <span class="sl-note">← ανταλλαγή δεδομένων</span><br>
-    <span class="sl-arrow">&nbsp;&nbsp;↓</span><br>
-    <span class="sl-fn">close()</span> <span class="sl-note">← τερματισμός</span>
+  <div style="background:var(--surf);border:1px solid var(--border);border-radius:12px;padding:24px 20px;margin:24px 0">
+    <div style="color:var(--dim);font-family:'JetBrains Mono',monospace;font-size:0.8rem;margin-bottom:16px;letter-spacing:1px;text-transform:uppercase">TCP Client Lifecycle</div>
+    <div style="display:flex;flex-wrap:wrap;align-items:center;justify-content:center;gap:12px;width:100%">
+      
+      <!-- Step 1 -->
+      <div style="background:var(--bg);border:1.5px solid var(--blue);padding:12px;border-radius:8px;flex:1;min-width:140px;text-align:center;box-shadow:0 4px 6px rgba(0,0,0,0.1)">
+        <div style="color:var(--blue);font-weight:700;font-size:0.85rem;font-family:'JetBrains Mono',monospace">socket()</div>
+        <div style="color:var(--muted);font-size:0.7rem;margin-top:4px">Δημιουργία endpoint</div>
+      </div>
+      
+      <!-- Arrow -->
+      <div style="display:flex;align-items:center;color:var(--dim);font-size:1.2rem;line-height:1">&rarr;</div>
+
+      <!-- Step 2 -->
+      <div style="background:var(--bg);border:1.5px solid var(--cyan);padding:12px;border-radius:8px;flex:1;min-width:140px;text-align:center;box-shadow:0 4px 6px rgba(0,0,0,0.1)">
+        <div style="color:var(--cyan);font-weight:700;font-size:0.85rem;font-family:'JetBrains Mono',monospace">connect()</div>
+        <div style="color:var(--muted);font-size:0.7rem;margin-top:4px">Σύνδεση στον Server</div>
+      </div>
+
+      <!-- Arrow -->
+      <div style="display:flex;align-items:center;color:var(--dim);font-size:1.2rem;line-height:1">&rarr;</div>
+
+      <!-- Step 3 -->
+      <div style="background:var(--bg);border:1.5px solid var(--green);padding:12px;border-radius:8px;flex:1;min-width:140px;text-align:center;box-shadow:0 4px 6px rgba(0,0,0,0.1)">
+        <div style="color:var(--green);font-weight:700;font-size:0.85rem;font-family:'JetBrains Mono',monospace">read() / write()</div>
+        <div style="color:var(--muted);font-size:0.7rem;margin-top:4px">Ανταλλαγή δεδομένων</div>
+      </div>
+
+      <!-- Arrow -->
+      <div style="display:flex;align-items:center;color:var(--dim);font-size:1.2rem;line-height:1">&rarr;</div>
+
+      <!-- Step 4 -->
+      <div style="background:var(--bg);border:1.5px solid var(--red);padding:12px;border-radius:8px;flex:1;min-width:140px;text-align:center;box-shadow:0 4px 6px rgba(0,0,0,0.1)">
+        <div style="color:var(--red);font-weight:700;font-size:0.85rem;font-family:'JetBrains Mono',monospace">close()</div>
+        <div style="color:var(--muted);font-size:0.7rem;margin-top:4px">Τερματισμός</div>
+      </div>
+
+    </div>
   </div>
 
   <div class="card" style="margin-top:14px">
@@ -954,10 +1050,34 @@ highsock = sock;
     Στο UDP <strong style="color:var(--txt)">δεν υπάρχει connection</strong> — σκέψου ταχυδρομικά γράμματα, όχι τηλέφωνο. Δεν χρειάζεται listen() ή accept(). Αντί για read/write χρησιμοποιούμε <code>sendto()</code> και <code>recvfrom()</code> που περνάνε τη διεύθυνση σε κάθε πακέτο.
   </p>
 
-  <div class="sock-lifecycle">
-    <div style="color:var(--dim);margin-bottom:8px;letter-spacing:1px">UDP LIFECYCLE</div>
-    <strong style="color:var(--yellow)">Server:</strong> <span class="sl-fn">socket(SOCK_DGRAM)</span> → <span class="sl-fn">bind()</span> → <span class="sl-fn">recvfrom()/sendto()</span> loop<br>
-    <strong style="color:var(--green)">Client:</strong> <span class="sl-fn">socket(SOCK_DGRAM)</span> → [<span class="sl-fn">bind()</span>] → <span class="sl-fn">sendto()/recvfrom()</span> loop
+  <div style="background:var(--surf);border:1px solid var(--border);border-radius:12px;padding:20px;margin:24px 0">
+    <div style="color:var(--dim);font-family:'JetBrains Mono',monospace;font-size:0.8rem;margin-bottom:12px;letter-spacing:1px;text-transform:uppercase">UDP Lifecycle Flow</div>
+    <div class="grid2">
+      <div>
+        <div style="background:var(--bg);border:1.5px solid var(--yellow);border-radius:8px;padding:16px;box-shadow:0 4px 6px rgba(0,0,0,0.1);height:100%">
+          <div style="color:var(--yellow);font-weight:700;font-size:0.9rem;margin-bottom:10px;font-family:'JetBrains Mono',monospace">UDP Server</div>
+          <div style="display:flex;flex-direction:column;gap:8px;font-family:'JetBrains Mono',monospace;font-size:0.82rem">
+            <div style="background:var(--surf);padding:8px;border-radius:4px;border-left:3px solid var(--blue)">1. socket(AF_INET, SOCK_DGRAM, 0)</div>
+            <div style="text-align:center;color:var(--dim);font-size:0.8rem">&darr;</div>
+            <div style="background:var(--surf);padding:8px;border-radius:4px;border-left:3px solid var(--cyan)">2. bind(port)</div>
+            <div style="text-align:center;color:var(--dim);font-size:0.8rem">&darr;</div>
+            <div style="background:var(--surf);padding:8px;border-radius:4px;border-left:3px solid var(--green)">3. recvfrom() &harr; sendto() loop</div>
+          </div>
+        </div>
+      </div>
+      <div>
+        <div style="background:var(--bg);border:1.5px solid var(--green);border-radius:8px;padding:16px;box-shadow:0 4px 6px rgba(0,0,0,0.1);height:100%">
+          <div style="color:var(--green);font-weight:700;font-size:0.9rem;margin-bottom:10px;font-family:'JetBrains Mono',monospace">UDP Client</div>
+          <div style="display:flex;flex-direction:column;gap:8px;font-family:'JetBrains Mono',monospace;font-size:0.82rem">
+            <div style="background:var(--surf);padding:8px;border-radius:4px;border-left:3px solid var(--blue)">1. socket(AF_INET, SOCK_DGRAM, 0)</div>
+            <div style="text-align:center;color:var(--dim);font-size:0.8rem">&darr;</div>
+            <div style="background:var(--surf);padding:8px;border-radius:4px;border-left:3px solid var(--cyan);opacity:0.65">2. [bind()] <span style="color:var(--dim);font-size:0.75rem;font-style:italic">(optional)</span></div>
+            <div style="text-align:center;color:var(--dim);font-size:0.8rem">&darr;</div>
+            <div style="background:var(--surf);padding:8px;border-radius:4px;border-left:3px solid var(--green)">3. sendto() &harr; recvfrom() loop</div>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 
   <div class="grid2" style="margin-top:12px">
@@ -1071,7 +1191,7 @@ client.sin_port = <span class="fn">htons</span>(<span class="nm">0</span>);  <sp
         <div class="card-title" style="color:var(--red)">1. "Address Already in Use"</div>
         <p style="font-size:0.85rem;color:var(--muted)">Σταματάς τον server, τον ξανατρέχεις: <code>bind(): Address Already in Use</code>. Γιατί; Ο kernel κρατάει το port σε <code>TIME_WAIT</code> state μετά το close (60-120 sec).</p>
         <div class="cb" style="font-size:0.78rem">
-<span class="cm">/* ΗΗ ΛΥΣΗ: πριν το bind() */</span>
+<span class="cm">/* Η ΛΥΣΗ: πριν το bind() */</span>
 <span class="tp">int</span> val = <span class="nm">1</span>;
 <span class="fn">setsockopt</span>(sock, <span class="mc">SOL_SOCKET</span>,
     <span class="mc">SO_REUSEADDR</span>, &amp;val, <span class="kw">sizeof</span>(val));
@@ -1079,8 +1199,16 @@ client.sin_port = <span class="fn">htons</span>(<span class="nm">0</span>);  <sp
         <div class="tip" style="margin-top:6px">
           <div class="tip-icon">🧠</div>
           <div>
-            <div class="tip-title">Tip — ΠΑΝΤΑ SO_REUSEADDR</div>
-            <div class="tip-text">Βάλε το <strong>πριν κάθε bind()</strong> σε server. Δεν υπάρχει λόγος να μην το βάζεις. Εξετάσεις: αν λείπει, αφαίρεση βαθμών.</div>
+            <div class="tip-title">Exam Tip — TIME_WAIT &amp; SO_REUSEADDR</div>
+            <div class="tip-text">
+              Όταν ένας server τερματίζει, το port παραμένει δεσμευμένο από τον kernel σε κατάσταση <strong>TIME_WAIT</strong> για 1-2 λεπτά (για να ληφθούν τυχόν καθυστερημένα πακέτα). Αν τον ξανατρέξεις αμέσως, η <code>bind()</code> θα αποτύχει με <code>Address already in use</code>.<br>
+              <strong>Η λύση:</strong> Ενεργοποιούμε την επαναχρησιμοποίηση της διεύθυνσης <em>πριν</em> τη <code>bind()</code>:
+              <ul style="margin-top:4px;padding-left:1.5rem">
+                <li><code>int val = 1;</code></li>
+                <li><code>setsockopt(sock, SOL_SOCKET, SO_REUSEADDR, &amp;val, sizeof(val));</code></li>
+              </ul>
+              Στις εξετάσεις, η μη χρήση της <code>SO_REUSEADDR</code> θεωρείται σημαντική παράλειψη!
+            </div>
           </div>
         </div>
       </div>

@@ -246,13 +246,45 @@
     font-size: 1rem;
     border-radius: 8px;
     cursor: pointer;
-    margin-top: 20px;
-    float: right;
     transition: var(--transition);
 }
 
 .next-btn:hover {
     transform: scale(1.05);
+}
+
+/* New Navigation Area */
+.quiz-nav {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 30px;
+}
+
+.prev-btn {
+    background: transparent;
+    border: 1px solid var(--border);
+    color: var(--txt);
+    padding: 12px 28px;
+    font-family: 'Syne', sans-serif;
+    font-weight: 700;
+    font-size: 1rem;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: var(--transition);
+}
+
+.prev-btn:hover:not(:disabled) {
+    background: var(--surf2);
+    border-color: var(--muted);
+}
+
+.prev-btn:disabled {
+    opacity: 0.3;
+    cursor: not-allowed;
+}
+
+.list-mode .quiz-nav {
+    display: none;
 }
 
 /* Results Screen */
