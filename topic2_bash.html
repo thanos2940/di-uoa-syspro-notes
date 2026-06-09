@@ -150,9 +150,7 @@
       </p>
       <div class="grid2">
         <div>
-          <div class="cb">
-
-<span class="cm">#!/bin/bash</span>
+          <div class="cb"><span class="cm">#!/bin/bash</span>
 <span class="cm"># ↑ shebang: λέει στο OS ποιον interpreter να χρησιμοποιήσει</span>
 <span class="cm"># script.sh — παράδειγμα</span>
 <span class="vr">NAME</span>=<span class="st">"Alice"</span> <span class="cm"># χωρίς spaces γύρω από το
@@ -180,9 +178,7 @@
           </div>
           <div class="card">
             <div class="card-title">source vs execute</div>
-            <div class="cb">
-
-<span class="cm"># νέο subshell — αλλαγές δεν επηρεάζουν parent</span>
+            <div class="cb"><span class="cm"># νέο subshell — αλλαγές δεν επηρεάζουν parent</span>
 <span class="pr">$</span> ./script.sh
 <span class="cm"># τρέχει στο ΤΡΕΧΟΝ shell — αλλαγές ισχύουν</span>
 <span class="pr">$</span> source script.sh
@@ -214,9 +210,7 @@
       </p>
       <div class="grid2">
         <div>
-          <div class="cb">
-
-<span class="cm"># ορισμός — χωρίς $ μπροστά, χωρίς spaces</span>
+          <div class="cb"><span class="cm"># ορισμός — χωρίς $ μπροστά, χωρίς spaces</span>
 <span class="vr">MY_VAR</span>=<span class="st">"hello world"</span>
 <span class="vr">COUNT</span>=<span class="nm">42</span>
 <span class="cm"># χρήση — πάντα με $</span>
@@ -236,9 +230,7 @@ concatenation</span>
         <div>
           <div class="card">
             <div class="card-title">Quoting — κρίσιμο!</div>
-            <div class="cb">
-
-<span class="vr">NAME</span>=<span class="st">"John Doe"</span>
+            <div class="cb"><span class="vr">NAME</span>=<span class="st">"John Doe"</span>
 <span class="cm"># Double quotes: επεκτείνει μεταβλητές</span>
 <span class="kw">echo</span> <span class="st">"Hello $NAME"</span> <span class="cm"># Hello John
 Doe</span>
@@ -355,9 +347,7 @@ Doe</span>
       </p>
       <div class="grid2">
         <div>
-          <div class="cb">
-
-<span class="cm">#!/bin/bash</span>
+          <div class="cb"><span class="cm">#!/bin/bash</span>
 <span class="cm"># ελεγχω αν δοθηκαν σωστα args</span>
 <span class="kw">if</span> [ <span class="vr">$#</span> <span class="op">-ne</span> <span
 class="nm">2</span> ]; <span class="kw">then</span>
@@ -374,9 +364,7 @@ class="st">"$@"</span>; <span class="kw">do</span>
 </div>
         </div>
         <div>
-          <div class="cb">
-
-<span class="cm"># διαβασμα από χρήστη</span>
+          <div class="cb"><span class="cm"># διαβασμα από χρήστη</span>
 <span class="kw">read</span> <span class="op">-p</span> <span class="st">"Δώσε όνομα: "</span> <span
 class="vr">NAME</span>
 <span class="kw">echo</span> <span class="st">"Hello, $NAME"</span>
@@ -414,9 +402,7 @@ class="vr">line</span>; <span class="kw">do</span>
       </p>
       <div class="grid2">
         <div>
-          <div class="cb">
-
-<span class="cm"># if-elif-else</span>
+          <div class="cb"><span class="cm"># if-elif-else</span>
 <span class="kw">if</span> [ <span class="st">"$1"</span> <span class="op">==</span> <span
 class="st">"hello"</span> ]; <span class="kw">then</span>
 <span class="kw">echo</span> <span class="st">"greeting"</span>
@@ -478,9 +464,7 @@ class="op">-r</span> <span class="st">"$F"</span> ]; <span class="kw">then</span
               </div>
             </div>
           </div>
-          <div class="cb">
-
-<span class="cm"># case statement</span>
+          <div class="cb"><span class="cm"># case statement</span>
 <span class="kw">case</span> <span class="st">"$1"</span> <span class="kw">in</span>
 <span class="st">"start"</span>)
 <span class="kw">echo</span> <span class="st">"starting..."</span> ;;
@@ -511,9 +495,7 @@ class="op">-r</span> <span class="st">"$F"</span> ]; <span class="kw">then</span
       </div>
       <div class="grid2">
         <div>
-          <div class="cb">
-
-<span class="cm"># for με list</span>
+          <div class="cb"><span class="cm"># for με list</span>
 <span class="kw">for</span> <span class="vr">i</span> <span class="kw">in</span> 1 2 3 4 5; <span
 class="kw">do</span>
 <span class="kw">echo</span> <span class="st">"Number: $i"</span>
@@ -536,9 +518,7 @@ class="kw">do</span>
 </div>
         </div>
         <div>
-          <div class="cb">
-
-<span class="cm"># while loop</span>
+          <div class="cb"><span class="cm"># while loop</span>
 <span class="vr">COUNT</span>=<span class="nm">0</span>
 <span class="kw">while</span> [ <span class="vr">$COUNT</span> <span class="op">-lt</span> <span
 class="nm">5</span> ]; <span class="kw">do</span>
@@ -589,9 +569,7 @@ class="nm">10</span> ]; <span class="kw">do</span>
       </p>
       <div class="grid2">
         <div>
-          <div class="cb">
-
-<span class="cm"># 1. $(( )) — η σύγχρονη προσέγγιση</span>
+          <div class="cb"><span class="cm"># 1. $(( )) — η σύγχρονη προσέγγιση</span>
 <span class="vr">A</span>=<span class="nm">10</span>; <span class="vr">B</span>=<span class="nm">3</span>
 <span class="vr">SUM</span>=$(( <span class="vr">A</span> + <span class="vr">B</span> )) <span class="cm">#
 13</span>
@@ -611,9 +589,7 @@ class="kw">then</span>
 </div>
         </div>
         <div>
-          <div class="cb">
-
-<span class="cm"># 2. let — παλιότερο</span>
+          <div class="cb"><span class="cm"># 2. let — παλιότερο</span>
 <span class="kw">let</span> <span class="st">"RESULT = A * 2 + 1"</span>
 <span class="cm"># 3. expr — για παλιά συστήματα</span>
 <span class="vr">SUM</span>=$(<span class="kw">expr</span> <span class="vr">$A</span> + <span
@@ -652,9 +628,7 @@ class="vr">$B</span>) <span class="cm"># escape το *</span>
       </div>
       <div class="grid2">
         <div>
-          <div class="cb">
-
-<span class="cm">#!/bin/bash</span>
+          <div class="cb"><span class="cm">#!/bin/bash</span>
 <span class="cm"># ορισμός (δύο συντακτικοί τρόποι, ίδιο αποτέλεσμα)</span>
 <span class="kw">function</span> greet() {
 <span class="kw">echo</span> <span class="st">"Hello, $1!"</span> <span class="cm"># $1 = πρώτο arg της
@@ -670,9 +644,7 @@ say_bye <span class="st">"Bob"</span>
 </div>
         </div>
         <div>
-          <div class="cb">
-
-<span class="cm"># local variables</span>
+          <div class="cb"><span class="cm"># local variables</span>
 <span class="vr">X</span>=<span class="st">"global"</span>
 my_func() {
 <span class="kw">local</span> <span class="vr">X</span>=<span class="st">"local"</span> <span class="cm">#
@@ -715,9 +687,7 @@ add() {
       </div>
       <div class="card">
         <div class="card-title">Parameter Expansion — οι πιο χρήσιμες</div>
-        <div class="cb">
-
-<span class="vr">F</span>=<span class="st">"hello_world.txt"</span>
+        <div class="cb"><span class="vr">F</span>=<span class="st">"hello_world.txt"</span>
 <span class="cm"># μήκος string</span>
 <span class="kw">echo</span> ${#<span class="vr">F</span>} <span class="cm"># 15</span>
 <span class="cm"># αφαίρεση suffix (% = από δεξιά)</span>
