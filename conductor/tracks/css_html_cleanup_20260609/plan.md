@@ -18,7 +18,7 @@
 - [x] Task: Extract inline styles from `topic7_ipc.html` into appropriate classes. fd522f8
 - [x] Task: Conductor - User Manual Verification 'Phase 3: Refactor Topic Pages 4-7' (Protocol in workflow.md) 552179b
 
-## Phase 4: Standardization and Review
+## Phase 4: Standardization and Review [checkpoint: 7fe04fd]
 - [x] Task: Review the newly created CSS files and standardize all hardcoded values to use `base.css` variables. c3f3bc6
-- [~] Task: Conduct a visual review to ensure all pages render correctly and consistently.
-- [~] Task: Conductor - User Manual Verification 'Phase 4: Standardization and Review' (Protocol in workflow.md)
+- [x] Task: Conduct a visual review to ensure all pages render correctly and consistently. 7fe04fd
+- [x] Task: Conductor - User Manual Verification 'Phase 4: Standardization and Review' (Protocol in workflow.md) 7fe04fd
