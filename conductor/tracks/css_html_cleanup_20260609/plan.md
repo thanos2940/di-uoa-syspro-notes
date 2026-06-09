@@ -3,7 +3,7 @@
 ## Phase 1: CSS Architecture Setup
 - [x] Task: Create new CSS files `styles/layout.css` and `styles/components.css`. 7c6a041
 - [x] Task: Add `<link>` tags for the new CSS files to the `<head>` of all HTML files (`index.html`, `interactive_quiz.html`, `topic1_unix_commands.html` through `topic7_ipc.html`). a2915cb
-- [ ] Task: Conductor - User Manual Verification 'Phase 1: CSS Architecture Setup' (Protocol in workflow.md)
+- [~] Task: Conductor - User Manual Verification 'Phase 1: CSS Architecture Setup' (Protocol in workflow.md)
 
 ## Phase 2: Refactor Topic Pages 1-3
 - [ ] Task: Extract inline styles from `topic1_unix_commands.html` into appropriate classes in the new CSS files.
