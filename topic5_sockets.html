@@ -256,6 +256,7 @@
     </div>
     <div>
       <div class="cb">
+
 <span class="mc">#include</span> <span class="st">&lt;sys/types.h&gt;</span>
 <span class="mc">#include</span> <span class="st">&lt;sys/socket.h&gt;</span>
 
@@ -265,7 +266,7 @@
 
 <span class="tp">int</span> sock;
 <span class="kw">if</span> ((sock = <span class="fn">socket</span>(<span class="mc">AF_INET</span>, <span class="mc">SOCK_STREAM</span>, <span class="nm">0</span>)) == -<span class="nm">1</span>)
-    <span class="fn">perror_exit</span>(<span class="st">"socket"</span>);
+<span class="fn">perror_exit</span>(<span class="st">"socket"</span>);
 
 <span class="cm">// domain:   AF_INET (IPv4), AF_INET6, AF_UNIX</span>
 <span class="cm">// type:     SOCK_STREAM (TCP), SOCK_DGRAM (UDP)</span>
@@ -303,6 +304,7 @@
   <div class="grid2">
     <div>
       <div class="cb">
+
 <span class="mc">#include</span> <span class="st">&lt;sys/types.h&gt;</span>
 <span class="mc">#include</span> <span class="st">&lt;netinet/in.h&gt;</span>
 
@@ -356,21 +358,22 @@
   <div class="grid2">
     <div>
       <div class="cb">
+
 <span class="mc">#include</span> <span class="st">&lt;netinet/in.h&gt;</span>
 
 <span class="kw">struct</span> <span class="sf-type">sockaddr_in</span> {
-    <span class="sf-type">sa_family_t</span>    <span class="sf-field">sin_family</span>;   <span class="sf-comment">/* AF_INET */</span>
-    <span class="sf-type">in_port_t</span>      <span class="sf-field">sin_port</span>;     <span class="sf-comment">/* port σε NBO */</span>
-    <span class="kw">struct</span> <span class="sf-type">in_addr</span> <span class="sf-field">sin_addr</span>;     <span class="sf-comment">/* IPv4 address */</span>
+<span class="sf-type">sa_family_t</span>    <span class="sf-field">sin_family</span>;   <span class="sf-comment">/* AF_INET */</span>
+<span class="sf-type">in_port_t</span>      <span class="sf-field">sin_port</span>;     <span class="sf-comment">/* port σε NBO */</span>
+<span class="kw">struct</span> <span class="sf-type">in_addr</span> <span class="sf-field">sin_addr</span>;     <span class="sf-comment">/* IPv4 address */</span>
 };
 
 <span class="kw">struct</span> <span class="sf-type">in_addr</span> {
-    <span class="sf-type">in_addr_t</span>  <span class="sf-field">s_addr</span>;  <span class="sf-comment">/* uint32_t σε NBO */</span>
+<span class="sf-type">in_addr_t</span>  <span class="sf-field">s_addr</span>;  <span class="sf-comment">/* uint32_t σε NBO */</span>
 };
 
 <span class="sf-comment">/* in_port_t = uint16_t (2 bytes) */</span>
 <span class="sf-comment">/* in_addr_t = uint32_t (4 bytes) */</span>
-      </div>
+</div>
     </div>
     <div>
       <div class="card">
