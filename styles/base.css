@@ -332,9 +332,9 @@ html[data-theme="light"] section:hover {
     font-family: 'JetBrains Mono', monospace;
     font-size: 0.94rem;
     line-height: 1.85;
-    overflow-x: auto;
     margin: 28px 0;
-    white-space: pre;
+    white-space: pre-wrap; /* Enable wrapping */
+    word-break: break-all; /* Ensure long lines break */
     text-align: left; /* Strict left alignment */
 }
 
