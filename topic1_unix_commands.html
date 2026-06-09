@@ -84,28 +84,27 @@
 
     <section id="arch">
       <div class="sh">
-        <div class="sh-icon" style="background:var(--bdim)">🏗️</div>
+        <div class="sh-icon bg-blue-dim">🏗️</div>
         <h2>Αρχιτεκτονική Unix</h2>
       </div>
       <div class="grid2">
         <div>
-          <p style="color:var(--muted);margin-bottom:14px">Το Unix είναι δομημένο σε <strong
-              style="color:var(--txt)">στρώματα</strong>. Η επικοινωνία user-space ↔ kernel γίνεται
+          <p class="section-desc">Το Unix είναι δομημένο σε <strong class="text-primary">στρώματα</strong>. Η επικοινωνία user-space ↔ kernel γίνεται
             <em>αποκλειστικά</em> μέσω system calls.</p>
           <div class="arch">
-            <div class="alayer la">📦 User Applications<br><small style="opacity:.7">ls, gcc, vim, browser…</small>
+            <div class="alayer la">📦 User Applications<br><small class="opacity-70">ls, gcc, vim, browser…</small>
             </div>
             <div class="aarr">↕</div>
-            <div class="alayer lb">🐚 Shell (bash)<br><small style="opacity:.7">διερμηνεύει εντολές, scripting</small>
+            <div class="alayer lb">🐚 Shell (bash)<br><small class="opacity-70">διερμηνεύει εντολές, scripting</small>
             </div>
             <div class="aarr">↕</div>
-            <div class="alayer lc">⚙️ System Calls<br><small style="opacity:.7">open() fork() read() write()…</small>
+            <div class="alayer lc">⚙️ System Calls<br><small class="opacity-70">open() fork() read() write()…</small>
             </div>
             <div class="aarr">↕</div>
-            <div class="alayer ld">🔒 Kernel<br><small style="opacity:.7">διεργασίες · μνήμη · I/O · δίκτυο</small>
+            <div class="alayer ld">🔒 Kernel<br><small class="opacity-70">διεργασίες · μνήμη · I/O · δίκτυο</small>
             </div>
             <div class="aarr">↕</div>
-            <div class="alayer le">💾 Hardware<br><small style="opacity:.7">CPU · RAM · δίσκος</small></div>
+            <div class="alayer le">💾 Hardware<br><small class="opacity-70">CPU · RAM · δίσκος</small></div>
           </div>
         </div>
         <div>
@@ -119,15 +118,15 @@
             </div>
           </div>
           <div class="ibox">
-            <div class="lbl" style="color:var(--blue)">💡 Φιλοσοφία Unix</div>"Do one thing and do it well." Κάθε εντολή
+            <div class="lbl text-blue">💡 Φιλοσοφία Unix</div>"Do one thing and do it well." Κάθε εντολή
             κάνει μία δουλειά. Δύναμη από συνδυασμό με pipes.
           </div>
           <div class="gbox">
-            <div class="lbl" style="color:var(--green)">Multi-user &amp; Multi-tasking</div>Πολλοί χρήστες ταυτόχρονα,
+            <div class="lbl text-green">Multi-user &amp; Multi-tasking</div>Πολλοί χρήστες ταυτόχρονα,
             πολλές διεργασίες ταυτόχρονα, απομονωμένα μέσω UIDs και permissions.
           </div>
           <div class="ibox">
-            <div class="lbl" style="color:var(--blue)">man sections</div><strong>Section 1</strong>: εντολές (ls, grep)
+            <div class="lbl text-blue">man sections</div><strong>Section 1</strong>: εντολές (ls, grep)
             · <strong>Section 2</strong>: system calls (open, fork) · <strong>Section 3</strong>: C library (printf,
             malloc). <code>man 2 open</code> → system call.
           </div>
@@ -138,11 +137,11 @@
 
     <section id="fs">
       <div class="sh">
-        <div class="sh-icon" style="background:var(--gdim)">📁</div>
+        <div class="sh-icon bg-green-dim">📁</div>
         <h2>Σύστημα Αρχείων (Filesystem)</h2>
       </div>
-      <p style="color:var(--muted);margin-bottom:14px">
-        Το Unix οργανώνει όλα τα αρχεία σε ένα <strong style="color:var(--txt)">ενιαίο δέντρο</strong> που ξεκινά από τη ρίζα <code>/</code>. Δεν υπάρχουν γράμματα δίσκων (C:, D:) — ό,τι συνδέεις (δίσκοι, USB, δίκτυο) "κολλάει" κάπου στο δέντρο ως υποκατάλογος.
+      <p class="section-desc">
+        Το Unix οργανώνει όλα τα αρχεία σε ένα <strong class="text-primary">ενιαίο δέντρο</strong> που ξεκινά από τη ρίζα <code>/</code>. Δεν υπάρχουν γράμματα δίσκων (C:, D:) — ό,τι συνδέεις (δίσκοι, USB, δίκτυο) "κολλάει" κάπου στο δέντρο ως υποκατάλογος.
       </p>
       <div class="grid2">
         <div>
@@ -205,11 +204,11 @@
 
     <section id="nav">
       <div class="sh">
-        <div class="sh-icon" style="background:rgba(57,212,200,.1)">⌨️</div>
+        <div class="sh-icon bg-cyan-alpha">⌨️</div>
         <h2>Εντολές Πλοήγησης &amp; Αρχείων</h2>
       </div>
 
-      <p style="color:var(--muted);margin-bottom:14px">
+      <p class="section-desc">
         Οι βασικότερες εντολές για να κινηθείς στο filesystem: να δεις που βρίσκεσαι, να μετακινηθείς, να δημιουργήσεις ή να διαγράψεις αρχεία και καταλόγους.
       </p>
 
@@ -313,7 +312,7 @@
 
       <div class="cmd-entry">
         <div class="cmd-head"><span class="cmd-name">rm</span><span class="cmd-full">ReMove</span></div>
-        <div class="cmd-desc">Διαγράφει αρχεία/directories. <strong style="color:var(--red)">Μόνιμο — δεν πάει σε
+        <div class="cmd-desc">Διαγράφει αρχεία/directories. <strong class="text-red">Μόνιμο — δεν πάει σε
             Recycle Bin.</strong></div>
         <div class="cb">
           <span class="c">rm</span> <span class="a">file.txt</span>
@@ -325,7 +324,7 @@
             + force — ΠΡΟΣΟΧΗ</span>
         </div>
         <div class="rbox">
-          <div class="lbl" style="color:var(--red)">⚠️ Κανένα undo</div><code>rm -rf /</code> ή <code>rm -rf *</code>
+          <div class="lbl text-red">⚠️ Κανένα undo</div><code>rm -rf /</code> ή <code>rm -rf *</code>
           διαγράφουν τα πάντα χωρίς επιβεβαίωση.
         </div>
       </div>
@@ -357,11 +356,11 @@
 
     <section id="text">
       <div class="sh">
-        <div class="sh-icon" style="background:var(--ydim)">🔍</div>
+        <div class="sh-icon bg-yellow-dim">🔍</div>
         <h2>Εντολές Επεξεργασίας Κειμένου</h2>
       </div>
 
-      <p style="color:var(--muted);margin-bottom:14px">
+      <p class="section-desc">
         Η Unix φιλοσοφία: <em>"κάθε εντολή κάνει ένα πράγμα καλά"</em>. Αυτές οι εντολές επεξεργάζονται κείμενο — ψάχνουν patterns, μετρούν, ταξινομούν — και συνδυάζονται μεταξύ τους με pipes για να λύσουν σύνθετα προβλήματα.
       </p>
 
@@ -479,23 +478,22 @@
 
     <section id="perm">
       <div class="sh">
-        <div class="sh-icon" style="background:var(--rdim)">🔐</div>
+        <div class="sh-icon bg-red-dim">🔐</div>
         <h2>Δικαιώματα (Permissions)</h2></div>
-      <p style="color:var(--muted);margin-bottom:12px">
+      <p class="section-desc-sm">
         Σε ένα σύστημα πολλών χρηστών (multi-user) όπως το Unix, η ασφάλεια είναι πρωταρχική. 
-        Τα δικαιώματα ορίζουν <strong style="color:var(--txt)">ποιος</strong> μπορεί να κάνει <strong style="color:var(--txt)">τι</strong> σε κάθε αρχείο, 
+        Τα δικαιώματα ορίζουν <strong class="text-primary">ποιος</strong> μπορεί να κάνει <strong class="text-primary">τι</strong> σε κάθε αρχείο, 
         εμποδίζοντας τυχαίες ή κακόβουλες αλλαγές σε ευαίσθητα δεδομένα.
       </p>
       </div>
       <div class="grid2">
         <div>
-          <p style="color:var(--muted);margin-bottom:12px">Κάθε αρχείο έχει 9 bits permissions: 3 για
-            <span style="color:var(--red)">owner</span>, 3 για <span style="color:var(--yellow)">group</span>, 3 για
-            <span style="color:var(--muted)">others</span>.</p>
+          <p class="section-desc-sm">Κάθε αρχείο έχει 9 bits permissions: 3 για
+            <span class="text-red">owner</span>, 3 για <span class="text-yellow">group</span>, 3 για
+            <span class="text-muted">others</span>.</p>
           <div class="cb">
             <span class="cm"># ls -l output:</span>
-            <span style="color:var(--dim)">-</span><span style="color:var(--red)">rwx</span><span
-              style="color:var(--yellow)">r-x</span><span style="color:var(--muted)">r--</span> 1 alice dev 2048 Apr 25
+            <span class="text-dim">-</span><span class="text-red">rwx</span><span class="text-yellow">r-x</span><span class="text-muted">r--</span> 1 alice dev 2048 Apr 25
             prog
             <span class="cm"># 1ος χαρακτήρας: τύπος αρχείου</span>
             <span class="cm"># - = regular file</span>
@@ -506,7 +504,7 @@
             <span class="cm"># r-x = 4+0+1 = 5</span>
             <span class="cm"># r-- = 4+0+0 = 4</span>
           </div>
-          <div class="cb" style="margin-top:10px">
+          <div class="cb mt-10">
             <span class="c">chmod</span> <span class="f">755</span> <span class="a">script.sh</span> <span class="cm">#
               octal notation</span>
             <span class="c">chmod</span> <span class="f">+x</span> <span class="a">prog</span> <span class="cm">#
@@ -557,12 +555,12 @@
               <td class="mono">---</td>
             </tr>
           </table>
-          <div class="gbox" style="margin-top:10px">
-            <div class="lbl" style="color:var(--green)">✅ Συνηθισμένα</div><code>755</code> → scripts/dirs ·
+          <div class="gbox mt-10">
+            <div class="lbl text-green">✅ Συνηθισμένα</div><code>755</code> → scripts/dirs ·
             <code>644</code> → κανονικά αρχεία · <code>600</code> → private (SSH keys) · <code>777</code> → ποτέ σε
             production
           </div>
-          <div class="tip" style="margin-top:10px">
+          <div class="tip mt-10">
             <div class="tip-icon">🧠</div>
             <div>
               <div class="tip-title">Tip — Δικαιώματα Καταλόγων</div>
@@ -576,45 +574,45 @@
 
     <section id="redirect">
       <div class="sh">
-        <div class="sh-icon" style="background:var(--ydim)">🔀</div>
+        <div class="sh-icon bg-yellow-dim">🔀</div>
         <h2>Redirections &amp; Pipes</h2>
       </div>
-      <p style="color:var(--muted);margin-bottom:14px">Κάθε διεργασία έχει 3 standard streams:
+      <p class="section-desc">Κάθε διεργασία έχει 3 standard streams:
         <code>0 = stdin</code> (keyboard), <code>1 = stdout</code> (screen), <code>2 = stderr</code> (screen, errors).
         Όλα μπορούν να ανακατευθυνθούν.</p>
-      <div class="rgrid" style="margin-bottom:14px">
+      <div class="rgrid mb-14">
         <div class="ritem">
           <div class="rop">&gt; file</div>
           <div class="rdesc">stdout → αρχείο. <strong>Αντικαθιστά</strong> αρχείο.</div>
-          <div class="cb" style="margin-top:6px"><span class="c">ls</span> &gt; <span class="a">out.txt</span></div>
+          <div class="cb mt-6"><span class="c">ls</span> &gt; <span class="a">out.txt</span></div>
         </div>
         <div class="ritem">
           <div class="rop">&gt;&gt; file</div>
           <div class="rdesc">stdout → αρχείο. <strong>Προσθέτει</strong> στο τέλος.</div>
-          <div class="cb" style="margin-top:6px"><span class="c">echo</span> <span class="a">"log"</span> &gt;&gt; <span
+          <div class="cb mt-6"><span class="c">echo</span> <span class="a">"log"</span> &gt;&gt; <span
               class="a">log.txt</span></div>
         </div>
         <div class="ritem">
           <div class="rop">&lt; file</div>
           <div class="rdesc">stdin ← αρχείο αντί keyboard.</div>
-          <div class="cb" style="margin-top:6px"><span class="c">sort</span> &lt; <span class="a">names.txt</span></div>
+          <div class="cb mt-6"><span class="c">sort</span> &lt; <span class="a">names.txt</span></div>
         </div>
         <div class="ritem">
           <div class="rop">2&gt; file</div>
           <div class="rdesc">stderr → αρχείο (errors αποθηκεύονται).</div>
-          <div class="cb" style="margin-top:6px"><span class="c">gcc</span> <span class="a">prog.c</span> 2&gt; <span
+          <div class="cb mt-6"><span class="c">gcc</span> <span class="a">prog.c</span> 2&gt; <span
               class="a">err.txt</span></div>
         </div>
         <div class="ritem">
           <div class="rop">2&gt;&amp;1</div>
           <div class="rdesc">stderr → εκεί που πάει το stdout.</div>
-          <div class="cb" style="margin-top:6px"><span class="c">make</span> &gt; <span class="a">all.log</span>
+          <div class="cb mt-6"><span class="c">make</span> &gt; <span class="a">all.log</span>
             2&gt;&amp;1</div>
         </div>
         <div class="ritem">
           <div class="rop">/dev/null</div>
           <div class="rdesc">Bit bucket — πετάει την έξοδο τελείως.</div>
-          <div class="cb" style="margin-top:6px"><span class="c">cmd</span> &gt;/dev/null 2&gt;&amp;1</div>
+          <div class="cb mt-6"><span class="c">cmd</span> &gt;/dev/null 2&gt;&amp;1</div>
         </div>
       </div>
       <div class="tip">
@@ -626,11 +624,11 @@
             file) vs <code>2>&1 > file</code> (λάθος — stderr πάει στο αρχικό stdout).</div>
         </div>
       </div>
-      <div class="cmd-entry" style="margin-top:14px">
+      <div class="cmd-entry mt-14">
         <div class="cmd-head"><span class="cmd-name">|</span><span class="cmd-full">pipe operator</span></div>
         <div class="cmd-desc">Συνδέει stdout μιας εντολής με stdin της επόμενης. Τρέχουν <em>ταυτόχρονα</em>
           (παράλληλα).</div>
-        <div class="piperow" style="margin:10px 0">
+        <div class="piperow my-10">
           <div class="pcmd">ps aux</div>
           <div class="psep">|</div>
           <div class="pcmd">grep python</div>
@@ -654,11 +652,11 @@
 
     <section id="proc">
       <div class="sh">
-        <div class="sh-icon" style="background:var(--gdim)">⚡</div>
+        <div class="sh-icon bg-green-dim">⚡</div>
         <h2>Διαχείριση Διεργασιών</h2>
       </div>
-      <p style="color:var(--muted);margin-bottom:14px">
-        Κάθε πρόγραμμα που τρέχει είναι μια <strong style="color:var(--txt)">διεργασία</strong> με μοναδικό αριθμό ταυτοποίησης (PID). Μπορείς να δεις ποιες τρέχουν, να τις τερματίσεις ή να τις στείλεις να τρέχουν στο background χωρίς να μπλοκάρεις το terminal.
+      <p class="section-desc">
+        Κάθε πρόγραμμα που τρέχει είναι μια <strong class="text-primary">διεργασία</strong> με μοναδικό αριθμό ταυτοποίησης (PID). Μπορείς να δεις ποιες τρέχουν, να τις τερματίσεις ή να τις στείλεις να τρέχουν στο background χωρίς να μπλοκάρεις το terminal.
       </p>
       <div class="grid2">
         <div>
@@ -719,11 +717,11 @@
 
     <section id="env">
       <div class="sh">
-        <div class="sh-icon" style="background:var(--pdim)">🌍</div>
+        <div class="sh-icon bg-purple-dim">🌍</div>
         <h2>Μεταβλητές Περιβάλλοντος</h2>
       </div>
-      <p style="color:var(--muted);margin-bottom:14px">
-        Το shell διατηρεί ένα σύνολο <strong style="color:var(--txt)">μεταβλητών περιβάλλοντος</strong> που παρέχουν πληροφορίες για το σύστημα. Κάθε νέα διεργασία τις κληρονομεί από τον γονέα της. Η πιο σημαντική: <code>PATH</code> — λέει στο shell πού να ψάξει για εκτελέσιμα αρχεία.
+      <p class="section-desc">
+        Το shell διατηρεί ένα σύνολο <strong class="text-primary">μεταβλητών περιβάλλοντος</strong> που παρέχουν πληροφορίες για το σύστημα. Κάθε νέα διεργασία τις κληρονομεί από τον γονέα της. Η πιο σημαντική: <code>PATH</code> — λέει στο shell πού να ψάξει για εκτελέσιμα αρχεία.
       </p>
       <div class="grid2">
         <div>
@@ -764,22 +762,22 @@
 
     <section id="links">
       <div class="sh">
-        <div class="sh-icon" style="background:var(--cdim)">🔗</div>
+        <div class="sh-icon bg-cyan-dim">🔗</div>
         <h2>Hard &amp; Soft Links</h2></div>
-      <p style="color:var(--muted);margin-bottom:14px">
+      <p class="section-desc">
         Στο Unix, το όνομα ενός αρχείου είναι απλά μια "ταμπέλα" που δείχνει στα δεδομένα του στο δίσκο. 
-        Αυτό μας επιτρέπει να έχουμε <strong style="color:var(--txt)">πολλά ονόματα</strong> για το ίδιο αρχείο (Links), 
+        Αυτό μας επιτρέπει να έχουμε <strong class="text-primary">πολλά ονόματα</strong> για το ίδιο αρχείο (Links), 
         είτε ως άμεσες αναφορές στα δεδομένα (Hard) είτε ως "συντομεύσεις" προς ένα μονοπάτι (Soft).
       </p>
       </div>
       <div class="grid2">
         <div>
-          <p style="color:var(--muted);margin-bottom:14px">Στο Unix, το όνομα του αρχείου και τα δεδομένα του στο δίσκο είναι διαφορετικά πράγματα. Το inode δείχνει στα δεδομένα, ενώ τα Links είναι τα ονόματα.</p>
+          <p class="section-desc">Στο Unix, το όνομα του αρχείου και τα δεδομένα του στο δίσκο είναι διαφορετικά πράγματα. Το inode δείχνει στα δεδομένα, ενώ τα Links είναι τα ονόματα.</p>
           <div class="cmd-entry">
             <div class="cmd-head"><span class="cmd-name">ln</span><span class="cmd-full">Hard Link</span></div>
             <div class="cmd-desc">Δημιουργεί νέο όνομα (hard link) για το ίδιο αρχείο.</div>
             <div class="cb"><span class="c">ln</span> <span class="a">target.txt link.txt</span></div>
-            <ul style="color:var(--muted);margin-top:10px;padding-left:20px;font-size:0.95rem">
+            <ul class="list-muted-sm">
               <li>Μοιράζονται το <strong>ίδιο inode</strong>.</li>
               <li>Δεν γίνονται σε καταλόγους.</li>
               <li>Αν διαγράψεις το target.txt, τα δεδομένα <strong>δεν χάνονται</strong> όσο υπάρχει το link.txt!</li>
@@ -791,7 +789,7 @@
             <div class="cmd-head"><span class="cmd-name">ln -s</span><span class="cmd-full">Soft / Symbolic Link</span></div>
             <div class="cmd-desc">Δημιουργεί "συντόμευση" στο μονοπάτι του αρχείου.</div>
             <div class="cb"><span class="c">ln</span> <span class="f">-s</span> <span class="a">target.txt softlink.txt</span></div>
-            <ul style="color:var(--muted);margin-top:10px;padding-left:20px;font-size:0.95rem">
+            <ul class="list-muted-sm">
               <li>Είναι απλά ένας <strong>δείκτης στο path</strong> του αρχείου.</li>
               <li>Μπορούν να γίνουν και σε καταλόγους.</li>
               <li>Αν διαγράψεις/μετακινήσεις το target.txt, το link <strong>σπάει (dangling link)</strong>!</li>

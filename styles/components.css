@@ -1,0 +1,75 @@
+
+/* Auto-generated utility classes */
+.section-desc { color: var(--muted); margin-bottom: 14px; }
+.section-desc-sm { color: var(--muted); margin-bottom: 12px; }
+.section-desc-lg { color: var(--muted); margin-bottom: 16px; }
+.section-desc-xs { color: var(--muted); margin-bottom: 10px; }
+.mb-14 { margin-bottom: 14px; }
+.mb-8 { margin-bottom: 8px; }
+.text-primary { color: var(--txt); }
+.opacity-70 { opacity: 0.7; }
+.text-blue { color: var(--blue); }
+.text-green { color: var(--green); }
+.text-red { color: var(--red); }
+.text-yellow { color: var(--yellow); }
+.text-muted { color: var(--muted); }
+.text-dim { color: var(--dim); }
+.text-cyan { color: var(--cyan); }
+.text-purple { color: var(--purple); }
+.text-orange { color: var(--orange); }
+.text-light-red { color: #ff9999; }
+.text-orange-alpha { color: rgba(255,149,0,.7); }
+.text-orange-alpha-fw400 { font-weight: 400; color: rgba(255,149,0,.7); }
+.fw-400 { font-weight: 400; }
+
+.bg-blue-dim { background: var(--bdim); }
+.bg-green-dim { background: var(--gdim); }
+.bg-yellow-dim { background: var(--ydim); }
+.bg-red-dim { background: var(--rdim); }
+.bg-purple-dim { background: var(--pdim); }
+.bg-cyan-dim { background: var(--cdim); }
+.bg-orange-dim { background: var(--odim); }
+
+.bg-cyan-alpha { background: rgba(57,212,200,.1); }
+.bg-cyan-alpha2 { background: rgba(34,211,238,.1); }
+.bg-cyan-alpha3 { background: rgba(139,233,253,.1); }
+.bg-green-alpha { background: rgba(80,250,123,.1); }
+
+.mt-10 { margin-top: 10px; }
+.mt-12 { margin-top: 12px; }
+.mt-16 { margin-top: 16px; }
+.mt-6 { margin-top: 6px; }
+.mt-14 { margin-top: 14px; }
+.mt-8 { margin-top: 8px; }
+.my-10 { margin: 10px 0; }
+.p-10 { padding: 10px; }
+.py-6 { padding: 6px 0; }
+
+.card-warning { margin-top: 20px; background: var(--rdim); border: 1px solid var(--red); }
+.list-muted-sm { color: var(--muted); margin-top: 10px; padding-left: 20px; font-size: 0.95rem; }
+.header-dim-sm { color: var(--dim); margin-bottom: 12px; letter-spacing: 1px; }
+.header-dim { color: var(--dim); margin-bottom: 10px; letter-spacing: 1px; }
+.list-none-sm { list-style: none; padding: 0; margin: 0; font-size: 0.9375rem; }
+.card-surf2 { background: var(--surf2); margin-bottom: 16px; }
+.list-muted-xs { color: var(--muted); font-size: 0.90625rem; padding-left: 20px; }
+.flex-col-gap12 { display: flex; gap: 12px; flex-direction: column; }
+.flex-row-center-mt8 { display: flex; gap: 20px; justify-content: center; margin-top: 8px; }
+.flex-col-center-gap6 { display: flex; flex-direction: column; align-items: center; gap: 6px; }
+.flex-row-between-mb12 { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; }
+.text-mono-center-dim { font-family: 'JetBrains Mono', monospace; color: var(--dim); text-align: center; }
+.text-mono-orange { font-family: 'JetBrains Mono', monospace; color: var(--orange); }
+
+.badge-yellow { background: rgba(241,250,140,.1); color: var(--yellow); border-color: rgba(241,250,140,.3); }
+.badge-green { background: rgba(80,250,123,.15); color: #50fa7b; border: 1px solid rgba(80,250,123,.3); }
+.badge-purple { background: rgba(189,147,249,.15); color: #bd93f9; border: 1px solid rgba(189,147,249,.3); border-radius: 4px; padding: 3px 10px; font-weight: 700; }
+.border-green-txt { border-color: rgba(80,250,123,.4); color: #50fa7b; }
+
+.text-center-dim { text-align: center; color: var(--dim); padding: 4px; }
+.border-left-purple { border-left: 4px solid var(--purple); }
+.border-left-yellow { border-left: 4px solid var(--yellow); }
+.text-muted-sm { color: var(--muted); font-size: 0.9rem; margin-bottom: 12px; }
+.list-muted-xs2 { font-size: 0.85rem; color: var(--muted); padding-left: 15px; }
+.text-muted-base { color: var(--muted); font-size: 0.93rem; }
+.text-muted-md { color: var(--muted); font-size: 0.95rem; margin-bottom: 12px; }
+.list-muted-xs3 { color: var(--muted); font-size: 0.9rem; padding-left: 15px; margin-bottom: 10px; }
+.topic-section-card { background: var(--surf); border: 1px solid var(--border); border-radius: 12px; padding: 20px; margin: 16px 0; box-shadow: 0 4px 6px rgba(0,0,0,0.1); }

@@ -142,11 +142,11 @@
 
     <section id="anatomy">
       <div class="sh">
-        <div class="sh-icon" style="background:var(--gdim)">📜</div>
+        <div class="sh-icon bg-green-dim">📜</div>
         <h2>Ανατομία Bash Script</h2>
       </div>
-      <p style="color:var(--muted);margin-bottom:14px">
-        Ένα Bash script είναι ένα <strong style="color:var(--txt)">αρχείο κειμένου</strong> που περιέχει εντολές shell, τρέχει από πάνω προς τα κάτω. Αντί να πληκτρολογείς κάθε εντολή χειροκίνητα, τις "αποθηκεύεις" — αυτή είναι η βάση του automation.
+      <p class="section-desc">
+        Ένα Bash script είναι ένα <strong class="text-primary">αρχείο κειμένου</strong> που περιέχει εντολές shell, τρέχει από πάνω προς τα κάτω. Αντί να πληκτρολογείς κάθε εντολή χειροκίνητα, τις "αποθηκεύεις" — αυτή είναι η βάση του automation.
       </p>
       <div class="grid2">
         <div>
@@ -163,7 +163,7 @@
             <span class="kw">exit</span> <span class="nm">0</span> <span class="cm"># 0 = επιτυχία</span>
           </div>
           <div class="wbox">
-            <div class="lbl" style="color:var(--yellow)">⚠️ Πριν εκτελέσεις</div>Δώσε execute permission:
+            <div class="lbl text-yellow">⚠️ Πριν εκτελέσεις</div>Δώσε execute permission:
             <code>chmod +x script.sh</code><br>Εκτέλεση: <code>./script.sh</code> ή <code>bash script.sh</code>
           </div>
         </div>
@@ -204,11 +204,11 @@
 
     <section id="vars">
       <div class="sh">
-        <div class="sh-icon" style="background:rgba(34,211,238,.1)">📦</div>
+        <div class="sh-icon bg-cyan-alpha2">📦</div>
         <h2>Μεταβλητές</h2>
       </div>
-      <p style="color:var(--muted);margin-bottom:14px">
-        Οι μεταβλητές αποθηκεύουν τιμές για να τις χρησιμοποιήσουμε αργότερα. Στο Bash δεν δηλώνεις τύπο — όλα αντιμετωπίζονται ως κείμενο. Δύο <strong style="color:var(--txt)">κρίσιμοι κανόνες</strong>: κανένα κενό γύρω από το <code>=</code> κατά τον ορισμό, και <code>$</code> μπροστά κατά τη χρήση.
+      <p class="section-desc">
+        Οι μεταβλητές αποθηκεύουν τιμές για να τις χρησιμοποιήσουμε αργότερα. Στο Bash δεν δηλώνεις τύπο — όλα αντιμετωπίζονται ως κείμενο. Δύο <strong class="text-primary">κρίσιμοι κανόνες</strong>: κανένα κενό γύρω από το <code>=</code> κατά τον ορισμό, και <code>$</code> μπροστά κατά τη χρήση.
       </p>
       <div class="grid2">
         <div>
@@ -263,14 +263,14 @@
 
     <section id="specvars">
       <div class="sh">
-        <div class="sh-icon" style="background:var(--pdim)">⭐</div>
+        <div class="sh-icon bg-purple-dim">⭐</div>
         <h2>Special Variables — Οι πιο σημαντικές</h2>
       </div>
-      <p style="color:var(--muted);margin-bottom:14px">
+      <p class="section-desc">
         Το Bash ορίζει αυτόματα ορισμένες "μαγικές" μεταβλητές που ενημερώνονται από το σύστημα κάθε φορά που εκτελείται μια εντολή.
         Μας επιτρέπουν να ξέρουμε: πόσα ορίσματα δόθηκαν, πώς πήγε η τελευταία εντολή, ποιο είναι το PID του script, κ.ά.
       </p>
-      <table class="vtbl" style="margin-bottom:14px">
+      <table class="vtbl mb-14">
         <tr>
           <th>Variable</th>
           <th>Τι είναι</th>
@@ -280,50 +280,50 @@
         <tr>
           <td class="mono">$$</td>
           <td>PID του τρέχοντος script</td>
-          <td style="color:var(--muted);">Temp files: <code>/tmp/lock.$$</code></td>
-          <td style="color:var(--muted)">Δύο $ = "ο PID του εαυτού μου"</td>
+          <td class="text-muted">Temp files: <code>/tmp/lock.$$</code></td>
+          <td class="text-muted">Δύο $ = "ο PID του εαυτού μου"</td>
         </tr>
         <tr>
           <td class="mono">$?</td>
           <td>Exit status τελευταίας εντολής (0=OK)</td>
-          <td style="color:var(--muted);">Αμέσως μετά command για έλεγχο</td>
-          <td style="color:var(--muted)">? = "πώς πήγε;"</td>
+          <td class="text-muted">Αμέσως μετά command για έλεγχο</td>
+          <td class="text-muted">? = "πώς πήγε;"</td>
         </tr>
         <tr>
           <td class="mono">$!</td>
           <td>PID τελευταίου background process</td>
-          <td style="color:var(--muted);"><code>prog & echo $!</code></td>
-          <td style="color:var(--muted)">! = "το τελευταίο !"</td>
+          <td class="text-muted"><code>prog & echo $!</code></td>
+          <td class="text-muted">! = "το τελευταίο !"</td>
         </tr>
         <tr>
           <td class="mono">$0</td>
           <td>Όνομα του script</td>
-          <td style="color:var(--muted);"><code>echo "Usage: $0 &lt;arg&gt;"</code></td>
-          <td style="color:var(--muted)">0 = ο "zeroth" argument</td>
+          <td class="text-muted"><code>echo "Usage: $0 &lt;arg&gt;"</code></td>
+          <td class="text-muted">0 = ο "zeroth" argument</td>
         </tr>
         <tr>
           <td class="mono">$1, $2…</td>
           <td>Positional arguments (1ο, 2ο…)</td>
-          <td style="color:var(--muted);"><code>./script.sh foo bar → $1=foo</code></td>
-          <td style="color:var(--muted)">Σειρά στη γραμμή εντολών</td>
+          <td class="text-muted"><code>./script.sh foo bar → $1=foo</code></td>
+          <td class="text-muted">Σειρά στη γραμμή εντολών</td>
         </tr>
         <tr>
           <td class="mono">$#</td>
           <td>Πλήθος arguments που δόθηκαν</td>
-          <td style="color:var(--muted);"><code>if [ $# -ne 2 ]</code></td>
-          <td style="color:var(--muted)"># = αριθμός (hash = count)</td>
+          <td class="text-muted"><code>if [ $# -ne 2 ]</code></td>
+          <td class="text-muted"># = αριθμός (hash = count)</td>
         </tr>
         <tr>
           <td class="mono">$@</td>
           <td>Όλα τα arguments (ξεχωριστά)</td>
-          <td style="color:var(--muted);"><code>for arg in "$@"</code></td>
-          <td style="color:var(--muted)">@ = "all at" — όλα μαζί αλλά ξεχωριστά</td>
+          <td class="text-muted"><code>for arg in "$@"</code></td>
+          <td class="text-muted">@ = "all at" — όλα μαζί αλλά ξεχωριστά</td>
         </tr>
         <tr>
           <td class="mono">$*</td>
           <td>Όλα τα arguments (ένα string)</td>
-          <td style="color:var(--muted);">Σπάνια χρήση</td>
-          <td style="color:var(--muted)">* = "glob" = ένα μπλοκ</td>
+          <td class="text-muted">Σπάνια χρήση</td>
+          <td class="text-muted">* = "glob" = ένα μπλοκ</td>
         </tr>
       </table>
       <div class="tip">
@@ -342,10 +342,10 @@
 
     <section id="args">
       <div class="sh">
-        <div class="sh-icon" style="background:var(--odim)">🎯</div>
+        <div class="sh-icon bg-orange-dim">🎯</div>
         <h2>Arguments &amp; Input</h2>
       </div>
-      <p style="color:var(--muted);margin-bottom:14px">
+      <p class="section-desc">
         Τα arguments είναι τιμές που δίνουμε στο script κατά την εκτέλεση: <code>./script.sh arg1 arg2</code>.
         Εναλλακτικά, μπορούμε να ζητάμε δεδομένα <em>διαδραστικά</em> κατά τη διάρκεια της εκτέλεσης με την εντολή <code>read</code>.
       </p>
@@ -399,11 +399,11 @@
 
     <section id="cond">
       <div class="sh">
-        <div class="sh-icon" style="background:var(--ydim)">🔀</div>
+        <div class="sh-icon bg-yellow-dim">🔀</div>
         <h2>Συνθήκες — if / case</h2>
       </div>
-      <p style="color:var(--muted);margin-bottom:14px">
-        Οι συνθήκες επιτρέπουν στο script να παίρνει αποφάσεις. Η σύνταξη στο Bash είναι <strong style="color:var(--txt)">αυστηρή</strong>:
+      <p class="section-desc">
+        Οι συνθήκες επιτρέπουν στο script να παίρνει αποφάσεις. Η σύνταξη στο Bash είναι <strong class="text-primary">αυστηρή</strong>:
         κάθε κενό γύρω από τις αγκύλες <code>[ ]</code> είναι υποχρεωτικό, γιατί το <code>[</code> είναι στην πραγματικότητα μια εντολή!
       </p>
       <div class="grid2">
@@ -487,7 +487,7 @@
         </div>
       </div>
       <div class="wbox">
-        <div class="lbl" style="color:var(--yellow)">⚠️ Κλασικά λάθη με [ ]</div>Πάντα <strong>spaces</strong> γύρω από
+        <div class="lbl text-yellow">⚠️ Κλασικά λάθη με [ ]</div>Πάντα <strong>spaces</strong> γύρω από
         <code>[</code> και <code>]</code>: <code>[ $x -eq 5 ]</code> ✓ — <code>[$x -eq 5]</code> ✗<br>Πάντα
         <strong>quotes</strong> γύρω από string variables: <code>[ "$NAME" == "Alice" ]</code> — χωρίς quotes σπάει αν
         έχει spaces.
@@ -498,7 +498,7 @@
 
     <section id="loops">
       <div class="sh">
-        <div class="sh-icon" style="background:var(--pdim)">🔄</div>
+        <div class="sh-icon bg-purple-dim">🔄</div>
         <h2>Βρόχοι — for / while / until</h2>
       </div>
       <div class="grid2">
@@ -561,7 +561,7 @@
         </div>
       </div>
       <div class="ibox">
-        <div class="lbl" style="color:var(--blue)">break &amp; continue</div><code>break</code> = βγες από τον βρόχο ·
+        <div class="lbl text-blue">break &amp; continue</div><code>break</code> = βγες από τον βρόχο ·
         <code>continue</code> = πήγαινε στην επόμενη επανάληψη · <code>break 2</code> = βγες από 2 επίπεδα nested loops
       </div>
     
@@ -570,12 +570,12 @@
 
     <section id="arith">
       <div class="sh">
-        <div class="sh-icon" style="background:var(--ydim)">🔢</div>
+        <div class="sh-icon bg-yellow-dim">🔢</div>
         <h2>Αριθμητικές Πράξεις</h2>
       </div>
-      <p style="color:var(--muted);margin-bottom:14px">
+      <p class="section-desc">
         Παρόλο που το Bash είναι κυρίως εργαλείο κειμένου, υποστηρίζει βασικά μαθηματικά.
-        <strong style="color:var(--red)">Προσοχή:</strong> δουλεύει μόνο με <strong>ακέραιους</strong>. Για δεκαδικούς χρειάζεσαι εξωτερικό εργαλείο όπως <code>bc</code> ή <code>awk</code>.
+        <strong class="text-red">Προσοχή:</strong> δουλεύει μόνο με <strong>ακέραιους</strong>. Για δεκαδικούς χρειάζεσαι εξωτερικό εργαλείο όπως <code>bc</code> ή <code>awk</code>.
       </p>
       <div class="grid2">
         <div>
@@ -626,7 +626,7 @@
         </div>
       </div>
       <div class="wbox">
-        <div class="lbl" style="color:var(--yellow)">⚠️ Σε θυμίζω</div>Με <code>expr</code>, το <code>*</code> πρέπει να
+        <div class="lbl text-yellow">⚠️ Σε θυμίζω</div>Με <code>expr</code>, το <code>*</code> πρέπει να
         escape-αριστεί: <code>expr $A \* $B</code>. Αλλιώς ο shell το ερμηνεύει ως glob expansion.
       </div>
     
@@ -635,7 +635,7 @@
 
     <section id="funcs">
       <div class="sh">
-        <div class="sh-icon" style="background:var(--bdim)">⚙️</div>
+        <div class="sh-icon bg-blue-dim">⚙️</div>
         <h2>Functions</h2>
       </div>
       <div class="grid2">
@@ -686,7 +686,7 @@
         </div>
       </div>
       <div class="rbox">
-        <div class="lbl" style="color:var(--red)">🚨 Πρέπει να ορίζεται πριν καλεστεί!</div>Σε αντίθεση με C, οι
+        <div class="lbl text-red">🚨 Πρέπει να ορίζεται πριν καλεστεί!</div>Σε αντίθεση με C, οι
         functions σε bash πρέπει να οριστούν <em>πριν</em> κληθούν. Αν καλέσεις function που δεν έχει οριστεί ακόμα,
         bash error.
       </div>
@@ -696,7 +696,7 @@
 
     <section id="strings">
       <div class="sh">
-        <div class="sh-icon" style="background:var(--gdim)">✂️</div>
+        <div class="sh-icon bg-green-dim">✂️</div>
         <h2>String Manipulation</h2>
       </div>
       <div class="card">
