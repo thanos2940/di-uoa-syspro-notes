@@ -53,10 +53,10 @@
 
 <!-- ═══════════════════════ 1. OVERVIEW ═══════════════════════ -->
 <section id="intro">
-  <div class="sh"><div class="sh-icon" style="background:var(--pdim)">📬</div><h2>1. System V IPC Overview</h2></div>
+  <div class="sh"><div class="sh-icon bg-purple-dim">📬</div><h2>1. System V IPC Overview</h2></div>
 
-  <p style="color:var(--muted);margin-bottom:14px">
-    Τα <strong style="color:var(--purple)">System V IPC</strong> mechanisms επεκτείνουν τις δυνατότητες επικοινωνίας μεταξύ διεργασιών πέρα από τα pipes. Ενώ τα pipes είναι απλά, έχουν σημαντικούς <em>περιορισμούς</em>. Το System V IPC παρέχει 3 μηχανισμούς: Message Queues, Shared Memory, Semaphores.
+  <p class="section-desc">
+    Τα <strong class="text-purple">System V IPC</strong> mechanisms επεκτείνουν τις δυνατότητες επικοινωνίας μεταξύ διεργασιών πέρα από τα pipes. Ενώ τα pipes είναι απλά, έχουν σημαντικούς <em>περιορισμούς</em>. Το System V IPC παρέχει 3 μηχανισμούς: Message Queues, Shared Memory, Semaphores.
   </p>
 
   <div class="grid2">
@@ -64,22 +64,22 @@
       <div class="card">
         <div class="card-title">Pipe Limitations</div>
         <ul style="color:var(--muted);font-size:0.85rem;padding-left:16px">
-          <li style="margin-bottom:6px"><strong style="color:var(--red)">Unidirectional:</strong> Μονόδρομα — χρειάζεσαι 2 pipes για αμφίδρομη επικοινωνία</li>
-          <li style="margin-bottom:6px"><strong style="color:var(--red)">Related processes:</strong> Anonymous pipes λειτουργούν μόνο μεταξύ parent-child</li>
-          <li style="margin-bottom:6px"><strong style="color:var(--red)">No message boundaries:</strong> Byte stream — δεν ξέρεις πού τελειώνει ένα μήνυμα</li>
-          <li style="margin-bottom:6px"><strong style="color:var(--red)">Process lifetime:</strong> Καταστρέφονται μαζί με τη διεργασία</li>
-          <li><strong style="color:var(--red)">No priorities:</strong> FIFO μόνο — δεν μπορείς να δώσεις προτεραιότητα</li>
+          <li style="margin-bottom:6px"><strong class="text-red">Unidirectional:</strong> Μονόδρομα — χρειάζεσαι 2 pipes για αμφίδρομη επικοινωνία</li>
+          <li style="margin-bottom:6px"><strong class="text-red">Related processes:</strong> Anonymous pipes λειτουργούν μόνο μεταξύ parent-child</li>
+          <li style="margin-bottom:6px"><strong class="text-red">No message boundaries:</strong> Byte stream — δεν ξέρεις πού τελειώνει ένα μήνυμα</li>
+          <li style="margin-bottom:6px"><strong class="text-red">Process lifetime:</strong> Καταστρέφονται μαζί με τη διεργασία</li>
+          <li><strong class="text-red">No priorities:</strong> FIFO μόνο — δεν μπορείς να δώσεις προτεραιότητα</li>
         </ul>
       </div>
 
-      <div class="card" style="margin-top:10px">
+      <div class="card mt-10">
         <div class="card-title">Three IPC Mechanisms</div>
         <table class="vtbl" style="font-size:0.82rem">
           <thead><tr><th>Mechanism</th><th>Purpose</th></tr></thead>
           <tbody>
-            <tr><td><strong style="color:var(--blue)">Message Queues</strong></td><td>Ανταλλαγή δομημένων μηνυμάτων με τύπο/προτεραιότητα</td></tr>
-            <tr><td><strong style="color:var(--green)">Shared Memory</strong></td><td>Κοινόχρηστη μνήμη — ο ταχύτερος IPC μηχανισμός</td></tr>
-            <tr><td><strong style="color:var(--orange)">Semaphores</strong></td><td>Synchronization — έλεγχος πρόσβασης σε κοινούς πόρους</td></tr>
+            <tr><td><strong class="text-blue">Message Queues</strong></td><td>Ανταλλαγή δομημένων μηνυμάτων με τύπο/προτεραιότητα</td></tr>
+            <tr><td><strong class="text-green">Shared Memory</strong></td><td>Κοινόχρηστη μνήμη — ο ταχύτερος IPC μηχανισμός</td></tr>
+            <tr><td><strong class="text-orange">Semaphores</strong></td><td>Synchronization — έλεγχος πρόσβασης σε κοινούς πόρους</td></tr>
           </tbody>
         </table>
       </div>
@@ -88,10 +88,10 @@
       <div class="card">
         <div class="card-title">System V IPC Characteristics</div>
         <ul style="color:var(--muted);font-size:0.85rem;padding-left:16px">
-          <li style="margin-bottom:8px"><strong style="color:var(--purple)">Kernel Lifetime:</strong> Τα IPC objects ζουν στον kernel — δεν καταστρέφονται όταν πεθάνουν οι διεργασίες! Πρέπει να τα σβήσεις ρητά (<code>ipcrm</code>) ή με <code>IPC_RMID</code>.</li>
-          <li style="margin-bottom:8px"><strong style="color:var(--purple)">Key-based:</strong> Κάθε IPC object αναγνωρίζεται από ένα <code>key_t</code> — ένα integer key. Οι unrelated processes μπορούν να βρουν τον ίδιο πόρο χρησιμοποιώντας το ίδιο key.</li>
-          <li style="margin-bottom:8px"><strong style="color:var(--purple)">No file descriptors:</strong> Δεν χρησιμοποιούν fd — δεν μπαίνουν στον file descriptor table, δεν έχουν inodes.</li>
-          <li><strong style="color:var(--purple)">Access permissions:</strong> Κάθε IPC object έχει permissions (owner, group, mode) — όπως τα αρχεία.</li>
+          <li class="mb-8"><strong class="text-purple">Kernel Lifetime:</strong> Τα IPC objects ζουν στον kernel — δεν καταστρέφονται όταν πεθάνουν οι διεργασίες! Πρέπει να τα σβήσεις ρητά (<code>ipcrm</code>) ή με <code>IPC_RMID</code>.</li>
+          <li class="mb-8"><strong class="text-purple">Key-based:</strong> Κάθε IPC object αναγνωρίζεται από ένα <code>key_t</code> — ένα integer key. Οι unrelated processes μπορούν να βρουν τον ίδιο πόρο χρησιμοποιώντας το ίδιο key.</li>
+          <li class="mb-8"><strong class="text-purple">No file descriptors:</strong> Δεν χρησιμοποιούν fd — δεν μπαίνουν στον file descriptor table, δεν έχουν inodes.</li>
+          <li><strong class="text-purple">Access permissions:</strong> Κάθε IPC object έχει permissions (owner, group, mode) — όπως τα αρχεία.</li>
         </ul>
       </div>
 
@@ -114,10 +114,10 @@
 
 <!-- ═══════════════════════ 2. KEYS & ACCESS ═══════════════════════ -->
 <section id="keys">
-  <div class="sh"><div class="sh-icon" style="background:var(--bdim)">🔑</div><h2>2. IPC Keys &amp; Access Control</h2></div>
+  <div class="sh"><div class="sh-icon bg-blue-dim">🔑</div><h2>2. IPC Keys &amp; Access Control</h2></div>
 
-  <p style="color:var(--muted);margin-bottom:14px">
-    Κάθε IPC object χρειάζεται ένα <strong style="color:var(--blue)">key</strong> (<code>key_t</code>) για δημιουργία/σύνδεση. Υπάρχουν 3 τρόποι: <code>ftok()</code> (recommended), <code>IPC_PRIVATE</code> (parent-child), ή hard-coded integer (bad practice).
+  <p class="section-desc">
+    Κάθε IPC object χρειάζεται ένα <strong class="text-blue">key</strong> (<code>key_t</code>) για δημιουργία/σύνδεση. Υπάρχουν 3 τρόποι: <code>ftok()</code> (recommended), <code>IPC_PRIVATE</code> (parent-child), ή hard-coded integer (bad practice).
   </p>
 
   <div class="grid2">
@@ -134,13 +134,13 @@
 <span class="tp">key_t</span> key = <span class="fn">ftok</span>(<span class="st">"/tmp/myfile"</span>, <span class="nm">'A'</span>);
 <span class="kw">if</span> (key == -<span class="nm">1</span>) { <span class="fn">perror</span>(<span class="st">"ftok"</span>); <span class="fn">exit</span>(<span class="nm">1</span>); }
         </div>
-        <div class="ibox" style="margin-top:8px">
-          <div class="lbl" style="color:var(--blue)">How ftok works</div>
+        <div class="ibox mt-8">
+          <div class="lbl text-blue">How ftok works</div>
           Συνδυάζει τον inode number του αρχείου + proj_id byte + device number → μοναδικό key. Αν δύο unrelated processes καλέσουν ftok με τα ίδια arguments, παίρνουν το <strong>ίδιο key</strong>.
         </div>
       </div>
 
-      <div class="card" style="margin-top:10px">
+      <div class="card mt-10">
         <div class="card-title">IPC_PRIVATE</div>
         <div class="cb" style="padding:14px;border-radius:8px;font-family:'JetBrains Mono',monospace;font-size:0.82rem;line-height:1.9">
 <span class="cm">// Creates a unique key (guaranteed new object)</span>
@@ -169,8 +169,8 @@
         </p>
       </div>
 
-      <div class="wbox" style="margin-top:10px">
-        <div class="lbl" style="color:var(--yellow)">Common Flags Pattern</div>
+      <div class="wbox mt-10">
+        <div class="lbl text-yellow">Common Flags Pattern</div>
         <div class="cb" style="padding:8px;border-radius:6px;font-family:'JetBrains Mono',monospace;font-size:0.78rem;line-height:1.7;margin-top:8px">
 <span class="cm">// Create new (or get existing)</span>
 id = <span class="fn">msgget</span>(key, <span class="mc">IPC_CREAT</span> | <span class="nm">0666</span>);
@@ -190,10 +190,10 @@ id = <span class="fn">msgget</span>(key, <span class="nm">0</span>);
 
 <!-- ═══════════════════════ 3. MESSAGE QUEUES ═══════════════════════ -->
 <section id="msgq">
-  <div class="sh"><div class="sh-icon" style="background:var(--bdim)">📨</div><h2>3. Message Queues API</h2></div>
+  <div class="sh"><div class="sh-icon bg-blue-dim">📨</div><h2>3. Message Queues API</h2></div>
 
-  <p style="color:var(--muted);margin-bottom:14px">
-    Τα <strong style="color:var(--blue)">Message Queues</strong> επιτρέπουν ανταλλαγή δομημένων μηνυμάτων μεταξύ διεργασιών. Κάθε μήνυμα έχει ένα <em>type</em> (long integer), που επιτρέπει selective receiving — κάτι αδύνατο με pipes!
+  <p class="section-desc">
+    Τα <strong class="text-blue">Message Queues</strong> επιτρέπουν ανταλλαγή δομημένων μηνυμάτων μεταξύ διεργασιών. Κάθε μήνυμα έχει ένα <em>type</em> (long integer), που επιτρέπει selective receiving — κάτι αδύνατο με pipes!
   </p>
 
   <div class="grid2">
@@ -208,7 +208,7 @@ id = <span class="fn">msgget</span>(key, <span class="nm">0</span>);
         </div>
       </div>
 
-      <div class="card" style="margin-top:10px">
+      <div class="card mt-10">
         <div class="card-title">Message Structure</div>
         <div class="struct-box" style="font-size:0.82rem;line-height:2">
 <span class="kw">struct</span> <span class="tp">message</span> {<br>
@@ -216,13 +216,13 @@ id = <span class="fn">msgget</span>(key, <span class="nm">0</span>);
 &nbsp;&nbsp;<span class="sf-type">char</span> <span class="sf-field">mtext</span>[<span class="nm">1</span>]; <span class="sf-comment">// message data (flexible)</span><br>
 };
         </div>
-        <div class="ibox" style="margin-top:8px">
-          <div class="lbl" style="color:var(--blue)">Flexible Message Body</div>
+        <div class="ibox mt-8">
+          <div class="lbl text-blue">Flexible Message Body</div>
           Το <code>mtext</code> μπορεί να είναι οποιοδήποτε μέγεθος. Ορίζεις δικό σου struct με μεγαλύτερο array ή επιπλέον πεδία. Το <code>mtype</code> πρέπει πάντα να είναι <strong>θετικό</strong>.
         </div>
       </div>
 
-      <div class="card" style="margin-top:10px">
+      <div class="card mt-10">
         <div class="card-title">msgsnd() — Send Message</div>
         <div class="cb" style="padding:14px;border-radius:8px;font-family:'JetBrains Mono',monospace;font-size:0.82rem;line-height:1.9;overflow-x:auto">
 <span class="kw">int</span> <span class="fn">msgsnd</span>(<span class="kw">int</span> <span class="sf-field">msqid</span>,
@@ -231,8 +231,8 @@ id = <span class="fn">msgget</span>(key, <span class="nm">0</span>);
           <span class="kw">int</span> <span class="sf-field">msgflg</span>);       <span class="cm">// IPC_NOWAIT or 0</span>
 <span class="cm">// Returns: 0 on success, -1 on error</span>
         </div>
-        <div class="wbox" style="margin-top:8px">
-          <div class="lbl" style="color:var(--yellow)">msgsz = sizeof data ONLY</div>
+        <div class="wbox mt-8">
+          <div class="lbl text-yellow">msgsz = sizeof data ONLY</div>
           Πέρνα μέγεθος μόνο του <code>mtext</code> μέρους, ΟΧΙ ολόκληρου του struct! Δηλαδή <code>sizeof(msg) - sizeof(long)</code>.
         </div>
       </div>
@@ -253,15 +253,15 @@ id = <span class="fn">msgget</span>(key, <span class="nm">0</span>);
           <table class="vtbl" style="font-size:0.82rem">
             <thead><tr><th>msgtyp</th><th>Behavior</th></tr></thead>
             <tbody>
-              <tr><td><code style="color:var(--green)">= 0</code></td><td>Πρώτο μήνυμα στην ουρά (FIFO)</td></tr>
-              <tr><td><code style="color:var(--blue)">&gt; 0</code></td><td>Πρώτο μήνυμα με <strong>αυτό ακριβώς</strong> το type</td></tr>
-              <tr><td><code style="color:var(--orange)">&lt; 0</code></td><td>Πρώτο μήνυμα με type ≤ |msgtyp| (μικρότερο ή ίσο)</td></tr>
+              <tr><td><code class="text-green">= 0</code></td><td>Πρώτο μήνυμα στην ουρά (FIFO)</td></tr>
+              <tr><td><code class="text-blue">&gt; 0</code></td><td>Πρώτο μήνυμα με <strong>αυτό ακριβώς</strong> το type</td></tr>
+              <tr><td><code class="text-orange">&lt; 0</code></td><td>Πρώτο μήνυμα με type ≤ |msgtyp| (μικρότερο ή ίσο)</td></tr>
             </tbody>
           </table>
         </div>
       </div>
 
-      <div class="card" style="margin-top:10px">
+      <div class="card mt-10">
         <div class="card-title">msgctl() — Control Operations</div>
         <div class="cb" style="padding:14px;border-radius:8px;font-family:'JetBrains Mono',monospace;font-size:0.82rem;line-height:1.9">
 <span class="kw">int</span> <span class="fn">msgctl</span>(<span class="kw">int</span> <span class="sf-field">msqid</span>, <span class="kw">int</span> <span class="sf-field">cmd</span>, <span class="kw">struct</span> <span class="tp">msqid_ds</span> *<span class="sf-field">buf</span>);
@@ -271,7 +271,7 @@ id = <span class="fn">msgget</span>(key, <span class="nm">0</span>);
         </div>
       </div>
 
-      <div class="tip" style="margin-top:10px">
+      <div class="tip mt-10">
         <div class="tip-icon">🧠</div>
         <div>
           <div class="tip-title">Exam Tip — msgtyp &lt; 0</div>
@@ -288,9 +288,9 @@ id = <span class="fn">msgget</span>(key, <span class="nm">0</span>);
 
 <!-- ═══════════════════════ 4. MESSAGE QUEUE EXAMPLES ═══════════════════════ -->
 <section id="msgex">
-  <div class="sh"><div class="sh-icon" style="background:var(--cdim)">💻</div><h2>4. Message Queue Examples</h2></div>
+  <div class="sh"><div class="sh-icon bg-cyan-dim">💻</div><h2>4. Message Queue Examples</h2></div>
 
-  <p style="color:var(--muted);margin-bottom:14px">
+  <p class="section-desc">
     Παραδείγματα server-client αρχιτεκτονικής και priority queue χρησιμοποιώντας message queues. Δείχνουν πώς unrelated processes ανταλλάσσουν μηνύματα.
   </p>
 
@@ -322,7 +322,7 @@ id = <span class="fn">msgget</span>(key, <span class="nm">0</span>);
         </div>
       </div>
 
-      <div class="card" style="margin-top:10px">
+      <div class="card mt-10">
         <div class="card-title">Client 1 — Sends type=1 messages</div>
         <div class="cb" style="padding:14px;border-radius:8px;font-family:'JetBrains Mono',monospace;font-size:0.75rem;line-height:1.7;overflow-x:auto">
 <span class="kw">int</span> <span class="fn">main</span>() {
@@ -363,10 +363,10 @@ msg.mtype = priority;  <span class="cm">// lower = higher priority</span>
         </div>
       </div>
 
-      <div class="card" style="margin-top:10px">
+      <div class="card mt-10">
         <div class="card-title">Message Queues vs Pipes</div>
         <table class="vtbl" style="font-size:0.82rem">
-          <thead><tr><th>Feature</th><th style="color:var(--blue)">Msg Queue</th><th style="color:var(--green)">Pipe</th></tr></thead>
+          <thead><tr><th>Feature</th><th class="text-blue">Msg Queue</th><th class="text-green">Pipe</th></tr></thead>
           <tbody>
             <tr><td><strong>Message boundaries</strong></td><td>Yes (typed messages)</td><td>No (byte stream)</td></tr>
             <tr><td><strong>Priority</strong></td><td>Yes (via msgtyp)</td><td>No (FIFO only)</td></tr>
@@ -384,10 +384,10 @@ msg.mtype = priority;  <span class="cm">// lower = higher priority</span>
 
 <!-- ═══════════════════════ 5. SHARED MEMORY ═══════════════════════ -->
 <section id="shm">
-  <div class="sh"><div class="sh-icon" style="background:var(--gdim)">🧠</div><h2>5. Shared Memory API</h2></div>
+  <div class="sh"><div class="sh-icon bg-green-dim">🧠</div><h2>5. Shared Memory API</h2></div>
 
-  <p style="color:var(--muted);margin-bottom:14px">
-    Η <strong style="color:var(--green)">Shared Memory</strong> είναι ο <em>ταχύτερος</em> IPC μηχανισμός γιατί τα δεδομένα δεν αντιγράφονται μεταξύ user space και kernel space. Οι διεργασίες βλέπουν <strong>απευθείας</strong> τις ίδιες physical pages μνήμης. Αλλά χρειάζεται <em>synchronization</em> (semaphores/mutexes).
+  <p class="section-desc">
+    Η <strong class="text-green">Shared Memory</strong> είναι ο <em>ταχύτερος</em> IPC μηχανισμός γιατί τα δεδομένα δεν αντιγράφονται μεταξύ user space και kernel space. Οι διεργασίες βλέπουν <strong>απευθείας</strong> τις ίδιες physical pages μνήμης. Αλλά χρειάζεται <em>synchronization</em> (semaphores/mutexes).
   </p>
 
   <div class="grid2">
@@ -404,7 +404,7 @@ msg.mtype = priority;  <span class="cm">// lower = higher priority</span>
         </div>
       </div>
 
-      <div class="card" style="margin-top:10px">
+      <div class="card mt-10">
         <div class="card-title">shmat() — Attach Segment</div>
         <div class="cb" style="padding:14px;border-radius:8px;font-family:'JetBrains Mono',monospace;font-size:0.82rem;line-height:1.9;overflow-x:auto">
 <span class="kw">void</span> *<span class="fn">shmat</span>(<span class="kw">int</span> <span class="sf-field">shmid</span>,
@@ -412,13 +412,13 @@ msg.mtype = priority;  <span class="cm">// lower = higher priority</span>
             <span class="kw">int</span> <span class="sf-field">shmflg</span>);           <span class="cm">// 0 or SHM_RDONLY</span>
 <span class="cm">// Returns: pointer to segment or (void *)-1</span>
         </div>
-        <div class="ibox" style="margin-top:8px">
-          <div class="lbl" style="color:var(--blue)">How it works</div>
+        <div class="ibox mt-8">
+          <div class="lbl text-blue">How it works</div>
           Η <code>shmat()</code> "κολλάει" το shared memory segment στο address space της διεργασίας. Μετά, η διεργασία μπορεί να γράψει/διαβάσει <em>σαν κανονική μνήμη</em> (ποίντερ).
         </div>
       </div>
 
-      <div class="card" style="margin-top:10px">
+      <div class="card mt-10">
         <div class="card-title">shmdt() — Detach Segment</div>
         <div class="cb" style="padding:14px;border-radius:8px;font-family:'JetBrains Mono',monospace;font-size:0.82rem;line-height:1.9">
 <span class="kw">int</span> <span class="fn">shmdt</span>(<span class="kw">const void</span> *<span class="sf-field">shmaddr</span>);
@@ -440,7 +440,7 @@ msg.mtype = priority;  <span class="cm">// lower = higher priority</span>
         </div>
       </div>
 
-      <div class="card" style="margin-top:10px">
+      <div class="card mt-10">
         <div class="card-title">struct shmid_ds</div>
         <div class="struct-box" style="font-size:0.78rem;line-height:2">
 <span class="kw">struct</span> <span class="tp">shmid_ds</span> {<br>
@@ -517,7 +517,7 @@ msg.mtype = priority;  <span class="cm">// lower = higher priority</span>
 
 <!-- ═══════════════════════ 6. SHARED MEMORY EXAMPLES ═══════════════════════ -->
 <section id="shmex">
-  <div class="sh"><div class="sh-icon" style="background:var(--gdim)">💻</div><h2>6. Shared Memory Examples</h2></div>
+  <div class="sh"><div class="sh-icon bg-green-dim">💻</div><h2>6. Shared Memory Examples</h2></div>
 
   <div class="grid2">
     <div>
@@ -584,12 +584,12 @@ msg.mtype = priority;  <span class="cm">// lower = higher priority</span>
         </div>
       </div>
 
-      <div class="wbox" style="margin-top:10px">
-        <div class="lbl" style="color:var(--yellow)">No synchronization!</div>
-        Αυτά τα παραδείγματα <strong>δεν</strong> χρησιμοποιούν synchronization. Αν δύο διεργασίες γράφουν ταυτόχρονα → <strong style="color:var(--red)">race condition</strong>! Χρειάζονται semaphores (δες §8-9).
+      <div class="wbox mt-10">
+        <div class="lbl text-yellow">No synchronization!</div>
+        Αυτά τα παραδείγματα <strong>δεν</strong> χρησιμοποιούν synchronization. Αν δύο διεργασίες γράφουν ταυτόχρονα → <strong class="text-red">race condition</strong>! Χρειάζονται semaphores (δες §8-9).
       </div>
 
-      <div class="tip" style="margin-top:10px">
+      <div class="tip mt-10">
         <div class="tip-icon">🧠</div>
         <div>
           <div class="tip-title">Tip — SHM vs Message Queues</div>
@@ -608,10 +608,10 @@ msg.mtype = priority;  <span class="cm">// lower = higher priority</span>
 
 <!-- ═══════════════════════ 7. SEMAPHORE CONCEPTS ═══════════════════════ -->
 <section id="semconcepts">
-  <div class="sh"><div class="sh-icon" style="background:var(--odim)">🚦</div><h2>7. Semaphore Concepts</h2></div>
+  <div class="sh"><div class="sh-icon bg-orange-dim">🚦</div><h2>7. Semaphore Concepts</h2></div>
 
-  <p style="color:var(--muted);margin-bottom:14px">
-    Ένας <strong style="color:var(--orange)">semaphore</strong> είναι ένας μη-αρνητικός counter που χρησιμοποιείται για synchronization. Δύο ατομικές πράξεις: <strong style="color:var(--green)">UP (V)</strong> = αύξηση, <strong style="color:var(--red)">DOWN (P)</strong> = μείωση (μπλοκάρει αν ο counter είναι 0).
+  <p class="section-desc">
+    Ένας <strong class="text-orange">semaphore</strong> είναι ένας μη-αρνητικός counter που χρησιμοποιείται για synchronization. Δύο ατομικές πράξεις: <strong class="text-green">UP (V)</strong> = αύξηση, <strong class="text-red">DOWN (P)</strong> = μείωση (μπλοκάρει αν ο counter είναι 0).
   </p>
 
   <div class="grid2">
@@ -639,8 +639,8 @@ semaphore_value++;
             </div>
           </div>
         </div>
-        <div class="ibox" style="margin-top:8px">
-          <div class="lbl" style="color:var(--blue)">Naming Convention</div>
+        <div class="ibox mt-8">
+          <div class="lbl text-blue">Naming Convention</div>
           <strong>P</strong> = Proberen (Dutch: "to test") = DOWN = wait.<br>
           <strong>V</strong> = Verhogen (Dutch: "to increment") = UP = signal.<br>
           Dijkstra's original naming. Εναλλακτικά: <strong>wait/signal</strong>, <strong>acquire/release</strong>.
@@ -651,15 +651,15 @@ semaphore_value++;
       <div class="card">
         <div class="card-title">Semaphore Properties</div>
         <ul style="color:var(--muted);font-size:0.85rem;padding-left:16px">
-          <li style="margin-bottom:8px"><strong style="color:var(--orange)">Advisory:</strong> Δεν εμποδίζουν φυσικά την πρόσβαση. Οι διεργασίες πρέπει να συνεργάζονται (σαν τα traffic lights — δεν σταματούν αυτοκίνητα φυσικά).</li>
-          <li style="margin-bottom:8px"><strong style="color:var(--orange)">Atomic:</strong> Οι UP/DOWN πράξεις εκτελούνται ατομικά από τον kernel.</li>
-          <li style="margin-bottom:8px"><strong style="color:var(--orange)">Binary semaphore (0/1):</strong> Ισοδύναμο με mutex — mutual exclusion.</li>
-          <li style="margin-bottom:8px"><strong style="color:var(--orange)">Counting semaphore:</strong> Τιμή > 1 — ελέγχει πρόσβαση σε N πόρους (π.χ. N tape drives).</li>
-          <li><strong style="color:var(--orange)">Blocking:</strong> Αν DOWN σε semaphore=0, η διεργασία κοιμάται μέχρι κάποιος κάνει UP.</li>
+          <li class="mb-8"><strong class="text-orange">Advisory:</strong> Δεν εμποδίζουν φυσικά την πρόσβαση. Οι διεργασίες πρέπει να συνεργάζονται (σαν τα traffic lights — δεν σταματούν αυτοκίνητα φυσικά).</li>
+          <li class="mb-8"><strong class="text-orange">Atomic:</strong> Οι UP/DOWN πράξεις εκτελούνται ατομικά από τον kernel.</li>
+          <li class="mb-8"><strong class="text-orange">Binary semaphore (0/1):</strong> Ισοδύναμο με mutex — mutual exclusion.</li>
+          <li class="mb-8"><strong class="text-orange">Counting semaphore:</strong> Τιμή > 1 — ελέγχει πρόσβαση σε N πόρους (π.χ. N tape drives).</li>
+          <li><strong class="text-orange">Blocking:</strong> Αν DOWN σε semaphore=0, η διεργασία κοιμάται μέχρι κάποιος κάνει UP.</li>
         </ul>
       </div>
 
-      <div class="card" style="margin-top:10px">
+      <div class="card mt-10">
         <div class="card-title">Mutual Exclusion with Semaphore (init=1)</div>
         <div class="cb" style="padding:10px;border-radius:6px;font-family:'JetBrains Mono',monospace;font-size:0.78rem;line-height:1.7">
 <span class="cm">// semaphore S initialized to 1</span>
@@ -679,10 +679,10 @@ semaphore_value++;
 
 <!-- ═══════════════════════ 8. SEMAPHORE API ═══════════════════════ -->
 <section id="semapi">
-  <div class="sh"><div class="sh-icon" style="background:var(--odim)">⚙️</div><h2>8. System V Semaphore API</h2></div>
+  <div class="sh"><div class="sh-icon bg-orange-dim">⚙️</div><h2>8. System V Semaphore API</h2></div>
 
-  <p style="color:var(--muted);margin-bottom:14px">
-    Τα System V semaphores λειτουργούν σε <strong style="color:var(--txt)">sets</strong> (σύνολα). Ένα <code>semget()</code> δημιουργεί ένα <em>set</em> από πολλαπλά semaphores. Η <code>semop()</code> μπορεί να κάνει ατομικές πράξεις σε <em>πολλαπλά</em> semaphores ταυτόχρονα.
+  <p class="section-desc">
+    Τα System V semaphores λειτουργούν σε <strong class="text-primary">sets</strong> (σύνολα). Ένα <code>semget()</code> δημιουργεί ένα <em>set</em> από πολλαπλά semaphores. Η <code>semop()</code> μπορεί να κάνει ατομικές πράξεις σε <em>πολλαπλά</em> semaphores ταυτόχρονα.
   </p>
 
   <div class="grid2">
@@ -702,7 +702,7 @@ semaphore_value++;
         </p>
       </div>
 
-      <div class="card" style="margin-top:10px">
+      <div class="card mt-10">
         <div class="card-title">semop() — Semaphore Operations</div>
         <div class="cb" style="padding:14px;border-radius:8px;font-family:'JetBrains Mono',monospace;font-size:0.82rem;line-height:1.9;overflow-x:auto">
 <span class="kw">int</span> <span class="fn">semop</span>(<span class="kw">int</span> <span class="sf-field">semid</span>,
@@ -718,14 +718,14 @@ semaphore_value++;
         </div>
       </div>
 
-      <div class="card" style="margin-top:10px">
+      <div class="card mt-10">
         <div class="card-title">sem_op Values</div>
         <table class="vtbl" style="font-size:0.82rem">
           <thead><tr><th>sem_op</th><th>Action</th></tr></thead>
           <tbody>
-            <tr><td><code style="color:var(--green)">&gt; 0</code></td><td><strong>UP:</strong> Add sem_op to semval (release resources)</td></tr>
-            <tr><td><code style="color:var(--red)">&lt; 0</code></td><td><strong>DOWN:</strong> Subtract |sem_op| from semval. If semval &lt; |sem_op|, <strong>BLOCK</strong> until possible.</td></tr>
-            <tr><td><code style="color:var(--yellow)">= 0</code></td><td><strong>WAIT-FOR-ZERO:</strong> Block until semval becomes 0.</td></tr>
+            <tr><td><code class="text-green">&gt; 0</code></td><td><strong>UP:</strong> Add sem_op to semval (release resources)</td></tr>
+            <tr><td><code class="text-red">&lt; 0</code></td><td><strong>DOWN:</strong> Subtract |sem_op| from semval. If semval &lt; |sem_op|, <strong>BLOCK</strong> until possible.</td></tr>
+            <tr><td><code class="text-yellow">= 0</code></td><td><strong>WAIT-FOR-ZERO:</strong> Block until semval becomes 0.</td></tr>
           </tbody>
         </table>
       </div>
@@ -749,7 +749,7 @@ semaphore_value++;
         </p>
       </div>
 
-      <div class="card" style="margin-top:10px">
+      <div class="card mt-10">
         <div class="card-title">Helper Functions Pattern</div>
         <div class="cb" style="padding:14px;border-radius:8px;font-family:'JetBrains Mono',monospace;font-size:0.75rem;line-height:1.7;overflow-x:auto">
 <span class="kw">void</span> <span class="fn">sem_P</span>(<span class="kw">int</span> semid, <span class="kw">int</span> sem_num) {  <span class="cm">// DOWN</span>
@@ -776,7 +776,7 @@ semaphore_value++;
         </div>
       </div>
 
-      <div class="tip" style="margin-top:10px">
+      <div class="tip mt-10">
         <div class="tip-icon">🧠</div>
         <div>
           <div class="tip-title">Tip — union semun</div>
@@ -793,7 +793,7 @@ semaphore_value++;
 
 <!-- ═══════════════════════ 9. SEMAPHORE EXAMPLES ═══════════════════════ -->
 <section id="semex">
-  <div class="sh"><div class="sh-icon" style="background:var(--odim)">💻</div><h2>9. Semaphore Examples</h2></div>
+  <div class="sh"><div class="sh-icon bg-orange-dim">💻</div><h2>9. Semaphore Examples</h2></div>
 
   <div class="grid2">
     <div>
@@ -828,7 +828,7 @@ semaphore_value++;
         </div>
       </div>
 
-      <div class="card" style="margin-top:10px">
+      <div class="card mt-10">
         <div class="card-title">Client — Wait then Read</div>
         <div class="cb" style="padding:14px;border-radius:8px;font-family:'JetBrains Mono',monospace;font-size:0.75rem;line-height:1.7;overflow-x:auto">
 <span class="kw">int</span> <span class="fn">main</span>() {
@@ -892,8 +892,8 @@ semaphore_value++;
     <span class="kw">return</span> <span class="nm">0</span>;
 }
         </div>
-        <div class="gbox" style="margin-top:8px">
-          <div class="lbl" style="color:var(--green)">Without semaphore</div>
+        <div class="gbox mt-8">
+          <div class="lbl text-green">Without semaphore</div>
           Χωρίς τα sem_P/sem_V, ο counter θα ήταν λιγότερο από 200000 λόγω race condition!
         </div>
       </div>
@@ -905,10 +905,10 @@ semaphore_value++;
 
 <!-- ═══════════════════════ 10. SEMAPHORE CHALLENGES ═══════════════════════ -->
 <section id="semchallenge">
-  <div class="sh"><div class="sh-icon" style="background:var(--rdim)">⚠️</div><h2>10. Semaphore Challenges</h2></div>
+  <div class="sh"><div class="sh-icon bg-red-dim">⚠️</div><h2>10. Semaphore Challenges</h2></div>
 
-  <p style="color:var(--muted);margin-bottom:14px">
-    Τα semaphores λύνουν προβλήματα αλλά δημιουργούν νέα αν δεν χρησιμοποιηθούν σωστά. Τρεις βασικοί κίνδυνοι: <strong style="color:var(--red)">Deadlock</strong>, <strong style="color:var(--yellow)">Starvation</strong>, <strong style="color:var(--orange)">Priority Inversion</strong>.
+  <p class="section-desc">
+    Τα semaphores λύνουν προβλήματα αλλά δημιουργούν νέα αν δεν χρησιμοποιηθούν σωστά. Τρεις βασικοί κίνδυνοι: <strong class="text-red">Deadlock</strong>, <strong class="text-yellow">Starvation</strong>, <strong class="text-orange">Priority Inversion</strong>.
   </p>
 
   <div class="grid2">
@@ -924,14 +924,14 @@ semaphore_value++;
 <span class="cm">//           B waits for S1 (held by A)</span>
         </div>
         <p style="font-size:0.82rem;color:var(--muted);margin-top:8px">
-          <strong style="color:var(--txt)">Prevention:</strong> Πάντα acquire semaphores με <strong>σταθερή σειρά</strong> (total ordering). Αν S1 &lt; S2 σε αρίθμηση, πάντα DOWN(S1) πριν DOWN(S2).
+          <strong class="text-primary">Prevention:</strong> Πάντα acquire semaphores με <strong>σταθερή σειρά</strong> (total ordering). Αν S1 &lt; S2 σε αρίθμηση, πάντα DOWN(S1) πριν DOWN(S2).
         </p>
       </div>
 
-      <div class="card" style="margin-top:10px">
+      <div class="card mt-10">
         <div class="card-title">Starvation</div>
         <p style="font-size:0.82rem;color:var(--muted)">
-          Μια διεργασία <strong style="color:var(--yellow)">δεν παίρνει ποτέ</strong> πρόσβαση στον πόρο, ενώ άλλες τρέχουν κανονικά. Συμβαίνει αν ο scheduler ή ο αλγόριθμος δεν είναι δίκαιος (fair). Π.χ. σε Readers/Writers, αν συνεχώς έρχονται νέοι readers, ο writer δεν θα γράψει ποτέ!
+          Μια διεργασία <strong class="text-yellow">δεν παίρνει ποτέ</strong> πρόσβαση στον πόρο, ενώ άλλες τρέχουν κανονικά. Συμβαίνει αν ο scheduler ή ο αλγόριθμος δεν είναι δίκαιος (fair). Π.χ. σε Readers/Writers, αν συνεχώς έρχονται νέοι readers, ο writer δεν θα γράψει ποτέ!
         </p>
       </div>
     </div>
@@ -946,7 +946,7 @@ semaphore_value++;
 <span class="cm">/* critical section — only one process here */</span>
 <span class="fn">sem_V</span>(sem, <span class="nm">0</span>);     <span class="cm">// leave CS</span>
         </div>
-        <div class="tip" style="margin-top:10px">
+        <div class="tip mt-10">
           <div class="tip-icon">🧠</div>
           <div>
             <div class="tip-title">Exam Tip — SEM_UNDO &amp; Orphaned Locks</div>
@@ -958,7 +958,7 @@ semaphore_value++;
         </div>
       </div>
 
-      <div class="tip" style="margin-top:10px">
+      <div class="tip mt-10">
         <div class="tip-icon">🧠</div>
         <div>
           <div class="tip-title">Exam Tip — Semaphore vs Mutex</div>
@@ -976,10 +976,10 @@ semaphore_value++;
 
 <!-- ═══════════════════════ 11. FILE LOCKING ═══════════════════════ -->
 <section id="filelock">
-  <div class="sh"><div class="sh-icon" style="background:var(--ydim)">🔐</div><h2>11. File Locking with fcntl</h2></div>
+  <div class="sh"><div class="sh-icon bg-yellow-dim">🔐</div><h2>11. File Locking with fcntl</h2></div>
 
-  <p style="color:var(--muted);margin-bottom:14px">
-    Η <code style="color:var(--yellow)">fcntl()</code> επιτρέπει <strong style="color:var(--txt)">record locking</strong> — κλείδωμα <em>τμημάτων</em> ενός αρχείου (byte-range locking). Υποστηρίζει read locks (πολλοί ταυτόχρονα) και write locks (αποκλειστικό). Advisory — δεν εμποδίζει τη φυσική πρόσβαση.
+  <p class="section-desc">
+    Η <code class="text-yellow">fcntl()</code> επιτρέπει <strong class="text-primary">record locking</strong> — κλείδωμα <em>τμημάτων</em> ενός αρχείου (byte-range locking). Υποστηρίζει read locks (πολλοί ταυτόχρονα) και write locks (αποκλειστικό). Advisory — δεν εμποδίζει τη φυσική πρόσβαση.
   </p>
 
   <div class="grid2">
@@ -997,26 +997,26 @@ semaphore_value++;
         </div>
       </div>
 
-      <div class="card" style="margin-top:10px">
+      <div class="card mt-10">
         <div class="card-title">fcntl() Commands for Locking</div>
         <table class="vtbl" style="font-size:0.82rem">
           <thead><tr><th>Command</th><th>Behavior</th></tr></thead>
           <tbody>
-            <tr><td><code style="color:var(--blue)">F_GETLK</code></td><td>Test if lock is possible. Fills in <code>l_pid</code> of blocker. Δεν κλειδώνει!</td></tr>
-            <tr><td><code style="color:var(--green)">F_SETLK</code></td><td>Set lock. Returns <strong>immediately</strong> with error if can't.</td></tr>
-            <tr><td><code style="color:var(--orange)">F_SETLKW</code></td><td>Set lock. <strong>Blocks (waits)</strong> until lock is acquired.</td></tr>
+            <tr><td><code class="text-blue">F_GETLK</code></td><td>Test if lock is possible. Fills in <code>l_pid</code> of blocker. Δεν κλειδώνει!</td></tr>
+            <tr><td><code class="text-green">F_SETLK</code></td><td>Set lock. Returns <strong>immediately</strong> with error if can't.</td></tr>
+            <tr><td><code class="text-orange">F_SETLKW</code></td><td>Set lock. <strong>Blocks (waits)</strong> until lock is acquired.</td></tr>
           </tbody>
         </table>
       </div>
 
-      <div class="card" style="margin-top:10px">
+      <div class="card mt-10">
         <div class="card-title">Lock Types</div>
         <table class="vtbl" style="font-size:0.82rem">
           <thead><tr><th>Type</th><th>Compatibility</th></tr></thead>
           <tbody>
-            <tr><td><code style="color:var(--blue)">F_RDLCK</code></td><td>Read lock. <strong>Multiple</strong> readers OK simultaneously.</td></tr>
-            <tr><td><code style="color:var(--red)">F_WRLCK</code></td><td>Write lock. <strong>Exclusive</strong> — blocks all other locks.</td></tr>
-            <tr><td><code style="color:var(--green)">F_UNLCK</code></td><td>Unlock. Release the byte range.</td></tr>
+            <tr><td><code class="text-blue">F_RDLCK</code></td><td>Read lock. <strong>Multiple</strong> readers OK simultaneously.</td></tr>
+            <tr><td><code class="text-red">F_WRLCK</code></td><td>Write lock. <strong>Exclusive</strong> — blocks all other locks.</td></tr>
+            <tr><td><code class="text-green">F_UNLCK</code></td><td>Unlock. Release the byte range.</td></tr>
           </tbody>
         </table>
       </div>
@@ -1051,7 +1051,7 @@ my_lock.l_type = <span class="mc">F_UNLCK</span>;
         </div>
       </div>
 
-      <div class="tip" style="margin-top:10px">
+      <div class="tip mt-10">
         <div class="tip-icon">🧠</div>
         <div>
           <div class="tip-title">Tip — F_SETLK vs F_SETLKW</div>
@@ -1061,7 +1061,7 @@ my_lock.l_type = <span class="mc">F_UNLCK</span>;
           </div>
         </div>
       </div>
-      <div class="tip" style="margin-top:10px">
+      <div class="tip mt-10">
         <div class="tip-icon">🧠</div>
         <div>
           <div class="tip-title">Exam Tip — Advisory vs Mandatory Locking</div>
@@ -1082,7 +1082,7 @@ my_lock.l_type = <span class="mc">F_UNLCK</span>;
 
 <!-- ═══════════════════════ 12. FILE LOCKING EXAMPLES ═══════════════════════ -->
 <section id="filelockex">
-  <div class="sh"><div class="sh-icon" style="background:var(--rdim)">💻</div><h2>12. File Locking Examples</h2></div>
+  <div class="sh"><div class="sh-icon bg-red-dim">💻</div><h2>12. File Locking Examples</h2></div>
 
   <div class="grid2">
     <div>
@@ -1117,8 +1117,8 @@ my_lock.l_len    = <span class="nm">10</span>;
     <span class="fn">wait</span>(<span class="nm">NULL</span>);
 }
         </div>
-        <div class="ibox" style="margin-top:8px">
-          <div class="lbl" style="color:var(--blue)">Execution Output</div>
+        <div class="ibox mt-8">
+          <div class="lbl text-blue">Execution Output</div>
           <div style="font-family:'JetBrains Mono',monospace;font-size:0.78rem;color:var(--muted);line-height:1.8">
             parent: locked record<br>
             child: trying to lock file<br>
@@ -1154,13 +1154,13 @@ my_lock.l_len    = <span class="nm">10</span>;
     <span class="cm">// Parent detects deadlock and exits!</span>
   }
         </div>
-        <div class="rbox" style="margin-top:8px">
-          <div class="lbl" style="color:var(--red)">Deadlock Scenario</div>
-          Parent κρατά A, child κρατά B. Child θέλει A (F_SETLKW → blocks). Parent θέλει B — αν χρησιμοποιήσει <strong>F_SETLK</strong> (non-blocking), ανιχνεύει το πρόβλημα και μπορεί να τερματίσει. Αν χρησιμοποιούσε <strong>F_SETLKW</strong>, θα ήταν <strong style="color:var(--red)">deadlock</strong>!
+        <div class="rbox mt-8">
+          <div class="lbl text-red">Deadlock Scenario</div>
+          Parent κρατά A, child κρατά B. Child θέλει A (F_SETLKW → blocks). Parent θέλει B — αν χρησιμοποιήσει <strong>F_SETLK</strong> (non-blocking), ανιχνεύει το πρόβλημα και μπορεί να τερματίσει. Αν χρησιμοποιούσε <strong>F_SETLKW</strong>, θα ήταν <strong class="text-red">deadlock</strong>!
         </div>
       </div>
 
-      <div class="tip" style="margin-top:10px">
+      <div class="tip mt-10">
         <div class="tip-icon">🧠</div>
         <div>
           <div class="tip-title">Exam Tip — Deadlock Prevention</div>

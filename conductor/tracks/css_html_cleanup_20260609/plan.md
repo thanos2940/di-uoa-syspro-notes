@@ -9,7 +9,7 @@
 - [x] Task: Extract inline styles from `topic1_unix_commands.html` into appropriate classes in the new CSS files. 8fe6765
 - [x] Task: Extract inline styles from `topic2_bash.html` into appropriate classes in the new CSS files. 8fe6765
 - [x] Task: Extract inline styles from `topic3_io_signals.html` into appropriate classes in the new CSS files. 8fe6765
-- [ ] Task: Conductor - User Manual Verification 'Phase 2: Refactor Topic Pages 1-3' (Protocol in workflow.md)
+- [~] Task: Conductor - User Manual Verification 'Phase 2: Refactor Topic Pages 1-3' (Protocol in workflow.md)
 
 ## Phase 3: Refactor Topic Pages 4-7
 - [ ] Task: Extract inline styles from `topic4_fork_pipes.html` into appropriate classes.
