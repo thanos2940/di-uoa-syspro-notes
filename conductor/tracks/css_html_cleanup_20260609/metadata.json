@@ -1,8 +1,0 @@
-{
-  "track_id": "css_html_cleanup_20260609",
-  "type": "refactor",
-  "status": "new",
-  "created_at": "2026-06-09T12:10:00Z",
-  "updated_at": "2026-06-09T12:10:00Z",
-  "description": "Cleanup css and html, centralize as per guidelines and ensure it is consistent and displays as intended"
-}

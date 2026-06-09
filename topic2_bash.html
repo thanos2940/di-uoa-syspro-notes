@@ -150,18 +150,15 @@
       </p>
       <div class="grid2">
         <div>
-          <div class="cb">
-            <span class="cm">#!/bin/bash</span>
-            <span class="cm"># ↑ shebang: λέει στο OS ποιον interpreter να χρησιμοποιήσει</span>
-            <span class="cm"># script.sh — παράδειγμα</span>
-            <span class="vr">NAME</span>=<span class="st">"Alice"</span> <span class="cm"># χωρίς spaces γύρω από το
-              =</span>
-            <span class="kw">echo</span> <span class="st">"Hello, $NAME"</span>
-            <span class="kw">if</span> [ $? -eq 0 ]; <span class="kw">then</span>
-            <span class="kw">echo</span> <span class="st">"OK"</span>
-            <span class="kw">fi</span>
-            <span class="kw">exit</span> <span class="nm">0</span> <span class="cm"># 0 = επιτυχία</span>
-          </div>
+          <div class="cb"><span class="cm">#!/bin/bash</span>
+<span class="cm"># ↑ shebang: λέει στο OS ποιον interpreter να χρησιμοποιήσει</span>
+<span class="cm"># script.sh — παράδειγμα</span>
+<span class="vr">NAME</span>=<span class="st">"Alice"</span> <span class="cm"># χωρίς spaces γύρω από το =</span>
+<span class="kw">echo</span> <span class="st">"Hello, $NAME"</span>
+<span class="kw">if</span> [ $? -eq 0 ]; <span class="kw">then</span>
+<span class="kw">echo</span> <span class="st">"OK"</span>
+<span class="kw">fi</span>
+<span class="kw">exit</span> <span class="nm">0</span> <span class="cm"># 0 = επιτυχία</span></div>
           <div class="wbox">
             <div class="lbl text-yellow">⚠️ Πριν εκτελέσεις</div>Δώσε execute permission:
             <code>chmod +x script.sh</code><br>Εκτέλεση: <code>./script.sh</code> ή <code>bash script.sh</code>
