@@ -1,10 +1,13 @@
 <!DOCTYPE html>
 <html lang="el">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>System Programming · Course Notes</title>
-    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;700&family=Syne:wght@400;700;800&family=Lora:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;700&family=Syne:wght@400;700;800&family=Lora:ital,wght@0,400;0,600;1,400&display=swap"
+        rel="stylesheet">
     <link rel="stylesheet" href="styles/base.css">
     <link rel="stylesheet" href="styles/layout.css">
     <link rel="stylesheet" href="styles/components.css">
@@ -63,7 +66,8 @@
             border-radius: 6.25rem;
             color: var(--txt);
             font-family: 'JetBrains Mono', monospace;
-            font-size: 1rem; /* 16px */
+            font-size: 1rem;
+            /* 16px */
             transition: var(--transition);
             outline: none;
         }
@@ -100,7 +104,7 @@
             transform: translateY(-8px);
             border-color: var(--green);
             background: var(--surf2);
-            box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
         }
 
         .topic-card::before {
@@ -124,7 +128,8 @@
         .topic-num {
             font-family: 'JetBrains Mono', monospace;
             color: var(--green);
-            font-size: 0.875rem; /* 14px */
+            font-size: 0.875rem;
+            /* 14px */
             font-weight: 700;
             letter-spacing: 2px;
         }
@@ -138,7 +143,8 @@
 
         .topic-card p {
             color: var(--muted);
-            font-size: 1rem; /* 16px */
+            font-size: 1rem;
+            /* 16px */
             line-height: 1.7;
         }
 
@@ -150,16 +156,18 @@
         }
 
         .tag {
-            font-size: 0.75rem; /* 12px */
+            font-size: 0.75rem;
+            /* 12px */
             font-family: 'JetBrains Mono', monospace;
             color: var(--dim);
-            background: rgba(255,255,255,0.03);
+            background: rgba(255, 255, 255, 0.03);
             padding: 0.1875rem 0.625rem;
             border-radius: 4px;
             border: 1px solid var(--border);
         }
     </style>
 </head>
+
 <body>
     <div id="site-nav"></div>
 
@@ -167,7 +175,7 @@
         <div class="hero-label">Προγραμματισμός Συστήματος · Κ24</div>
         <h1>System Notes Hub</h1>
         <p>Πλήρεις σημειώσεις για το μάθημα "Προγραμματισμός Συστήματος" — με παραδείγματα, tips και διαγράμματα.</p>
-        
+
         <div class="search-container">
             <input type="text" id="topic-search" placeholder="Αναζήτηση θεμάτων (π.χ. fork, pipes, signals)...">
         </div>
@@ -179,7 +187,8 @@
             <h3>Unix Basics & Commands</h3>
             <p>Αρχιτεκτονική, filesystem, πλοήγηση, permissions και βασικές εντολές διαχείρισης αρχείων.</p>
             <div class="topic-tags">
-                <span class="tag">filesystem</span><span class="tag">permissions</span><span class="tag">navigation</span>
+                <span class="tag">filesystem</span><span class="tag">permissions</span><span
+                    class="tag">navigation</span>
             </div>
         </a>
 
@@ -197,7 +206,8 @@
             <h3>Low-level I/O & Signals</h3>
             <p>System calls (open/read/write), file descriptors και διαχείριση ασύγχρονων σημάτων.</p>
             <div class="topic-tags">
-                <span class="tag">syscalls</span><span class="tag">signals</span><span class="tag">file descriptors</span>
+                <span class="tag">syscalls</span><span class="tag">signals</span><span class="tag">file
+                    descriptors</span>
             </div>
         </a>
 
@@ -206,7 +216,8 @@
             <h3>Fork, Exec & Pipes</h3>
             <p>Δημιουργία διεργασιών, IPC μέσω pipes και διαχείριση κύκλου ζωής διεργασιών.</p>
             <div class="topic-tags">
-                <span class="tag">fork</span><span class="tag">pipes</span><span class="tag">IPC</span><span class="tag">zombie</span>
+                <span class="tag">fork</span><span class="tag">pipes</span><span class="tag">IPC</span><span
+                    class="tag">zombie</span>
             </div>
         </a>
 
@@ -215,7 +226,8 @@
             <h3>Sockets & Network IPC</h3>
             <p>Επικοινωνία μέσω δικτύου, TCP/UDP sockets, Client-Server μοντέλο και I/O Multiplexing.</p>
             <div class="topic-tags">
-                <span class="tag">sockets</span><span class="tag">tcp</span><span class="tag">udp</span><span class="tag">select</span>
+                <span class="tag">sockets</span><span class="tag">tcp</span><span class="tag">udp</span><span
+                    class="tag">select</span>
             </div>
         </a>
 
@@ -224,7 +236,8 @@
             <h3>POSIX Threads (pthreads)</h3>
             <p>Threads, mutexes, condition variables, race conditions, producer-consumer, monitor-style programming.</p>
             <div class="topic-tags">
-                <span class="tag">pthreads</span><span class="tag">mutex</span><span class="tag">condvar</span><span class="tag">race</span>
+                <span class="tag">pthreads</span><span class="tag">mutex</span><span class="tag">condvar</span><span
+                    class="tag">race</span>
             </div>
         </a>
 
@@ -233,12 +246,14 @@
             <h3>System V IPC</h3>
             <p>Message Queues, Shared Memory, Semaphores, File Locking — Inter-Process Communication mechanisms.</p>
             <div class="topic-tags">
-                <span class="tag">msgqueue</span><span class="tag">shmem</span><span class="tag">semaphore</span><span class="tag">fcntl</span>
+                <span class="tag">msgqueue</span><span class="tag">shmem</span><span class="tag">semaphore</span><span
+                    class="tag">fcntl</span>
             </div>
         </a>
 
         <!-- Interactive Quiz Card -->
-        <a href="interactive_quiz.html" class="topic-card" style="border-color: var(--purple); background: linear-gradient(135deg, var(--surf), rgba(192, 132, 252, 0.05));">
+        <a href="interactive_quiz.html" class="topic-card"
+            style="border-color: var(--purple); background: linear-gradient(135deg, var(--surf), rgba(192, 132, 252, 0.05));">
             <div class="topic-num" style="color: var(--purple);">PRACTICE</div>
             <h3>Interactive Quiz</h3>
             <p>Δοκίμασε τις γνώσεις σου με ένα διαδραστικό τεστ πολλαπλών επιλογών για όλα τα topics.</p>
@@ -254,7 +269,5 @@
 
     <script src="js/nav.js"></script>
 </body>
+
 </html>
-
-
-

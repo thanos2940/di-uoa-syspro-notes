@@ -2539,25 +2539,25 @@ window.quizData = {
                 {
                     "q": "Ποια είναι η βασική διαφορά του Peer-to-Peer (P2P) από το Client-Server μοντέλο;",
                     "options": [
-                        {"text": "Στο P2P κάθε κόμβος είναι ταυτόχρονα και client και server.", "correct": true, "explanation": "Οι κόμβοι είναι ισότιμοι και δεν υπάρχει κεντρικός (always-on) server."},
-                        {"text": "Το P2P χρησιμοποιείται μόνο για μεταφορά αρχείων, όχι για μηνύματα.", "correct": false, "explanation": "Μπορεί να χρησιμοποιηθεί για τα πάντα (π.χ. Skype voice calls)."},
-                        {"text": "Το P2P απαιτεί στατική IP για όλους τους κόμβους.", "correct": false, "explanation": "Συνήθως οι P2P clients έχουν dynamic IPs."}
+                        { "text": "Στο P2P κάθε κόμβος είναι ταυτόχρονα και client και server.", "correct": true, "explanation": "Οι κόμβοι είναι ισότιμοι και δεν υπάρχει κεντρικός (always-on) server." },
+                        { "text": "Το P2P χρησιμοποιείται μόνο για μεταφορά αρχείων, όχι για μηνύματα.", "correct": false, "explanation": "Μπορεί να χρησιμοποιηθεί για τα πάντα (π.χ. Skype voice calls)." },
+                        { "text": "Το P2P απαιτεί στατική IP για όλους τους κόμβους.", "correct": false, "explanation": "Συνήθως οι P2P clients έχουν dynamic IPs." }
                     ]
                 },
                 {
                     "q": "Τι είναι ένα Socket;",
                     "options": [
-                        {"text": "Μια διεπαφή (API) - 'πόρτα' επικοινωνίας μεταξύ του application layer και του transport layer.", "correct": true, "explanation": "Το OS παρέχει αυτή την 'πόρτα' για να στέλνουμε/λαμβάνουμε δεδομένα μέσω δικτύου."},
-                        {"text": "Μια φυσική θύρα στο πίσω μέρος του υπολογιστή.", "correct": false, "explanation": "Αυτό είναι το hardware port (π.χ. Ethernet port)."},
-                        {"text": "Ένα πρωτόκολλο δρομολόγησης πακέτων.", "correct": false, "explanation": "Η δρομολόγηση γίνεται από το IP πρωτόκολλο, το socket είναι απλά το endpoint API."}
+                        { "text": "Μια διεπαφή (API) - 'πόρτα' επικοινωνίας μεταξύ του application layer και του transport layer.", "correct": true, "explanation": "Το OS παρέχει αυτή την 'πόρτα' για να στέλνουμε/λαμβάνουμε δεδομένα μέσω δικτύου." },
+                        { "text": "Μια φυσική θύρα στο πίσω μέρος του υπολογιστή.", "correct": false, "explanation": "Αυτό είναι το hardware port (π.χ. Ethernet port)." },
+                        { "text": "Ένα πρωτόκολλο δρομολόγησης πακέτων.", "correct": false, "explanation": "Η δρομολόγηση γίνεται από το IP πρωτόκολλο, το socket είναι απλά το endpoint API." }
                     ]
                 },
                 {
                     "q": "Τι ρόλο παίζει το Application Protocol (π.χ. HTTP);",
                     "options": [
-                        {"text": "Ορίζει τους κανόνες, τη σύνταξη και τη σημασιολογία των μηνυμάτων (requests/responses).", "correct": true, "explanation": "Λέει στο πρόγραμμα πώς να ερμηνεύσει τα bytes που έρχονται από το socket."},
-                        {"text": "Ορίζει τον τρόπο που τα πακέτα μεταφέρονται αξιόπιστα στο δίκτυο.", "correct": false, "explanation": "Αυτό είναι δουλειά του Transport Layer (TCP)."},
-                        {"text": "Παρέχει την IP διεύθυνση του server.", "correct": false, "explanation": "Αυτό γίνεται από το DNS."}
+                        { "text": "Ορίζει τους κανόνες, τη σύνταξη και τη σημασιολογία των μηνυμάτων (requests/responses).", "correct": true, "explanation": "Λέει στο πρόγραμμα πώς να ερμηνεύσει τα bytes που έρχονται από το socket." },
+                        { "text": "Ορίζει τον τρόπο που τα πακέτα μεταφέρονται αξιόπιστα στο δίκτυο.", "correct": false, "explanation": "Αυτό είναι δουλειά του Transport Layer (TCP)." },
+                        { "text": "Παρέχει την IP διεύθυνση του server.", "correct": false, "explanation": "Αυτό γίνεται από το DNS." }
                     ]
                 }
             ]
@@ -2568,25 +2568,25 @@ window.quizData = {
                 {
                     "q": "Τι προσδιορίζει η διεύθυνση IP και τι το Port;",
                     "options": [
-                        {"text": "Η IP βρίσκει το μηχάνημα στο δίκτυο, το Port βρίσκει τη συγκεκριμένη διεργασία στο μηχάνημα.", "correct": true, "explanation": "Σαν τη διεύθυνση ενός κτιρίου (IP) και τον αριθμό διαμερίσματος (Port)."},
-                        {"text": "Η IP είναι για εσωτερικό δίκτυο (LAN), το Port για το Internet.", "correct": false, "explanation": "Η IP (v4/v6) χρησιμοποιείται και στα δύο."},
-                        {"text": "Το Port βρίσκει το μηχάνημα, η IP τη διεργασία.", "correct": false, "explanation": "Ισχύει το ακριβώς αντίστροφο."}
+                        { "text": "Η IP βρίσκει το μηχάνημα στο δίκτυο, το Port βρίσκει τη συγκεκριμένη διεργασία στο μηχάνημα.", "correct": true, "explanation": "Σαν τη διεύθυνση ενός κτιρίου (IP) και τον αριθμό διαμερίσματος (Port)." },
+                        { "text": "Η IP είναι για εσωτερικό δίκτυο (LAN), το Port για το Internet.", "correct": false, "explanation": "Η IP (v4/v6) χρησιμοποιείται και στα δύο." },
+                        { "text": "Το Port βρίσκει το μηχάνημα, η IP τη διεργασία.", "correct": false, "explanation": "Ισχύει το ακριβώς αντίστροφο." }
                     ]
                 },
                 {
                     "q": "Τι είναι τα 'Well-known ports' (0-1023);",
                     "options": [
-                        {"text": "Θύρες δεσμευμένες για γνωστές υπηρεσίες (π.χ. 80 για HTTP) που απαιτούν δικαιώματα root για να κάνεις bind().", "correct": true, "explanation": "Αυστηρός κανόνας του Unix/Linux για ασφάλεια."},
-                        {"text": "Προσωρινές θύρες που δίνει αυτόματα το λειτουργικό στους clients.", "correct": false, "explanation": "Αυτές οι θύρες ονομάζονται ephemeral ports (συνήθως στο range 49152–65535)."},
-                        {"text": "Θύρες που χρησιμοποιούνται αποκλειστικά για UDP.", "correct": false, "explanation": "Υπάρχουν well-known ports και για TCP και για UDP."}
+                        { "text": "Θύρες δεσμευμένες για γνωστές υπηρεσίες (π.χ. 80 για HTTP) που απαιτούν δικαιώματα root για να κάνεις bind().", "correct": true, "explanation": "Αυστηρός κανόνας του Unix/Linux για ασφάλεια." },
+                        { "text": "Προσωρινές θύρες που δίνει αυτόματα το λειτουργικό στους clients.", "correct": false, "explanation": "Αυτές οι θύρες ονομάζονται ephemeral ports (συνήθως στο range 49152–65535)." },
+                        { "text": "Θύρες που χρησιμοποιούνται αποκλειστικά για UDP.", "correct": false, "explanation": "Υπάρχουν well-known ports και για TCP και για UDP." }
                     ]
                 },
                 {
                     "q": "Τι ρόλο παίζει το NAT (Network Address Translation);",
                     "options": [
-                        {"text": "Επιτρέπει σε πολλές εσωτερικές συσκευές (LAN) να μοιράζονται μία κοινή δημόσια IP.", "correct": true, "explanation": "Ο router κρατάει ένα table για να ξέρει ποιο επιστρεφόμενο πακέτο πάει σε ποια συσκευή."},
-                        {"text": "Μεταφράζει τα hostnames (όπως google.com) σε IP διευθύνσεις.", "correct": false, "explanation": "Αυτό είναι το DNS."},
-                        {"text": "Κρυπτογραφεί τα δεδομένα του δικτύου.", "correct": false, "explanation": "Αυτό το κάνουν πρωτόκολλα όπως το TLS/SSL."}
+                        { "text": "Επιτρέπει σε πολλές εσωτερικές συσκευές (LAN) να μοιράζονται μία κοινή δημόσια IP.", "correct": true, "explanation": "Ο router κρατάει ένα table για να ξέρει ποιο επιστρεφόμενο πακέτο πάει σε ποια συσκευή." },
+                        { "text": "Μεταφράζει τα hostnames (όπως google.com) σε IP διευθύνσεις.", "correct": false, "explanation": "Αυτό είναι το DNS." },
+                        { "text": "Κρυπτογραφεί τα δεδομένα του δικτύου.", "correct": false, "explanation": "Αυτό το κάνουν πρωτόκολλα όπως το TLS/SSL." }
                     ]
                 }
             ]
@@ -2597,25 +2597,25 @@ window.quizData = {
                 {
                     "q": "Ποιο είναι το κύριο χαρακτηριστικό του TCP (SOCK_STREAM);",
                     "options": [
-                        {"text": "Είναι connection-oriented (handshake) και εγγυάται αξιόπιστη, in-order παράδοση.", "correct": true, "explanation": "Ιδανικό για Web, Email, File transfers όπου κάθε byte μετράει."},
-                        {"text": "Στέλνει πακέτα γρήγορα χωρίς εγκατάσταση σύνδεσης.", "correct": false, "explanation": "Αυτό είναι το UDP."},
-                        {"text": "Είναι ιδανικό για video streaming και online gaming.", "correct": false, "explanation": "Σε αυτές τις περιπτώσεις το UDP είναι προτιμότερο λόγω χαμηλού latency."}
+                        { "text": "Είναι connection-oriented (handshake) και εγγυάται αξιόπιστη, in-order παράδοση.", "correct": true, "explanation": "Ιδανικό για Web, Email, File transfers όπου κάθε byte μετράει." },
+                        { "text": "Στέλνει πακέτα γρήγορα χωρίς εγκατάσταση σύνδεσης.", "correct": false, "explanation": "Αυτό είναι το UDP." },
+                        { "text": "Είναι ιδανικό για video streaming και online gaming.", "correct": false, "explanation": "Σε αυτές τις περιπτώσεις το UDP είναι προτιμότερο λόγω χαμηλού latency." }
                     ]
                 },
                 {
                     "q": "Τι εννοούμε λέγοντας ότι το TCP δεν έχει 'Message Boundaries';",
                     "options": [
-                        {"text": "Είναι byte stream. Το read() μπορεί να διαβάσει λιγότερα (ή περισσότερα) bytes από όσα στάλθηκαν σε ένα write().", "correct": true, "explanation": "Δεν διατηρούνται τα όρια των μηνυμάτων. Πρέπει να ελέγχετε το return value της read()."},
-                        {"text": "Δεν μπορείς να ξέρεις ποιος έστειλε το μήνυμα.", "correct": false, "explanation": "Η σύνδεση (socket pair) είναι αυστηρά ορισμένη (Source IP/Port + Dest IP/Port)."},
-                        {"text": "Το μέγεθος του μηνύματος είναι άπειρο.", "correct": false, "explanation": "Αν και το stream είναι συνεχές, τα μηνύματα είναι πεπερασμένα."}
+                        { "text": "Είναι byte stream. Το read() μπορεί να διαβάσει λιγότερα (ή περισσότερα) bytes από όσα στάλθηκαν σε ένα write().", "correct": true, "explanation": "Δεν διατηρούνται τα όρια των μηνυμάτων. Πρέπει να ελέγχετε το return value της read()." },
+                        { "text": "Δεν μπορείς να ξέρεις ποιος έστειλε το μήνυμα.", "correct": false, "explanation": "Η σύνδεση (socket pair) είναι αυστηρά ορισμένη (Source IP/Port + Dest IP/Port)." },
+                        { "text": "Το μέγεθος του μηνύματος είναι άπειρο.", "correct": false, "explanation": "Αν και το stream είναι συνεχές, τα μηνύματα είναι πεπερασμένα." }
                     ]
                 },
                 {
                     "q": "Πότε θα επιλέγαμε UDP αντί για TCP;",
                     "options": [
-                        {"text": "Όταν η χαμηλή καθυστέρηση (latency) είναι πιο σημαντική από την απώλεια μερικών δεδομένων (π.χ. VoIP).", "correct": true, "explanation": "Στο UDP δεν περιμένεις για ACKs ή retransmissions, το πακέτο φεύγει αμέσως."},
-                        {"text": "Όταν κατεβάζουμε ένα αρχείο από FTP server.", "correct": false, "explanation": "Αν χαθεί ένα πακέτο στο αρχείο θα καταστραφεί. Θέλει TCP."},
-                        {"text": "Όταν θέλουμε κρυπτογράφηση.", "correct": false, "explanation": "Η κρυπτογράφηση είναι ανεξάρτητη του TCP/UDP."}
+                        { "text": "Όταν η χαμηλή καθυστέρηση (latency) είναι πιο σημαντική από την απώλεια μερικών δεδομένων (π.χ. VoIP).", "correct": true, "explanation": "Στο UDP δεν περιμένεις για ACKs ή retransmissions, το πακέτο φεύγει αμέσως." },
+                        { "text": "Όταν κατεβάζουμε ένα αρχείο από FTP server.", "correct": false, "explanation": "Αν χαθεί ένα πακέτο στο αρχείο θα καταστραφεί. Θέλει TCP." },
+                        { "text": "Όταν θέλουμε κρυπτογράφηση.", "correct": false, "explanation": "Η κρυπτογράφηση είναι ανεξάρτητη του TCP/UDP." }
                     ]
                 }
             ]
@@ -2626,25 +2626,25 @@ window.quizData = {
                 {
                     "q": "Τι καθορίζει η παράμετρος 'domain' (π.χ. AF_INET) στην socket();",
                     "options": [
-                        {"text": "Το format των διευθύνσεων που θα χρησιμοποιηθεί (π.χ. IPv4, IPv6, Unix Path).", "correct": true, "explanation": "AF_INET σημαίνει IPv4 (Internet domain), AF_UNIX σημαίνει τοπική επικοινωνία στο filesystem."},
-                        {"text": "Αν η σύνδεση είναι TCP ή UDP.", "correct": false, "explanation": "Αυτό το καθορίζει η παράμετρος 'type' (SOCK_STREAM vs SOCK_DGRAM)."},
-                        {"text": "Το πρωτόκολλο εφαρμογής (π.χ. HTTP).", "correct": false, "explanation": "Τα sockets δεν γνωρίζουν για application protocols."}
+                        { "text": "Το format των διευθύνσεων που θα χρησιμοποιηθεί (π.χ. IPv4, IPv6, Unix Path).", "correct": true, "explanation": "AF_INET σημαίνει IPv4 (Internet domain), AF_UNIX σημαίνει τοπική επικοινωνία στο filesystem." },
+                        { "text": "Αν η σύνδεση είναι TCP ή UDP.", "correct": false, "explanation": "Αυτό το καθορίζει η παράμετρος 'type' (SOCK_STREAM vs SOCK_DGRAM)." },
+                        { "text": "Το πρωτόκολλο εφαρμογής (π.χ. HTTP).", "correct": false, "explanation": "Τα sockets δεν γνωρίζουν για application protocols." }
                     ]
                 },
                 {
                     "q": "Τι επιστρέφει η συνάρτηση socket();",
                     "options": [
-                        {"text": "Έναν File Descriptor (ακέραιο) ή -1 σε περίπτωση σφάλματος.", "correct": true, "explanation": "Όπως ακριβώς και η open() για τα αρχεία."},
-                        {"text": "Μια δομή sockaddr.", "correct": false, "explanation": "Η δομή πρέπει να οριστεί και να περαστεί στην bind()."},
-                        {"text": "0 σε επιτυχία.", "correct": false, "explanation": "Επιστρέφει το νέο fd (π.χ. 3, 4, ...). Το 0 είναι ήδη το stdin."}
+                        { "text": "Έναν File Descriptor (ακέραιο) ή -1 σε περίπτωση σφάλματος.", "correct": true, "explanation": "Όπως ακριβώς και η open() για τα αρχεία." },
+                        { "text": "Μια δομή sockaddr.", "correct": false, "explanation": "Η δομή πρέπει να οριστεί και να περαστεί στην bind()." },
+                        { "text": "0 σε επιτυχία.", "correct": false, "explanation": "Επιστρέφει το νέο fd (π.χ. 3, 4, ...). Το 0 είναι ήδη το stdin." }
                     ]
                 },
                 {
                     "q": "Τι είναι το AF_UNIX (ή AF_LOCAL) domain;",
                     "options": [
-                        {"text": "Χρησιμοποιείται για επικοινωνία διεργασιών στο ίδιο ακριβώς μηχάνημα, αποφεύγοντας το overhead του network stack.", "correct": true, "explanation": "Η διεύθυνσή τους είναι ένα path στο filesystem, όχι IP."},
-                        {"text": "Είναι ένα πρωτόκολλο που δουλεύει μόνο σε λειτουργικά συστήματα Unix.", "correct": false, "explanation": "Αν και το όνομα AF_UNIX ξεκίνησε έτσι, παρόμοια concepts υπάρχουν παντού (π.χ. Windows Named Pipes)."},
-                        {"text": "Είναι η προεπιλογή (default) για επικοινωνία στο internet.", "correct": false, "explanation": "Αυτό είναι το AF_INET."}
+                        { "text": "Χρησιμοποιείται για επικοινωνία διεργασιών στο ίδιο ακριβώς μηχάνημα, αποφεύγοντας το overhead του network stack.", "correct": true, "explanation": "Η διεύθυνσή τους είναι ένα path στο filesystem, όχι IP." },
+                        { "text": "Είναι ένα πρωτόκολλο που δουλεύει μόνο σε λειτουργικά συστήματα Unix.", "correct": false, "explanation": "Αν και το όνομα AF_UNIX ξεκίνησε έτσι, παρόμοια concepts υπάρχουν παντού (π.χ. Windows Named Pipes)." },
+                        { "text": "Είναι η προεπιλογή (default) για επικοινωνία στο internet.", "correct": false, "explanation": "Αυτό είναι το AF_INET." }
                     ]
                 }
             ]
@@ -2655,25 +2655,25 @@ window.quizData = {
                 {
                     "q": "Τι είναι το Network Byte Order;",
                     "options": [
-                        {"text": "Είναι Big Endian (το πιο σημαντικό byte αποστέλλεται πρώτο).", "correct": true, "explanation": "Όλα τα δεδομένα που μπαίνουν σε δομές διευθύνσεων (π.χ. ports/IPs) πρέπει να μετατρέπονται σε Network Byte Order."},
-                        {"text": "Είναι Little Endian (το λιγότερο σημαντικό byte πρώτο).", "correct": false, "explanation": "Οι Intel x86 επεξεργαστές είναι Little Endian, αλλά το δίκτυο είναι Big Endian."},
-                        {"text": "Εξαρτάται από το λειτουργικό σύστημα του server.", "correct": false, "explanation": "Είναι universal standard για το internet."}
+                        { "text": "Είναι Big Endian (το πιο σημαντικό byte αποστέλλεται πρώτο).", "correct": true, "explanation": "Όλα τα δεδομένα που μπαίνουν σε δομές διευθύνσεων (π.χ. ports/IPs) πρέπει να μετατρέπονται σε Network Byte Order." },
+                        { "text": "Είναι Little Endian (το λιγότερο σημαντικό byte πρώτο).", "correct": false, "explanation": "Οι Intel x86 επεξεργαστές είναι Little Endian, αλλά το δίκτυο είναι Big Endian." },
+                        { "text": "Εξαρτάται από το λειτουργικό σύστημα του server.", "correct": false, "explanation": "Είναι universal standard για το internet." }
                     ]
                 },
                 {
                     "q": "Ποια συνάρτηση μετατρέπει ένα 16-bit Port από Host σε Network byte order;",
                     "options": [
-                        {"text": "htons()", "correct": true, "explanation": "Mnemonic: Host TO Network Short. (Short = 16-bit, κατάλληλο για ports)."},
-                        {"text": "htonl()", "correct": false, "explanation": "Αυτό είναι Long (32-bit), κατάλληλο για IP διευθύνσεις."},
-                        {"text": "ntohs()", "correct": false, "explanation": "Αυτό κάνει την αντίστροφη μετατροπή (Network TO Host Short) όταν ΛΑΜΒΑΝΟΥΜΕ δεδομένα."}
+                        { "text": "htons()", "correct": true, "explanation": "Mnemonic: Host TO Network Short. (Short = 16-bit, κατάλληλο για ports)." },
+                        { "text": "htonl()", "correct": false, "explanation": "Αυτό είναι Long (32-bit), κατάλληλο για IP διευθύνσεις." },
+                        { "text": "ntohs()", "correct": false, "explanation": "Αυτό κάνει την αντίστροφη μετατροπή (Network TO Host Short) όταν ΛΑΜΒΑΝΟΥΜΕ δεδομένα." }
                     ]
                 },
                 {
                     "q": "Τι θα συμβεί αν δεν χρησιμοποιήσουμε htons() κατά το bind σε Intel CPU;",
                     "options": [
-                        {"text": "Ο server θα κάνει bind σε εντελώς διαφορετικό (λάθος) port.", "correct": true, "explanation": "Το port 8080 (0x1F90) θα διαβαστεί ανάποδα από το OS ως 36895 (0x901F)."},
-                        {"text": "Το πρόγραμμα δεν θα γίνει compile.", "correct": false, "explanation": "Ο compiler δεν ελέγχει το byte ordering της εφαρμογής σας."},
-                        {"text": "Θα λειτουργήσει κανονικά γιατί ο kernel κάνει τη μετατροπή αυτόματα.", "correct": false, "explanation": "Ο kernel περιμένει NBO. Εσύ πρέπει να το μετατρέψεις."}
+                        { "text": "Ο server θα κάνει bind σε εντελώς διαφορετικό (λάθος) port.", "correct": true, "explanation": "Το port 8080 (0x1F90) θα διαβαστεί ανάποδα από το OS ως 36895 (0x901F)." },
+                        { "text": "Το πρόγραμμα δεν θα γίνει compile.", "correct": false, "explanation": "Ο compiler δεν ελέγχει το byte ordering της εφαρμογής σας." },
+                        { "text": "Θα λειτουργήσει κανονικά γιατί ο kernel κάνει τη μετατροπή αυτόματα.", "correct": false, "explanation": "Ο kernel περιμένει NBO. Εσύ πρέπει να το μετατρέψεις." }
                     ]
                 }
             ]
@@ -2684,25 +2684,25 @@ window.quizData = {
                 {
                     "q": "Ποια διεύθυνση αντιστοιχεί στο INADDR_ANY;",
                     "options": [
-                        {"text": "Στο 0.0.0.0, που σημαίνει 'δέξου συνδέσεις σε όλα τα network interfaces του μηχανήματος'.", "correct": true, "explanation": "Ο πιο συνηθισμένος τρόπος για να ρυθμίσεις έναν server χωρίς να σκληροκωδικοποιήσεις τη δική του IP."},
-                        {"text": "Στη διεύθυνση loopback 127.0.0.1.", "correct": false, "explanation": "Αυτό θα ήταν το INADDR_LOOPBACK."},
-                        {"text": "Στην IP του πελάτη (client).", "correct": false, "explanation": "Ο server δεν ξέρει την IP του client κατά τη διάρκεια του bind()."}
+                        { "text": "Στο 0.0.0.0, που σημαίνει 'δέξου συνδέσεις σε όλα τα network interfaces του μηχανήματος'.", "correct": true, "explanation": "Ο πιο συνηθισμένος τρόπος για να ρυθμίσεις έναν server χωρίς να σκληροκωδικοποιήσεις τη δική του IP." },
+                        { "text": "Στη διεύθυνση loopback 127.0.0.1.", "correct": false, "explanation": "Αυτό θα ήταν το INADDR_LOOPBACK." },
+                        { "text": "Στην IP του πελάτη (client).", "correct": false, "explanation": "Ο server δεν ξέρει την IP του client κατά τη διάρκεια του bind()." }
                     ]
                 },
                 {
                     "q": "Γιατί κάνουμε cast τον δείκτη &server_addr σε (struct sockaddr *) κατά την bind();",
                     "options": [
-                        {"text": "Διότι η bind() παίρνει έναν generic δείκτη, ώστε να δουλεύει και για AF_INET, AF_INET6, AF_UNIX.", "correct": true, "explanation": "Σαν polymorphism στη C. Η struct sockaddr είναι ο 'γονέας' και η struct sockaddr_in το 'παιδί'."},
-                        {"text": "Για να αποφύγουμε compilation errors λόγω Network Byte Order.", "correct": false, "explanation": "Δεν έχει σχέση με το byte order."},
-                        {"text": "Για να διαγράψουμε (free) τη μνήμη της δομής.", "correct": false, "explanation": "Δεν γίνεται καμία διαγραφή."}
+                        { "text": "Διότι η bind() παίρνει έναν generic δείκτη, ώστε να δουλεύει και για AF_INET, AF_INET6, AF_UNIX.", "correct": true, "explanation": "Σαν polymorphism στη C. Η struct sockaddr είναι ο 'γονέας' και η struct sockaddr_in το 'παιδί'." },
+                        { "text": "Για να αποφύγουμε compilation errors λόγω Network Byte Order.", "correct": false, "explanation": "Δεν έχει σχέση με το byte order." },
+                        { "text": "Για να διαγράψουμε (free) τη μνήμη της δομής.", "correct": false, "explanation": "Δεν γίνεται καμία διαγραφή." }
                     ]
                 },
                 {
                     "q": "Ποιες είναι οι βασικές μεταβλητές της `struct sockaddr_in`;",
                     "options": [
-                        {"text": "sin_family (domain), sin_port (NBO), sin_addr (IP NBO).", "correct": true, "explanation": "Αυτά τα 3 πεδία πρέπει απαραιτήτως να τα γεμίσουμε πριν κάνουμε bind ή connect."},
-                        {"text": "s_addr, h_name, h_length.", "correct": false, "explanation": "Τα δύο τελευταία ανήκουν στην struct hostent (DNS)."},
-                        {"text": "fd, ip_address, port.", "correct": false, "explanation": "Δεν υπάρχουν τέτοια ονόματα πεδίων στη C."}
+                        { "text": "sin_family (domain), sin_port (NBO), sin_addr (IP NBO).", "correct": true, "explanation": "Αυτά τα 3 πεδία πρέπει απαραιτήτως να τα γεμίσουμε πριν κάνουμε bind ή connect." },
+                        { "text": "s_addr, h_name, h_length.", "correct": false, "explanation": "Τα δύο τελευταία ανήκουν στην struct hostent (DNS)." },
+                        { "text": "fd, ip_address, port.", "correct": false, "explanation": "Δεν υπάρχουν τέτοια ονόματα πεδίων στη C." }
                     ]
                 }
             ]
@@ -2713,25 +2713,25 @@ window.quizData = {
                 {
                     "q": "Τι κάνει η gethostbyname();",
                     "options": [
-                        {"text": "Παίρνει ένα hostname (π.χ. 'google.com') και επιστρέφει μια struct hostent με τις IP του.", "correct": true, "explanation": "Αν και deprecated υπέρ της getaddrinfo(), είναι η κλασική μέθοδος επίλυσης (DNS lookup)."},
-                        {"text": "Παίρνει μια IP (π.χ. '8.8.8.8') και επιστρέφει το όνομα (reverse DNS).", "correct": false, "explanation": "Αυτό το κάνει η gethostbyaddr()."},
-                        {"text": "Μετατρέπει IP από string σε binary form.", "correct": false, "explanation": "Αυτό το κάνει η inet_aton() / inet_pton()."}
+                        { "text": "Παίρνει ένα hostname (π.χ. 'google.com') και επιστρέφει μια struct hostent με τις IP του.", "correct": true, "explanation": "Αν και deprecated υπέρ της getaddrinfo(), είναι η κλασική μέθοδος επίλυσης (DNS lookup)." },
+                        { "text": "Παίρνει μια IP (π.χ. '8.8.8.8') και επιστρέφει το όνομα (reverse DNS).", "correct": false, "explanation": "Αυτό το κάνει η gethostbyaddr()." },
+                        { "text": "Μετατρέπει IP από string σε binary form.", "correct": false, "explanation": "Αυτό το κάνει η inet_aton() / inet_pton()." }
                     ]
                 },
                 {
                     "q": "Ποια είναι η λειτουργία της inet_ntoa();",
                     "options": [
-                        {"text": "Μετατρέπει μια διεύθυνση IP από binary (Network Byte Order) σε printable string (π.χ. '192.168.1.1').", "correct": true, "explanation": "Το ntoa σημαίνει 'Network To ASCII'."},
-                        {"text": "Μετατρέπει ένα ASCII string IP σε Network Byte Order.", "correct": false, "explanation": "Αυτό το κάνει η inet_aton() (ASCII To Network)."},
-                        {"text": "Επικοινωνεί με τον DNS server.", "correct": false, "explanation": "Καμία δικτυακή επικοινωνία δεν γίνεται εδώ. Είναι καθαρά string conversion."}
+                        { "text": "Μετατρέπει μια διεύθυνση IP από binary (Network Byte Order) σε printable string (π.χ. '192.168.1.1').", "correct": true, "explanation": "Το ntoa σημαίνει 'Network To ASCII'." },
+                        { "text": "Μετατρέπει ένα ASCII string IP σε Network Byte Order.", "correct": false, "explanation": "Αυτό το κάνει η inet_aton() (ASCII To Network)." },
+                        { "text": "Επικοινωνεί με τον DNS server.", "correct": false, "explanation": "Καμία δικτυακή επικοινωνία δεν γίνεται εδώ. Είναι καθαρά string conversion." }
                     ]
                 },
                 {
                     "q": "Γιατί οι inet_ntoa() και gethostbyname() θεωρούνται 'επικίνδυνες' σε σύγχρονο multithreaded κώδικα;",
                     "options": [
-                        {"text": "Επειδή επιστρέφουν δείκτες (pointers) σε static memory buffers (NOT thread-safe).", "correct": true, "explanation": "Αν δύο threads καλέσουν ταυτόχρονα την inet_ntoa, η μία κλήση θα διαγράψει (overwrite) τα αποτελέσματα της άλλης."},
-                        {"text": "Επειδή είναι πολύ αργές (υψηλό overhead).", "correct": false, "explanation": "Δεν είναι θέμα ταχύτητας, είναι θέμα data race."},
-                        {"text": "Επειδή δεν υποστηρίζουν IPv4.", "correct": false, "explanation": "Ίσα-ίσα, υποστηρίζουν ΜΟΝΟ IPv4."}
+                        { "text": "Επειδή επιστρέφουν δείκτες (pointers) σε static memory buffers (NOT thread-safe).", "correct": true, "explanation": "Αν δύο threads καλέσουν ταυτόχρονα την inet_ntoa, η μία κλήση θα διαγράψει (overwrite) τα αποτελέσματα της άλλης." },
+                        { "text": "Επειδή είναι πολύ αργές (υψηλό overhead).", "correct": false, "explanation": "Δεν είναι θέμα ταχύτητας, είναι θέμα data race." },
+                        { "text": "Επειδή δεν υποστηρίζουν IPv4.", "correct": false, "explanation": "Ίσα-ίσα, υποστηρίζουν ΜΟΝΟ IPv4." }
                     ]
                 }
             ]
@@ -2742,25 +2742,25 @@ window.quizData = {
                 {
                     "q": "Ποια είναι η σωστή σειρά κλήσεων για την εκκίνηση ενός TCP Server;",
                     "options": [
-                        {"text": "socket() → bind() → listen() → accept()", "correct": true, "explanation": "Δημιουργία -> Κατοχύρωση Port -> Ορισμός ουράς (passive) -> Αναμονή συνδέσεων."},
-                        {"text": "socket() → connect() → read()", "correct": false, "explanation": "Αυτή είναι η σειρά του Client."},
-                        {"text": "socket() → listen() → bind() → accept()", "correct": false, "explanation": "Δεν μπορείς να κάνεις listen αν δεν έχεις κάνει πρώτα bind."}
+                        { "text": "socket() → bind() → listen() → accept()", "correct": true, "explanation": "Δημιουργία -> Κατοχύρωση Port -> Ορισμός ουράς (passive) -> Αναμονή συνδέσεων." },
+                        { "text": "socket() → connect() → read()", "correct": false, "explanation": "Αυτή είναι η σειρά του Client." },
+                        { "text": "socket() → listen() → bind() → accept()", "correct": false, "explanation": "Δεν μπορείς να κάνεις listen αν δεν έχεις κάνει πρώτα bind." }
                     ]
                 },
                 {
                     "q": "Τι επιστρέφει η accept() όταν πετύχει;",
                     "options": [
-                        {"text": "Έναν ΝΕΟ file descriptor, ο οποίος χρησιμοποιείται αποκλειστικά για την επικοινωνία με τον συγκεκριμένο client.", "correct": true, "explanation": "Το αρχικό socket (listening socket) μένει άθικτο και συνεχίζει να δέχεται νέες συνδέσεις."},
-                        {"text": "Την IP διεύθυνση του client.", "correct": false, "explanation": "Την IP τη γράφει στο struct sockaddr που περνάμε ως 2ο argument, δεν την επιστρέφει."},
-                        {"text": "0 σε επιτυχία.", "correct": false, "explanation": "Επιστρέφει file descriptor (θετικό ακέραιο)."}
+                        { "text": "Έναν ΝΕΟ file descriptor, ο οποίος χρησιμοποιείται αποκλειστικά για την επικοινωνία με τον συγκεκριμένο client.", "correct": true, "explanation": "Το αρχικό socket (listening socket) μένει άθικτο και συνεχίζει να δέχεται νέες συνδέσεις." },
+                        { "text": "Την IP διεύθυνση του client.", "correct": false, "explanation": "Την IP τη γράφει στο struct sockaddr που περνάμε ως 2ο argument, δεν την επιστρέφει." },
+                        { "text": "0 σε επιτυχία.", "correct": false, "explanation": "Επιστρέφει file descriptor (θετικό ακέραιο)." }
                     ]
                 },
                 {
                     "q": "Τι αντιπροσωπεύει η δεύτερη παράμετρος (backlog) στην listen(sock, 5);",
                     "options": [
-                        {"text": "Τον μέγιστο αριθμό ολοκληρωμένων συνδέσεων που μπορούν να περιμένουν στην ουρά, πριν κάνουμε accept.", "correct": true, "explanation": "Αν η ουρά γεμίσει (π.χ. > 5 συνδέσεις περιμένουν), το OS θα απορρίψει τα νέα connections."},
-                        {"text": "Τον μέγιστο αριθμό clients που μπορεί να εξυπηρετήσει συνολικά ο server.", "correct": false, "explanation": "Μπορούμε να εξυπηρετήσουμε χιλιάδες. Το backlog είναι μόνο για αυτούς που περιμένουν να γίνουν 'accept'."},
-                        {"text": "Το μέγεθος του buffer σε bytes για εισερχόμενα μηνύματα.", "correct": false, "explanation": "Το μέγεθος buffer ορίζεται σε άλλο επίπεδο, π.χ. via setsockopt."}
+                        { "text": "Τον μέγιστο αριθμό ολοκληρωμένων συνδέσεων που μπορούν να περιμένουν στην ουρά, πριν κάνουμε accept.", "correct": true, "explanation": "Αν η ουρά γεμίσει (π.χ. > 5 συνδέσεις περιμένουν), το OS θα απορρίψει τα νέα connections." },
+                        { "text": "Τον μέγιστο αριθμό clients που μπορεί να εξυπηρετήσει συνολικά ο server.", "correct": false, "explanation": "Μπορούμε να εξυπηρετήσουμε χιλιάδες. Το backlog είναι μόνο για αυτούς που περιμένουν να γίνουν 'accept'." },
+                        { "text": "Το μέγεθος του buffer σε bytes για εισερχόμενα μηνύματα.", "correct": false, "explanation": "Το μέγεθος buffer ορίζεται σε άλλο επίπεδο, π.χ. via setsockopt." }
                     ]
                 }
             ]
@@ -2771,25 +2771,25 @@ window.quizData = {
                 {
                     "q": "Γιατί ένας TCP Client δεν χρειάζεται να καλέσει την bind();",
                     "options": [
-                        {"text": "Το OS αναθέτει αυτόματα ένα ελεύθερο (ephemeral) port κατά την κλήση της connect().", "correct": true, "explanation": "Δεν μας ενδιαφέρει ποιο port έχει ο client. Μας ενδιαφέρει ο server να είναι σε γνωστό port (π.χ. 80)."},
-                        {"text": "Ο client δεν έχει port.", "correct": false, "explanation": "Κάθε επικοινωνία TCP θέλει ένα ζεύγος IP:Port και στις δύο πλευρές (4-tuple)."},
-                        {"text": "Επειδή το bind() απαγορεύεται στους clients.", "correct": false, "explanation": "Μπορείς να κάνεις bind (π.χ. αν θέλεις να βγεις από συγκεκριμένη IP/κάρτα δικτύου), αλλά σπάνια χρειάζεται."}
+                        { "text": "Το OS αναθέτει αυτόματα ένα ελεύθερο (ephemeral) port κατά την κλήση της connect().", "correct": true, "explanation": "Δεν μας ενδιαφέρει ποιο port έχει ο client. Μας ενδιαφέρει ο server να είναι σε γνωστό port (π.χ. 80)." },
+                        { "text": "Ο client δεν έχει port.", "correct": false, "explanation": "Κάθε επικοινωνία TCP θέλει ένα ζεύγος IP:Port και στις δύο πλευρές (4-tuple)." },
+                        { "text": "Επειδή το bind() απαγορεύεται στους clients.", "correct": false, "explanation": "Μπορείς να κάνεις bind (π.χ. αν θέλεις να βγεις από συγκεκριμένη IP/κάρτα δικτύου), αλλά σπάνια χρειάζεται." }
                     ]
                 },
                 {
                     "q": "Τι κάνει η connect() σε ένα SOCK_STREAM socket;",
                     "options": [
-                        {"text": "Ξεκινάει το TCP 3-way handshake με τον server. Μπλοκάρει (κολλάει) μέχρι να ολοκληρωθεί.", "correct": true, "explanation": "Μόλις επιστρέψει 0, η σύνδεση είναι Established και μπορούμε να στείλουμε δεδομένα."},
-                        {"text": "Στέλνει αμέσως τα δεδομένα της read/write.", "correct": false, "explanation": "Η connect() απλά ανοίγει το κανάλι (στήνει σύνδεση)."},
-                        {"text": "Απορρίπτει (κλείνει) τη σύνδεση.", "correct": false, "explanation": "Αυτό το κάνει η close()."}
+                        { "text": "Ξεκινάει το TCP 3-way handshake με τον server. Μπλοκάρει (κολλάει) μέχρι να ολοκληρωθεί.", "correct": true, "explanation": "Μόλις επιστρέψει 0, η σύνδεση είναι Established και μπορούμε να στείλουμε δεδομένα." },
+                        { "text": "Στέλνει αμέσως τα δεδομένα της read/write.", "correct": false, "explanation": "Η connect() απλά ανοίγει το κανάλι (στήνει σύνδεση)." },
+                        { "text": "Απορρίπτει (κλείνει) τη σύνδεση.", "correct": false, "explanation": "Αυτό το κάνει η close()." }
                     ]
                 },
                 {
                     "q": "Ποια είναι η διαφορά shutdown(fd, SHUT_WR) και close(fd);",
                     "options": [
-                        {"text": "To shutdown(SHUT_WR) στέλνει FIN (λέει στον server 'τέλος') αλλά το fd μένει ανοιχτό για να ΛΑΒΕΙΣ απάντηση.", "correct": true, "explanation": "Κλασικό pattern στο HTTP: Στέλνεις request, κάνεις SHUT_WR, ο server καταλαβαίνει ότι τελείωσες και σου στέλνει την απάντηση."},
-                        {"text": "Δεν υπάρχει διαφορά, είναι συνώνυμα.", "correct": false, "explanation": "Το close(fd) καταστρέφει το fd αμέσως (αν το ref count είναι 0)."},
-                        {"text": "To shutdown τερματίζει εντελώς τη διεργασία.", "correct": false, "explanation": "Τερματίζει μόνο το μισό (ή όλο) το κανάλι του TCP, όχι τη διεργασία."}
+                        { "text": "To shutdown(SHUT_WR) στέλνει FIN (λέει στον server 'τέλος') αλλά το fd μένει ανοιχτό για να ΛΑΒΕΙΣ απάντηση.", "correct": true, "explanation": "Κλασικό pattern στο HTTP: Στέλνεις request, κάνεις SHUT_WR, ο server καταλαβαίνει ότι τελείωσες και σου στέλνει την απάντηση." },
+                        { "text": "Δεν υπάρχει διαφορά, είναι συνώνυμα.", "correct": false, "explanation": "Το close(fd) καταστρέφει το fd αμέσως (αν το ref count είναι 0)." },
+                        { "text": "To shutdown τερματίζει εντελώς τη διεργασία.", "correct": false, "explanation": "Τερματίζει μόνο το μισό (ή όλο) το κανάλι του TCP, όχι τη διεργασία." }
                     ]
                 }
             ]
@@ -2800,25 +2800,25 @@ window.quizData = {
                 {
                     "q": "Τι είναι ένας Iterative (Serial) Server;",
                     "options": [
-                        {"text": "Εξυπηρετεί έναν client από την αρχή μέχρι το τέλος, ΠΡΙΝ κάνει accept τον επόμενο.", "correct": true, "explanation": "Αν ένας client είναι αργός ή κολλήσει, όλοι οι υπόλοιποι στην ουρά 'περιμένουν'."},
-                        {"text": "Δημιουργεί μια νέα διεργασία (fork) για κάθε client.", "correct": false, "explanation": "Αυτό είναι ο Concurrent (Forking) server."},
-                        {"text": "Διαχειρίζεται πολλαπλούς clients με ένα thread χρησιμοποιώντας select().", "correct": false, "explanation": "Αυτό είναι ο Multiplexing (event-driven) server."}
+                        { "text": "Εξυπηρετεί έναν client από την αρχή μέχρι το τέλος, ΠΡΙΝ κάνει accept τον επόμενο.", "correct": true, "explanation": "Αν ένας client είναι αργός ή κολλήσει, όλοι οι υπόλοιποι στην ουρά 'περιμένουν'." },
+                        { "text": "Δημιουργεί μια νέα διεργασία (fork) για κάθε client.", "correct": false, "explanation": "Αυτό είναι ο Concurrent (Forking) server." },
+                        { "text": "Διαχειρίζεται πολλαπλούς clients με ένα thread χρησιμοποιώντας select().", "correct": false, "explanation": "Αυτό είναι ο Multiplexing (event-driven) server." }
                     ]
                 },
                 {
                     "q": "Σε έναν Concurrent (Forking) Server, γιατί ο parent ΠΡΕΠΕΙ να κάνει close(cfd) αμέσως μετά τη fork;",
                     "options": [
-                        {"text": "Για να μειώσει το reference count του cfd. Αλλιώς, όταν το παιδί τελειώσει, το socket δεν θα κλείσει (το κρατάει ο πατέρας).", "correct": true, "explanation": "Αυτό θα οδηγήσει σε εξάντληση των file descriptors (FD leak)."},
-                        {"text": "Επειδή το socket cfd ανήκει μόνο στο παιδί.", "correct": false, "explanation": "Η fork() αντιγράφει (κλωνοποιεί) τα πάντα. Το fd είναι ανοιχτό ΚΑΙ στους δύο."},
-                        {"text": "Για να στείλει EOF στον client.", "correct": false, "explanation": "EOF θα σταλεί όταν το κλείσει ΚΑΙ το παιδί (όταν τελειώσει τη δουλειά του)."}
+                        { "text": "Για να μειώσει το reference count του cfd. Αλλιώς, όταν το παιδί τελειώσει, το socket δεν θα κλείσει (το κρατάει ο πατέρας).", "correct": true, "explanation": "Αυτό θα οδηγήσει σε εξάντληση των file descriptors (FD leak)." },
+                        { "text": "Επειδή το socket cfd ανήκει μόνο στο παιδί.", "correct": false, "explanation": "Η fork() αντιγράφει (κλωνοποιεί) τα πάντα. Το fd είναι ανοιχτό ΚΑΙ στους δύο." },
+                        { "text": "Για να στείλει EOF στον client.", "correct": false, "explanation": "EOF θα σταλεί όταν το κλείσει ΚΑΙ το παιδί (όταν τελειώσει τη δουλειά του)." }
                     ]
                 },
                 {
                     "q": "Γιατί χρειαζόμαστε handler για το SIGCHLD σε έναν Concurrent (Forking) Server;",
                     "options": [
-                        {"text": "Για να τρέξει τη waitpid() με WNOHANG και να μαζέψει τα 'zombie' children όταν αυτά τερματίσουν.", "correct": true, "explanation": "Αν δεν το κάνουμε, ο server θα γεμίσει το Process Table με zombies σε κάθε disconnect πελάτη."},
-                        {"text": "Για να τερματίσει τον server όταν δεν υπάρχουν άλλοι clients.", "correct": false, "explanation": "Ο server δεν πρέπει να τερματίζει ποτέ."},
-                        {"text": "Για να κλείσει αυτόματα τα connections (close).", "correct": false, "explanation": "Το close γίνεται κανονικά στον κώδικα, το waitpid() καθαρίζει τα process structures."}
+                        { "text": "Για να τρέξει τη waitpid() με WNOHANG και να μαζέψει τα 'zombie' children όταν αυτά τερματίσουν.", "correct": true, "explanation": "Αν δεν το κάνουμε, ο server θα γεμίσει το Process Table με zombies σε κάθε disconnect πελάτη." },
+                        { "text": "Για να τερματίσει τον server όταν δεν υπάρχουν άλλοι clients.", "correct": false, "explanation": "Ο server δεν πρέπει να τερματίζει ποτέ." },
+                        { "text": "Για να κλείσει αυτόματα τα connections (close).", "correct": false, "explanation": "Το close γίνεται κανονικά στον κώδικα, το waitpid() καθαρίζει τα process structures." }
                     ]
                 }
             ]
@@ -2829,25 +2829,25 @@ window.quizData = {
                 {
                     "q": "Τι πρόβλημα λύνει η συνάρτηση select();",
                     "options": [
-                        {"text": "Επιτρέπει σε ΜΙΑ διεργασία να 'ακούει' (παρακολουθεί) πολλά file descriptors ταυτόχρονα, χωρίς να μπλοκάρει σε κανένα συγκεκριμένα.", "correct": true, "explanation": "Η select() κοιμάται μέχρι έστω ΕΝΑ από τα FDs του συνόλου (fd_set) να έχει δεδομένα για διάβασμα (ή σύνδεση)."},
-                        {"text": "Επιτρέπει στον server να επιλέξει αυτόματα ένα ελεύθερο port.", "correct": false, "explanation": "Αυτό γίνεται βάζοντας sin_port = 0 στην bind()."},
-                        {"text": "Μειώνει την καθυστέρηση του δικτύου (latency).", "correct": false, "explanation": "Δεν επηρεάζει την ταχύτητα μεταφοράς."}
+                        { "text": "Επιτρέπει σε ΜΙΑ διεργασία να 'ακούει' (παρακολουθεί) πολλά file descriptors ταυτόχρονα, χωρίς να μπλοκάρει σε κανένα συγκεκριμένα.", "correct": true, "explanation": "Η select() κοιμάται μέχρι έστω ΕΝΑ από τα FDs του συνόλου (fd_set) να έχει δεδομένα για διάβασμα (ή σύνδεση)." },
+                        { "text": "Επιτρέπει στον server να επιλέξει αυτόματα ένα ελεύθερο port.", "correct": false, "explanation": "Αυτό γίνεται βάζοντας sin_port = 0 στην bind()." },
+                        { "text": "Μειώνει την καθυστέρηση του δικτύου (latency).", "correct": false, "explanation": "Δεν επηρεάζει την ταχύτητα μεταφοράς." }
                     ]
                 },
                 {
                     "q": "Τι σημαίνει αν, μετά την επιστροφή της select(), η FD_ISSET() βρει ότι το *listening socket* είναι ready;",
                     "options": [
-                        {"text": "Σημαίνει ότι ένας νέος client βρίσκεται στην ουρά, έτοιμος για να του κάνουμε accept().", "correct": true, "explanation": "Η select 'ξυπνάει' το lfd όταν υπάρχει νέο connection request."},
-                        {"text": "Σημαίνει ότι ένας υπάρχων client έστειλε νέα δεδομένα.", "correct": false, "explanation": "Αυτό θα φαινόταν αν γινόταν ready κάποιο από τα *connected sockets* (cfd)."},
-                        {"text": "Σημαίνει ότι ο server πρέπει να κλείσει.", "correct": false, "explanation": "Δεν σημαίνει σφάλμα, είναι η κανονική λειτουργία αποδοχής συνδέσεων."}
+                        { "text": "Σημαίνει ότι ένας νέος client βρίσκεται στην ουρά, έτοιμος για να του κάνουμε accept().", "correct": true, "explanation": "Η select 'ξυπνάει' το lfd όταν υπάρχει νέο connection request." },
+                        { "text": "Σημαίνει ότι ένας υπάρχων client έστειλε νέα δεδομένα.", "correct": false, "explanation": "Αυτό θα φαινόταν αν γινόταν ready κάποιο από τα *connected sockets* (cfd)." },
+                        { "text": "Σημαίνει ότι ο server πρέπει να κλείσει.", "correct": false, "explanation": "Δεν σημαίνει σφάλμα, είναι η κανονική λειτουργία αποδοχής συνδέσεων." }
                     ]
                 },
                 {
                     "q": "Ποια είναι η παγίδα με την 1η παράμετρο της select(nfds, ...);",
                     "options": [
-                        {"text": "Δεν είναι το ΠΛΗΘΟΣ των FDs. Είναι η υψηλότερη τιμή (the highest file descriptor number) + 1.", "correct": true, "explanation": "Π.χ. αν παρακολουθείς τα fds 3 και 5, πρέπει να περάσεις το 6."},
-                        {"text": "Πρέπει να είναι πάντα αρνητικός αριθμός.", "correct": false, "explanation": "Είναι πάντα θετικός ακέραιος."},
-                        {"text": "Ορίζει το timeout της select.", "correct": false, "explanation": "Το timeout περνιέται ως ξεχωριστός pointer σε `struct timeval` στην 5η παράμετρο."}
+                        { "text": "Δεν είναι το ΠΛΗΘΟΣ των FDs. Είναι η υψηλότερη τιμή (the highest file descriptor number) + 1.", "correct": true, "explanation": "Π.χ. αν παρακολουθείς τα fds 3 και 5, πρέπει να περάσεις το 6." },
+                        { "text": "Πρέπει να είναι πάντα αρνητικός αριθμός.", "correct": false, "explanation": "Είναι πάντα θετικός ακέραιος." },
+                        { "text": "Ορίζει το timeout της select.", "correct": false, "explanation": "Το timeout περνιέται ως ξεχωριστός pointer σε `struct timeval` στην 5η παράμετρο." }
                     ]
                 }
             ]
@@ -2858,25 +2858,25 @@ window.quizData = {
                 {
                     "q": "Ποιες συναρτήσεις απουσιάζουν από τον κύκλο ζωής ενός UDP Server (σε σχέση με το TCP);",
                     "options": [
-                        {"text": "Οι listen() και accept().", "correct": true, "explanation": "Ο UDP server κάνει απλά socket() -> bind() -> recvfrom(). Δεν κρατάει ουρά, δεν στήνει 'συνδέσεις'."},
-                        {"text": "Οι socket() και bind().", "correct": false, "explanation": "Η socket() χρειάζεται πάντα, και η bind() χρειάζεται στον server για να πάρει συγκεκριμένο port."},
-                        {"text": "Η close().", "correct": false, "explanation": "Πάντα κλείνουμε τα FDs μας όταν τελειώνουμε."}
+                        { "text": "Οι listen() και accept().", "correct": true, "explanation": "Ο UDP server κάνει απλά socket() -> bind() -> recvfrom(). Δεν κρατάει ουρά, δεν στήνει 'συνδέσεις'." },
+                        { "text": "Οι socket() και bind().", "correct": false, "explanation": "Η socket() χρειάζεται πάντα, και η bind() χρειάζεται στον server για να πάρει συγκεκριμένο port." },
+                        { "text": "Η close().", "correct": false, "explanation": "Πάντα κλείνουμε τα FDs μας όταν τελειώνουμε." }
                     ]
                 },
                 {
                     "q": "Γιατί στο UDP χρησιμοποιούμε sendto() και recvfrom() αντί για απλή write()/read();",
                     "options": [
-                        {"text": "Γιατί δεν υπάρχει 'σύνδεση'. Η recvfrom() μας λέει ΠΟΙΟΣ έστειλε το πακέτο, ώστε να του απαντήσουμε με sendto().", "correct": true, "explanation": "Στο TCP ο cfd ξέρει σε ποιον είναι συνδεδεμένος. Στο UDP, κάθε πακέτο στο sfd μπορεί να προέρχεται από άλλον."},
-                        {"text": "Επειδή το UDP είναι γρηγορότερο.", "correct": false, "explanation": "Τα syscalls δεν κάνουν το UDP γρήγορο, η απουσία handshake/ACKs το κάνει."},
-                        {"text": "Επειδή το UDP υποστηρίζει μόνο IPv6.", "correct": false, "explanation": "Υποστηρίζει και v4 και v6."}
+                        { "text": "Γιατί δεν υπάρχει 'σύνδεση'. Η recvfrom() μας λέει ΠΟΙΟΣ έστειλε το πακέτο, ώστε να του απαντήσουμε με sendto().", "correct": true, "explanation": "Στο TCP ο cfd ξέρει σε ποιον είναι συνδεδεμένος. Στο UDP, κάθε πακέτο στο sfd μπορεί να προέρχεται από άλλον." },
+                        { "text": "Επειδή το UDP είναι γρηγορότερο.", "correct": false, "explanation": "Τα syscalls δεν κάνουν το UDP γρήγορο, η απουσία handshake/ACKs το κάνει." },
+                        { "text": "Επειδή το UDP υποστηρίζει μόνο IPv6.", "correct": false, "explanation": "Υποστηρίζει και v4 και v6." }
                     ]
                 },
                 {
                     "q": "Τι θα συμβεί αν σε UDP κλήση recvfrom() χαθεί το πακέτο στο δίκτυο;",
                     "options": [
-                        {"text": "Η recvfrom() θα μπλοκάρει (κολλήσει) για πάντα, περιμένοντας πακέτο που δεν θα έρθει ποτέ.", "correct": true, "explanation": "Το UDP ΔΕΝ έχει timeout ή retransmissions από μόνο του. Εσύ πρέπει να βάλεις timeout (π.χ. με select() ή setsockopt)."},
-                        {"text": "Ο TCP/IP stack θα ξαναζητήσει το πακέτο αυτόματα.", "correct": false, "explanation": "Στο UDP δεν υπάρχει TCP/IP stack ελέγχου."},
-                        {"text": "Θα επιστρέψει αμέσως με error -1.", "correct": false, "explanation": "Το OS δεν ξέρει ότι έπρεπε να έρθει πακέτο, άρα απλά περιμένει."}
+                        { "text": "Η recvfrom() θα μπλοκάρει (κολλήσει) για πάντα, περιμένοντας πακέτο που δεν θα έρθει ποτέ.", "correct": true, "explanation": "Το UDP ΔΕΝ έχει timeout ή retransmissions από μόνο του. Εσύ πρέπει να βάλεις timeout (π.χ. με select() ή setsockopt)." },
+                        { "text": "Ο TCP/IP stack θα ξαναζητήσει το πακέτο αυτόματα.", "correct": false, "explanation": "Στο UDP δεν υπάρχει TCP/IP stack ελέγχου." },
+                        { "text": "Θα επιστρέψει αμέσως με error -1.", "correct": false, "explanation": "Το OS δεν ξέρει ότι έπρεπε να έρθει πακέτο, άρα απλά περιμένει." }
                     ]
                 }
             ]
@@ -2887,25 +2887,25 @@ window.quizData = {
                 {
                     "q": "Τι είναι το TIME_WAIT state και γιατί χρειαζόμαστε το SO_REUSEADDR;",
                     "options": [
-                        {"text": "Το OS 'κλειδώνει' το port για 2-4 λεπτά μετά το κλείσιμο. Το SO_REUSEADDR επιτρέπει στον server να ξανακάνει bind αμέσως (π.χ. μετά από restart/crash).", "correct": true, "explanation": "Χωρίς αυτό, παίρνεις το 'Address already in use' error κάθε φορά που κλείνεις και ανοίγεις το πρόγραμμα."},
-                        {"text": "Είναι ένα sleep() του λειτουργικού. Το SO_REUSEADDR το κάνει πιο γρήγορο.", "correct": false, "explanation": "Είναι μηχανισμός ασφαλείας του TCP για να 'απορροφήσει' καθυστερημένα πακέτα."},
-                        {"text": "Επιτρέπει σε πολλούς servers να μοιράζονται την ίδια IP.", "correct": false, "explanation": "Επιτρέπει την επαναχρησιμοποίηση του Port στο χρόνο, όχι τον διαμοιρασμό."}
+                        { "text": "Το OS 'κλειδώνει' το port για 2-4 λεπτά μετά το κλείσιμο. Το SO_REUSEADDR επιτρέπει στον server να ξανακάνει bind αμέσως (π.χ. μετά από restart/crash).", "correct": true, "explanation": "Χωρίς αυτό, παίρνεις το 'Address already in use' error κάθε φορά που κλείνεις και ανοίγεις το πρόγραμμα." },
+                        { "text": "Είναι ένα sleep() του λειτουργικού. Το SO_REUSEADDR το κάνει πιο γρήγορο.", "correct": false, "explanation": "Είναι μηχανισμός ασφαλείας του TCP για να 'απορροφήσει' καθυστερημένα πακέτα." },
+                        { "text": "Επιτρέπει σε πολλούς servers να μοιράζονται την ίδια IP.", "correct": false, "explanation": "Επιτρέπει την επαναχρησιμοποίηση του Port στο χρόνο, όχι τον διαμοιρασμό." }
                     ]
                 },
                 {
                     "q": "Τι συμβαίνει όταν κάνεις write() σε ένα TCP socket που ο Client έχει κλείσει βίαια;",
                     "options": [
-                        {"text": "Το OS στέλνει το σήμα SIGPIPE στη διεργασία, το οποίο από default ΤΕΡΜΑΤΙΖΕΙ τον server σιωπηλά (χωρίς error print).", "correct": true, "explanation": "Λύση: signal(SIGPIPE, SIG_IGN). Μετά η write() απλά θα επιστρέψει -1 (EPIPE)."},
-                        {"text": "Η write() μπλοκάρει (κολλάει) μέχρι να ξανασυνδεθεί ο client.", "correct": false, "explanation": "Ο client δεν μπορεί να 'ξανασυνδεθεί' στο ίδιο stream."},
-                        {"text": "Η write() πετυχαίνει κανονικά (επιστρέφει bytes), απλά χάνονται τα δεδομένα.", "correct": false, "explanation": "Το OS ξέρει ότι η σύνδεση κόπηκε (έλαβε RST ή TCP Keepalive timeout) και ειδοποιεί."}
+                        { "text": "Το OS στέλνει το σήμα SIGPIPE στη διεργασία, το οποίο από default ΤΕΡΜΑΤΙΖΕΙ τον server σιωπηλά (χωρίς error print).", "correct": true, "explanation": "Λύση: signal(SIGPIPE, SIG_IGN). Μετά η write() απλά θα επιστρέψει -1 (EPIPE)." },
+                        { "text": "Η write() μπλοκάρει (κολλάει) μέχρι να ξανασυνδεθεί ο client.", "correct": false, "explanation": "Ο client δεν μπορεί να 'ξανασυνδεθεί' στο ίδιο stream." },
+                        { "text": "Η write() πετυχαίνει κανονικά (επιστρέφει bytes), απλά χάνονται τα δεδομένα.", "correct": false, "explanation": "Το OS ξέρει ότι η σύνδεση κόπηκε (έλαβε RST ή TCP Keepalive timeout) και ειδοποιεί." }
                     ]
                 },
                 {
                     "q": "Γιατί πρέπει να βάζουμε τη read/write μέσα σε loop (π.χ. write_all);",
                     "options": [
-                        {"text": "Διότι στο TCP (Byte Stream) δεν υπάρχει εγγύηση ότι μια κλήση θα διαβάσει/γράψει ΟΛΑ τα bytes με τη μία (Partial I/O).", "correct": true, "explanation": "Μπορεί να στείλεις 100 bytes και η write() να επιστρέψει ότι έστειλε 30 (π.χ. γέμισε ο network buffer). Πρέπει να ξανακαλέσεις για τα υπόλοιπα 70."},
-                        {"text": "Για να καθυστερήσουμε το πρόγραμμα.", "correct": false, "explanation": "Δεν υπάρχει τέτοιος σκοπός."},
-                        {"text": "Γιατί το UDP διασπά τα πακέτα.", "correct": false, "explanation": "Στο UDP το πακέτο φεύγει/έρχεται ΟΛΟΚΛΗΡΟ. Τα partial reads είναι πρόβλημα του TCP stream."}
+                        { "text": "Διότι στο TCP (Byte Stream) δεν υπάρχει εγγύηση ότι μια κλήση θα διαβάσει/γράψει ΟΛΑ τα bytes με τη μία (Partial I/O).", "correct": true, "explanation": "Μπορεί να στείλεις 100 bytes και η write() να επιστρέψει ότι έστειλε 30 (π.χ. γέμισε ο network buffer). Πρέπει να ξανακαλέσεις για τα υπόλοιπα 70." },
+                        { "text": "Για να καθυστερήσουμε το πρόγραμμα.", "correct": false, "explanation": "Δεν υπάρχει τέτοιος σκοπός." },
+                        { "text": "Γιατί το UDP διασπά τα πακέτα.", "correct": false, "explanation": "Στο UDP το πακέτο φεύγει/έρχεται ΟΛΟΚΛΗΡΟ. Τα partial reads είναι πρόβλημα του TCP stream." }
                     ]
                 }
             ]
@@ -2916,17 +2916,17 @@ window.quizData = {
                 {
                     "q": "Στο παράδειγμα rlsd (Remote ls), πώς ο server στέλνει το αποτέλεσμα της ls στον client;",
                     "options": [
-                        {"text": "Χρησιμοποιεί την popen() για να τρέξει την εντολή και να διαβάσει το output της, το οποίο μετά γράφει στο socket του client.", "correct": true, "explanation": "Είναι ένα κλασικό παράδειγμα pipe-to-socket integration."},
-                        {"text": "Ο client συνδέεται κατευθείαν στο τερματικό του server.", "correct": false, "explanation": "Ο server εκτελεί την εντολή και προωθεί το string."},
-                        {"text": "Στέλνει όλο το filesystem μέσω UDP.", "correct": false, "explanation": "Χρησιμοποιεί TCP και στέλνει απλά output κειμένου."}
+                        { "text": "Χρησιμοποιεί την popen() για να τρέξει την εντολή και να διαβάσει το output της, το οποίο μετά γράφει στο socket του client.", "correct": true, "explanation": "Είναι ένα κλασικό παράδειγμα pipe-to-socket integration." },
+                        { "text": "Ο client συνδέεται κατευθείαν στο τερματικό του server.", "correct": false, "explanation": "Ο server εκτελεί την εντολή και προωθεί το string." },
+                        { "text": "Στέλνει όλο το filesystem μέσω UDP.", "correct": false, "explanation": "Χρησιμοποιεί TCP και στέλνει απλά output κειμένου." }
                     ]
                 },
                 {
                     "q": "Στο παιχνίδι PRS (Paper-Rock-Scissors) του μαθήματος, ποιες τεχνικές IPC συνδυάζονται;",
                     "options": [
-                        {"text": "Συνδυάζει Pipes (για την επικοινωνία του parent/referee με το local child) και Sockets (για την επικοινωνία με τον remote παίκτη).", "correct": true, "explanation": "Ιδανικό παράδειγμα εξετάσεων: διαχείριση ταυτόχρονων IPC channels."},
-                        {"text": "Χρησιμοποιεί μόνο Shared Memory.", "correct": false, "explanation": "Χρησιμοποιεί fd-based IPC."},
-                        {"text": "Όλα γίνονται με UDP broadcasts.", "correct": false, "explanation": "Το παιχνίδι απαιτεί αξιόπιστα connections (TCP) και local pipes."}
+                        { "text": "Συνδυάζει Pipes (για την επικοινωνία του parent/referee με το local child) και Sockets (για την επικοινωνία με τον remote παίκτη).", "correct": true, "explanation": "Ιδανικό παράδειγμα εξετάσεων: διαχείριση ταυτόχρονων IPC channels." },
+                        { "text": "Χρησιμοποιεί μόνο Shared Memory.", "correct": false, "explanation": "Χρησιμοποιεί fd-based IPC." },
+                        { "text": "Όλα γίνονται με UDP broadcasts.", "correct": false, "explanation": "Το παιχνίδι απαιτεί αξιόπιστα connections (TCP) και local pipes." }
                     ]
                 }
             ]
@@ -2939,17 +2939,17 @@ window.quizData = {
                 {
                     "q": "Τι μοιράζονται τα threads μιας διεργασίας;",
                     "options": [
-                        {"text": "Τον χώρο διευθύνσεων (code, data, heap), τα open file descriptors, τα signal handlers.", "correct": true, "explanation": "Τα threads μοιράζονται τα πάντα εκτός από stack, PC, registers."},
-                        {"text": "Μόνο τον κώδικα (code segment), τίποτα άλλο.", "correct": false, "explanation": "Μοιράζονται πολύ περισσότερα: data, heap, file descriptors κλπ."},
-                        {"text": "Τίποτα — κάθε thread έχει δικό του address space.", "correct": false, "explanation": "Αυτό ισχύει για processes, όχι threads."}
+                        { "text": "Τον χώρο διευθύνσεων (code, data, heap), τα open file descriptors, τα signal handlers.", "correct": true, "explanation": "Τα threads μοιράζονται τα πάντα εκτός από stack, PC, registers." },
+                        { "text": "Μόνο τον κώδικα (code segment), τίποτα άλλο.", "correct": false, "explanation": "Μοιράζονται πολύ περισσότερα: data, heap, file descriptors κλπ." },
+                        { "text": "Τίποτα — κάθε thread έχει δικό του address space.", "correct": false, "explanation": "Αυτό ισχύει για processes, όχι threads." }
                     ]
                 },
                 {
                     "q": "Πώς γίνεται compile ένα πρόγραμμα με pthreads;",
                     "options": [
-                        {"text": "gcc prog.c -lpthread (ή -pthread)", "correct": true, "explanation": "Χωρίς το -lpthread ο linker δεν βρίσκει τις pthread_ συναρτήσεις."},
-                        {"text": "gcc prog.c -lthread", "correct": false, "explanation": "Η σωστή βιβλιοθήκη είναι -lpthread."},
-                        {"text": "Δεν χρειάζεται ειδικό flag, αρκεί το #include <pthread.h>.", "correct": false, "explanation": "Το header δεν αρκεί — πρέπει να γίνει link η βιβλιοθήκη."}
+                        { "text": "gcc prog.c -lpthread (ή -pthread)", "correct": true, "explanation": "Χωρίς το -lpthread ο linker δεν βρίσκει τις pthread_ συναρτήσεις." },
+                        { "text": "gcc prog.c -lthread", "correct": false, "explanation": "Η σωστή βιβλιοθήκη είναι -lpthread." },
+                        { "text": "Δεν χρειάζεται ειδικό flag, αρκεί το #include <pthread.h>.", "correct": false, "explanation": "Το header δεν αρκεί — πρέπει να γίνει link η βιβλιοθήκη." }
                     ]
                 }
             ]
@@ -2960,17 +2960,17 @@ window.quizData = {
                 {
                     "q": "Αν ένα thread κάνει segfault, τι γίνεται με τα υπόλοιπα threads;",
                     "options": [
-                        {"text": "Ολόκληρη η διεργασία τερματίζεται, μαζί και όλα τα threads.", "correct": true, "explanation": "Τα threads δεν έχουν isolation — ένα crash σκοτώνει τα πάντα."},
-                        {"text": "Μόνο το thread που έκανε segfault τερματίζεται.", "correct": false, "explanation": "Δεν υπάρχει isolation μεταξύ threads."},
-                        {"text": "Τα υπόλοιπα threads συνεχίζουν κανονικά.", "correct": false, "explanation": "Αδύνατο — μοιράζονται address space."}
+                        { "text": "Ολόκληρη η διεργασία τερματίζεται, μαζί και όλα τα threads.", "correct": true, "explanation": "Τα threads δεν έχουν isolation — ένα crash σκοτώνει τα πάντα." },
+                        { "text": "Μόνο το thread που έκανε segfault τερματίζεται.", "correct": false, "explanation": "Δεν υπάρχει isolation μεταξύ threads." },
+                        { "text": "Τα υπόλοιπα threads συνεχίζουν κανονικά.", "correct": false, "explanation": "Αδύνατο — μοιράζονται address space." }
                     ]
                 },
                 {
                     "q": "Ποιο είναι το κύριο πλεονέκτημα των threads έναντι processes;",
                     "options": [
-                        {"text": "Ταχύτερη δημιουργία και κοινή πρόσβαση σε δεδομένα χωρίς IPC.", "correct": true, "explanation": "Δεν γίνεται αντιγραφή address space, η επικοινωνία γίνεται μέσω shared memory."},
-                        {"text": "Μεγαλύτερη ασφάλεια και isolation.", "correct": false, "explanation": "Τα processes έχουν καλύτερη isolation."},
-                        {"text": "Δεν χρειάζονται mutexes.", "correct": false, "explanation": "Χρειάζονται mutexes ακριβώς λόγω της κοινής μνήμης!"}
+                        { "text": "Ταχύτερη δημιουργία και κοινή πρόσβαση σε δεδομένα χωρίς IPC.", "correct": true, "explanation": "Δεν γίνεται αντιγραφή address space, η επικοινωνία γίνεται μέσω shared memory." },
+                        { "text": "Μεγαλύτερη ασφάλεια και isolation.", "correct": false, "explanation": "Τα processes έχουν καλύτερη isolation." },
+                        { "text": "Δεν χρειάζονται mutexes.", "correct": false, "explanation": "Χρειάζονται mutexes ακριβώς λόγω της κοινής μνήμης!" }
                     ]
                 }
             ]
@@ -2981,25 +2981,25 @@ window.quizData = {
                 {
                     "q": "Ποιο είναι το signature μιας thread function;",
                     "options": [
-                        {"text": "void *function(void *arg) — δέχεται void* και επιστρέφει void*.", "correct": true, "explanation": "Αυτό είναι mandatory. Ο void* επιτρέπει να περαστεί/επιστραφεί οποιοδήποτε τύπο."},
-                        {"text": "int function(int arg) — δέχεται int και επιστρέφει int.", "correct": false, "explanation": "Η pthread_create απαιτεί void *(*)(void *)."},
-                        {"text": "void function(void) — δεν δέχεται ούτε επιστρέφει τίποτα.", "correct": false, "explanation": "Πρέπει να δέχεται void* και να επιστρέφει void*."}
+                        { "text": "void *function(void *arg) — δέχεται void* και επιστρέφει void*.", "correct": true, "explanation": "Αυτό είναι mandatory. Ο void* επιτρέπει να περαστεί/επιστραφεί οποιοδήποτε τύπο." },
+                        { "text": "int function(int arg) — δέχεται int και επιστρέφει int.", "correct": false, "explanation": "Η pthread_create απαιτεί void *(*)(void *)." },
+                        { "text": "void function(void) — δεν δέχεται ούτε επιστρέφει τίποτα.", "correct": false, "explanation": "Πρέπει να δέχεται void* και να επιστρέφει void*." }
                     ]
                 },
                 {
                     "q": "Τι γίνεται αν η main() τερματίσει με return πριν τα threads;",
                     "options": [
-                        {"text": "Η διεργασία τερματίζεται, σκοτώνοντας όλα τα threads.", "correct": true, "explanation": "Η return από main() = exit() = θάνατος για ολόκληρη τη διεργασία. Χρησιμοποίησε pthread_exit() στη main αν θέλεις τα threads να συνεχίσουν."},
-                        {"text": "Τα threads συνεχίζουν ανεξάρτητα.", "correct": false, "explanation": "Χωρίς τη διεργασία δεν υπάρχουν threads."},
-                        {"text": "Η main() περιμένει αυτόματα τα threads.", "correct": false, "explanation": "Δεν γίνεται αυτόματο join."}
+                        { "text": "Η διεργασία τερματίζεται, σκοτώνοντας όλα τα threads.", "correct": true, "explanation": "Η return από main() = exit() = θάνατος για ολόκληρη τη διεργασία. Χρησιμοποίησε pthread_exit() στη main αν θέλεις τα threads να συνεχίσουν." },
+                        { "text": "Τα threads συνεχίζουν ανεξάρτητα.", "correct": false, "explanation": "Χωρίς τη διεργασία δεν υπάρχουν threads." },
+                        { "text": "Η main() περιμένει αυτόματα τα threads.", "correct": false, "explanation": "Δεν γίνεται αυτόματο join." }
                     ]
                 },
                 {
                     "q": "Γιατί δεν πρέπει να περάσουμε &i (loop variable) στο pthread_create;",
                     "options": [
-                        {"text": "Η τιμή του i μπορεί να αλλάξει πριν το thread τη διαβάσει (race condition).", "correct": true, "explanation": "Όλα τα threads μοιράζονται τη variable i. Χρησιμοποίησε ξεχωριστό array."},
-                        {"text": "Δεν γίνεται να περάσεις pointer σε int.", "correct": false, "explanation": "Γίνεται, αλλά η τιμή αλλάζει."},
-                        {"text": "Ο compiler δεν το επιτρέπει.", "correct": false, "explanation": "Ο compiler δεν ελέγχει logic bugs."}
+                        { "text": "Η τιμή του i μπορεί να αλλάξει πριν το thread τη διαβάσει (race condition).", "correct": true, "explanation": "Όλα τα threads μοιράζονται τη variable i. Χρησιμοποίησε ξεχωριστό array." },
+                        { "text": "Δεν γίνεται να περάσεις pointer σε int.", "correct": false, "explanation": "Γίνεται, αλλά η τιμή αλλάζει." },
+                        { "text": "Ο compiler δεν το επιτρέπει.", "correct": false, "explanation": "Ο compiler δεν ελέγχει logic bugs." }
                     ]
                 }
             ]
@@ -3010,17 +3010,17 @@ window.quizData = {
                 {
                     "q": "Τι γίνεται αν δεν κάνεις ούτε join ούτε detach ένα thread;",
                     "options": [
-                        {"text": "Resource leak (thread leak) — τα resources δεν ελευθερώνονται.", "correct": true, "explanation": "Σαν zombie processes. Πρέπει πάντα join ή detach."},
-                        {"text": "Τίποτα, τα resources καθαρίζονται αυτόματα.", "correct": false, "explanation": "Μόνο detached threads καθαρίζονται αυτόματα."},
-                        {"text": "Η διεργασία κρασάρει.", "correct": false, "explanation": "Δεν κρασάρει, αλλά χάνεις πόρους."}
+                        { "text": "Resource leak (thread leak) — τα resources δεν ελευθερώνονται.", "correct": true, "explanation": "Σαν zombie processes. Πρέπει πάντα join ή detach." },
+                        { "text": "Τίποτα, τα resources καθαρίζονται αυτόματα.", "correct": false, "explanation": "Μόνο detached threads καθαρίζονται αυτόματα." },
+                        { "text": "Η διεργασία κρασάρει.", "correct": false, "explanation": "Δεν κρασάρει, αλλά χάνεις πόρους." }
                     ]
                 },
                 {
                     "q": "Ποια η διαφορά join vs detach;",
                     "options": [
-                        {"text": "join: περιμένεις τερματισμό + παίρνεις αποτέλεσμα. detach: τρέχει ελεύθερα, resources ελευθερώνονται αυτόματα.", "correct": true, "explanation": "Χρειάζεσαι αποτέλεσμα → join. Fire-and-forget → detach."},
-                        {"text": "join: τερματίζει αμέσως. detach: περιμένει.", "correct": false, "explanation": "Ακριβώς ανάποδα."},
-                        {"text": "Δεν υπάρχει διαφορά.", "correct": false, "explanation": "Είναι εντελώς διαφορετικές λειτουργίες."}
+                        { "text": "join: περιμένεις τερματισμό + παίρνεις αποτέλεσμα. detach: τρέχει ελεύθερα, resources ελευθερώνονται αυτόματα.", "correct": true, "explanation": "Χρειάζεσαι αποτέλεσμα → join. Fire-and-forget → detach." },
+                        { "text": "join: τερματίζει αμέσως. detach: περιμένει.", "correct": false, "explanation": "Ακριβώς ανάποδα." },
+                        { "text": "Δεν υπάρχει διαφορά.", "correct": false, "explanation": "Είναι εντελώς διαφορετικές λειτουργίες." }
                     ]
                 }
             ]
@@ -3031,17 +3031,17 @@ window.quizData = {
                 {
                     "q": "Γιατί χρησιμοποιούμε strerror() αντί perror() στις pthread functions;",
                     "options": [
-                        {"text": "Οι pthread functions δεν θέτουν errno — επιστρέφουν τον error code απευθείας.", "correct": true, "explanation": "perror() ελέγχει errno. Οι pthread functions return error code ≥ 0, οπότε χρειαζόμαστε strerror(err)."},
-                        {"text": "Η perror() δεν είναι thread-safe.", "correct": false, "explanation": "Δεν είναι θέμα safety αλλά interface."},
-                        {"text": "Δεν υπάρχει λόγος — μπορείς να χρησιμοποιήσεις οποιαδήποτε.", "correct": false, "explanation": "Η perror() θα τυπώσει λάθος μήνυμα γιατί δεν ελέγχει τη σωστή τιμή."}
+                        { "text": "Οι pthread functions δεν θέτουν errno — επιστρέφουν τον error code απευθείας.", "correct": true, "explanation": "perror() ελέγχει errno. Οι pthread functions return error code ≥ 0, οπότε χρειαζόμαστε strerror(err)." },
+                        { "text": "Η perror() δεν είναι thread-safe.", "correct": false, "explanation": "Δεν είναι θέμα safety αλλά interface." },
+                        { "text": "Δεν υπάρχει λόγος — μπορείς να χρησιμοποιήσεις οποιαδήποτε.", "correct": false, "explanation": "Η perror() θα τυπώσει λάθος μήνυμα γιατί δεν ελέγχει τη σωστή τιμή." }
                     ]
                 },
                 {
                     "q": "Γιατί δεν πρέπει να επιστρέφεις pointer σε τοπική μεταβλητή από thread;",
                     "options": [
-                        {"text": "Το stack του thread καταστρέφεται μετά το pthread_exit() — dangling pointer!", "correct": true, "explanation": "Χρησιμοποίησε malloc, string literals, ή globals αντί local variables."},
-                        {"text": "Οι τοπικές μεταβλητές δεν μπορούν να γίνουν pointer.", "correct": false, "explanation": "Γίνεται, αλλά η μνήμη δεν υπάρχει μετά."},
-                        {"text": "Δεν υπάρχει πρόβλημα αν κάνεις join αμέσως.", "correct": false, "explanation": "Ακόμα και τότε, η μνήμη δεν εγγυάται ότι υπάρχει."}
+                        { "text": "Το stack του thread καταστρέφεται μετά το pthread_exit() — dangling pointer!", "correct": true, "explanation": "Χρησιμοποίησε malloc, string literals, ή globals αντί local variables." },
+                        { "text": "Οι τοπικές μεταβλητές δεν μπορούν να γίνουν pointer.", "correct": false, "explanation": "Γίνεται, αλλά η μνήμη δεν υπάρχει μετά." },
+                        { "text": "Δεν υπάρχει πρόβλημα αν κάνεις join αμέσως.", "correct": false, "explanation": "Ακόμα και τότε, η μνήμη δεν εγγυάται ότι υπάρχει." }
                     ]
                 }
             ]
@@ -3052,9 +3052,9 @@ window.quizData = {
                 {
                     "q": "Γιατί η total_words += count δεν είναι ασφαλής σε multi-threaded πρόγραμμα;",
                     "options": [
-                        {"text": "Δεν είναι atomic — αποτελείται από LOAD, ADD, STORE. Αν δύο threads εκτελέσουν ταυτόχρονα, ένα update χάνεται.", "correct": true, "explanation": "Κλασικό read-modify-write race condition. Χρειάζεται mutex."},
-                        {"text": "Η += δεν υποστηρίζεται σε threads.", "correct": false, "explanation": "Η += λειτουργεί αλλά δεν είναι thread-safe."},
-                        {"text": "Τα threads δεν μπορούν να γράψουν σε globals.", "correct": false, "explanation": "Μπορούν, αλλά χρειάζεται synchronization."}
+                        { "text": "Δεν είναι atomic — αποτελείται από LOAD, ADD, STORE. Αν δύο threads εκτελέσουν ταυτόχρονα, ένα update χάνεται.", "correct": true, "explanation": "Κλασικό read-modify-write race condition. Χρειάζεται mutex." },
+                        { "text": "Η += δεν υποστηρίζεται σε threads.", "correct": false, "explanation": "Η += λειτουργεί αλλά δεν είναι thread-safe." },
+                        { "text": "Τα threads δεν μπορούν να γράψουν σε globals.", "correct": false, "explanation": "Μπορούν, αλλά χρειάζεται synchronization." }
                     ]
                 }
             ]
@@ -3065,17 +3065,17 @@ window.quizData = {
                 {
                     "q": "Τι κάνει η pthread_mutex_trylock() σε σχέση με τη lock();",
                     "options": [
-                        {"text": "Αν ο mutex είναι κλειδωμένος, επιστρέφει αμέσως EBUSY αντί να μπλοκάρει.", "correct": true, "explanation": "Non-blocking εναλλακτική. Χρήσιμο για busy-wait ή deadlock avoidance."},
-                        {"text": "Κλειδώνει μόνο αν δεν υπάρχει κανείς στην ουρά.", "correct": false, "explanation": "Δεν εξετάζει ουρές — ελέγχει μόνο αν είναι free."},
-                        {"text": "Δοκιμάζει πολλές φορές πριν εγκαταλείψει.", "correct": false, "explanation": "Δοκιμάζει μόνο μία φορά."}
+                        { "text": "Αν ο mutex είναι κλειδωμένος, επιστρέφει αμέσως EBUSY αντί να μπλοκάρει.", "correct": true, "explanation": "Non-blocking εναλλακτική. Χρήσιμο για busy-wait ή deadlock avoidance." },
+                        { "text": "Κλειδώνει μόνο αν δεν υπάρχει κανείς στην ουρά.", "correct": false, "explanation": "Δεν εξετάζει ουρές — ελέγχει μόνο αν είναι free." },
+                        { "text": "Δοκιμάζει πολλές φορές πριν εγκαταλείψει.", "correct": false, "explanation": "Δοκιμάζει μόνο μία φορά." }
                     ]
                 },
                 {
                     "q": "Ποιοι είναι οι βασικοί κανόνες χρήσης mutex;",
                     "options": [
-                        {"text": "Μόνο ο κάτοχος κάνει unlock, κράτα τα critical sections μικρά, πάντα ξεκλείδωνε.", "correct": true, "explanation": "Αν ξεχάσεις unlock → deadlock. Αν τα CS είναι μεγάλα → χαμηλή απόδοση."},
-                        {"text": "Κλείδωνε τα πάντα με ένα global mutex.", "correct": false, "explanation": "Αυτό δουλεύει αλλά σειριοποιεί τα πάντα (coarse-grained)."},
-                        {"text": "Ο mutex δεν χρειάζεται destroy.", "correct": false, "explanation": "Πάντα κάνε pthread_mutex_destroy() για cleanup."}
+                        { "text": "Μόνο ο κάτοχος κάνει unlock, κράτα τα critical sections μικρά, πάντα ξεκλείδωνε.", "correct": true, "explanation": "Αν ξεχάσεις unlock → deadlock. Αν τα CS είναι μεγάλα → χαμηλή απόδοση." },
+                        { "text": "Κλείδωνε τα πάντα με ένα global mutex.", "correct": false, "explanation": "Αυτό δουλεύει αλλά σειριοποιεί τα πάντα (coarse-grained)." },
+                        { "text": "Ο mutex δεν χρειάζεται destroy.", "correct": false, "explanation": "Πάντα κάνε pthread_mutex_destroy() για cleanup." }
                     ]
                 }
             ]
@@ -3086,17 +3086,17 @@ window.quizData = {
                 {
                     "q": "Τι κάνει η pthread_cond_wait() ατομικά;",
                     "options": [
-                        {"text": "Ξεκλειδώνει τον mutex, κοιμίζει το thread, και μετά στο wakeup ξανακλειδώνει τον mutex.", "correct": true, "explanation": "Τα unlock+sleep γίνονται ατομικά. Στο wakeup, η re-lock μπορεί να μπλοκάρει αν κάποιος άλλος τον κρατά."},
-                        {"text": "Κλειδώνει τον mutex και περιμένει σήμα.", "correct": false, "explanation": "Ξεκλειδώνει τον mutex πρώτα (αλλιώς κανείς δεν θα μπορούσε να στείλει signal)."},
-                        {"text": "Στέλνει ένα signal σε όλα τα threads.", "correct": false, "explanation": "Αυτό κάνει η pthread_cond_broadcast()."}
+                        { "text": "Ξεκλειδώνει τον mutex, κοιμίζει το thread, και μετά στο wakeup ξανακλειδώνει τον mutex.", "correct": true, "explanation": "Τα unlock+sleep γίνονται ατομικά. Στο wakeup, η re-lock μπορεί να μπλοκάρει αν κάποιος άλλος τον κρατά." },
+                        { "text": "Κλειδώνει τον mutex και περιμένει σήμα.", "correct": false, "explanation": "Ξεκλειδώνει τον mutex πρώτα (αλλιώς κανείς δεν θα μπορούσε να στείλει signal)." },
+                        { "text": "Στέλνει ένα signal σε όλα τα threads.", "correct": false, "explanation": "Αυτό κάνει η pthread_cond_broadcast()." }
                     ]
                 },
                 {
                     "q": "Ποια η διαφορά signal vs broadcast;",
                     "options": [
-                        {"text": "signal ξυπνά ΕΝΑ thread, broadcast ξυπνά ΟΛΑ τα threads που περιμένουν.", "correct": true, "explanation": "Χρησιμοποίησε broadcast αν πολλαπλά threads μπορεί να πρέπει να ξυπνήσουν."},
-                        {"text": "signal ξυπνά όλα, broadcast στέλνει μήνυμα.", "correct": false, "explanation": "Ανάποδα."},
-                        {"text": "Δεν υπάρχει διαφορά.", "correct": false, "explanation": "Μεγάλη διαφορά — signal=1, broadcast=all."}
+                        { "text": "signal ξυπνά ΕΝΑ thread, broadcast ξυπνά ΟΛΑ τα threads που περιμένουν.", "correct": true, "explanation": "Χρησιμοποίησε broadcast αν πολλαπλά threads μπορεί να πρέπει να ξυπνήσουν." },
+                        { "text": "signal ξυπνά όλα, broadcast στέλνει μήνυμα.", "correct": false, "explanation": "Ανάποδα." },
+                        { "text": "Δεν υπάρχει διαφορά.", "correct": false, "explanation": "Μεγάλη διαφορά — signal=1, broadcast=all." }
                     ]
                 }
             ]
@@ -3107,9 +3107,9 @@ window.quizData = {
                 {
                     "q": "Γιατί πρέπει να χρησιμοποιούμε while αντί if γύρω από pthread_cond_wait;",
                     "options": [
-                        {"text": "Για προστασία από spurious wakeups — μπορεί να ξυπνήσεις χωρίς η συνθήκη να είναι αληθής.", "correct": true, "explanation": "Με while ξαναελέγχεις τη συνθήκη μετά το wakeup. Με if μπορεί να προχωρήσεις λάθος."},
-                        {"text": "Γιατί η if δεν λειτουργεί με condition variables.", "correct": false, "explanation": "Λειτουργεί, αλλά δεν είναι ασφαλές."},
-                        {"text": "Γιατί το while είναι πιο γρήγορο.", "correct": false, "explanation": "Δεν είναι θέμα ταχύτητας αλλά ορθότητας."}
+                        { "text": "Για προστασία από spurious wakeups — μπορεί να ξυπνήσεις χωρίς η συνθήκη να είναι αληθής.", "correct": true, "explanation": "Με while ξαναελέγχεις τη συνθήκη μετά το wakeup. Με if μπορεί να προχωρήσεις λάθος." },
+                        { "text": "Γιατί η if δεν λειτουργεί με condition variables.", "correct": false, "explanation": "Λειτουργεί, αλλά δεν είναι ασφαλές." },
+                        { "text": "Γιατί το while είναι πιο γρήγορο.", "correct": false, "explanation": "Δεν είναι θέμα ταχύτητας αλλά ορθότητας." }
                     ]
                 }
             ]
@@ -3120,17 +3120,17 @@ window.quizData = {
                 {
                     "q": "Γιατί η strtok() δεν είναι thread-safe;",
                     "options": [
-                        {"text": "Χρησιμοποιεί internal static pointer — δύο ταυτόχρονα threads πατάνε ο ένας τη θέση του άλλου.", "correct": true, "explanation": "Η strtok_r() λύνει αυτό δεχόμενη saveptr ως argument."},
-                        {"text": "Δεν μπορεί να χειριστεί μεγάλα strings.", "correct": false, "explanation": "Αυτό δεν σχετίζεται με thread safety."},
-                        {"text": "Δεν υποστηρίζεται σε POSIX.", "correct": false, "explanation": "Η strtok() υπάρχει σε POSIX αλλά δεν είναι thread-safe."}
+                        { "text": "Χρησιμοποιεί internal static pointer — δύο ταυτόχρονα threads πατάνε ο ένας τη θέση του άλλου.", "correct": true, "explanation": "Η strtok_r() λύνει αυτό δεχόμενη saveptr ως argument." },
+                        { "text": "Δεν μπορεί να χειριστεί μεγάλα strings.", "correct": false, "explanation": "Αυτό δεν σχετίζεται με thread safety." },
+                        { "text": "Δεν υποστηρίζεται σε POSIX.", "correct": false, "explanation": "Η strtok() υπάρχει σε POSIX αλλά δεν είναι thread-safe." }
                     ]
                 },
                 {
                     "q": "Τι σημαίνει το _r suffix σε functions (π.χ. strtok_r);",
                     "options": [
-                        {"text": "reentrant — η thread-safe εκδοχή που δέχεται εξωτερικό buffer αντί internal static storage.", "correct": true, "explanation": "Ο caller παρέχει state, κάθε thread χρησιμοποιεί δικό του buffer."},
-                        {"text": "recursive — μπορεί να κληθεί μέσα σε εαυτή.", "correct": false, "explanation": "Αν και σχετικές έννοιες, το _r σημαίνει reentrant."},
-                        {"text": "restricted — μόνο για root χρήστες.", "correct": false, "explanation": "Δεν σχετίζεται με δικαιώματα."}
+                        { "text": "reentrant — η thread-safe εκδοχή που δέχεται εξωτερικό buffer αντί internal static storage.", "correct": true, "explanation": "Ο caller παρέχει state, κάθε thread χρησιμοποιεί δικό του buffer." },
+                        { "text": "recursive — μπορεί να κληθεί μέσα σε εαυτή.", "correct": false, "explanation": "Αν και σχετικές έννοιες, το _r σημαίνει reentrant." },
+                        { "text": "restricted — μόνο για root χρήστες.", "correct": false, "explanation": "Δεν σχετίζεται με δικαιώματα." }
                     ]
                 }
             ]
@@ -3141,17 +3141,17 @@ window.quizData = {
                 {
                     "q": "Στο Producer-Consumer, γιατί χρειαζόμαστε ΔΥΟ condition variables;",
                     "options": [
-                        {"text": "Μία (cond_nonfull) για τον producer να περιμένει όταν ο buffer είναι γεμάτος, μία (cond_nonempty) για τον consumer όταν είναι άδειος.", "correct": true, "explanation": "Κάθε CV αντιστοιχεί σε διαφορετική συνθήκη αναμονής."},
-                        {"text": "Μία αρκεί — χρησιμοποιούμε broadcast.", "correct": false, "explanation": "Θα δούλευε αλλά δεν είναι αποδοτικό."},
-                        {"text": "Χρειαζόμαστε τρεις — μία για κάθε θέση στον buffer.", "correct": false, "explanation": "Δύο αρκούν: full/empty conditions."}
+                        { "text": "Μία (cond_nonfull) για τον producer να περιμένει όταν ο buffer είναι γεμάτος, μία (cond_nonempty) για τον consumer όταν είναι άδειος.", "correct": true, "explanation": "Κάθε CV αντιστοιχεί σε διαφορετική συνθήκη αναμονής." },
+                        { "text": "Μία αρκεί — χρησιμοποιούμε broadcast.", "correct": false, "explanation": "Θα δούλευε αλλά δεν είναι αποδοτικό." },
+                        { "text": "Χρειαζόμαστε τρεις — μία για κάθε θέση στον buffer.", "correct": false, "explanation": "Δύο αρκούν: full/empty conditions." }
                     ]
                 },
                 {
                     "q": "Τι γίνεται αν αλλάξεις τον usleep σε usleep(0) στον producer;",
                     "options": [
-                        {"text": "Ο producer τρέχει πολύ γρηγορότερα, γεμίζει τον buffer, εμφανίζονται 'Found Buffer Full' μηνύματα.", "correct": true, "explanation": "Η σχεδίαση με condition variables αποτρέπει busy-waiting — ο producer μπλοκάρει κανονικά."},
-                        {"text": "Τίποτα δεν αλλάζει.", "correct": false, "explanation": "Η ταχύτητα αλλάζει δραματικά."},
-                        {"text": "Crash λόγω buffer overflow.", "correct": false, "explanation": "Δεν γίνεται overflow — ο producer μπλοκάρει αν γεμίσει."}
+                        { "text": "Ο producer τρέχει πολύ γρηγορότερα, γεμίζει τον buffer, εμφανίζονται 'Found Buffer Full' μηνύματα.", "correct": true, "explanation": "Η σχεδίαση με condition variables αποτρέπει busy-waiting — ο producer μπλοκάρει κανονικά." },
+                        { "text": "Τίποτα δεν αλλάζει.", "correct": false, "explanation": "Η ταχύτητα αλλάζει δραματικά." },
+                        { "text": "Crash λόγω buffer overflow.", "correct": false, "explanation": "Δεν γίνεται overflow — ο producer μπλοκάρει αν γεμίσει." }
                     ]
                 }
             ]
@@ -3162,17 +3162,17 @@ window.quizData = {
                 {
                     "q": "Ποια η διαφορά μεταξύ data race και atomicity violation;",
                     "options": [
-                        {"text": "Data race: κανένα lock. Atomicity violation: υπάρχει lock αλλά δεν καλύπτει ολόκληρη τη λογική operation.", "correct": true, "explanation": "Π.χ. check-then-act πρέπει να είναι atomic, αλλά αν κλειδωθεί μόνο το check..."},
-                        {"text": "Δεν υπάρχει διαφορά.", "correct": false, "explanation": "Είναι ξεχωριστές κατηγορίες σφαλμάτων."},
-                        {"text": "Atomicity violation αφορά μόνο databases.", "correct": false, "explanation": "Αφορά οποιοδήποτε multi-threaded κώδικα."}
+                        { "text": "Data race: κανένα lock. Atomicity violation: υπάρχει lock αλλά δεν καλύπτει ολόκληρη τη λογική operation.", "correct": true, "explanation": "Π.χ. check-then-act πρέπει να είναι atomic, αλλά αν κλειδωθεί μόνο το check..." },
+                        { "text": "Δεν υπάρχει διαφορά.", "correct": false, "explanation": "Είναι ξεχωριστές κατηγορίες σφαλμάτων." },
+                        { "text": "Atomicity violation αφορά μόνο databases.", "correct": false, "explanation": "Αφορά οποιοδήποτε multi-threaded κώδικα." }
                     ]
                 },
                 {
                     "q": "Πώς αποτρέπεται ένα deadlock;",
                     "options": [
-                        {"text": "Πάντα κλείδωνε mutexes με σταθερή σειρά (lock ordering) — π.χ. πάντα m1 πριν m2.", "correct": true, "explanation": "Σπάει τον κύκλο αμοιβαίας αναμονής."},
-                        {"text": "Μην χρησιμοποιείς mutexes.", "correct": false, "explanation": "Τότε θα έχεις data races!"},
-                        {"text": "Χρησιμοποίησε περισσότερα mutexes.", "correct": false, "explanation": "Περισσότερα mutexes αυξάνουν τον κίνδυνο."}
+                        { "text": "Πάντα κλείδωνε mutexes με σταθερή σειρά (lock ordering) — π.χ. πάντα m1 πριν m2.", "correct": true, "explanation": "Σπάει τον κύκλο αμοιβαίας αναμονής." },
+                        { "text": "Μην χρησιμοποιείς mutexes.", "correct": false, "explanation": "Τότε θα έχεις data races!" },
+                        { "text": "Χρησιμοποίησε περισσότερα mutexes.", "correct": false, "explanation": "Περισσότερα mutexes αυξάνουν τον κίνδυνο." }
                     ]
                 }
             ]
@@ -3183,17 +3183,17 @@ window.quizData = {
                 {
                     "q": "Τι σημαίνει 'no composability' στο multi-threaded programming;",
                     "options": [
-                        {"text": "Δεν μπορείς να φτιάξεις safe υπηρεσίες συνδυάζοντας safe sub-υπηρεσίες.", "correct": true, "explanation": "Π.χ. synch_withdraw + synch_deposit = non-atomic move. Η ασφάλεια δεν είναι composable."},
-                        {"text": "Δεν μπορείς να χρησιμοποιήσεις composition σε κλάσεις C++.", "correct": false, "explanation": "Δεν σχετίζεται με OOP."},
-                        {"text": "Δεν μπορείς να έχεις πάνω από 2 threads.", "correct": false, "explanation": "Δεν σχετίζεται με αριθμό threads."}
+                        { "text": "Δεν μπορείς να φτιάξεις safe υπηρεσίες συνδυάζοντας safe sub-υπηρεσίες.", "correct": true, "explanation": "Π.χ. synch_withdraw + synch_deposit = non-atomic move. Η ασφάλεια δεν είναι composable." },
+                        { "text": "Δεν μπορείς να χρησιμοποιήσεις composition σε κλάσεις C++.", "correct": false, "explanation": "Δεν σχετίζεται με OOP." },
+                        { "text": "Δεν μπορείς να έχεις πάνω από 2 threads.", "correct": false, "explanation": "Δεν σχετίζεται με αριθμό threads." }
                     ]
                 },
                 {
                     "q": "Στο Account Library example, γιατί η move(A,B) || move(B,A) δημιουργεί deadlock;",
                     "options": [
-                        {"text": "Η πρώτη κλειδώνει A (περιμένει B), η δεύτερη κλειδώνει B (περιμένει A) — κυκλική αναμονή.", "correct": true, "explanation": "Λύση: κλείδωνε πάντα τον λογαριασμό με τη μικρότερη διεύθυνση πρώτα."},
-                        {"text": "Η move δεν μπορεί να τρέξει παράλληλα.", "correct": false, "explanation": "Μπορεί — και αυτό είναι το πρόβλημα."},
-                        {"text": "Τα locks δεν λειτουργούν μεταξύ διαφορετικών accounts.", "correct": false, "explanation": "Κάθε account έχει δικό του lock."}
+                        { "text": "Η πρώτη κλειδώνει A (περιμένει B), η δεύτερη κλειδώνει B (περιμένει A) — κυκλική αναμονή.", "correct": true, "explanation": "Λύση: κλείδωνε πάντα τον λογαριασμό με τη μικρότερη διεύθυνση πρώτα." },
+                        { "text": "Η move δεν μπορεί να τρέξει παράλληλα.", "correct": false, "explanation": "Μπορεί — και αυτό είναι το πρόβλημα." },
+                        { "text": "Τα locks δεν λειτουργούν μεταξύ διαφορετικών accounts.", "correct": false, "explanation": "Κάθε account έχει δικό του lock." }
                     ]
                 }
             ]
@@ -3206,17 +3206,17 @@ window.quizData = {
                 {
                     "q": "Ποιοι είναι οι βασικοί περιορισμοί των pipes;",
                     "options": [
-                        {"text": "Μονόδρομα, μόνο μεταξύ related processes, χωρίς message boundaries, χωρίς priorities.", "correct": true, "explanation": "Αυτοί οι περιορισμοί οδήγησαν στη δημιουργία System V IPC."},
-                        {"text": "Δεν μπορούν να μεταφέρουν binary δεδομένα.", "correct": false, "explanation": "Τα pipes μεταφέρουν οποιαδήποτε bytes."},
-                        {"text": "Λειτουργούν μόνο σε TCP δίκτυα.", "correct": false, "explanation": "Τα pipes είναι local IPC, δεν σχετίζονται με δίκτυα."}
+                        { "text": "Μονόδρομα, μόνο μεταξύ related processes, χωρίς message boundaries, χωρίς priorities.", "correct": true, "explanation": "Αυτοί οι περιορισμοί οδήγησαν στη δημιουργία System V IPC." },
+                        { "text": "Δεν μπορούν να μεταφέρουν binary δεδομένα.", "correct": false, "explanation": "Τα pipes μεταφέρουν οποιαδήποτε bytes." },
+                        { "text": "Λειτουργούν μόνο σε TCP δίκτυα.", "correct": false, "explanation": "Τα pipes είναι local IPC, δεν σχετίζονται με δίκτυα." }
                     ]
                 },
                 {
                     "q": "Τι σημαίνει 'Kernel Lifetime' για τα IPC objects;",
                     "options": [
-                        {"text": "Τα IPC objects ζουν στον kernel μέχρι ρητή διαγραφή (IPC_RMID ή ipcrm), ακόμα και αν πεθάνουν οι διεργασίες.", "correct": true, "explanation": "Αν ξεχάσεις τον καθαρισμό, μένουν μέχρι reboot."},
-                        {"text": "Τα IPC objects ζουν όσο ζει η διεργασία.", "correct": false, "explanation": "Αυτό ισχύει για pipes, όχι System V IPC."},
-                        {"text": "Τα IPC objects ζουν στο filesystem.", "correct": false, "explanation": "Δεν χρησιμοποιούν inodes ούτε file descriptors."}
+                        { "text": "Τα IPC objects ζουν στον kernel μέχρι ρητή διαγραφή (IPC_RMID ή ipcrm), ακόμα και αν πεθάνουν οι διεργασίες.", "correct": true, "explanation": "Αν ξεχάσεις τον καθαρισμό, μένουν μέχρι reboot." },
+                        { "text": "Τα IPC objects ζουν όσο ζει η διεργασία.", "correct": false, "explanation": "Αυτό ισχύει για pipes, όχι System V IPC." },
+                        { "text": "Τα IPC objects ζουν στο filesystem.", "correct": false, "explanation": "Δεν χρησιμοποιούν inodes ούτε file descriptors." }
                     ]
                 }
             ]
@@ -3227,17 +3227,17 @@ window.quizData = {
                 {
                     "q": "Τι κάνει η ftok() και πώς λειτουργεί;",
                     "options": [
-                        {"text": "Δημιουργεί ένα key_t συνδυάζοντας τον inode number ενός αρχείου + proj_id byte.", "correct": true, "explanation": "Δύο unrelated processes με τα ίδια arguments παίρνουν το ίδιο key."},
-                        {"text": "Δημιουργεί ένα random κλειδί κάθε φορά.", "correct": false, "explanation": "Είναι ντετερμινιστική — ίδια inputs, ίδιο output."},
-                        {"text": "Ανοίγει ένα αρχείο και επιστρέφει fd.", "correct": false, "explanation": "Η ftok δεν ανοίγει αρχεία — χρησιμοποιεί τον inode."}
+                        { "text": "Δημιουργεί ένα key_t συνδυάζοντας τον inode number ενός αρχείου + proj_id byte.", "correct": true, "explanation": "Δύο unrelated processes με τα ίδια arguments παίρνουν το ίδιο key." },
+                        { "text": "Δημιουργεί ένα random κλειδί κάθε φορά.", "correct": false, "explanation": "Είναι ντετερμινιστική — ίδια inputs, ίδιο output." },
+                        { "text": "Ανοίγει ένα αρχείο και επιστρέφει fd.", "correct": false, "explanation": "Η ftok δεν ανοίγει αρχεία — χρησιμοποιεί τον inode." }
                     ]
                 },
                 {
                     "q": "Πότε χρησιμοποιούμε IPC_PRIVATE;",
                     "options": [
-                        {"text": "Όταν μόνο parent-child processes χρειάζονται πρόσβαση — δημιουργεί unique key.", "correct": true, "explanation": "Ο parent δημιουργεί, τα children κληρονομούν τον ID μέσω fork."},
-                        {"text": "Για κρυπτογράφηση IPC.", "correct": false, "explanation": "Το IPC_PRIVATE δεν σχετίζεται με ασφάλεια."},
-                        {"text": "Για shared memory μεταξύ unrelated processes.", "correct": false, "explanation": "Unrelated processes δεν μπορούν να βρουν IPC_PRIVATE objects."}
+                        { "text": "Όταν μόνο parent-child processes χρειάζονται πρόσβαση — δημιουργεί unique key.", "correct": true, "explanation": "Ο parent δημιουργεί, τα children κληρονομούν τον ID μέσω fork." },
+                        { "text": "Για κρυπτογράφηση IPC.", "correct": false, "explanation": "Το IPC_PRIVATE δεν σχετίζεται με ασφάλεια." },
+                        { "text": "Για shared memory μεταξύ unrelated processes.", "correct": false, "explanation": "Unrelated processes δεν μπορούν να βρουν IPC_PRIVATE objects." }
                     ]
                 }
             ]
@@ -3248,17 +3248,17 @@ window.quizData = {
                 {
                     "q": "Τι πρέπει να είναι πάντα > 0 στο message struct;",
                     "options": [
-                        {"text": "Το mtype — ο τύπος μηνύματος. Αν δεν είναι θετικό, η msgsnd() αποτυγχάνει.", "correct": true, "explanation": "Αρνητικά mtype χρησιμοποιούνται στη msgrcv() για priority selection."},
-                        {"text": "Το μέγεθος του mtext.", "correct": false, "explanation": "Μπορεί να είναι 0 (μήνυμα χωρίς δεδομένα)."},
-                        {"text": "Ο αριθμός μηνυμάτων στην ουρά.", "correct": false, "explanation": "Ο αριθμός δεν ελέγχεται από τον χρήστη."}
+                        { "text": "Το mtype — ο τύπος μηνύματος. Αν δεν είναι θετικό, η msgsnd() αποτυγχάνει.", "correct": true, "explanation": "Αρνητικά mtype χρησιμοποιούνται στη msgrcv() για priority selection." },
+                        { "text": "Το μέγεθος του mtext.", "correct": false, "explanation": "Μπορεί να είναι 0 (μήνυμα χωρίς δεδομένα)." },
+                        { "text": "Ο αριθμός μηνυμάτων στην ουρά.", "correct": false, "explanation": "Ο αριθμός δεν ελέγχεται από τον χρήστη." }
                     ]
                 },
                 {
                     "q": "Τι κάνει η msgrcv() με msgtyp = -3;",
                     "options": [
-                        {"text": "Λαμβάνει το πρώτο μήνυμα με type ≤ 3 (π.χ. 1, 2, ή 3), εξυπηρετώντας μικρότερα types πρώτα (priority queue).", "correct": true, "explanation": "Αρνητικό msgtyp = λαμβάνει μήνυμα με τον μικρότερο τύπο ≤ |msgtyp|."},
-                        {"text": "Λαμβάνει 3 μηνύματα ταυτόχρονα.", "correct": false, "explanation": "Η msgrcv() λαμβάνει πάντα ΕΝΑ μήνυμα."},
-                        {"text": "Αποτυγχάνει γιατί msgtyp δεν μπορεί να είναι αρνητικό.", "correct": false, "explanation": "Αρνητικό msgtyp είναι valid και πολύ χρήσιμο."}
+                        { "text": "Λαμβάνει το πρώτο μήνυμα με type ≤ 3 (π.χ. 1, 2, ή 3), εξυπηρετώντας μικρότερα types πρώτα (priority queue).", "correct": true, "explanation": "Αρνητικό msgtyp = λαμβάνει μήνυμα με τον μικρότερο τύπο ≤ |msgtyp|." },
+                        { "text": "Λαμβάνει 3 μηνύματα ταυτόχρονα.", "correct": false, "explanation": "Η msgrcv() λαμβάνει πάντα ΕΝΑ μήνυμα." },
+                        { "text": "Αποτυγχάνει γιατί msgtyp δεν μπορεί να είναι αρνητικό.", "correct": false, "explanation": "Αρνητικό msgtyp είναι valid και πολύ χρήσιμο." }
                     ]
                 }
             ]
@@ -3269,9 +3269,9 @@ window.quizData = {
                 {
                     "q": "Πώς βρίσκει ένας client ένα υπάρχον message queue;",
                     "options": [
-                        {"text": "Χρησιμοποιεί msgget() με το ίδιο key (χωρίς IPC_CREAT) — βρίσκει το υπάρχον.", "correct": true, "explanation": "Τα unrelated processes συμφωνούν σε ένα key (π.χ. μέσω header file ή ftok)."},
-                        {"text": "Λαμβάνει τον ID μέσω pipe.", "correct": false, "explanation": "Αυτό θα απαιτούσε ήδη IPC μεταξύ τους."},
-                        {"text": "Σκανάρει όλα τα queue IDs μέχρι να βρει.", "correct": false, "explanation": "Αυτό δεν είναι πρακτικό."}
+                        { "text": "Χρησιμοποιεί msgget() με το ίδιο key (χωρίς IPC_CREAT) — βρίσκει το υπάρχον.", "correct": true, "explanation": "Τα unrelated processes συμφωνούν σε ένα key (π.χ. μέσω header file ή ftok)." },
+                        { "text": "Λαμβάνει τον ID μέσω pipe.", "correct": false, "explanation": "Αυτό θα απαιτούσε ήδη IPC μεταξύ τους." },
+                        { "text": "Σκανάρει όλα τα queue IDs μέχρι να βρει.", "correct": false, "explanation": "Αυτό δεν είναι πρακτικό." }
                     ]
                 }
             ]
@@ -3282,17 +3282,17 @@ window.quizData = {
                 {
                     "q": "Γιατί η Shared Memory είναι ο ταχύτερος IPC μηχανισμός;",
                     "options": [
-                        {"text": "Δεν γίνεται αντιγραφή δεδομένων μεταξύ user space και kernel — οι διεργασίες βλέπουν τις ίδιες physical pages.", "correct": true, "explanation": "Zero-copy. Στα message queues τα δεδομένα αντιγράφονται στον kernel και πίσω."},
-                        {"text": "Χρησιμοποιεί ειδικό hardware.", "correct": false, "explanation": "Χρησιμοποιεί κανονική RAM."},
-                        {"text": "Δεν χρειάζεται system calls.", "correct": false, "explanation": "Χρειάζεται shmget/shmat — μετά η πρόσβαση γίνεται χωρίς syscalls."}
+                        { "text": "Δεν γίνεται αντιγραφή δεδομένων μεταξύ user space και kernel — οι διεργασίες βλέπουν τις ίδιες physical pages.", "correct": true, "explanation": "Zero-copy. Στα message queues τα δεδομένα αντιγράφονται στον kernel και πίσω." },
+                        { "text": "Χρησιμοποιεί ειδικό hardware.", "correct": false, "explanation": "Χρησιμοποιεί κανονική RAM." },
+                        { "text": "Δεν χρειάζεται system calls.", "correct": false, "explanation": "Χρειάζεται shmget/shmat — μετά η πρόσβαση γίνεται χωρίς syscalls." }
                     ]
                 },
                 {
                     "q": "Τι κάνει η shmdt() και τι ΔΕΝ κάνει;",
                     "options": [
-                        {"text": "Αποκολλά τη shared memory από το address space. ΔΕΝ σβήνει τα δεδομένα (γι αυτό χρειάζεται shmctl IPC_RMID).", "correct": true, "explanation": "Η μνήμη παραμένει στον kernel μετά το detach."},
-                        {"text": "Σβήνει τη shared memory.", "correct": false, "explanation": "Αυτό κάνει η shmctl(IPC_RMID)."},
-                        {"text": "Κλειδώνει τη shared memory.", "correct": false, "explanation": "Η shmdt δεν σχετίζεται με locking."}
+                        { "text": "Αποκολλά τη shared memory από το address space. ΔΕΝ σβήνει τα δεδομένα (γι αυτό χρειάζεται shmctl IPC_RMID).", "correct": true, "explanation": "Η μνήμη παραμένει στον kernel μετά το detach." },
+                        { "text": "Σβήνει τη shared memory.", "correct": false, "explanation": "Αυτό κάνει η shmctl(IPC_RMID)." },
+                        { "text": "Κλειδώνει τη shared memory.", "correct": false, "explanation": "Η shmdt δεν σχετίζεται με locking." }
                     ]
                 }
             ]
@@ -3303,9 +3303,9 @@ window.quizData = {
                 {
                     "q": "Στο sharedMem1.c / sharedMem2.c, ποιο πρόβλημα δεν αντιμετωπίζεται;",
                     "options": [
-                        {"text": "Δεν υπάρχει synchronization — αν δύο διεργασίες γράψουν ταυτόχρονα, γίνεται race condition.", "correct": true, "explanation": "Χρειάζονται semaphores για ασφαλή πρόσβαση."},
-                        {"text": "Δεν μπορούν να τρέξουν σε διαφορετικά μηχανήματα.", "correct": false, "explanation": "Shared memory είναι local IPC — αυτό δεν είναι bug."},
-                        {"text": "Δεν κλείνουν τα file descriptors.", "correct": false, "explanation": "Shared memory δεν χρησιμοποιεί fd."}
+                        { "text": "Δεν υπάρχει synchronization — αν δύο διεργασίες γράψουν ταυτόχρονα, γίνεται race condition.", "correct": true, "explanation": "Χρειάζονται semaphores για ασφαλή πρόσβαση." },
+                        { "text": "Δεν μπορούν να τρέξουν σε διαφορετικά μηχανήματα.", "correct": false, "explanation": "Shared memory είναι local IPC — αυτό δεν είναι bug." },
+                        { "text": "Δεν κλείνουν τα file descriptors.", "correct": false, "explanation": "Shared memory δεν χρησιμοποιεί fd." }
                     ]
                 }
             ]
@@ -3316,17 +3316,17 @@ window.quizData = {
                 {
                     "q": "Τι κάνει η DOWN (P) operation σε semaphore;",
                     "options": [
-                        {"text": "Αν semval > 0: μειώνει κατά 1. Αν semval = 0: μπλοκάρει μέχρι κάποιος κάνει UP.", "correct": true, "explanation": "Ατομική πράξη. Η διεργασία κοιμάται αν δεν υπάρχει πόρος."},
-                        {"text": "Αυξάνει τον counter κατά 1.", "correct": false, "explanation": "Αυτό κάνει η UP (V)."},
-                        {"text": "Σβήνει τον semaphore.", "correct": false, "explanation": "Αυτό κάνει η semctl(IPC_RMID)."}
+                        { "text": "Αν semval > 0: μειώνει κατά 1. Αν semval = 0: μπλοκάρει μέχρι κάποιος κάνει UP.", "correct": true, "explanation": "Ατομική πράξη. Η διεργασία κοιμάται αν δεν υπάρχει πόρος." },
+                        { "text": "Αυξάνει τον counter κατά 1.", "correct": false, "explanation": "Αυτό κάνει η UP (V)." },
+                        { "text": "Σβήνει τον semaphore.", "correct": false, "explanation": "Αυτό κάνει η semctl(IPC_RMID)." }
                     ]
                 },
                 {
                     "q": "Τι σημαίνει ότι οι semaphores είναι 'advisory';",
                     "options": [
-                        {"text": "Δεν εμποδίζουν φυσικά την πρόσβαση — οι διεργασίες πρέπει να συνεργάζονται.", "correct": true, "explanation": "Σαν τα traffic lights — δεν σταματούν φυσικά τα αυτοκίνητα."},
-                        {"text": "Δίνουν συμβουλές στον kernel για optimization.", "correct": false, "explanation": "Δεν σχετίζεται με optimization."},
-                        {"text": "Μπορούν να χρησιμοποιηθούν μόνο σε advisory mode.", "correct": false, "explanation": "Στο Linux δεν υπάρχει mandatory mode για semaphores."}
+                        { "text": "Δεν εμποδίζουν φυσικά την πρόσβαση — οι διεργασίες πρέπει να συνεργάζονται.", "correct": true, "explanation": "Σαν τα traffic lights — δεν σταματούν φυσικά τα αυτοκίνητα." },
+                        { "text": "Δίνουν συμβουλές στον kernel για optimization.", "correct": false, "explanation": "Δεν σχετίζεται με optimization." },
+                        { "text": "Μπορούν να χρησιμοποιηθούν μόνο σε advisory mode.", "correct": false, "explanation": "Στο Linux δεν υπάρχει mandatory mode για semaphores." }
                     ]
                 }
             ]
@@ -3337,17 +3337,17 @@ window.quizData = {
                 {
                     "q": "Γιατί πρέπει να ορίσεις εσύ το union semun;",
                     "options": [
-                        {"text": "Πολλά συστήματα δεν το ορίζουν στα headers — πρέπει ο programmer να το δηλώσει.", "correct": true, "explanation": "Κλασική ερώτηση εξέτασης! Ορίζεις: int val, struct semid_ds *buf, unsigned short *array."},
-                        {"text": "Γιατί το union πρέπει να περιέχει custom πεδία.", "correct": false, "explanation": "Τα πεδία είναι σταθερά (val, buf, array)."},
-                        {"text": "Δεν χρειάζεται — απλά χρησιμοποίησε int.", "correct": false, "explanation": "Η semctl() απαιτεί union semun — int δεν αρκεί."}
+                        { "text": "Πολλά συστήματα δεν το ορίζουν στα headers — πρέπει ο programmer να το δηλώσει.", "correct": true, "explanation": "Κλασική ερώτηση εξέτασης! Ορίζεις: int val, struct semid_ds *buf, unsigned short *array." },
+                        { "text": "Γιατί το union πρέπει να περιέχει custom πεδία.", "correct": false, "explanation": "Τα πεδία είναι σταθερά (val, buf, array)." },
+                        { "text": "Δεν χρειάζεται — απλά χρησιμοποίησε int.", "correct": false, "explanation": "Η semctl() απαιτεί union semun — int δεν αρκεί." }
                     ]
                 },
                 {
                     "q": "Τι σημαίνει sem_op = 0 στη semop();",
                     "options": [
-                        {"text": "Wait-for-zero: η διεργασία μπλοκάρει μέχρι η τιμή του semaphore γίνει 0.", "correct": true, "explanation": "Χρήσιμο για synchronization — π.χ. περίμενε μέχρι όλοι οι πόροι απελευθερωθούν."},
-                        {"text": "Δεν κάνει τίποτα (no-op).", "correct": false, "explanation": "Κάνει wait — μπλοκάρει αν η τιμή δεν είναι 0."},
-                        {"text": "Θέτει την τιμή σε 0.", "correct": false, "explanation": "Αυτό κάνει η semctl(SETVAL, 0)."}
+                        { "text": "Wait-for-zero: η διεργασία μπλοκάρει μέχρι η τιμή του semaphore γίνει 0.", "correct": true, "explanation": "Χρήσιμο για synchronization — π.χ. περίμενε μέχρι όλοι οι πόροι απελευθερωθούν." },
+                        { "text": "Δεν κάνει τίποτα (no-op).", "correct": false, "explanation": "Κάνει wait — μπλοκάρει αν η τιμή δεν είναι 0." },
+                        { "text": "Θέτει την τιμή σε 0.", "correct": false, "explanation": "Αυτό κάνει η semctl(SETVAL, 0)." }
                     ]
                 }
             ]
@@ -3358,9 +3358,9 @@ window.quizData = {
                 {
                     "q": "Στο fork+shm+semaphore counter, γιατί ο counter είναι σωστός (200000);",
                     "options": [
-                        {"text": "Ο semaphore (init=1) εξασφαλίζει mutual exclusion — μόνο μία διεργασία τη φορά αυξάνει τον counter.", "correct": true, "explanation": "sem_P (DOWN) πριν, sem_V (UP) μετά — binary semaphore = mutex."},
-                        {"text": "Η shared memory αυτόματα synchronize τις εγγραφές.", "correct": false, "explanation": "Δεν γίνεται αυτόματα — χρειάζεται ρητός synchronization."},
-                        {"text": "Το fork() εξασφαλίζει σειριακή εκτέλεση.", "correct": false, "explanation": "Μετά το fork, parent/child τρέχουν παράλληλα."}
+                        { "text": "Ο semaphore (init=1) εξασφαλίζει mutual exclusion — μόνο μία διεργασία τη φορά αυξάνει τον counter.", "correct": true, "explanation": "sem_P (DOWN) πριν, sem_V (UP) μετά — binary semaphore = mutex." },
+                        { "text": "Η shared memory αυτόματα synchronize τις εγγραφές.", "correct": false, "explanation": "Δεν γίνεται αυτόματα — χρειάζεται ρητός synchronization." },
+                        { "text": "Το fork() εξασφαλίζει σειριακή εκτέλεση.", "correct": false, "explanation": "Μετά το fork, parent/child τρέχουν παράλληλα." }
                     ]
                 }
             ]
@@ -3371,17 +3371,17 @@ window.quizData = {
                 {
                     "q": "Τι κάνει η flag SEM_UNDO;",
                     "options": [
-                        {"text": "Αν η διεργασία πεθάνει, ο kernel αναιρεί αυτόματα τις semaphore operations — αποτρέπει orphaned locks.", "correct": true, "explanation": "Χωρίς SEM_UNDO, αν μια διεργασία crashάρει κρατώντας semaphore, μένει locked για πάντα."},
-                        {"text": "Αναιρεί την τελευταία semop() κλήση.", "correct": false, "explanation": "Δεν είναι manual undo — ενεργοποιείται αυτόματα στον τερματισμό."},
-                        {"text": "Κάνει undo ολόκληρου του semaphore set.", "correct": false, "explanation": "Αφορά μόνο τις πράξεις της τρέχουσας διεργασίας."}
+                        { "text": "Αν η διεργασία πεθάνει, ο kernel αναιρεί αυτόματα τις semaphore operations — αποτρέπει orphaned locks.", "correct": true, "explanation": "Χωρίς SEM_UNDO, αν μια διεργασία crashάρει κρατώντας semaphore, μένει locked για πάντα." },
+                        { "text": "Αναιρεί την τελευταία semop() κλήση.", "correct": false, "explanation": "Δεν είναι manual undo — ενεργοποιείται αυτόματα στον τερματισμό." },
+                        { "text": "Κάνει undo ολόκληρου του semaphore set.", "correct": false, "explanation": "Αφορά μόνο τις πράξεις της τρέχουσας διεργασίας." }
                     ]
                 },
                 {
                     "q": "Ποια η διαφορά mutex (pthread) vs semaphore (System V);",
                     "options": [
-                        {"text": "Mutex: intra-process (threads), binary μόνο, ο κάτοχος ξεκλειδώνει. Semaphore: inter-process, counting > 1, κάποιος άλλος μπορεί να κάνει UP.", "correct": true, "explanation": "System V semaphores δουλεύουν μεταξύ unrelated processes — mutexes μόνο μεταξύ threads."},
-                        {"text": "Δεν υπάρχει ουσιαστική διαφορά.", "correct": false, "explanation": "Μεγάλες διαφορές σε scope, functionality, API."},
-                        {"text": "Mutex > semaphore σε κάθε περίπτωση.", "correct": false, "explanation": "Εξαρτάται από τις ανάγκες — inter-process απαιτεί semaphores."}
+                        { "text": "Mutex: intra-process (threads), binary μόνο, ο κάτοχος ξεκλειδώνει. Semaphore: inter-process, counting > 1, κάποιος άλλος μπορεί να κάνει UP.", "correct": true, "explanation": "System V semaphores δουλεύουν μεταξύ unrelated processes — mutexes μόνο μεταξύ threads." },
+                        { "text": "Δεν υπάρχει ουσιαστική διαφορά.", "correct": false, "explanation": "Μεγάλες διαφορές σε scope, functionality, API." },
+                        { "text": "Mutex > semaphore σε κάθε περίπτωση.", "correct": false, "explanation": "Εξαρτάται από τις ανάγκες — inter-process απαιτεί semaphores." }
                     ]
                 }
             ]
@@ -3392,17 +3392,17 @@ window.quizData = {
                 {
                     "q": "Ποια η διαφορά F_SETLK vs F_SETLKW;",
                     "options": [
-                        {"text": "F_SETLK: non-blocking (αποτυχία αν δεν μπορεί). F_SETLKW: blocking (περιμένει μέχρι να γίνει δυνατό).", "correct": true, "explanation": "F_SETLK επιστρέφει -1 αν locked. F_SETLKW κοιμάται μέχρι unlock."},
-                        {"text": "F_SETLK κλειδώνει write, F_SETLKW κλειδώνει read.", "correct": false, "explanation": "Τον τύπο lock τον καθορίζει το l_type (F_RDLCK/F_WRLCK)."},
-                        {"text": "F_SETLK είναι mandatory, F_SETLKW advisory.", "correct": false, "explanation": "Και τα δύο είναι advisory στο Linux."}
+                        { "text": "F_SETLK: non-blocking (αποτυχία αν δεν μπορεί). F_SETLKW: blocking (περιμένει μέχρι να γίνει δυνατό).", "correct": true, "explanation": "F_SETLK επιστρέφει -1 αν locked. F_SETLKW κοιμάται μέχρι unlock." },
+                        { "text": "F_SETLK κλειδώνει write, F_SETLKW κλειδώνει read.", "correct": false, "explanation": "Τον τύπο lock τον καθορίζει το l_type (F_RDLCK/F_WRLCK)." },
+                        { "text": "F_SETLK είναι mandatory, F_SETLKW advisory.", "correct": false, "explanation": "Και τα δύο είναι advisory στο Linux." }
                     ]
                 },
                 {
                     "q": "Τι σημαίνει l_len = 0 στο struct flock;",
                     "options": [
-                        {"text": "Κλειδώνει από l_start μέχρι το τέλος του αρχείου (ακόμα και bytes που δεν υπάρχουν ακόμα).", "correct": true, "explanation": "Χρήσιμο για append operations — κλειδώνει ό,τι γραφτεί μετά."},
-                        {"text": "Δεν κλειδώνει τίποτα.", "correct": false, "explanation": "0 = until EOF, δεν σημαίνει 0 bytes."},
-                        {"text": "Κλειδώνει ολόκληρο τον δίσκο.", "correct": false, "explanation": "Κλειδώνει μόνο μέσα στο αρχείο."}
+                        { "text": "Κλειδώνει από l_start μέχρι το τέλος του αρχείου (ακόμα και bytes που δεν υπάρχουν ακόμα).", "correct": true, "explanation": "Χρήσιμο για append operations — κλειδώνει ό,τι γραφτεί μετά." },
+                        { "text": "Δεν κλειδώνει τίποτα.", "correct": false, "explanation": "0 = until EOF, δεν σημαίνει 0 bytes." },
+                        { "text": "Κλειδώνει ολόκληρο τον δίσκο.", "correct": false, "explanation": "Κλειδώνει μόνο μέσα στο αρχείο." }
                     ]
                 }
             ]
@@ -3413,17 +3413,17 @@ window.quizData = {
                 {
                     "q": "Στο deadlock example, πώς εντοπίζεται το πρόβλημα;",
                     "options": [
-                        {"text": "Ο parent χρησιμοποιεί F_SETLK (non-blocking) αντί F_SETLKW — αν αποτύχει, ξέρει ότι υπάρχει πρόβλημα και τερματίζει.", "correct": true, "explanation": "Non-blocking lock = try-lock pattern. Αν αποτύχει → EAGAIN → ο parent μπορεί να πάρει αποφάσεις."},
-                        {"text": "Ο kernel ανιχνεύει αυτόματα deadlock.", "correct": false, "explanation": "Σε κάποια OS γίνεται, αλλά δεν είναι guaranteed."},
-                        {"text": "Δεν εντοπίζεται — τρέχει για πάντα.", "correct": false, "explanation": "Με F_SETLK (non-blocking) εντοπίζεται."}
+                        { "text": "Ο parent χρησιμοποιεί F_SETLK (non-blocking) αντί F_SETLKW — αν αποτύχει, ξέρει ότι υπάρχει πρόβλημα και τερματίζει.", "correct": true, "explanation": "Non-blocking lock = try-lock pattern. Αν αποτύχει → EAGAIN → ο parent μπορεί να πάρει αποφάσεις." },
+                        { "text": "Ο kernel ανιχνεύει αυτόματα deadlock.", "correct": false, "explanation": "Σε κάποια OS γίνεται, αλλά δεν είναι guaranteed." },
+                        { "text": "Δεν εντοπίζεται — τρέχει για πάντα.", "correct": false, "explanation": "Με F_SETLK (non-blocking) εντοπίζεται." }
                     ]
                 },
                 {
                     "q": "Στο lockit.c, γιατί ο child μπλοκάρει στο fcntl(F_SETLKW);",
                     "options": [
-                        {"text": "Ο parent κρατά write lock στα bytes 0-9, και ο child ζητά lock στα bytes 0-4 (υποσύνολο). F_SETLKW περιμένει.", "correct": true, "explanation": "Τα byte ranges επικαλύπτονται. Ο child περιμένει μέχρι ο parent κάνει unlock."},
-                        {"text": "Ο child δεν έχει δικαιώματα στο αρχείο.", "correct": false, "explanation": "Ο child κληρονόμησε το fd από τον parent (fork)."},
-                        {"text": "Ο child χρησιμοποιεί λάθος file descriptor.", "correct": false, "explanation": "Χρησιμοποιεί τον κληρονομημένο fd."}
+                        { "text": "Ο parent κρατά write lock στα bytes 0-9, και ο child ζητά lock στα bytes 0-4 (υποσύνολο). F_SETLKW περιμένει.", "correct": true, "explanation": "Τα byte ranges επικαλύπτονται. Ο child περιμένει μέχρι ο parent κάνει unlock." },
+                        { "text": "Ο child δεν έχει δικαιώματα στο αρχείο.", "correct": false, "explanation": "Ο child κληρονόμησε το fd από τον parent (fork)." },
+                        { "text": "Ο child χρησιμοποιεί λάθος file descriptor.", "correct": false, "explanation": "Χρησιμοποιεί τον κληρονομημένο fd." }
                     ]
                 }
             ]

@@ -1,28 +1,148 @@
 <!DOCTYPE html>
 <html lang="el">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Topic 3 · Low-level I/O &amp; Signals</title>
-<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;700&family=Syne:wght@400;700;800&family=Lora:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="styles/base.css">
-<link rel="stylesheet" href="styles/layout.css">
-<link rel="stylesheet" href="styles/components.css">
-<style>
-:root{--bg:#08080f;--bg-rgb: 8, 8, 15;--surf:#0e0e1a;--surf2:#14142a;--border:#252548;--blue:#7c9fff;--bdim:#0a0f2e;--green:#50fa7b;--green-rgb: 80, 250, 123;--gdim:#091a0e;--yellow:#f1fa8c;--ydim:#1a1a08;--red:#ff5555;--rdim:#1a0808;--purple:#bd93f9;--purple-rgb: 189, 147, 249;--pdim:#120a28;--cyan:#8be9fd;--orange:#ffb86c;--odim:#251800;--pink:#ff79c6;--txt:#f8f8f2;--muted:#9a9abf;--dim:#4a4a6a}
 
-.cb{background:#030308;}
-.kw{color:var(--pink);font-weight:600}.fn{color:var(--green)}.st{color:var(--yellow)}.cm{color:var(--dim);font-style:italic}.nm{color:var(--purple)}.tp{color:var(--cyan)}.mc{color:var(--orange)}.pr{color:var(--muted)}
-.fdarr{color:var(--dim)}.fdtgt{color:var(--muted)}
-.dup-before,.dup-after{background:var(--surf2);border:1px solid var(--border);border-radius:8px;padding:16px;font-family:'JetBrains Mono',monospace;}
-.dup-row{display:flex;align-items:center;gap:8px;margin-bottom:8px}
-.dup-fd{border-radius:4px;padding:3px 10px;font-weight:700;}
-.dup-arrow{color:var(--dim)}
-.dup-file{background:var(--surf);border:1px solid var(--border);padding:3px 10px;border-radius:4px;color:var(--muted)}
-.fgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:8px}
-.fitem{background:var(--surf);border:1px solid var(--border);border-radius:6px;padding:10px 13px}
-.fname{font-family:'JetBrains Mono',monospace;color:var(--orange);font-weight:700;margin-bottom:4px}
-.fdesc{color:var(--muted);}
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Topic 3 · Low-level I/O &amp; Signals</title>
+  <link
+    href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;700&family=Syne:wght@400;700;800&family=Lora:ital,wght@0,400;0,600;1,400&display=swap"
+    rel="stylesheet">
+  <link rel="stylesheet" href="styles/base.css">
+  <link rel="stylesheet" href="styles/layout.css">
+  <link rel="stylesheet" href="styles/components.css">
+  <style>
+    :root {
+      --bg: #08080f;
+      --bg-rgb: 8, 8, 15;
+      --surf: #0e0e1a;
+      --surf2: #14142a;
+      --border: #252548;
+      --blue: #7c9fff;
+      --bdim: #0a0f2e;
+      --green: #50fa7b;
+      --green-rgb: 80, 250, 123;
+      --gdim: #091a0e;
+      --yellow: #f1fa8c;
+      --ydim: #1a1a08;
+      --red: #ff5555;
+      --rdim: #1a0808;
+      --purple: #bd93f9;
+      --purple-rgb: 189, 147, 249;
+      --pdim: #120a28;
+      --cyan: #8be9fd;
+      --orange: #ffb86c;
+      --odim: #251800;
+      --pink: #ff79c6;
+      --txt: #f8f8f2;
+      --muted: #9a9abf;
+      --dim: #4a4a6a
+    }
+
+    .cb {
+      background: #030308;
+    }
+
+    .kw {
+      color: var(--pink);
+      font-weight: 600
+    }
+
+    .fn {
+      color: var(--green)
+    }
+
+    .st {
+      color: var(--yellow)
+    }
+
+    .cm {
+      color: var(--dim);
+      font-style: italic
+    }
+
+    .nm {
+      color: var(--purple)
+    }
+
+    .tp {
+      color: var(--cyan)
+    }
+
+    .mc {
+      color: var(--orange)
+    }
+
+    .pr {
+      color: var(--muted)
+    }
+
+    .fdarr {
+      color: var(--dim)
+    }
+
+    .fdtgt {
+      color: var(--muted)
+    }
+
+    .dup-before,
+    .dup-after {
+      background: var(--surf2);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 16px;
+      font-family: 'JetBrains Mono', monospace;
+    }
+
+    .dup-row {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 8px
+    }
+
+    .dup-fd {
+      border-radius: 4px;
+      padding: 3px 10px;
+      font-weight: 700;
+    }
+
+    .dup-arrow {
+      color: var(--dim)
+    }
+
+    .dup-file {
+      background: var(--surf);
+      border: 1px solid var(--border);
+      padding: 3px 10px;
+      border-radius: 4px;
+      color: var(--muted)
+    }
+
+    .fgrid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+      gap: 8px
+    }
+
+    .fitem {
+      background: var(--surf);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      padding: 10px 13px
+    }
+
+    .fname {
+      font-family: 'JetBrains Mono', monospace;
+      color: var(--orange);
+      font-weight: 700;
+      margin-bottom: 4px
+    }
+
+    .fdesc {
+      color: var(--muted);
+    }
+
     html[data-theme="light"] .hero {
       background: var(--hero-bg);
       background-image: linear-gradient(150deg, rgb(248, 250, 252) 0%, rgb(240, 253, 244) 55%, rgb(248, 250, 252) 100%);
@@ -51,403 +171,686 @@
       background-origin: initial;
       background-clip: initial;
     }
-    </style>
-<script src="js/nav.js" defer></script>
-  <script src="data/questions.js" defer></script><script src="js/quiz-loader.js" defer></script>
+  </style>
+  <script src="js/nav.js" defer></script>
+  <script src="data/questions.js" defer></script>
+  <script src="js/quiz-loader.js" defer></script>
 </head>
-<body>
-<div id="site-nav"></div>
-<div class="hero">
-  <div class="hero-label">K24 · Topic 3</div>
-  <h1>Low-level I/O, <em>Signals</em> &amp; Error Handling</h1>
-  <p>File descriptors, open/read/write/close/dup2, stat, signals, sigaction — με ακρωνύμια και tips για κάθε system call.</p>
-  <div class="chips"><span class="chip">file descriptors</span><span class="chip">open/read/write</span><span class="chip">dup2</span><span class="chip">signals</span><span class="chip">sigaction</span></div>
-</div>
-<nav class="toc">
-  <a href="#errors">Error Handling</a><a href="#fd">File Descriptors</a><a href="#open">open()</a>
-  <a href="#rw">read/write</a><a href="#dup">dup2</a><a href="#stat">stat</a>
-  <a href="#signals">Signals</a><a href="#sigaction">sigaction</a>
-</nav>
-<div class="wrap">
 
-<section id="errors">
-  <div class="sh"><div class="sh-icon bg-red-dim">🚨</div><h2>Error Handling — Ο Χρυσός Κανόνας</h2></div>
-  <p class="section-desc">Κάθε system call επιστρέφει <strong class="text-red">-1 σε αποτυχία</strong> και θέτει τη global μεταβλητή <code>errno</code> με τον κωδικό σφάλματος. Ποτέ μην αγνοείς την επιστρεφόμενη τιμή.</p>
-  <div class="grid2">
-    <div>
-      <div class="cb"><span class="cm">// το ΣΩΣΤΟ pattern — πάντα έτσι</span>
-<span class="tp">int</span> fd;
-<span class="kw">if</span> ((fd = <span class="fn">open</span>(<span class="st">"file.txt"</span>, <span class="mc">O_RDONLY</span>)) == -1) {
-<span class="fn">perror</span>(<span class="st">"open"</span>);
-<span class="cm">// ↑ εκτυπώνει: "open: No such file or directory"</span>
-<span class="fn">exit</span>(1);
-}
-<span class="cm">// ή με strerror για custom μήνυμα</span>
-<span class="kw">if</span> (<span class="fn">write</span>(fd, buf, n) == -1) {
-<span class="fn">fprintf</span>(<span class="mc">stderr</span>, <span class="st">"write: %s\n"</span>, <span class="fn">strerror</span>(errno));
-<span class="fn">exit</span>(1);
-}
-</div>
-      <div class="wbox"><div class="lbl text-yellow">⚠️ Headers</div><code>#include &lt;errno.h&gt;</code> για errno · <code>#include &lt;string.h&gt;</code> για strerror() · <code>#include &lt;stdio.h&gt;</code> για perror()</div>
-    </div>
-    <div>
-      <div class="tip"><div class="tip-icon">🧠</div><div><div class="tip-title">Tip — perror vs strerror</div><div class="tip-text"><strong>perror("msg")</strong> = τυπώνει αυτόματα στο stderr: "msg: [error description]". Απλό και βολικό.<br><strong>strerror(errno)</strong> = επιστρέφει string με description. Χρήσιμο αν θέλεις να το ενσωματώσεις σε δικό σου μήνυμα.</div></div></div>
-      <div class="rbox"><div class="lbl text-red">🚨 Κρίσιμο</div>Το <code>errno</code> ορίζεται <em>μόνο</em> αν η κλήση απέτυχε. Αν η κλήση πετύχει, η τιμή errno είναι undefined. Έλεγξε πάντα αν η κλήση απέτυχε <em>πριν</em> κοιτάξεις το errno.</div>
-    </div>
+<body>
+  <div id="site-nav"></div>
+  <div class="hero">
+    <div class="hero-label">K24 · Topic 3</div>
+    <h1>Low-level I/O, <em>Signals</em> &amp; Error Handling</h1>
+    <p>File descriptors, open/read/write/close/dup2, stat, signals, sigaction — με ακρωνύμια και tips για κάθε system
+      call.</p>
+    <div class="chips"><span class="chip">file descriptors</span><span class="chip">open/read/write</span><span
+        class="chip">dup2</span><span class="chip">signals</span><span class="chip">sigaction</span></div>
   </div>
+  <nav class="toc">
+    <a href="#errors">Error Handling</a><a href="#fd">File Descriptors</a><a href="#open">open()</a>
+    <a href="#rw">read/write</a><a href="#dup">dup2</a><a href="#stat">stat</a>
+    <a href="#signals">Signals</a><a href="#sigaction">sigaction</a>
+  </nav>
+  <div class="wrap">
+
+    <section id="errors">
+      <div class="sh">
+        <div class="sh-icon bg-red-dim">🚨</div>
+        <h2>Error Handling — Ο Χρυσός Κανόνας</h2>
+      </div>
+      <p class="section-desc">Κάθε system call επιστρέφει <strong class="text-red">-1 σε αποτυχία</strong> και θέτει τη
+        global μεταβλητή <code>errno</code> με τον κωδικό σφάλματος. Ποτέ μην αγνοείς την επιστρεφόμενη τιμή.</p>
+      <div class="grid2">
+        <div>
+          <div class="cb"><span class="cm">// το ΣΩΣΤΟ pattern — πάντα έτσι</span>
+            <span class="tp">int</span> fd;
+            <span class="kw">if</span> ((fd = <span class="fn">open</span>(<span class="st">"file.txt"</span>, <span
+              class="mc">O_RDONLY</span>)) == -1) {
+            <span class="fn">perror</span>(<span class="st">"open"</span>);
+            <span class="cm">// ↑ εκτυπώνει: "open: No such file or directory"</span>
+            <span class="fn">exit</span>(1);
+            }
+            <span class="cm">// ή με strerror για custom μήνυμα</span>
+            <span class="kw">if</span> (<span class="fn">write</span>(fd, buf, n) == -1) {
+            <span class="fn">fprintf</span>(<span class="mc">stderr</span>, <span class="st">"write: %s\n"</span>, <span
+              class="fn">strerror</span>(errno));
+            <span class="fn">exit</span>(1);
+            }
+          </div>
+          <div class="wbox">
+            <div class="lbl text-yellow">⚠️ Headers</div><code>#include &lt;errno.h&gt;</code> για errno ·
+            <code>#include &lt;string.h&gt;</code> για strerror() · <code>#include &lt;stdio.h&gt;</code> για perror()
+          </div>
+        </div>
+        <div>
+          <div class="tip">
+            <div class="tip-icon">🧠</div>
+            <div>
+              <div class="tip-title">Tip — perror vs strerror</div>
+              <div class="tip-text"><strong>perror("msg")</strong> = τυπώνει αυτόματα στο stderr: "msg: [error
+                description]". Απλό και βολικό.<br><strong>strerror(errno)</strong> = επιστρέφει string με description.
+                Χρήσιμο αν θέλεις να το ενσωματώσεις σε δικό σου μήνυμα.</div>
+            </div>
+          </div>
+          <div class="rbox">
+            <div class="lbl text-red">🚨 Κρίσιμο</div>Το <code>errno</code> ορίζεται <em>μόνο</em> αν η κλήση απέτυχε.
+            Αν η κλήση πετύχει, η τιμή errno είναι undefined. Έλεγξε πάντα αν η κλήση απέτυχε <em>πριν</em> κοιτάξεις το
+            errno.
+          </div>
+        </div>
+      </div>
 
       <div class="section-quiz" data-topic="topic3" data-section="errors"></div>
     </section>
 
-<section id="fd">
-  <div class="sh"><div class="sh-icon bg-cyan-alpha3">📋</div><h2>File Descriptors — Ο Πίνακας FD</h2></div>
-  <p class="section-desc">Φαντάσου ότι κάθε διεργασία κρατά ένα "τηλεφωνικό κατάλογο" ανοιχτών πόρων: αυτό είναι ο <strong class="text-primary">πίνακας File Descriptors (FD)</strong>. Κάθε εγγραφή έχει ένα νούμερο (0, 1, 2...) και δείχνει σε ένα αρχείο, pipe ή socket. Αντί για το όνομα, χρησιμοποιούμε πάντα αυτόν τον αριθμό. Τα πρώτα 3 υπάρχουν ήδη από τη στιγμή που ξεκινά η διεργασία:</p>
-  <div class="grid2">
-    <div>
-      <div class="fdtable">
-        <div class="header-dim-sm">PROCESS FD TABLE</div>
-        <div class="fdrow"><div class="fdnum fd0">0</div><span class="fdarr">→</span><span class="fdtgt text-cyan">stdin</span><span class="fdtgt"> — keyboard (terminal)</span></div>
-        <div class="fdrow"><div class="fdnum fd1">1</div><span class="fdarr">→</span><span class="fdtgt text-green">stdout</span><span class="fdtgt"> — screen (terminal)</span></div>
-        <div class="fdrow"><div class="fdnum fd2">2</div><span class="fdarr">→</span><span class="fdtgt text-red">stderr</span><span class="fdtgt"> — screen (terminal)</span></div>
-        <div class="fdrow"><div class="fdnum fdx">3</div><span class="fdarr">→</span><span class="fdtgt text-purple">1ο open()</span><span class="fdtgt"> που κάνουμε</span></div>
-        <div class="fdrow"><div class="fdnum fdx badge-yellow">4</div><span class="fdarr">→</span><span class="fdtgt">2ο open(), κ.ο.κ.</span></div>
+    <section id="fd">
+      <div class="sh">
+        <div class="sh-icon bg-cyan-alpha3">📋</div>
+        <h2>File Descriptors — Ο Πίνακας FD</h2>
       </div>
-    </div>
-    <div>
-      <div class="tip"><div class="tip-icon">🧠</div><div><div class="tip-title">Tip — γιατί 0, 1, 2</div><div class="tip-text">Είναι τα standard streams που κάθε UNIX διεργασία αποκτά αυτόματα όταν ξεκινά. Αντιστοιχούν στα <code>stdin</code>, <code>stdout</code>, <code>stderr</code> της C (αλλά εκεί είναι pointers, εδώ integers).</div></div></div>
-      <div class="ibox"><div class="lbl text-blue">Κληρονομιά μετά από fork()</div>Το child process παίρνει <strong>αντίγραφο</strong> του FD table. Και τα δύο (parent + child) δείχνουν στα ίδια αρχεία. Γι' αυτό κλείνουμε αχρείαστα ends μετά από fork().</div>
-      <div class="gbox"><div class="lbl text-green">Κανόνας: ελάχιστος διαθέσιμος</div>Ο kernel ανοίγει <strong>πάντα το μικρότερο διαθέσιμο</strong> FD. Αν κλείσεις το 0 (stdin) και μετά ανοίξεις αρχείο, θα πάρει FD=0. Αυτό εκμεταλλευόμαστε με dup2().</div>
-    </div>
-  </div>
+      <p class="section-desc">Φαντάσου ότι κάθε διεργασία κρατά ένα "τηλεφωνικό κατάλογο" ανοιχτών πόρων: αυτό είναι ο
+        <strong class="text-primary">πίνακας File Descriptors (FD)</strong>. Κάθε εγγραφή έχει ένα νούμερο (0, 1, 2...)
+        και δείχνει σε ένα αρχείο, pipe ή socket. Αντί για το όνομα, χρησιμοποιούμε πάντα αυτόν τον αριθμό. Τα πρώτα 3
+        υπάρχουν ήδη από τη στιγμή που ξεκινά η διεργασία:</p>
+      <div class="grid2">
+        <div>
+          <div class="fdtable">
+            <div class="header-dim-sm">PROCESS FD TABLE</div>
+            <div class="fdrow">
+              <div class="fdnum fd0">0</div><span class="fdarr">→</span><span class="fdtgt text-cyan">stdin</span><span
+                class="fdtgt"> — keyboard (terminal)</span>
+            </div>
+            <div class="fdrow">
+              <div class="fdnum fd1">1</div><span class="fdarr">→</span><span
+                class="fdtgt text-green">stdout</span><span class="fdtgt"> — screen (terminal)</span>
+            </div>
+            <div class="fdrow">
+              <div class="fdnum fd2">2</div><span class="fdarr">→</span><span class="fdtgt text-red">stderr</span><span
+                class="fdtgt"> — screen (terminal)</span>
+            </div>
+            <div class="fdrow">
+              <div class="fdnum fdx">3</div><span class="fdarr">→</span><span class="fdtgt text-purple">1ο
+                open()</span><span class="fdtgt"> που κάνουμε</span>
+            </div>
+            <div class="fdrow">
+              <div class="fdnum fdx badge-yellow">4</div><span class="fdarr">→</span><span class="fdtgt">2ο open(),
+                κ.ο.κ.</span>
+            </div>
+          </div>
+        </div>
+        <div>
+          <div class="tip">
+            <div class="tip-icon">🧠</div>
+            <div>
+              <div class="tip-title">Tip — γιατί 0, 1, 2</div>
+              <div class="tip-text">Είναι τα standard streams που κάθε UNIX διεργασία αποκτά αυτόματα όταν ξεκινά.
+                Αντιστοιχούν στα <code>stdin</code>, <code>stdout</code>, <code>stderr</code> της C (αλλά εκεί είναι
+                pointers, εδώ integers).</div>
+            </div>
+          </div>
+          <div class="ibox">
+            <div class="lbl text-blue">Κληρονομιά μετά από fork()</div>Το child process παίρνει
+            <strong>αντίγραφο</strong> του FD table. Και τα δύο (parent + child) δείχνουν στα ίδια αρχεία. Γι' αυτό
+            κλείνουμε αχρείαστα ends μετά από fork().
+          </div>
+          <div class="gbox">
+            <div class="lbl text-green">Κανόνας: ελάχιστος διαθέσιμος</div>Ο kernel ανοίγει <strong>πάντα το μικρότερο
+              διαθέσιμο</strong> FD. Αν κλείσεις το 0 (stdin) και μετά ανοίξεις αρχείο, θα πάρει FD=0. Αυτό
+            εκμεταλλευόμαστε με dup2().
+          </div>
+        </div>
+      </div>
 
       <div class="section-quiz" data-topic="topic3" data-section="fd"></div>
     </section>
 
-<section id="open">
-  <div class="sh"><div class="sh-icon bg-green-dim">📂</div><h2>open() — Άνοιγμα Αρχείου</h2></div>
-  <p class="section-desc">
-    Η <code>open()</code> είναι η "πύλη" για την πρόσβαση σε αρχεία — το low-level αντίστοιχο της <code>fopen()</code>. Αντί για pointer επιστρέφει έναν <strong class="text-primary">File Descriptor</strong> (αριθμό) που χρησιμοποιούμε σε όλες τις επόμενες πράξεις.
-    Πρέπει να ορίσουμε <em>γιατί</em> ανοίγουμε το αρχείο μέσω των <strong>flags</strong>: για ανάγνωση; για γράψιμο; να δημιουργηθεί αν δεν υπάρχει; να αδειάσει αν υπάρχει;
-  </p>
-  <div class="grid2">
-    <div>
-      <div class="cb">// Signatures
-<span class="tp">int</span> <span class="fn">open</span>(<span class="kw">const</span> <span class="tp">char</span> *path, <span class="tp">int</span> flags);
-<span class="tp">int</span> <span class="fn">open</span>(<span class="kw">const</span> <span class="tp">char</span> *path, <span class="tp">int</span> flags, <span class="tp">mode_t</span> mode);
-<span class="cm">// επιστρέφει: fd ≥ 0 (επιτυχία) ή -1 (αποτυχία)</span>
-<span class="cm">// mode χρειάζεται ΜΟΝΟ με O_CREAT</span>
-<span class="cm">// παραδείγματα</span>
-fd = <span class="fn">open</span>(<span class="st">"data.txt"</span>, <span class="mc">O_RDONLY</span>);
-fd = <span class="fn">open</span>(<span class="st">"out.txt"</span>, <span class="mc">O_WRONLY</span>|<span class="mc">O_CREAT</span>|<span class="mc">O_TRUNC</span>, 0644);
-fd = <span class="fn">open</span>(<span class="st">"log.txt"</span>, <span class="mc">O_WRONLY</span>|<span class="mc">O_CREAT</span>|<span class="mc">O_APPEND</span>, 0644);
-fd = <span class="fn">open</span>(<span class="st">"fifo"</span>,   <span class="mc">O_RDONLY</span>|<span class="mc">O_NONBLOCK</span>);
-</div>
-    </div>
-    <div>
-      <div class="fgrid">
-        <div class="fitem"><div class="fname">O_RDONLY</div><div class="fdesc">Read Only — ανάγνωση μόνο</div></div>
-        <div class="fitem"><div class="fname">O_WRONLY</div><div class="fdesc">Write Only — εγγραφή μόνο</div></div>
-        <div class="fitem"><div class="fname">O_RDWR</div><div class="fdesc">Read+Write — και τα δύο</div></div>
-        <div class="fitem"><div class="fname">O_CREAT</div><div class="fdesc">CREATe — δημιουργία αν δεν υπάρχει</div></div>
-        <div class="fitem"><div class="fname">O_TRUNC</div><div class="fdesc">TRUNCate — άδειασμα αν υπάρχει</div></div>
-        <div class="fitem"><div class="fname">O_APPEND</div><div class="fdesc">APPEND — γράφει πάντα στο τέλος</div></div>
-        <div class="fitem"><div class="fname">O_EXCL</div><div class="fdesc">EXCLusive — αποτυχία αν ήδη υπάρχει</div></div>
-        <div class="fitem"><div class="fname">O_NONBLOCK</div><div class="fdesc">Non-blocking — δεν μπλοκάρει</div></div>
+    <section id="open">
+      <div class="sh">
+        <div class="sh-icon bg-green-dim">📂</div>
+        <h2>open() — Άνοιγμα Αρχείου</h2>
       </div>
-      <div class="tip"><div class="tip-icon">🧠</div><div><div class="tip-title">Tip — flags από το όνομα</div><div class="tip-text">Κάθε flag περιγράφει τον εαυτό του: <strong>O_RD</strong>ONL<strong>Y</strong> = read-only, <strong>O_CR</strong>EAT = create, <strong>O_TR</strong>UNC = truncate, <strong>O_AP</strong>PEND = append. Τα συνδυάζεις με OR: <code>O_WRONLY|O_CREAT|O_TRUNC</code> = "ανοίξε για γράψιμο, δημιούργησε αν δεν υπάρχει, άδειασε αν υπάρχει".</div></div></div>
-    </div>
-  </div>
+      <p class="section-desc">
+        Η <code>open()</code> είναι η "πύλη" για την πρόσβαση σε αρχεία — το low-level αντίστοιχο της
+        <code>fopen()</code>. Αντί για pointer επιστρέφει έναν <strong class="text-primary">File Descriptor</strong>
+        (αριθμό) που χρησιμοποιούμε σε όλες τις επόμενες πράξεις.
+        Πρέπει να ορίσουμε <em>γιατί</em> ανοίγουμε το αρχείο μέσω των <strong>flags</strong>: για ανάγνωση; για
+        γράψιμο; να δημιουργηθεί αν δεν υπάρχει; να αδειάσει αν υπάρχει;
+      </p>
+      <div class="grid2">
+        <div>
+          <div class="cb">// Signatures
+            <span class="tp">int</span> <span class="fn">open</span>(<span class="kw">const</span> <span
+              class="tp">char</span> *path, <span class="tp">int</span> flags);
+            <span class="tp">int</span> <span class="fn">open</span>(<span class="kw">const</span> <span
+              class="tp">char</span> *path, <span class="tp">int</span> flags, <span class="tp">mode_t</span> mode);
+            <span class="cm">// επιστρέφει: fd ≥ 0 (επιτυχία) ή -1 (αποτυχία)</span>
+            <span class="cm">// mode χρειάζεται ΜΟΝΟ με O_CREAT</span>
+            <span class="cm">// παραδείγματα</span>
+            fd = <span class="fn">open</span>(<span class="st">"data.txt"</span>, <span class="mc">O_RDONLY</span>);
+            fd = <span class="fn">open</span>(<span class="st">"out.txt"</span>, <span class="mc">O_WRONLY</span>|<span
+              class="mc">O_CREAT</span>|<span class="mc">O_TRUNC</span>, 0644);
+            fd = <span class="fn">open</span>(<span class="st">"log.txt"</span>, <span class="mc">O_WRONLY</span>|<span
+              class="mc">O_CREAT</span>|<span class="mc">O_APPEND</span>, 0644);
+            fd = <span class="fn">open</span>(<span class="st">"fifo"</span>, <span class="mc">O_RDONLY</span>|<span
+              class="mc">O_NONBLOCK</span>);
+          </div>
+        </div>
+        <div>
+          <div class="fgrid">
+            <div class="fitem">
+              <div class="fname">O_RDONLY</div>
+              <div class="fdesc">Read Only — ανάγνωση μόνο</div>
+            </div>
+            <div class="fitem">
+              <div class="fname">O_WRONLY</div>
+              <div class="fdesc">Write Only — εγγραφή μόνο</div>
+            </div>
+            <div class="fitem">
+              <div class="fname">O_RDWR</div>
+              <div class="fdesc">Read+Write — και τα δύο</div>
+            </div>
+            <div class="fitem">
+              <div class="fname">O_CREAT</div>
+              <div class="fdesc">CREATe — δημιουργία αν δεν υπάρχει</div>
+            </div>
+            <div class="fitem">
+              <div class="fname">O_TRUNC</div>
+              <div class="fdesc">TRUNCate — άδειασμα αν υπάρχει</div>
+            </div>
+            <div class="fitem">
+              <div class="fname">O_APPEND</div>
+              <div class="fdesc">APPEND — γράφει πάντα στο τέλος</div>
+            </div>
+            <div class="fitem">
+              <div class="fname">O_EXCL</div>
+              <div class="fdesc">EXCLusive — αποτυχία αν ήδη υπάρχει</div>
+            </div>
+            <div class="fitem">
+              <div class="fname">O_NONBLOCK</div>
+              <div class="fdesc">Non-blocking — δεν μπλοκάρει</div>
+            </div>
+          </div>
+          <div class="tip">
+            <div class="tip-icon">🧠</div>
+            <div>
+              <div class="tip-title">Tip — flags από το όνομα</div>
+              <div class="tip-text">Κάθε flag περιγράφει τον εαυτό του: <strong>O_RD</strong>ONL<strong>Y</strong> =
+                read-only, <strong>O_CR</strong>EAT = create, <strong>O_TR</strong>UNC = truncate,
+                <strong>O_AP</strong>PEND = append. Τα συνδυάζεις με OR: <code>O_WRONLY|O_CREAT|O_TRUNC</code> = "ανοίξε
+                για γράψιμο, δημιούργησε αν δεν υπάρχει, άδειασε αν υπάρχει".</div>
+            </div>
+          </div>
+        </div>
+      </div>
 
       <div class="section-quiz" data-topic="topic3" data-section="open"></div>
     </section>
 
-<section id="rw">
-  <div class="sh"><div class="sh-icon bg-green-alpha">💾</div><h2>read(), write(), lseek(), close()</h2></div>
-  <p class="section-desc">
-    Αφού ανοίξουμε ένα αρχείο, χρησιμοποιούμε αυτές τις συναρτήσεις για να μεταφέρουμε δεδομένα. Λειτουργούν με <strong class="text-primary">ωμά bytes</strong> — δεν υπάρχει "γραμμή" ή "τύπος": διαβάζεις/γράφεις N bytes. Ο δείκτης θέσης (file offset) προχωράει αυτόματα μετά από κάθε κλήση. Η <code>lseek()</code> σου επιτρέπει να τον τοποθετήσεις οπουδήποτε στο αρχείο (αρχή, τέλος, ή ενδιάμεση θέση).
-  </p>
-  <div class="grid2">
-    <div>
-      <div class="cb"><span class="cm">// read() — διαβάζω bytes</span>
-<span class="tp">ssize_t</span> <span class="fn">read</span>(<span class="tp">int</span> fd, <span class="tp">void</span> *buf, <span class="tp">size_t</span> count);
-<span class="cm">// επιστρέφει: bytes διαβάστηκαν, 0=EOF, -1=error</span>
-<span class="cm">// write() — γράφω bytes</span>
-<span class="tp">ssize_t</span> <span class="fn">write</span>(<span class="tp">int</span> fd, <span class="kw">const</span> <span class="tp">void</span> *buf, <span class="tp">size_t</span> n);
-<span class="cm">// επιστρέφει: bytes γράφτηκαν, -1=error</span>
-<span class="cm">// lseek() — μετακινώ θέση ανάγνωσης/γραφής</span>
-<span class="tp">off_t</span> <span class="fn">lseek</span>(<span class="tp">int</span> fd, <span class="tp">off_t</span> offset, <span class="tp">int</span> whence);
-<span class="cm">// SEEK_SET=από αρχή, SEEK_CUR=τώρα+offset, SEEK_END=τέλος+offset</span>
-<span class="fn">lseek</span>(fd, 0, <span class="mc">SEEK_SET</span>);   <span class="cm">// πήγαινε στην αρχή</span>
-<span class="fn">lseek</span>(fd, 0, <span class="mc">SEEK_END</span>);   <span class="cm">// μάθε μέγεθος αρχείου</span>
-<span class="cm">// close()</span>
-<span class="fn">close</span>(fd);
-</div>
-    </div>
-    <div>
-      <div class="tip"><div class="tip-icon">🧠</div><div><div class="tip-title">Tip — τιμές επιστροφής read()</div><div class="tip-text"><code>read()</code> επιστρέφει:<br>· <strong>&gt; 0</strong> = bytes που διαβάστηκαν<br>· <strong>= 0</strong> = EOF (τέλος αρχείου / pipe κλείστηκε)<br>· <strong>= -1</strong> = σφάλμα<br>Μνημονικό: "θετικό=δεδομένα, μηδέν=τέλος, αρνητικό=πρόβλημα"</div></div></div>
-      <div class="cb"><span class="cm">// παράδειγμα: αντιγραφή αρχείου</span>
-<span class="tp">char</span> buf[4096];
-<span class="tp">ssize_t</span> n;
-<span class="kw">while</span> ((n = <span class="fn">read</span>(src_fd, buf, <span class="kw">sizeof</span>(buf))) &gt; 0) {
-<span class="kw">if</span> (<span class="fn">write</span>(dst_fd, buf, n) != n) {
-<span class="fn">perror</span>(<span class="st">"write"</span>); <span class="fn">exit</span>(1);
-}
-}
-<span class="kw">if</span> (n == -1) { <span class="fn">perror</span>(<span class="st">"read"</span>); <span class="fn">exit</span>(1); }
-</div>
-      <div class="wbox"><div class="lbl text-yellow">⚠️ Partial reads/writes</div>read() μπορεί να επιστρέψει λιγότερα bytes απ' ότι ζήτησες (π.χ. network, pipe). Πάντα loop ή έλεγξε n == count.</div>
-    </div>
-  </div>
+    <section id="rw">
+      <div class="sh">
+        <div class="sh-icon bg-green-alpha">💾</div>
+        <h2>read(), write(), lseek(), close()</h2>
+      </div>
+      <p class="section-desc">
+        Αφού ανοίξουμε ένα αρχείο, χρησιμοποιούμε αυτές τις συναρτήσεις για να μεταφέρουμε δεδομένα. Λειτουργούν με
+        <strong class="text-primary">ωμά bytes</strong> — δεν υπάρχει "γραμμή" ή "τύπος": διαβάζεις/γράφεις N bytes. Ο
+        δείκτης θέσης (file offset) προχωράει αυτόματα μετά από κάθε κλήση. Η <code>lseek()</code> σου επιτρέπει να τον
+        τοποθετήσεις οπουδήποτε στο αρχείο (αρχή, τέλος, ή ενδιάμεση θέση).
+      </p>
+      <div class="grid2">
+        <div>
+          <div class="cb"><span class="cm">// read() — διαβάζω bytes</span>
+            <span class="tp">ssize_t</span> <span class="fn">read</span>(<span class="tp">int</span> fd, <span
+              class="tp">void</span> *buf, <span class="tp">size_t</span> count);
+            <span class="cm">// επιστρέφει: bytes διαβάστηκαν, 0=EOF, -1=error</span>
+            <span class="cm">// write() — γράφω bytes</span>
+            <span class="tp">ssize_t</span> <span class="fn">write</span>(<span class="tp">int</span> fd, <span
+              class="kw">const</span> <span class="tp">void</span> *buf, <span class="tp">size_t</span> n);
+            <span class="cm">// επιστρέφει: bytes γράφτηκαν, -1=error</span>
+            <span class="cm">// lseek() — μετακινώ θέση ανάγνωσης/γραφής</span>
+            <span class="tp">off_t</span> <span class="fn">lseek</span>(<span class="tp">int</span> fd, <span
+              class="tp">off_t</span> offset, <span class="tp">int</span> whence);
+            <span class="cm">// SEEK_SET=από αρχή, SEEK_CUR=τώρα+offset, SEEK_END=τέλος+offset</span>
+            <span class="fn">lseek</span>(fd, 0, <span class="mc">SEEK_SET</span>); <span class="cm">// πήγαινε στην
+              αρχή</span>
+            <span class="fn">lseek</span>(fd, 0, <span class="mc">SEEK_END</span>); <span class="cm">// μάθε μέγεθος
+              αρχείου</span>
+            <span class="cm">// close()</span>
+            <span class="fn">close</span>(fd);
+          </div>
+        </div>
+        <div>
+          <div class="tip">
+            <div class="tip-icon">🧠</div>
+            <div>
+              <div class="tip-title">Tip — τιμές επιστροφής read()</div>
+              <div class="tip-text"><code>read()</code> επιστρέφει:<br>· <strong>&gt; 0</strong> = bytes που
+                διαβάστηκαν<br>· <strong>= 0</strong> = EOF (τέλος αρχείου / pipe κλείστηκε)<br>· <strong>= -1</strong>
+                = σφάλμα<br>Μνημονικό: "θετικό=δεδομένα, μηδέν=τέλος, αρνητικό=πρόβλημα"</div>
+            </div>
+          </div>
+          <div class="cb"><span class="cm">// παράδειγμα: αντιγραφή αρχείου</span>
+            <span class="tp">char</span> buf[4096];
+            <span class="tp">ssize_t</span> n;
+            <span class="kw">while</span> ((n = <span class="fn">read</span>(src_fd, buf, <span
+              class="kw">sizeof</span>(buf))) &gt; 0) {
+            <span class="kw">if</span> (<span class="fn">write</span>(dst_fd, buf, n) != n) {
+            <span class="fn">perror</span>(<span class="st">"write"</span>); <span class="fn">exit</span>(1);
+            }
+            }
+            <span class="kw">if</span> (n == -1) { <span class="fn">perror</span>(<span class="st">"read"</span>); <span
+              class="fn">exit</span>(1); }
+          </div>
+          <div class="wbox">
+            <div class="lbl text-yellow">⚠️ Partial reads/writes</div>read() μπορεί να επιστρέψει λιγότερα bytes απ' ότι
+            ζήτησες (π.χ. network, pipe). Πάντα loop ή έλεγξε n == count.
+          </div>
+        </div>
+      </div>
 
       <div class="section-quiz" data-topic="topic3" data-section="rw"></div>
     </section>
 
-<section id="dup">
-  <div class="sh"><div class="sh-icon bg-orange-dim">🔁</div><h2>dup() και dup2() — Η Τέχνη της Ανακατεύθυνσης</h2></div>
-  <p class="section-desc">Οι συναρτήσεις <code>dup</code> επιτρέπουν την "κλωνοποίηση" ενός File Descriptor. Σκέψου τον FD table σαν έναν πίνακα από <strong>βέλη</strong> που δείχνουν σε αρχεία. Η <code>dup2</code> αλλάζει το πού δείχνει ένα συγκεκριμένο βέλος.</p>
-  
-  <div class="grid2">
-    <div>
-      <div class="cb"><span class="cm">// dup(oldfd): Κλωνοποιεί τον oldfd στον ΜΙΚΡΟΤΕΡΟ διαθέσιμο αριθμό.</span>
-<span class="tp">int</span> <span class="fn">dup</span>(<span class="tp">int</span> oldfd);
-
-<span class="cm">// dup2(oldfd, newfd): Η πιο "δυνατή" syscall.</span>
-<span class="cm">// Κάνει τον 'newfd' να δείχνει ΕΚΕΙ ΠΟΥ ΔΕΙΧΝΕΙ ο 'oldfd'.</span>
-<span class="tp">int</span> <span class="fn">dup2</span>(<span class="tp">int</span> oldfd, <span class="tp">int</span> newfd);
-</div>
-
-      <div class="ibox mt-14">
-        <div class="lbl text-blue">💡 Αποκωδικοποίηση ονομάτων</div>
-        <ul class="list-none-sm">
-          <li class="mb-8">🔹 <strong>oldfd (Πηγή):</strong> Ο FD που "βλέπει" ήδη το αρχείο/pipe που μας ενδιαφέρει.</li>
-          <li>🔹 <strong>newfd (Στόχος):</strong> Ο FD που θέλουμε να "καταλάβουμε" (π.χ. το 1 για stdout).</li>
-        </ul>
+    <section id="dup">
+      <div class="sh">
+        <div class="sh-icon bg-orange-dim">🔁</div>
+        <h2>dup() και dup2() — Η Τέχνη της Ανακατεύθυνσης</h2>
       </div>
+      <p class="section-desc">Οι συναρτήσεις <code>dup</code> επιτρέπουν την "κλωνοποίηση" ενός File Descriptor. Σκέψου
+        τον FD table σαν έναν πίνακα από <strong>βέλη</strong> που δείχνουν σε αρχεία. Η <code>dup2</code> αλλάζει το
+        πού δείχνει ένα συγκεκριμένο βέλος.</p>
 
-      <div class="cb mt-14">
-<span class="cm">// ΠΑΡΑΔΕΙΓΜΑ: Ανακατεύθυνση του stdout σε αρχείο</span>
-<span class="tp">int</span> fd = <span class="fn">open</span>(<span class="st">"out.txt"</span>, <span class="mc">O_WRONLY</span>|<span class="mc">O_CREAT</span>|<span class="mc">O_TRUNC</span>, 0644);
+      <div class="grid2">
+        <div>
+          <div class="cb"><span class="cm">// dup(oldfd): Κλωνοποιεί τον oldfd στον ΜΙΚΡΟΤΕΡΟ διαθέσιμο αριθμό.</span>
+            <span class="tp">int</span> <span class="fn">dup</span>(<span class="tp">int</span> oldfd);
 
-<span class="cm">// 1. Κάνουμε το 1 (stdout) να δείχνει στο "out.txt" (εκεί που δείχνει ο fd)</span>
-<span class="fn">dup2</span>(fd, 1); 
+            <span class="cm">// dup2(oldfd, newfd): Η πιο "δυνατή" syscall.</span>
+            <span class="cm">// Κάνει τον 'newfd' να δείχνει ΕΚΕΙ ΠΟΥ ΔΕΙΧΝΕΙ ο 'oldfd'.</span>
+            <span class="tp">int</span> <span class="fn">dup2</span>(<span class="tp">int</span> oldfd, <span
+              class="tp">int</span> newfd);
+          </div>
 
-<span class="cm">// 2. Κλείνουμε το αρχικό 'fd'. Δεν το χρειαζόμαστε πια, </span>
-<span class="cm">// αφού το '1' δείχνει πλέον στο ίδιο αρχείο.</span>
-<span class="fn">close</span>(fd); 
+          <div class="ibox mt-14">
+            <div class="lbl text-blue">💡 Αποκωδικοποίηση ονομάτων</div>
+            <ul class="list-none-sm">
+              <li class="mb-8">🔹 <strong>oldfd (Πηγή):</strong> Ο FD που "βλέπει" ήδη το αρχείο/pipe που μας
+                ενδιαφέρει.</li>
+              <li>🔹 <strong>newfd (Στόχος):</strong> Ο FD που θέλουμε να "καταλάβουμε" (π.χ. το 1 για stdout).</li>
+            </ul>
+          </div>
 
-<span class="fn">printf</span>(<span class="st">"Γεια! Αυτό θα γραφτεί στο out.txt\n"</span>);
-      </div>
-    </div>
+          <div class="cb mt-14">
+            <span class="cm">// ΠΑΡΑΔΕΙΓΜΑ: Ανακατεύθυνση του stdout σε αρχείο</span>
+            <span class="tp">int</span> fd = <span class="fn">open</span>(<span class="st">"out.txt"</span>, <span
+              class="mc">O_WRONLY</span>|<span class="mc">O_CREAT</span>|<span class="mc">O_TRUNC</span>, 0644);
 
-    <div>
-      <div class="card card-surf2">
-        <div class="card-title">Βήμα-Βήμα Ανάλυση</div>
-        <ol class="list-muted-xs">
-          <li class="mb-8"><strong>open():</strong> Ο πυρήνας μας δίνει έναν FD (π.χ. 3) που δείχνει στο αρχείο <code>out.txt</code>.</li>
-          <li class="mb-8"><strong>dup2(3, 1):</strong> Λέμε στον πυρήνα: "Πάρε το FD 1 και κάνε το να δείχνει στον ίδιο προορισμό με το FD 3". Αν το 1 ήταν ανοιχτό (που είναι), κλείνει αυτόματα.</li>
-          <li class="mb-8"><strong>close(3):</strong> Κλείνουμε το "βοηθητικό" FD 3. Το FD 1 παραμένει να δείχνει στο αρχείο.</li>
-          <li><strong>printf():</strong> Η printf γράφει πάντα στο FD 1. Επειδή το 1 δείχνει πλέον στο αρχείο, η έξοδος ανακατευθύνεται!</li>
-        </ol>
-      </div>
+            <span class="cm">// 1. Κάνουμε το 1 (stdout) να δείχνει στο "out.txt" (εκεί που δείχνει ο fd)</span>
+            <span class="fn">dup2</span>(fd, 1);
 
-      <div class="flex-col-gap12">
-        <div class="dup-before">
-          <div class="header-dim">ΠΡΙΝ ΤΗΝ DUP2</div>
-          <div class="dup-row"><div class="dup-fd fd1 badge-green">1 (stdout)</div><span class="dup-arrow">→</span><div class="dup-file">Terminal 📺</div></div>
-          <div class="dup-row"><div class="dup-fd fdx badge-purple">fd (3)</div><span class="dup-arrow">→</span><div class="dup-file">out.txt 📄</div></div>
+            <span class="cm">// 2. Κλείνουμε το αρχικό 'fd'. Δεν το χρειαζόμαστε πια, </span>
+            <span class="cm">// αφού το '1' δείχνει πλέον στο ίδιο αρχείο.</span>
+            <span class="fn">close</span>(fd);
+
+            <span class="fn">printf</span>(<span class="st">"Γεια! Αυτό θα γραφτεί στο out.txt\n"</span>);
+          </div>
         </div>
-        <div class="text-center-dim">↓ dup2(fd, 1) ↓</div>
-        <div class="dup-after">
-          <div class="header-dim">ΜΕΤΑ ΤΗΝ DUP2</div>
-          <div class="dup-row"><div class="dup-fd fd1 badge-green">1 (stdout)</div><span class="dup-arrow">→</span><div class="dup-file border-green-txt">out.txt 📄</div></div>
-          <div class="dup-row"><div class="dup-fd fdx badge-purple">fd (3)</div><span class="dup-arrow">→</span><div class="dup-file">out.txt 📄</div></div>
+
+        <div>
+          <div class="card card-surf2">
+            <div class="card-title">Βήμα-Βήμα Ανάλυση</div>
+            <ol class="list-muted-xs">
+              <li class="mb-8"><strong>open():</strong> Ο πυρήνας μας δίνει έναν FD (π.χ. 3) που δείχνει στο αρχείο
+                <code>out.txt</code>.</li>
+              <li class="mb-8"><strong>dup2(3, 1):</strong> Λέμε στον πυρήνα: "Πάρε το FD 1 και κάνε το να δείχνει στον
+                ίδιο προορισμό με το FD 3". Αν το 1 ήταν ανοιχτό (που είναι), κλείνει αυτόματα.</li>
+              <li class="mb-8"><strong>close(3):</strong> Κλείνουμε το "βοηθητικό" FD 3. Το FD 1 παραμένει να δείχνει
+                στο αρχείο.</li>
+              <li><strong>printf():</strong> Η printf γράφει πάντα στο FD 1. Επειδή το 1 δείχνει πλέον στο αρχείο, η
+                έξοδος ανακατευθύνεται!</li>
+            </ol>
+          </div>
+
+          <div class="flex-col-gap12">
+            <div class="dup-before">
+              <div class="header-dim">ΠΡΙΝ ΤΗΝ DUP2</div>
+              <div class="dup-row">
+                <div class="dup-fd fd1 badge-green">1 (stdout)</div><span class="dup-arrow">→</span>
+                <div class="dup-file">Terminal 📺</div>
+              </div>
+              <div class="dup-row">
+                <div class="dup-fd fdx badge-purple">fd (3)</div><span class="dup-arrow">→</span>
+                <div class="dup-file">out.txt 📄</div>
+              </div>
+            </div>
+            <div class="text-center-dim">↓ dup2(fd, 1) ↓</div>
+            <div class="dup-after">
+              <div class="header-dim">ΜΕΤΑ ΤΗΝ DUP2</div>
+              <div class="dup-row">
+                <div class="dup-fd fd1 badge-green">1 (stdout)</div><span class="dup-arrow">→</span>
+                <div class="dup-file border-green-txt">out.txt 📄</div>
+              </div>
+              <div class="dup-row">
+                <div class="dup-fd fdx badge-purple">fd (3)</div><span class="dup-arrow">→</span>
+                <div class="dup-file">out.txt 📄</div>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
-    </div>
-  </div>
 
-  <div class="tip mt-16"><div class="tip-icon">🧠</div><div><div class="tip-title">Tip για Pipes</div><div class="tip-text">Όταν θέλεις ένα παιδί να διαβάζει από pipe αντί για το πληκτρολόγιο: <code>dup2(p[0], 0)</code>. Το <strong>0 (stdin)</strong> γίνεται ο στόχος και το <strong>p[0] (pipe read)</strong> η πηγή.</div></div></div>
+      <div class="tip mt-16">
+        <div class="tip-icon">🧠</div>
+        <div>
+          <div class="tip-title">Tip για Pipes</div>
+          <div class="tip-text">Όταν θέλεις ένα παιδί να διαβάζει από pipe αντί για το πληκτρολόγιο:
+            <code>dup2(p[0], 0)</code>. Το <strong>0 (stdin)</strong> γίνεται ο στόχος και το <strong>p[0] (pipe
+              read)</strong> η πηγή.</div>
+        </div>
+      </div>
 
-  <div class="section-quiz" data-topic="topic3" data-section="dup"></div>
-</section>
+      <div class="section-quiz" data-topic="topic3" data-section="dup"></div>
+    </section>
 
-<section id="stat">
-  <div class="sh"><div class="sh-icon bg-yellow-dim">📊</div><h2>stat() &amp; opendir/readdir</h2></div>
-  <p class="section-desc">
-    Μερικές φορές χρειάζεσαι πληροφορίες <em>για</em> ένα αρχείο χωρίς να το ανοίξεις για ανάγνωση.
-    Η <code>stat()</code> επιστρέφει τα <strong class="text-primary">metadata</strong>: μέγεθος, δικαιώματα, τύπο (αρχείο/κατάλογος/symlink), χρόνους δημιουργίας/τροποποίησης — ό,τι βλέπεις με <code>ls -l</code>.
-    Αντίστοιχα, <code>opendir()</code> / <code>readdir()</code> σου επιτρέπουν να διατρέξεις τα περιεχόμενα ενός καταλόγου — αυτό κάνει εσωτερικά η <code>ls</code>.
-  </p>
-  <div class="grid2">
-    <div>
-      <div class="cb"><span class="cm">// stat() — πληροφορίες για αρχείο</span>
-<span class="mc">#include</span> <span class="st">&lt;sys/stat.h&gt;</span>
-<span class="kw">struct</span> <span class="tp">stat</span> sb;
-<span class="kw">if</span> (<span class="fn">stat</span>(<span class="st">"file.txt"</span>, &amp;sb) == -1) {
-<span class="fn">perror</span>(<span class="st">"stat"</span>); <span class="fn">exit</span>(1);
-}
-<span class="fn">printf</span>(<span class="st">"Size:  %ld\n"</span>, sb.st_size);
-<span class="fn">printf</span>(<span class="st">"Mode:  %o\n"</span>,  sb.st_mode);  <span class="cm">// octal</span>
-<span class="fn">printf</span>(<span class="st">"UID:   %d\n"</span>,  sb.st_uid);
-<span class="fn">printf</span>(<span class="st">"Links: %ld\n"</span>, sb.st_nlink);
-<span class="cm">// macros για τύπο αρχείου</span>
-<span class="kw">if</span> (<span class="mc">S_ISDIR</span>(sb.st_mode)) { <span class="cm">/* directory */</span> }
-<span class="kw">if</span> (<span class="mc">S_ISREG</span>(sb.st_mode)) { <span class="cm">/* regular file */</span> }
-</div>
-      <div class="tip"><div class="tip-icon">🧠</div><div><div class="tip-title">Tip — st_ prefix</div><div class="tip-text">Όλα τα πεδία της struct stat αρχίζουν με <strong>st_</strong> (abbreviation για "stat"): <strong>st_</strong>size, <strong>st_</strong>mode, <strong>st_</strong>uid, <strong>st_</strong>nlink. Εύκολο να θυμάσαι αν ξέρεις το prefix.</div></div></div>
-    </div>
-    <div>
-      <div class="cb"><span class="cm">// opendir/readdir — διαβάζω κατάλογο</span>
-<span class="mc">#include</span> <span class="st">&lt;dirent.h&gt;</span>
-<span class="tp">DIR</span> *dir;
-<span class="kw">struct</span> <span class="tp">dirent</span> *entry;
-<span class="cm">// opendir = open για directory</span>
-dir = <span class="fn">opendir</span>(<span class="st">"."</span>);
-<span class="kw">if</span> (dir == <span class="mc">NULL</span>) {
-<span class="fn">perror</span>(<span class="st">"opendir"</span>); <span class="fn">exit</span>(1);
-}
-<span class="kw">while</span> ((entry = <span class="fn">readdir</span>(dir)) != <span class="mc">NULL</span>) {
-<span class="cm">// παραλείπω . και ..</span>
-<span class="kw">if</span> (<span class="fn">strcmp</span>(entry-&gt;d_name, <span class="st">"."</span>) == 0 ||
-<span class="fn">strcmp</span>(entry-&gt;d_name, <span class="st">".."</span>) == 0) <span class="kw">continue</span>;
-<span class="fn">printf</span>(<span class="st">"%s\n"</span>, entry-&gt;d_name);
-}
-<span class="fn">closedir</span>(dir);
-</div>
-    </div>
-  </div>
+    <section id="stat">
+      <div class="sh">
+        <div class="sh-icon bg-yellow-dim">📊</div>
+        <h2>stat() &amp; opendir/readdir</h2>
+      </div>
+      <p class="section-desc">
+        Μερικές φορές χρειάζεσαι πληροφορίες <em>για</em> ένα αρχείο χωρίς να το ανοίξεις για ανάγνωση.
+        Η <code>stat()</code> επιστρέφει τα <strong class="text-primary">metadata</strong>: μέγεθος, δικαιώματα, τύπο
+        (αρχείο/κατάλογος/symlink), χρόνους δημιουργίας/τροποποίησης — ό,τι βλέπεις με <code>ls -l</code>.
+        Αντίστοιχα, <code>opendir()</code> / <code>readdir()</code> σου επιτρέπουν να διατρέξεις τα περιεχόμενα ενός
+        καταλόγου — αυτό κάνει εσωτερικά η <code>ls</code>.
+      </p>
+      <div class="grid2">
+        <div>
+          <div class="cb"><span class="cm">// stat() — πληροφορίες για αρχείο</span>
+            <span class="mc">#include</span> <span class="st">&lt;sys/stat.h&gt;</span>
+            <span class="kw">struct</span> <span class="tp">stat</span> sb;
+            <span class="kw">if</span> (<span class="fn">stat</span>(<span class="st">"file.txt"</span>, &amp;sb) == -1)
+            {
+            <span class="fn">perror</span>(<span class="st">"stat"</span>); <span class="fn">exit</span>(1);
+            }
+            <span class="fn">printf</span>(<span class="st">"Size: %ld\n"</span>, sb.st_size);
+            <span class="fn">printf</span>(<span class="st">"Mode: %o\n"</span>, sb.st_mode); <span class="cm">//
+              octal</span>
+            <span class="fn">printf</span>(<span class="st">"UID: %d\n"</span>, sb.st_uid);
+            <span class="fn">printf</span>(<span class="st">"Links: %ld\n"</span>, sb.st_nlink);
+            <span class="cm">// macros για τύπο αρχείου</span>
+            <span class="kw">if</span> (<span class="mc">S_ISDIR</span>(sb.st_mode)) { <span class="cm">/* directory
+              */</span> }
+            <span class="kw">if</span> (<span class="mc">S_ISREG</span>(sb.st_mode)) { <span class="cm">/* regular file
+              */</span> }
+          </div>
+          <div class="tip">
+            <div class="tip-icon">🧠</div>
+            <div>
+              <div class="tip-title">Tip — st_ prefix</div>
+              <div class="tip-text">Όλα τα πεδία της struct stat αρχίζουν με <strong>st_</strong> (abbreviation για
+                "stat"): <strong>st_</strong>size, <strong>st_</strong>mode, <strong>st_</strong>uid,
+                <strong>st_</strong>nlink. Εύκολο να θυμάσαι αν ξέρεις το prefix.</div>
+            </div>
+          </div>
+        </div>
+        <div>
+          <div class="cb"><span class="cm">// opendir/readdir — διαβάζω κατάλογο</span>
+            <span class="mc">#include</span> <span class="st">&lt;dirent.h&gt;</span>
+            <span class="tp">DIR</span> *dir;
+            <span class="kw">struct</span> <span class="tp">dirent</span> *entry;
+            <span class="cm">// opendir = open για directory</span>
+            dir = <span class="fn">opendir</span>(<span class="st">"."</span>);
+            <span class="kw">if</span> (dir == <span class="mc">NULL</span>) {
+            <span class="fn">perror</span>(<span class="st">"opendir"</span>); <span class="fn">exit</span>(1);
+            }
+            <span class="kw">while</span> ((entry = <span class="fn">readdir</span>(dir)) != <span
+              class="mc">NULL</span>) {
+            <span class="cm">// παραλείπω . και ..</span>
+            <span class="kw">if</span> (<span class="fn">strcmp</span>(entry-&gt;d_name, <span class="st">"."</span>) ==
+            0 ||
+            <span class="fn">strcmp</span>(entry-&gt;d_name, <span class="st">".."</span>) == 0) <span
+              class="kw">continue</span>;
+            <span class="fn">printf</span>(<span class="st">"%s\n"</span>, entry-&gt;d_name);
+            }
+            <span class="fn">closedir</span>(dir);
+          </div>
+        </div>
+      </div>
 
       <div class="section-quiz" data-topic="topic3" data-section="stat"></div>
     </section>
 
-<section id="signals">
-  <div class="sh"><div class="sh-icon bg-red-dim">📡</div><h2>Signals — Ασύγχρονα Events</h2></div>
-  <p class="section-desc">
-    Τα signals είναι <strong class="text-primary">ασύγχρονες ειδοποιήσεις</strong> — φαντάσου τα σαν "λογισμικές διακοπές" (software interrupts). 
-    Μπορούν να φτάσουν στη διεργασία οποιαδήποτε στιγμή και να διακόψουν την κανονική ροή της για να την αναγκάσουν να αντιδράσει σε ένα γεγονός (π.χ. Ctrl+C).
-  </p>
-  <p class="section-desc">Τα signals είναι <strong class="text-primary">asynchronous notifications</strong> — μπορούν να φτάσουν οποιαδήποτε στιγμή, διακόπτοντας την εκτέλεση. Σαν interrupt από software.</p>
-  <table class="stbl mb-14">
-    <tr><th>Signal</th><th>Αρ.</th><th>Default</th><th>Περιγραφή</th><th>Catchable;</th></tr>
-    <tr><td class="mono text-light-red">SIGTERM</td><td class="mono">15</td><td>terminate</td><td class="text-muted">Graceful termination request</td><td>✓ ναι</td></tr>
-    <tr><td class="mono text-red">SIGKILL</td><td class="mono">9</td><td>terminate</td><td class="text-muted">Άμεσος θάνατος — ο kernel εκτελεί</td><td>✗ ΟΧΙ</td></tr>
-    <tr><td class="mono text-cyan">SIGINT</td><td class="mono">2</td><td>terminate</td><td class="text-muted">Ctrl+C από terminal</td><td>✓ ναι</td></tr>
-    <tr><td class="mono text-yellow">SIGQUIT</td><td class="mono">3</td><td>core dump</td><td class="text-muted">Ctrl+\ — τερματισμός με core dump</td><td>✓ ναι</td></tr>
-    <tr><td class="mono text-green">SIGCHLD</td><td class="mono">17</td><td>ignore</td><td class="text-muted">Παιδί τερματίστηκε ή σταμάτησε</td><td>✓ ναι</td></tr>
-    <tr><td class="mono text-blue">SIGUSR1/2</td><td class="mono">10/12</td><td>terminate</td><td class="text-muted">User-defined (ο χρήστης ορίζει τη σημασία)</td><td>✓ ναι</td></tr>
-    <tr><td class="mono text-orange">SIGPIPE</td><td class="mono">13</td><td>terminate</td><td class="text-muted">Εγγραφή σε pipe χωρίς reader</td><td>✓ ναι</td></tr>
-    <tr><td class="mono text-purple">SIGSTOP</td><td class="mono">19</td><td>stop</td><td class="text-muted">Παύση διεργασίας (ο kernel την παγώνει)</td><td>✗ ΟΧΙ</td></tr>
-    <tr><td class="mono text-purple">SIGCONT</td><td class="mono">18</td><td>continue</td><td class="text-muted">Συνέχιση παγωμένης διεργασίας</td><td>✓ ναι</td></tr>
-    <tr><td class="mono text-yellow">SIGALRM</td><td class="mono">14</td><td>terminate</td><td class="text-muted">Timer από alarm() — χρήσιμο για timeouts</td><td>✓ ναι</td></tr>
-  </table>
-  <div class="grid2">
-    <div>
-      <div class="cb"><span class="cm">// αποστολή signal</span>
-<span class="fn">kill</span>(pid, <span class="mc">SIGTERM</span>);     <span class="cm">// σε συγκεκριμένο PID</span>
-<span class="fn">kill</span>(0, <span class="mc">SIGTERM</span>);      <span class="cm">// σε ΟΛΟΚΛΗΡΗ την process group</span>
-<span class="cm">// alarm: στέλνει SIGALRM μετά N δευτερόλεπτα</span>
-<span class="fn">alarm</span>(5);    <span class="cm">// SIGALRM σε 5 δευτ.</span>
-<span class="fn">alarm</span>(0);    <span class="cm">// ακύρωση alarm</span>
-<span class="cm">// pause: κοιμάται ώσπου να έρθει signal</span>
-<span class="fn">pause</span>();
-</div>
-    </div>
-    <div>
-      <div class="cb"><span class="cm">// signal() — απλός handler</span>
-<span class="tp">void</span> <span class="fn">my_handler</span>(<span class="tp">int</span> sig) {
-<span class="fn">write</span>(1, <span class="st">"caught!\n"</span>, 8);
-}
-<span class="fn">signal</span>(<span class="mc">SIGINT</span>, my_handler);   <span class="cm">// install handler</span>
-<span class="fn">signal</span>(<span class="mc">SIGINT</span>, <span class="mc">SIG_IGN</span>);     <span class="cm">// αγνόηση</span>
-<span class="fn">signal</span>(<span class="mc">SIGINT</span>, <span class="mc">SIG_DFL</span>);     <span class="cm">// επαναφορά default</span>
-</div>
-      <div class="tip"><div class="tip-icon">🧠</div><div><div class="tip-title">Tip — SIGKILL και SIGSTOP</div><div class="tip-text">Αυτά τα δύο <strong>δεν μπορούν</strong> να πιαστούν, να αγνοηθούν ή να μπλοκαριστούν. Εκτελούνται πάντα από τον kernel. Υπάρχουν για να μπορεί ο admin να ελέγχει κάθε διεργασία.</div></div></div>
-    </div>
-  </div>
+    <section id="signals">
+      <div class="sh">
+        <div class="sh-icon bg-red-dim">📡</div>
+        <h2>Signals — Ασύγχρονα Events</h2>
+      </div>
+      <p class="section-desc">
+        Τα signals είναι <strong class="text-primary">ασύγχρονες ειδοποιήσεις</strong> — φαντάσου τα σαν "λογισμικές
+        διακοπές" (software interrupts).
+        Μπορούν να φτάσουν στη διεργασία οποιαδήποτε στιγμή και να διακόψουν την κανονική ροή της για να την αναγκάσουν
+        να αντιδράσει σε ένα γεγονός (π.χ. Ctrl+C).
+      </p>
+      <p class="section-desc">Τα signals είναι <strong class="text-primary">asynchronous notifications</strong> —
+        μπορούν να φτάσουν οποιαδήποτε στιγμή, διακόπτοντας την εκτέλεση. Σαν interrupt από software.</p>
+      <table class="stbl mb-14">
+        <tr>
+          <th>Signal</th>
+          <th>Αρ.</th>
+          <th>Default</th>
+          <th>Περιγραφή</th>
+          <th>Catchable;</th>
+        </tr>
+        <tr>
+          <td class="mono text-light-red">SIGTERM</td>
+          <td class="mono">15</td>
+          <td>terminate</td>
+          <td class="text-muted">Graceful termination request</td>
+          <td>✓ ναι</td>
+        </tr>
+        <tr>
+          <td class="mono text-red">SIGKILL</td>
+          <td class="mono">9</td>
+          <td>terminate</td>
+          <td class="text-muted">Άμεσος θάνατος — ο kernel εκτελεί</td>
+          <td>✗ ΟΧΙ</td>
+        </tr>
+        <tr>
+          <td class="mono text-cyan">SIGINT</td>
+          <td class="mono">2</td>
+          <td>terminate</td>
+          <td class="text-muted">Ctrl+C από terminal</td>
+          <td>✓ ναι</td>
+        </tr>
+        <tr>
+          <td class="mono text-yellow">SIGQUIT</td>
+          <td class="mono">3</td>
+          <td>core dump</td>
+          <td class="text-muted">Ctrl+\ — τερματισμός με core dump</td>
+          <td>✓ ναι</td>
+        </tr>
+        <tr>
+          <td class="mono text-green">SIGCHLD</td>
+          <td class="mono">17</td>
+          <td>ignore</td>
+          <td class="text-muted">Παιδί τερματίστηκε ή σταμάτησε</td>
+          <td>✓ ναι</td>
+        </tr>
+        <tr>
+          <td class="mono text-blue">SIGUSR1/2</td>
+          <td class="mono">10/12</td>
+          <td>terminate</td>
+          <td class="text-muted">User-defined (ο χρήστης ορίζει τη σημασία)</td>
+          <td>✓ ναι</td>
+        </tr>
+        <tr>
+          <td class="mono text-orange">SIGPIPE</td>
+          <td class="mono">13</td>
+          <td>terminate</td>
+          <td class="text-muted">Εγγραφή σε pipe χωρίς reader</td>
+          <td>✓ ναι</td>
+        </tr>
+        <tr>
+          <td class="mono text-purple">SIGSTOP</td>
+          <td class="mono">19</td>
+          <td>stop</td>
+          <td class="text-muted">Παύση διεργασίας (ο kernel την παγώνει)</td>
+          <td>✗ ΟΧΙ</td>
+        </tr>
+        <tr>
+          <td class="mono text-purple">SIGCONT</td>
+          <td class="mono">18</td>
+          <td>continue</td>
+          <td class="text-muted">Συνέχιση παγωμένης διεργασίας</td>
+          <td>✓ ναι</td>
+        </tr>
+        <tr>
+          <td class="mono text-yellow">SIGALRM</td>
+          <td class="mono">14</td>
+          <td>terminate</td>
+          <td class="text-muted">Timer από alarm() — χρήσιμο για timeouts</td>
+          <td>✓ ναι</td>
+        </tr>
+      </table>
+      <div class="grid2">
+        <div>
+          <div class="cb"><span class="cm">// αποστολή signal</span>
+            <span class="fn">kill</span>(pid, <span class="mc">SIGTERM</span>); <span class="cm">// σε συγκεκριμένο
+              PID</span>
+            <span class="fn">kill</span>(0, <span class="mc">SIGTERM</span>); <span class="cm">// σε ΟΛΟΚΛΗΡΗ την
+              process group</span>
+            <span class="cm">// alarm: στέλνει SIGALRM μετά N δευτερόλεπτα</span>
+            <span class="fn">alarm</span>(5); <span class="cm">// SIGALRM σε 5 δευτ.</span>
+            <span class="fn">alarm</span>(0); <span class="cm">// ακύρωση alarm</span>
+            <span class="cm">// pause: κοιμάται ώσπου να έρθει signal</span>
+            <span class="fn">pause</span>();
+          </div>
+        </div>
+        <div>
+          <div class="cb"><span class="cm">// signal() — απλός handler</span>
+            <span class="tp">void</span> <span class="fn">my_handler</span>(<span class="tp">int</span> sig) {
+            <span class="fn">write</span>(1, <span class="st">"caught!\n"</span>, 8);
+            }
+            <span class="fn">signal</span>(<span class="mc">SIGINT</span>, my_handler); <span class="cm">// install
+              handler</span>
+            <span class="fn">signal</span>(<span class="mc">SIGINT</span>, <span class="mc">SIG_IGN</span>); <span
+              class="cm">// αγνόηση</span>
+            <span class="fn">signal</span>(<span class="mc">SIGINT</span>, <span class="mc">SIG_DFL</span>); <span
+              class="cm">// επαναφορά default</span>
+          </div>
+          <div class="tip">
+            <div class="tip-icon">🧠</div>
+            <div>
+              <div class="tip-title">Tip — SIGKILL και SIGSTOP</div>
+              <div class="tip-text">Αυτά τα δύο <strong>δεν μπορούν</strong> να πιαστούν, να αγνοηθούν ή να
+                μπλοκαριστούν. Εκτελούνται πάντα από τον kernel. Υπάρχουν για να μπορεί ο admin να ελέγχει κάθε
+                διεργασία.</div>
+            </div>
+          </div>
+        </div>
+      </div>
 
       <div class="section-quiz" data-topic="topic3" data-section="signals"></div>
     </section>
 
-<section id="sigaction">
-  <div class="sh"><div class="sh-icon bg-purple-dim">⚙️</div><h2>sigaction() &amp; sigprocmask() — Ο Έλεγχος των Σημάτων</h2></div>
-  
-  <p class="section-desc-lg">
-    Όταν ένα σήμα φτάνει στη διεργασία μας, η φυσιολογική ροή του προγράμματος <strong>διακόπτεται απότομα</strong>. 
-    Η <code>sigaction</code> και η <code>sigprocmask</code> είναι τα εργαλεία μας για να ελέγξουμε αυτή τη διακοπή.
-  </p>
+    <section id="sigaction">
+      <div class="sh">
+        <div class="sh-icon bg-purple-dim">⚙️</div>
+        <h2>sigaction() &amp; sigprocmask() — Ο Έλεγχος των Σημάτων</h2>
+      </div>
 
-  <div class="grid2">
-    <div>
-      <div class="card border-left-purple">
-        <div class="card-title text-purple">🛠️ sigaction() — Ο "Επαγγελματίας" Handler</div>
-        <p class="text-muted-sm">
-          Η <code>sigaction</code> είναι η σύγχρονη και ασφαλής μέθοδος για να ορίσουμε έναν "χειριστή" (handler) για ένα σήμα. 
-          Αντίθετα με την παλιά <code>signal()</code>, μας επιτρέπει να ορίσουμε ακριβείς κανόνες.
-        </p>
-        <div class="cb"><span class="kw">struct</span> <span class="tp">sigaction</span> sa;
-sa.sa_handler = my_handler; <span class="cm">// Η συνάρτηση που θα τρέξει</span>
-<span class="fn">sigemptyset</span>(&amp;sa.sa_mask);    <span class="cm">// Καθάρισμα της μάσκας</span>
-sa.sa_flags = <span class="mc">SA_RESTART</span>;   <span class="cm">// Μην σπας τα syscalls μου!</span>
+      <p class="section-desc-lg">
+        Όταν ένα σήμα φτάνει στη διεργασία μας, η φυσιολογική ροή του προγράμματος <strong>διακόπτεται απότομα</strong>.
+        Η <code>sigaction</code> και η <code>sigprocmask</code> είναι τα εργαλεία μας για να ελέγξουμε αυτή τη διακοπή.
+      </p>
 
-<span class="fn">sigaction</span>(<span class="mc">SIGINT</span>, &amp;sa, <span class="mc">NULL</span>); <span class="cm">// Εγκατάσταση</span>
-</div>
-        <div class="ibox mt-12">
-          <div class="lbl text-cyan">Τι είναι τα πεδία της struct;</div>
-          <ul class="list-muted-xs2">
-            <li><strong>sa_handler:</strong> Η συνάρτηση "γιατρός" που θα αναλάβει το σήμα.</li>
-            <li><strong>sa_mask:</strong> Λίστα με <em>άλλα</em> σήματα που θέλουμε να μπλοκάρουμε <strong>μόνο</strong> όσο τρέχει ο handler μας (για να μην διακοπεί ο ίδιος ο γιατρός!).</li>
-            <li><strong>sa_flags:</strong> Ρυθμίσεις όπως το <code>SA_RESTART</code> (αν το σήμα διέκοψε μια <code>read()</code>, η <code>read()</code> θα συνεχίσει αυτόματα μετά).</li>
-          </ul>
+      <div class="grid2">
+        <div>
+          <div class="card border-left-purple">
+            <div class="card-title text-purple">🛠️ sigaction() — Ο "Επαγγελματίας" Handler</div>
+            <p class="text-muted-sm">
+              Η <code>sigaction</code> είναι η σύγχρονη και ασφαλής μέθοδος για να ορίσουμε έναν "χειριστή" (handler)
+              για ένα σήμα.
+              Αντίθετα με την παλιά <code>signal()</code>, μας επιτρέπει να ορίσουμε ακριβείς κανόνες.
+            </p>
+            <div class="cb"><span class="kw">struct</span> <span class="tp">sigaction</span> sa;
+              sa.sa_handler = my_handler; <span class="cm">// Η συνάρτηση που θα τρέξει</span>
+              <span class="fn">sigemptyset</span>(&amp;sa.sa_mask); <span class="cm">// Καθάρισμα της μάσκας</span>
+              sa.sa_flags = <span class="mc">SA_RESTART</span>; <span class="cm">// Μην σπας τα syscalls μου!</span>
+
+              <span class="fn">sigaction</span>(<span class="mc">SIGINT</span>, &amp;sa, <span class="mc">NULL</span>);
+              <span class="cm">// Εγκατάσταση</span>
+            </div>
+            <div class="ibox mt-12">
+              <div class="lbl text-cyan">Τι είναι τα πεδία της struct;</div>
+              <ul class="list-muted-xs2">
+                <li><strong>sa_handler:</strong> Η συνάρτηση "γιατρός" που θα αναλάβει το σήμα.</li>
+                <li><strong>sa_mask:</strong> Λίστα με <em>άλλα</em> σήματα που θέλουμε να μπλοκάρουμε
+                  <strong>μόνο</strong> όσο τρέχει ο handler μας (για να μην διακοπεί ο ίδιος ο γιατρός!).</li>
+                <li><strong>sa_flags:</strong> Ρυθμίσεις όπως το <code>SA_RESTART</code> (αν το σήμα διέκοψε μια
+                  <code>read()</code>, η <code>read()</code> θα συνεχίσει αυτόματα μετά).</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        <div>
+          <div class="card border-left-yellow">
+            <div class="card-title text-yellow">🚫 sigprocmask() — Λειτουργία "Μην Ενοχλείτε"</div>
+            <p class="text-muted-sm">
+              Μερικές φορές έχουμε ένα κομμάτι κώδικα (Critical Section) που είναι <strong>πολύ ευαίσθητο</strong> και
+              δεν θέλουμε να διακοπεί από κανένα σήμα (π.χ. όσο ανανεώνουμε μια κοινή λίστα).
+            </p>
+            <div class="cb"><span class="tp">sigset_t</span> set, old;
+              <span class="fn">sigemptyset</span>(&amp;set);
+              <span class="fn">sigaddset</span>(&amp;set, <span class="mc">SIGINT</span>); <span class="cm">// "Πρόσθεσε
+                το SIGINT στη μαύρη λίστα"</span>
+
+              <span class="cm">// 1. ΜΠΛΟΚΑΡΙΣΜΑ: Ξεκινά η "ησυχία"</span>
+              <span class="fn">sigprocmask</span>(<span class="mc">SIG_BLOCK</span>, &amp;set, &amp;old);
+
+              <span class="cm">/* --- Κρίσιμος Κώδικας εδώ --- */</span>
+
+              <span class="cm">// 2. ΕΠΑΝΑΦΟΡΑ: Επιστροφή στην κανονικότητα</span>
+              <span class="fn">sigprocmask</span>(<span class="mc">SIG_SETMASK</span>, &amp;old, <span
+                class="mc">NULL</span>);
+            </div>
+            <div class="gbox mt-12">
+              <div class="lbl text-green">Πώς λειτουργεί;</div>
+              Ο πυρήνας κρατάει μια "μάσκα" (λίστα) για κάθε διεργασία. Αν ένα σήμα είναι στη μάσκα, ο πυρήνας το
+              κρατάει "σε αναμονή" (pending) και θα το παραδώσει <strong>μόνο όταν</strong> το βγάλουμε από τη μάσκα.
+            </div>
+          </div>
         </div>
       </div>
-    </div>
 
-    <div>
-      <div class="card border-left-yellow">
-        <div class="card-title text-yellow">🚫 sigprocmask() — Λειτουργία "Μην Ενοχλείτε"</div>
-        <p class="text-muted-sm">
-          Μερικές φορές έχουμε ένα κομμάτι κώδικα (Critical Section) που είναι <strong>πολύ ευαίσθητο</strong> και δεν θέλουμε να διακοπεί από κανένα σήμα (π.χ. όσο ανανεώνουμε μια κοινή λίστα).
+      <div class="card card-warning">
+        <div class="card-title text-red">⚠️ Ο Κανόνας της "Ασφάλειας" (Async-Signal-Safety)</div>
+        <p class="text-muted-base">
+          Επειδή ένας handler μπορεί να τρέξει <strong>οποιαδήποτε στιγμή</strong>, μπορεί να διακόψει το πρόγραμμα ενώ
+          αυτό χρησιμοποιεί μια "βαριά" συνάρτηση όπως η <code>printf()</code>.
+          Αν ο handler καλέσει και αυτός <code>printf()</code>, το πρόγραμμα μπορεί να "κολλήσει" (deadlock).
         </p>
-        <div class="cb"><span class="tp">sigset_t</span> set, old;
-<span class="fn">sigemptyset</span>(&amp;set);
-<span class="fn">sigaddset</span>(&amp;set, <span class="mc">SIGINT</span>); <span class="cm">// "Πρόσθεσε το SIGINT στη μαύρη λίστα"</span>
-
-<span class="cm">// 1. ΜΠΛΟΚΑΡΙΣΜΑ: Ξεκινά η "ησυχία"</span>
-<span class="fn">sigprocmask</span>(<span class="mc">SIG_BLOCK</span>, &amp;set, &amp;old);
-
-<span class="cm">/* --- Κρίσιμος Κώδικας εδώ --- */</span>
-
-<span class="cm">// 2. ΕΠΑΝΑΦΟΡΑ: Επιστροφή στην κανονικότητα</span>
-<span class="fn">sigprocmask</span>(<span class="mc">SIG_SETMASK</span>, &amp;old, <span class="mc">NULL</span>);
-</div>
-        <div class="gbox mt-12">
-          <div class="lbl text-green">Πώς λειτουργεί;</div>
-          Ο πυρήνας κρατάει μια "μάσκα" (λίστα) για κάθε διεργασία. Αν ένα σήμα είναι στη μάσκα, ο πυρήνας το κρατάει "σε αναμονή" (pending) και θα το παραδώσει <strong>μόνο όταν</strong> το βγάλουμε από τη μάσκα.
+        <div class="grid2 mt-10">
+          <div class="rbox p-10">❌ <strong>ΜΗΝ χρησιμοποιείς:</strong> printf(), malloc(), free(), exit()</div>
+          <div class="gbox p-10">✅ <strong>Χρησιμοποίησε:</strong> write(), _exit(), signal-safe syscalls</div>
+        </div>
+        <div class="tip mt-12">
+          <div class="tip-icon">💡</div>
+          <div class="tip-text">Καλύτερη πρακτική: Στον handler απλά άλλαξε μια μεταβλητή τύπου
+            <code>volatile sig_atomic_t done = 1;</code> και κάνε την πραγματική δουλειά στη <code>main</code> σου.
+          </div>
         </div>
       </div>
-    </div>
+
+      <div class="section-quiz" data-topic="topic3" data-section="sigaction"></div>
+    </section>
+
   </div>
-
-  <div class="card card-warning">
-    <div class="card-title text-red">⚠️ Ο Κανόνας της "Ασφάλειας" (Async-Signal-Safety)</div>
-    <p class="text-muted-base">
-      Επειδή ένας handler μπορεί να τρέξει <strong>οποιαδήποτε στιγμή</strong>, μπορεί να διακόψει το πρόγραμμα ενώ αυτό χρησιμοποιεί μια "βαριά" συνάρτηση όπως η <code>printf()</code>. 
-      Αν ο handler καλέσει και αυτός <code>printf()</code>, το πρόγραμμα μπορεί να "κολλήσει" (deadlock).
-    </p>
-    <div class="grid2 mt-10">
-      <div class="rbox p-10">❌ <strong>ΜΗΝ χρησιμοποιείς:</strong> printf(), malloc(), free(), exit()</div>
-      <div class="gbox p-10">✅ <strong>Χρησιμοποίησε:</strong> write(), _exit(), signal-safe syscalls</div>
-    </div>
-    <div class="tip mt-12">
-      <div class="tip-icon">💡</div>
-      <div class="tip-text">Καλύτερη πρακτική: Στον handler απλά άλλαξε μια μεταβλητή τύπου <code>volatile sig_atomic_t done = 1;</code> και κάνε την πραγματική δουλειά στη <code>main</code> σου.</div>
-    </div>
+  <div class="footer">K24 · Προγραμματισμός Συστήματος · ΕΚΠΑ · Topic 3: Low-level I/O, Signals &amp; Error Handling
   </div>
-
-  <div class="section-quiz" data-topic="topic3" data-section="sigaction"></div>
-</section>
-
-</div>
-<div class="footer">K24 · Προγραμματισμός Συστήματος · ΕΚΠΑ · Topic 3: Low-level I/O, Signals &amp; Error Handling</div>
 </body>
+
 </html>

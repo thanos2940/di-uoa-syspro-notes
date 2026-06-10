@@ -1,16 +1,47 @@
 <!DOCTYPE html>
 <html lang="el">
+
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Topic 6 · POSIX Threads (pthreads)</title>
-<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;700&family=Syne:wght@400;700;800&family=Lora:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="styles/base.css">
-<link rel="stylesheet" href="styles/layout.css">
-<link rel="stylesheet" href="styles/components.css">
-<style>
-:root{--bg:#0d1117;--bg-rgb:13,17,23;--surf:#161b22;--surf2:#1c2230;--border:#30363d;--blue:#58a6ff;--blue-rgb:88,166,255;--bdim:#0d1f40;--green:#3fb950;--green-rgb:63,185,80;--gdim:#0d2218;--yellow:#e3b341;--ydim:#2d2208;--red:#f85149;--rdim:#2d1010;--cyan:#39d4c8;--cdim:#0a2422;--purple:#bc8cff;--purple-rgb:188,140,255;--pdim:#1a1040;--orange:#f0883e;--orange-rgb:240,136,62;--odim:#2d1800;--txt:#e6edf3;--muted:#8b949e;--dim:#6e7681}
-.hero {
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Topic 6 · POSIX Threads (pthreads)</title>
+  <link
+    href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;700&family=Syne:wght@400;700;800&family=Lora:ital,wght@0,400;0,600;1,400&display=swap"
+    rel="stylesheet">
+  <link rel="stylesheet" href="styles/base.css">
+  <link rel="stylesheet" href="styles/layout.css">
+  <link rel="stylesheet" href="styles/components.css">
+  <style>
+    :root {
+      --bg: #0d1117;
+      --bg-rgb: 13, 17, 23;
+      --surf: #161b22;
+      --surf2: #1c2230;
+      --border: #30363d;
+      --blue: #58a6ff;
+      --blue-rgb: 88, 166, 255;
+      --bdim: #0d1f40;
+      --green: #3fb950;
+      --green-rgb: 63, 185, 80;
+      --gdim: #0d2218;
+      --yellow: #e3b341;
+      --ydim: #2d2208;
+      --red: #f85149;
+      --rdim: #2d1010;
+      --cyan: #39d4c8;
+      --cdim: #0a2422;
+      --purple: #bc8cff;
+      --purple-rgb: 188, 140, 255;
+      --pdim: #1a1040;
+      --orange: #f0883e;
+      --orange-rgb: 240, 136, 62;
+      --odim: #2d1800;
+      --txt: #e6edf3;
+      --muted: #8b949e;
+      --dim: #6e7681
+    }
+
+    .hero {
       background: var(--hero-bg);
       background-image: linear-gradient(150deg, rgb(13, 17, 23) 0%, rgb(13, 34, 24) 55%, rgb(13, 17, 23) 100%);
       background-position-x: initial;
@@ -21,20 +52,148 @@
       background-origin: initial;
       background-clip: initial;
     }
-.hero::after{content:'$ gcc -lpthread';position:absolute;right:32px;bottom:16px;font-family:'JetBrains Mono',monospace;font-size:clamp(1rem,3vw,2.2rem);color:rgba(63,185,80,.06);pointer-events:none;font-weight:700}
-.cb{background:#060a10}
-.kw{color:var(--blue);font-weight:600}.fn{color:var(--yellow);font-weight:600}.st{color:var(--orange)}.cm{color:var(--dim);font-style:italic}.nm{color:var(--purple)}.tp{color:var(--cyan)}.mc{color:var(--purple);font-weight:600}.pr{color:var(--muted)}
-.struct-box{background:#060a10;border:1px solid var(--border);border-radius:10px;padding:18px 22px;font-family:'JetBrains Mono',monospace;line-height:2}
-.sf-type{color:var(--cyan)}.sf-field{color:var(--txt)}.sf-comment{color:var(--dim);font-style:italic}
-.thread-diagram{background:#060a10;border:1px solid var(--border);border-radius:10px;padding:18px;font-family:'JetBrains Mono',monospace;text-align:center;line-height:2.4}
-.compare{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:12px 0}
-.good-side{background:var(--gdim);border:1px solid rgba(63,185,80,.2);border-radius:8px;padding:12px}
-.bad-side{background:var(--rdim);border:1px solid rgba(248,81,73,.2);border-radius:8px;padding:12px}
-.side-label{font-size:0.8125rem;font-family:'JetBrains Mono',monospace;letter-spacing:1px;font-weight:700;margin-bottom:0.5rem;text-transform:uppercase}
-.retval-row{display:flex;gap:10px;flex-wrap:wrap;margin:12px 0}
-.retval{flex:1;min-width:120px;background:var(--surf);border:1px solid var(--border);border-radius:8px;padding:12px;text-align:center}
-.retval-num{font-family:'JetBrains Mono',monospace;font-weight:700;margin-bottom:4px}
-.retval-desc{color:var(--muted)}
+
+    .hero::after {
+      content: '$ gcc -lpthread';
+      position: absolute;
+      right: 32px;
+      bottom: 16px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: clamp(1rem, 3vw, 2.2rem);
+      color: rgba(63, 185, 80, .06);
+      pointer-events: none;
+      font-weight: 700
+    }
+
+    .cb {
+      background: #060a10
+    }
+
+    .kw {
+      color: var(--blue);
+      font-weight: 600
+    }
+
+    .fn {
+      color: var(--yellow);
+      font-weight: 600
+    }
+
+    .st {
+      color: var(--orange)
+    }
+
+    .cm {
+      color: var(--dim);
+      font-style: italic
+    }
+
+    .nm {
+      color: var(--purple)
+    }
+
+    .tp {
+      color: var(--cyan)
+    }
+
+    .mc {
+      color: var(--purple);
+      font-weight: 600
+    }
+
+    .pr {
+      color: var(--muted)
+    }
+
+    .struct-box {
+      background: #060a10;
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 18px 22px;
+      font-family: 'JetBrains Mono', monospace;
+      line-height: 2
+    }
+
+    .sf-type {
+      color: var(--cyan)
+    }
+
+    .sf-field {
+      color: var(--txt)
+    }
+
+    .sf-comment {
+      color: var(--dim);
+      font-style: italic
+    }
+
+    .thread-diagram {
+      background: #060a10;
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 18px;
+      font-family: 'JetBrains Mono', monospace;
+      text-align: center;
+      line-height: 2.4
+    }
+
+    .compare {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+      margin: 12px 0
+    }
+
+    .good-side {
+      background: var(--gdim);
+      border: 1px solid rgba(63, 185, 80, .2);
+      border-radius: 8px;
+      padding: 12px
+    }
+
+    .bad-side {
+      background: var(--rdim);
+      border: 1px solid rgba(248, 81, 73, .2);
+      border-radius: 8px;
+      padding: 12px
+    }
+
+    .side-label {
+      font-size: 0.8125rem;
+      font-family: 'JetBrains Mono', monospace;
+      letter-spacing: 1px;
+      font-weight: 700;
+      margin-bottom: 0.5rem;
+      text-transform: uppercase
+    }
+
+    .retval-row {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin: 12px 0
+    }
+
+    .retval {
+      flex: 1;
+      min-width: 120px;
+      background: var(--surf);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 12px;
+      text-align: center
+    }
+
+    .retval-num {
+      font-family: 'JetBrains Mono', monospace;
+      font-weight: 700;
+      margin-bottom: 4px
+    }
+
+    .retval-desc {
+      color: var(--muted)
+    }
+
     html[data-theme="light"] .hero {
       background: var(--hero-bg);
       background-image: linear-gradient(150deg, rgb(248, 250, 252) 0%, rgb(240, 253, 244) 55%, rgb(248, 250, 252) 100%);
@@ -50,1138 +209,1444 @@
     html[data-theme="light"] .hero::after {
       color: rgba(var(--green-rgb), 0.15);
     }
-
-
-    </style>
-<script src="js/nav.js" defer></script>
-<script src="data/questions.js" defer></script><script src="js/quiz-loader.js" defer></script>
+  </style>
+  <script src="js/nav.js" defer></script>
+  <script src="data/questions.js" defer></script>
+  <script src="js/quiz-loader.js" defer></script>
 </head>
+
 <body>
-<div id="site-nav"></div>
+  <div id="site-nav"></div>
 
-<div class="hero">
-  <div class="hero-label">K24 · Topic 6</div>
-  <h1>POSIX Threads <em>(pthreads)</em></h1>
-  <p>Lightweight processes, shared address spaces, mutexes, condition variables, producer-consumer, thread safety, monitor-style programming — με πλήρη annotated κώδικα και tips για εξετάσεις.</p>
-  <div class="chips">
-    <span class="chip">pthread_create</span><span class="chip">mutex</span><span class="chip">condition variables</span>
-    <span class="chip">race conditions</span><span class="chip">producer-consumer</span><span class="chip">thread safety</span>
+  <div class="hero">
+    <div class="hero-label">K24 · Topic 6</div>
+    <h1>POSIX Threads <em>(pthreads)</em></h1>
+    <p>Lightweight processes, shared address spaces, mutexes, condition variables, producer-consumer, thread safety,
+      monitor-style programming — με πλήρη annotated κώδικα και tips για εξετάσεις.</p>
+    <div class="chips">
+      <span class="chip">pthread_create</span><span class="chip">mutex</span><span class="chip">condition
+        variables</span>
+      <span class="chip">race conditions</span><span class="chip">producer-consumer</span><span class="chip">thread
+        safety</span>
+    </div>
   </div>
-</div>
 
-<nav class="toc">
-  <a href="#intro">Intro</a><a href="#comparison">Thread vs Process</a><a href="#create">Create &amp; Exit</a>
-  <a href="#management">Management</a><a href="#errors">Errors &amp; Returns</a><a href="#races">Race Conditions</a>
-  <a href="#mutexes">Mutexes</a><a href="#condvars">Condition Variables</a><a href="#monitor">Monitor Style</a>
-  <a href="#safety">Thread Safety</a><a href="#prodcons">Producer-Consumer</a><a href="#concurrency">Concurrency Errors</a>
-  <a href="#locking">Locking Strategies</a>
-</nav>
+  <nav class="toc">
+    <a href="#intro">Intro</a><a href="#comparison">Thread vs Process</a><a href="#create">Create &amp; Exit</a>
+    <a href="#management">Management</a><a href="#errors">Errors &amp; Returns</a><a href="#races">Race Conditions</a>
+    <a href="#mutexes">Mutexes</a><a href="#condvars">Condition Variables</a><a href="#monitor">Monitor Style</a>
+    <a href="#safety">Thread Safety</a><a href="#prodcons">Producer-Consumer</a><a href="#concurrency">Concurrency
+      Errors</a>
+    <a href="#locking">Locking Strategies</a>
+  </nav>
 
-<div class="wrap">
+  <div class="wrap">
 
-<!-- ═══════════════════════ 1. INTRO ═══════════════════════ -->
-<section id="intro">
-  <div class="sh"><div class="sh-icon bg-green-dim">🧵</div><h2>1. What Are Threads?</h2></div>
-
-  <p class="section-desc">
-    Ένα <strong class="text-green">thread</strong> (νήμα) είναι μια <em>ελαφριά</em> ροή εκτέλεσης μέσα σε μια διεργασία. Ενώ μια διεργασία (process) είναι μια "βαριά" οντότητα με δικό της address space, τα threads <strong class="text-primary">μοιράζονται</strong> τον ίδιο χώρο διευθύνσεων και τα ίδια ανοιχτά αρχεία. Κάθε thread έχει μόνο τα <em>δικά του</em>: Program Counter, Stack, Registers.
-  </p>
-
-  <div class="grid2">
-    <div>
-      <div class="card">
-        <div class="card-title">Thread = Lightweight Process (LWP)</div>
-        <ul class="auto-style-bb8f98">
-          <li class="auto-style-fa3e1c">
-            <strong class="text-green">Shared:</strong> Address space (code, data, heap), open file descriptors, signal handlers, current directory, user/group IDs.
-          </li>
-          <li class="auto-style-fa3e1c">
-            <strong class="text-cyan">Private (per-thread):</strong> Thread ID, Program Counter, registers, stack, errno, signal mask, scheduling priority.
-          </li>
-          <li>
-            <strong class="text-yellow">Key Insight:</strong> Μπορούν να τρέξουν <em>παράλληλα</em> σε πολλαπλούς πυρήνες, χωρίς το overhead του fork() (δεν αντιγράφεται address space).
-          </li>
-        </ul>
+    <!-- ═══════════════════════ 1. INTRO ═══════════════════════ -->
+    <section id="intro">
+      <div class="sh">
+        <div class="sh-icon bg-green-dim">🧵</div>
+        <h2>1. What Are Threads?</h2>
       </div>
 
-      <div class="topic-section-card">
-        <div class="auto-style-72a045">Process Address Space</div>
-        <div class="auto-style-bbc017">
-          
-          <!-- Shared Segment -->
-          <div class="auto-style-b472b0">
-            <div class="auto-style-e65a5b">Shared Address Space (Κοινόχρηστο)</div>
-            <div class="auto-style-f5dc2d">
-              <div class="auto-style-43c67c">Code (Text)</div>
-              <div class="auto-style-43c67c">Global Data</div>
-              <div class="auto-style-43c67c">Heap (malloc)</div>
-              <div class="auto-style-43c67c">Open File Descriptors</div>
+      <p class="section-desc">
+        Ένα <strong class="text-green">thread</strong> (νήμα) είναι μια <em>ελαφριά</em> ροή εκτέλεσης μέσα σε μια
+        διεργασία. Ενώ μια διεργασία (process) είναι μια "βαριά" οντότητα με δικό της address space, τα threads <strong
+          class="text-primary">μοιράζονται</strong> τον ίδιο χώρο διευθύνσεων και τα ίδια ανοιχτά αρχεία. Κάθε thread
+        έχει μόνο τα <em>δικά του</em>: Program Counter, Stack, Registers.
+      </p>
+
+      <div class="grid2">
+        <div>
+          <div class="card">
+            <div class="card-title">Thread = Lightweight Process (LWP)</div>
+            <ul class="auto-style-bb8f98">
+              <li class="auto-style-fa3e1c">
+                <strong class="text-green">Shared:</strong> Address space (code, data, heap), open file descriptors,
+                signal handlers, current directory, user/group IDs.
+              </li>
+              <li class="auto-style-fa3e1c">
+                <strong class="text-cyan">Private (per-thread):</strong> Thread ID, Program Counter, registers, stack,
+                errno, signal mask, scheduling priority.
+              </li>
+              <li>
+                <strong class="text-yellow">Key Insight:</strong> Μπορούν να τρέξουν <em>παράλληλα</em> σε πολλαπλούς
+                πυρήνες, χωρίς το overhead του fork() (δεν αντιγράφεται address space).
+              </li>
+            </ul>
+          </div>
+
+          <div class="topic-section-card">
+            <div class="auto-style-72a045">Process Address Space</div>
+            <div class="auto-style-bbc017">
+
+              <!-- Shared Segment -->
+              <div class="auto-style-b472b0">
+                <div class="auto-style-e65a5b">Shared Address Space (Κοινόχρηστο)</div>
+                <div class="auto-style-f5dc2d">
+                  <div class="auto-style-43c67c">Code (Text)</div>
+                  <div class="auto-style-43c67c">Global Data</div>
+                  <div class="auto-style-43c67c">Heap (malloc)</div>
+                  <div class="auto-style-43c67c">Open File Descriptors</div>
+                </div>
+              </div>
+
+              <!-- Threads Private Segment -->
+              <div class="auto-style-45ef11">
+                <!-- Thread 1 -->
+                <div class="auto-style-6779a6">
+                  <div class="auto-style-d0b981">Thread 1</div>
+                  <div class="auto-style-72be48">
+                    <div class="auto-style-c285a8">Stack T1</div>
+                    <div class="auto-style-c285a8">PC & Regs</div>
+                  </div>
+                </div>
+                <!-- Thread 2 -->
+                <div class="auto-style-1912c9">
+                  <div class="auto-style-e7aa02">Thread 2</div>
+                  <div class="auto-style-72be48">
+                    <div class="auto-style-c285a8">Stack T2</div>
+                    <div class="auto-style-c285a8">PC & Regs</div>
+                  </div>
+                </div>
+                <!-- Thread 3 -->
+                <div class="auto-style-f216a5">
+                  <div class="auto-style-dda180">Thread 3</div>
+                  <div class="auto-style-72be48">
+                    <div class="auto-style-c285a8">Stack T3</div>
+                    <div class="auto-style-c285a8">PC & Regs</div>
+                  </div>
+                </div>
+              </div>
+
             </div>
           </div>
-          
-          <!-- Threads Private Segment -->
-          <div class="auto-style-45ef11">
-            <!-- Thread 1 -->
-            <div class="auto-style-6779a6">
-              <div class="auto-style-d0b981">Thread 1</div>
-              <div class="auto-style-72be48">
-                <div class="auto-style-c285a8">Stack T1</div>
-                <div class="auto-style-c285a8">PC & Regs</div>
-              </div>
-            </div>
-            <!-- Thread 2 -->
-            <div class="auto-style-1912c9">
-              <div class="auto-style-e7aa02">Thread 2</div>
-              <div class="auto-style-72be48">
-                <div class="auto-style-c285a8">Stack T2</div>
-                <div class="auto-style-c285a8">PC & Regs</div>
-              </div>
-            </div>
-            <!-- Thread 3 -->
-            <div class="auto-style-f216a5">
-              <div class="auto-style-dda180">Thread 3</div>
-              <div class="auto-style-72be48">
-                <div class="auto-style-c285a8">Stack T3</div>
-                <div class="auto-style-c285a8">PC & Regs</div>
+        </div>
+        <div>
+          <div class="tip">
+            <div class="tip-icon">🧠</div>
+            <div>
+              <div class="tip-title">Tip — Thread vs Process (quick mental model)</div>
+              <div class="tip-text">
+                Σκέψου μια <strong>process</strong> σαν ένα σπίτι (δικός του χώρος, δικές του πόρτες, δικό του
+                κλειδί).<br>
+                Τα <strong>threads</strong> είναι οι ένοικοι — μοιράζονται κουζίνα, σαλόνι, μπάνιο (shared memory), αλλά
+                ο καθένας έχει <em>δικό του κρεβάτι</em> (stack) και <em>δική του λίστα υποχρεώσεων</em> (PC).
               </div>
             </div>
           </div>
 
+          <div class="card">
+            <div class="card-title">POSIX Threads (pthreads)</div>
+            <p class="auto-style-9bfa52">Το πρότυπο POSIX.1c (IEEE Std 1003.1c-1995) ορίζει το pthreads API:</p>
+            <ul class="auto-style-1b41d3">
+              <li><code class="text-cyan">#include &lt;pthread.h&gt;</code> — header αρχείο</li>
+              <li>Compile: <code class="text-green">gcc prog.c -lpthread</code> ή <code
+                  class="text-green">-pthread</code></li>
+              <li>Πάνω από 60 συναρτήσεις στο API</li>
+              <li>Τύπος thread: <code class="text-cyan">pthread_t</code> (opaque type)</li>
+            </ul>
+            <div class="wbox mt-10">
+              <div class="lbl text-yellow">Compilation Warning</div>
+              Αν ξεχάσεις το <code>-lpthread</code>, ο compiler δεν θα βρει τις pthread_ συναρτήσεις. Πάντα link με
+              <code>-lpthread</code>!
+            </div>
+          </div>
+
+          <div class="card mt-10">
+            <div class="card-title">Two-Level Thread Model</div>
+            <p class="auto-style-ca4b5e">
+              Στο Linux, τα user-level threads αντιστοιχούν σε <strong class="text-primary">kernel threads</strong> μέσω
+              <strong class="text-green">Lightweight Processes (LWP)</strong>. Ο kernel scheduler βλέπει τα LWP, όχι τα
+              user threads. Αυτό σημαίνει ότι τα threads μπορούν να τρέχουν σε <em>διαφορετικούς πυρήνες</em> (true
+              parallelism).
+            </p>
+          </div>
         </div>
       </div>
-    </div>
-    <div>
+
+      <div class="section-quiz" data-topic="topic6" data-section="intro"></div>
+    </section>
+
+    <!-- ═══════════════════════ 2. THREAD vs PROCESS ═══════════════════════ -->
+    <section id="comparison">
+      <div class="sh">
+        <div class="sh-icon bg-cyan-dim">⚖️</div>
+        <h2>2. Thread vs Process Comparison</h2>
+      </div>
+
+      <p class="section-desc">
+        Γιατί να χρησιμοποιήσουμε threads αντί για fork(); Η δημιουργία thread είναι <strong class="text-green">10-100x
+          ταχύτερη</strong> από fork(), δεν γίνεται αντιγραφή address space, και η επικοινωνία γίνεται μέσω <em>shared
+          memory</em> αντί pipes. Αλλά υπάρχουν και σοβαρά μειονεκτήματα.
+      </p>
+
+      <table class="vtbl">
+        <thead>
+          <tr>
+            <th>Χαρακτηριστικό</th>
+            <th class="text-green">Threads</th>
+            <th class="text-blue">Processes (fork)</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>Address Space</strong></td>
+            <td>Κοινός — μοιράζονται τα πάντα</td>
+            <td>Ξεχωριστός (copy-on-write)</td>
+          </tr>
+          <tr>
+            <td><strong>Δημιουργία</strong></td>
+            <td>Πολύ γρήγορη (clone())</td>
+            <td>Πιο αργή (fork() αντιγράφει page tables)</td>
+          </tr>
+          <tr>
+            <td><strong>Επικοινωνία</strong></td>
+            <td>Απευθείας μέσω shared memory</td>
+            <td>Χρειάζεται IPC (pipes, signals, κλπ.)</td>
+          </tr>
+          <tr>
+            <td><strong>Context Switch</strong></td>
+            <td>Γρήγορο (ίδιο address space)</td>
+            <td>Πιο αργό (TLB flush)</td>
+          </tr>
+          <tr>
+            <td><strong>Isolation</strong></td>
+            <td>Κανένα — ένα bug ρίχνει <em>όλα</em> τα threads</td>
+            <td>Πλήρες — τα processes είναι ανεξάρτητα</td>
+          </tr>
+          <tr>
+            <td><strong>Debugging</strong></td>
+            <td>Δύσκολο (race conditions, deadlocks)</td>
+            <td>Πιο εύκολο (κάθε process ανεξάρτητο)</td>
+          </tr>
+          <tr>
+            <td><strong>Synchronization</strong></td>
+            <td>Απαιτείται (mutexes, condvars)</td>
+            <td>Δεν χρειάζεται (isolated)</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <div class="compare">
+        <div class="good-side">
+          <div class="side-label text-green">Thread Advantages</div>
+          <ul class="auto-style-1b41d3">
+            <li>Γρηγορότερη δημιουργία/τερματισμός</li>
+            <li>Εύκολη κοινή χρήση δεδομένων (shared address space)</li>
+            <li>Λιγότεροι πόροι (δεν γίνεται copy address space)</li>
+            <li>Φυσική παραλληλοποίηση σε multi-core CPUs</li>
+          </ul>
+        </div>
+        <div class="bad-side">
+          <div class="side-label text-red">Thread Dangers</div>
+          <ul class="auto-style-1b41d3">
+            <li>Κοινή μνήμη = Race conditions, data corruption</li>
+            <li>Ένα thread crash = ολόκληρη η διεργασία πεθαίνει</li>
+            <li>Δύσκολο debugging (non-deterministic bugs)</li>
+            <li>Απαιτεί synchronization primitives (mutexes, κλπ.)</li>
+          </ul>
+        </div>
+      </div>
+
       <div class="tip">
         <div class="tip-icon">🧠</div>
         <div>
-          <div class="tip-title">Tip — Thread vs Process (quick mental model)</div>
+          <div class="tip-title">Exam Tip — Πότε threads, πότε processes;</div>
           <div class="tip-text">
-            Σκέψου μια <strong>process</strong> σαν ένα σπίτι (δικός του χώρος, δικές του πόρτες, δικό του κλειδί).<br>
-            Τα <strong>threads</strong> είναι οι ένοικοι — μοιράζονται κουζίνα, σαλόνι, μπάνιο (shared memory), αλλά ο καθένας έχει <em>δικό του κρεβάτι</em> (stack) και <em>δική του λίστα υποχρεώσεων</em> (PC).
+            <strong>Threads:</strong> Όταν χρειάζεσαι γρήγορη κοινή πρόσβαση σε δεδομένα (π.χ. web server, matrix
+            multiplication).<br>
+            <strong>Processes:</strong> Όταν θέλεις <strong>isolation</strong> (π.χ. ένα service που δεν πρέπει να
+            επηρεάσει άλλα αν crashαρει).<br>
+            Κλασική ερώτηση εξέτασης: <em>"Αν ένα thread κάνει segfault, τι γίνεται;"</em> — Ολόκληρη η διεργασία
+            τερματίζεται!
           </div>
         </div>
       </div>
 
-      <div class="card">
-        <div class="card-title">POSIX Threads (pthreads)</div>
-        <p class="auto-style-9bfa52">Το πρότυπο POSIX.1c (IEEE Std 1003.1c-1995) ορίζει το pthreads API:</p>
-        <ul class="auto-style-1b41d3">
-          <li><code class="text-cyan">#include &lt;pthread.h&gt;</code> — header αρχείο</li>
-          <li>Compile: <code class="text-green">gcc prog.c -lpthread</code> ή <code class="text-green">-pthread</code></li>
-          <li>Πάνω από 60 συναρτήσεις στο API</li>
-          <li>Τύπος thread: <code class="text-cyan">pthread_t</code> (opaque type)</li>
-        </ul>
-        <div class="wbox mt-10">
-          <div class="lbl text-yellow">Compilation Warning</div>
-          Αν ξεχάσεις το <code>-lpthread</code>, ο compiler δεν θα βρει τις pthread_ συναρτήσεις. Πάντα link με <code>-lpthread</code>!
-        </div>
+      <div class="section-quiz" data-topic="topic6" data-section="comparison"></div>
+    </section>
+
+    <!-- ═══════════════════════ 3. CREATE & EXIT ═══════════════════════ -->
+    <section id="create">
+      <div class="sh">
+        <div class="sh-icon bg-green-dim">🚀</div>
+        <h2>3. Creating Threads: pthread_create &amp; pthread_exit</h2>
       </div>
 
-      <div class="card mt-10">
-        <div class="card-title">Two-Level Thread Model</div>
-        <p class="auto-style-ca4b5e">
-          Στο Linux, τα user-level threads αντιστοιχούν σε <strong class="text-primary">kernel threads</strong> μέσω <strong class="text-green">Lightweight Processes (LWP)</strong>. Ο kernel scheduler βλέπει τα LWP, όχι τα user threads. Αυτό σημαίνει ότι τα threads μπορούν να τρέχουν σε <em>διαφορετικούς πυρήνες</em> (true parallelism).
-        </p>
-      </div>
-    </div>
-  </div>
+      <p class="section-desc">
+        Η <code class="text-yellow">pthread_create()</code> δημιουργεί νέο thread. Το νέο thread αρχίζει εκτέλεση από
+        μια <em>thread function</em> (σαν τη main() για processes). Η <code class="text-yellow">pthread_exit()</code>
+        τερματίζει μόνο το τρέχον thread, χωρίς να σκοτώσει τη διεργασία.
+      </p>
 
-  <div class="section-quiz" data-topic="topic6" data-section="intro"></div>
-</section>
-
-<!-- ═══════════════════════ 2. THREAD vs PROCESS ═══════════════════════ -->
-<section id="comparison">
-  <div class="sh"><div class="sh-icon bg-cyan-dim">⚖️</div><h2>2. Thread vs Process Comparison</h2></div>
-
-  <p class="section-desc">
-    Γιατί να χρησιμοποιήσουμε threads αντί για fork(); Η δημιουργία thread είναι <strong class="text-green">10-100x ταχύτερη</strong> από fork(), δεν γίνεται αντιγραφή address space, και η επικοινωνία γίνεται μέσω <em>shared memory</em> αντί pipes. Αλλά υπάρχουν και σοβαρά μειονεκτήματα.
-  </p>
-
-  <table class="vtbl">
-    <thead>
-      <tr><th>Χαρακτηριστικό</th><th class="text-green">Threads</th><th class="text-blue">Processes (fork)</th></tr>
-    </thead>
-    <tbody>
-      <tr><td><strong>Address Space</strong></td><td>Κοινός — μοιράζονται τα πάντα</td><td>Ξεχωριστός (copy-on-write)</td></tr>
-      <tr><td><strong>Δημιουργία</strong></td><td>Πολύ γρήγορη (clone())</td><td>Πιο αργή (fork() αντιγράφει page tables)</td></tr>
-      <tr><td><strong>Επικοινωνία</strong></td><td>Απευθείας μέσω shared memory</td><td>Χρειάζεται IPC (pipes, signals, κλπ.)</td></tr>
-      <tr><td><strong>Context Switch</strong></td><td>Γρήγορο (ίδιο address space)</td><td>Πιο αργό (TLB flush)</td></tr>
-      <tr><td><strong>Isolation</strong></td><td>Κανένα — ένα bug ρίχνει <em>όλα</em> τα threads</td><td>Πλήρες — τα processes είναι ανεξάρτητα</td></tr>
-      <tr><td><strong>Debugging</strong></td><td>Δύσκολο (race conditions, deadlocks)</td><td>Πιο εύκολο (κάθε process ανεξάρτητο)</td></tr>
-      <tr><td><strong>Synchronization</strong></td><td>Απαιτείται (mutexes, condvars)</td><td>Δεν χρειάζεται (isolated)</td></tr>
-    </tbody>
-  </table>
-
-  <div class="compare">
-    <div class="good-side">
-      <div class="side-label text-green">Thread Advantages</div>
-      <ul class="auto-style-1b41d3">
-        <li>Γρηγορότερη δημιουργία/τερματισμός</li>
-        <li>Εύκολη κοινή χρήση δεδομένων (shared address space)</li>
-        <li>Λιγότεροι πόροι (δεν γίνεται copy address space)</li>
-        <li>Φυσική παραλληλοποίηση σε multi-core CPUs</li>
-      </ul>
-    </div>
-    <div class="bad-side">
-      <div class="side-label text-red">Thread Dangers</div>
-      <ul class="auto-style-1b41d3">
-        <li>Κοινή μνήμη = Race conditions, data corruption</li>
-        <li>Ένα thread crash = ολόκληρη η διεργασία πεθαίνει</li>
-        <li>Δύσκολο debugging (non-deterministic bugs)</li>
-        <li>Απαιτεί synchronization primitives (mutexes, κλπ.)</li>
-      </ul>
-    </div>
-  </div>
-
-  <div class="tip">
-    <div class="tip-icon">🧠</div>
-    <div>
-      <div class="tip-title">Exam Tip — Πότε threads, πότε processes;</div>
-      <div class="tip-text">
-        <strong>Threads:</strong> Όταν χρειάζεσαι γρήγορη κοινή πρόσβαση σε δεδομένα (π.χ. web server, matrix multiplication).<br>
-        <strong>Processes:</strong> Όταν θέλεις <strong>isolation</strong> (π.χ. ένα service που δεν πρέπει να επηρεάσει άλλα αν crashαρει).<br>
-        Κλασική ερώτηση εξέτασης: <em>"Αν ένα thread κάνει segfault, τι γίνεται;"</em> — Ολόκληρη η διεργασία τερματίζεται!
-      </div>
-    </div>
-  </div>
-
-  <div class="section-quiz" data-topic="topic6" data-section="comparison"></div>
-</section>
-
-<!-- ═══════════════════════ 3. CREATE & EXIT ═══════════════════════ -->
-<section id="create">
-  <div class="sh"><div class="sh-icon bg-green-dim">🚀</div><h2>3. Creating Threads: pthread_create &amp; pthread_exit</h2></div>
-
-  <p class="section-desc">
-    Η <code class="text-yellow">pthread_create()</code> δημιουργεί νέο thread. Το νέο thread αρχίζει εκτέλεση από μια <em>thread function</em> (σαν τη main() για processes). Η <code class="text-yellow">pthread_exit()</code> τερματίζει μόνο το τρέχον thread, χωρίς να σκοτώσει τη διεργασία.
-  </p>
-
-  <div class="grid2">
-    <div>
-      <div class="card">
-        <div class="card-title">pthread_create()</div>
-        <div class="cb auto-style-1c027c">
-<span class="kw">int</span> <span class="fn">pthread_create</span>(
-    <span class="tp">pthread_t</span> *<span class="sf-field">thread</span>,          <span class="cm">// output: thread ID</span>
-    <span class="kw">const</span> <span class="tp">pthread_attr_t</span> *<span class="sf-field">attr</span>, <span class="cm">// NULL = defaults</span>
-    <span class="kw">void</span> *(*<span class="fn">start_routine</span>)(<span class="kw">void</span> *),  <span class="cm">// thread function</span>
-    <span class="kw">void</span> *<span class="sf-field">arg</span>                   <span class="cm">// argument to function</span>
-);
-        </div>
-        <div class="retval-row">
-          <div class="retval"><div class="retval-num text-green">0</div><div class="retval-desc">Success</div></div>
-          <div class="retval"><div class="retval-num text-red">&gt; 0</div><div class="retval-desc">Error code (NOT -1 like fork!)</div></div>
-        </div>
-        <div class="ibox">
-          <div class="lbl text-blue">Thread Function Signature</div>
-          Πρέπει πάντα: <code>void *function_name(void *arg)</code>. Δέχεται ένα <code>void *</code> argument και επιστρέφει <code>void *</code>.
-        </div>
-      </div>
-
-      <div class="card mt-10">
-        <div class="card-title">pthread_exit()</div>
-        <div class="cb auto-style-ebc108">
-<span class="kw">void</span> <span class="fn">pthread_exit</span>(<span class="kw">void</span> *<span class="sf-field">retval</span>);
-<span class="cm">// Τερματίζει μόνο το ΤΡΕΧΟΝ thread</span>
-<span class="cm">// Δεν τερματίζει ολόκληρη τη διεργασία!</span>
-<span class="cm">// Η retval μπορεί να ληφθεί μέσω pthread_join()</span>
-        </div>
-        <div class="wbox mt-8">
-          <div class="lbl text-yellow">exit() vs pthread_exit()</div>
-          Η <code>exit()</code> τερματίζει <strong>ολόκληρη τη διεργασία</strong> (και όλα τα threads). Η <code>pthread_exit()</code> τερματίζει μόνο το τρέχον thread. Αν η main() τερματίσει με <code>return</code>, η διεργασία πεθαίνει — αν θέλεις τα υπόλοιπα threads να συνεχίσουν, χρησιμοποίησε <code>pthread_exit()</code> στη main!
-        </div>
-      </div>
-    </div>
-    <div>
-      <div class="card">
-        <div class="card-title">Example — multi_hello.c</div>
-        <div class="cb auto-style-f73641">
-<span class="mc">#include</span> <span class="st">&lt;stdio.h&gt;</span>
-<span class="mc">#include</span> <span class="st">&lt;stdlib.h&gt;</span>
-<span class="mc">#include</span> <span class="st">&lt;pthread.h&gt;</span>
-
-<span class="mc">#define</span> <span class="nm">NUM_THREADS</span> <span class="nm">5</span>
-
-<span class="kw">void</span> *<span class="fn">hello</span>(<span class="kw">void</span> *<span class="sf-field">argp</span>) {
-    <span class="kw">int</span> <span class="sf-field">my_id</span> = *(<span class="kw">int</span> *)argp;
-    <span class="fn">printf</span>(<span class="st">"Thread %d says Hello!\n"</span>, my_id);
-    <span class="fn">pthread_exit</span>(<span class="nm">NULL</span>);
-}
-
-<span class="kw">int</span> <span class="fn">main</span>() {
-    <span class="tp">pthread_t</span> tid[<span class="nm">NUM_THREADS</span>];
-    <span class="kw">int</span> id[<span class="nm">NUM_THREADS</span>];
-
-    <span class="kw">for</span> (<span class="kw">int</span> i = <span class="nm">0</span>; i &lt; <span class="nm">NUM_THREADS</span>; i++) {
-        id[i] = i;
-        <span class="fn">pthread_create</span>(&amp;tid[i], <span class="nm">NULL</span>, hello, &amp;id[i]);
-    }
-    <span class="kw">for</span> (<span class="kw">int</span> i = <span class="nm">0</span>; i &lt; <span class="nm">NUM_THREADS</span>; i++)
-        <span class="fn">pthread_join</span>(tid[i], <span class="nm">NULL</span>);
-    <span class="kw">return</span> <span class="nm">0</span>;
-}
-        </div>
-        <div class="ibox mt-8">
-          <div class="lbl text-blue">Non-deterministic Output!</div>
-          Η σειρά εκτύπωσης αλλάζει κάθε φορά! Π.χ.: Thread 2, Thread 0, Thread 4, Thread 1, Thread 3. Ο scheduler αποφασίζει ποιο thread τρέχει πότε.
-        </div>
-      </div>
-
-      <div class="rbox mt-10">
-        <div class="lbl text-red">Common Bug — Passing Shared Variable</div>
-        <div class="cb auto-style-a699e8">
-<span class="cm">// ❌ WRONG: all threads may see i=5!</span>
-<span class="kw">for</span> (i = <span class="nm">0</span>; i &lt; <span class="nm">5</span>; i++)
-    <span class="fn">pthread_create</span>(&amp;tid[i], <span class="nm">NULL</span>, hello, &amp;i);
-<span class="cm">// ✅ CORRECT: each thread gets its own copy</span>
-<span class="kw">for</span> (i = <span class="nm">0</span>; i &lt; <span class="nm">5</span>; i++) {
-    id[i] = i;
-    <span class="fn">pthread_create</span>(&amp;tid[i], <span class="nm">NULL</span>, hello, &amp;id[i]);
-}
-        </div>
-        Αν περάσεις <code>&amp;i</code> (τη loop variable), η τιμή μπορεί να αλλάξει πριν το thread την διαβάσει! Χρησιμοποίησε ξεχωριστό array.
-      </div>
-    </div>
-  </div>
-
-  <div class="section-quiz" data-topic="topic6" data-section="create"></div>
-</section>
-
-<!-- ═══════════════════════ 4. THREAD MANAGEMENT ═══════════════════════ -->
-<section id="management">
-  <div class="sh"><div class="sh-icon bg-blue-dim">🔧</div><h2>4. Thread Management: join, detach, self, cancel, kill</h2></div>
-
-  <p class="section-desc">
-    Αφού δημιουργήσεις ένα thread, πρέπει να το <em>διαχειριστείς</em>: να περιμένεις να τελειώσει (join), να το αφήσεις ελεύθερο (detach), ή ακόμα και να το ακυρώσεις (cancel). Αν δεν κάνεις ούτε join ούτε detach, δημιουργείται <strong class="text-red">resource leak</strong>.
-  </p>
-
-  <div class="grid2">
-    <div>
-      <div class="card">
-        <div class="card-title">pthread_join() — Wait for thread</div>
-        <div class="cb auto-style-ebc108">
-<span class="kw">int</span> <span class="fn">pthread_join</span>(<span class="tp">pthread_t</span> <span class="sf-field">thread</span>, <span class="kw">void</span> **<span class="sf-field">retval</span>);
-<span class="cm">// Blocks until thread terminates</span>
-<span class="cm">// retval receives the exit value</span>
-<span class="cm">// Σαν τη wait() για processes!</span>
-        </div>
-        <p class="auto-style-fd762a">
-          Αν δεν σε νοιάζει η τιμή επιστροφής, πέρνα <code>NULL</code> ως δεύτερο argument. Κάθε thread μπορεί να γίνει join <strong>μόνο μία φορά</strong>.
-        </p>
-      </div>
-
-      <div class="card mt-10">
-        <div class="card-title">pthread_detach() — Fire and forget</div>
-        <div class="cb auto-style-ebc108">
-<span class="kw">int</span> <span class="fn">pthread_detach</span>(<span class="tp">pthread_t</span> <span class="sf-field">thread</span>);
-<span class="cm">// Resources freed automatically on termination</span>
-<span class="cm">// Cannot join a detached thread!</span>
-        </div>
-        <p class="auto-style-fd762a">
-          Χρήσιμο για "background" threads. Δεν χρειάζεται κάποιος να τα περιμένει. Όταν τελειώσουν, καθαρίζονται αυτόματα.
-        </p>
-      </div>
-
-      <div class="card mt-10">
-        <div class="card-title">pthread_self() — Get own ID</div>
-        <div class="cb auto-style-ebc108">
-<span class="tp">pthread_t</span> <span class="fn">pthread_self</span>(<span class="kw">void</span>);
-<span class="cm">// Returns the calling thread's ID</span>
-<span class="cm">// Like getpid() for threads</span>
-        </div>
-      </div>
-    </div>
-    <div>
-      <div class="card">
-        <div class="card-title">pthread_cancel() — Request cancellation</div>
-        <div class="cb auto-style-ebc108">
-<span class="kw">int</span> <span class="fn">pthread_cancel</span>(<span class="tp">pthread_t</span> <span class="sf-field">thread</span>);
-<span class="cm">// Sends cancellation request</span>
-<span class="cm">// Thread may not die immediately!</span>
-<span class="cm">// Depends on cancellation state/type</span>
-        </div>
-        <p class="auto-style-fd762a">
-          Η ακύρωση δεν είναι instant — το thread ελέγχει σε <em>cancellation points</em> (π.χ. μέσα σε pthread_join, read, sleep). Μπορεί να απενεργοποιηθεί.
-        </p>
-      </div>
-
-      <div class="card mt-10">
-        <div class="card-title">pthread_kill() — Send signal to thread</div>
-        <div class="cb auto-style-ebc108">
-<span class="kw">int</span> <span class="fn">pthread_kill</span>(<span class="tp">pthread_t</span> <span class="sf-field">thread</span>, <span class="kw">int</span> <span class="sf-field">sig</span>);
-<span class="cm">// Like kill() but for a specific thread</span>
-<span class="cm">// sig=0 tests if thread exists</span>
-        </div>
-      </div>
-
-      <div class="tip mt-10">
-        <div class="tip-icon">🧠</div>
+      <div class="grid2">
         <div>
-          <div class="tip-title">Tip — join vs detach</div>
-          <div class="tip-text">
-            <strong>Πρέπει να κάνεις ένα από τα δύο</strong> για κάθε thread (join ή detach). Αν δεν κάνεις κανένα, τα resources δεν ελευθερώνονται = <strong class="text-red">thread leak</strong> (σαν zombie processes).<br>
-            <strong>Κανόνας:</strong> Χρειάζεσαι αποτέλεσμα → <code>join</code>. Δεν σε νοιάζει → <code>detach</code>.
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <div class="section-quiz" data-topic="topic6" data-section="management"></div>
-</section>
-
-<!-- ═══════════════════════ 5. ERRORS & RETURN VALUES ═══════════════════════ -->
-<section id="errors">
-  <div class="sh"><div class="sh-icon bg-yellow-dim">⚠️</div><h2>5. Error Handling &amp; Safe Return Values</h2></div>
-
-  <p class="section-desc">
-    Οι pthread functions δεν χρησιμοποιούν errno! Επιστρέφουν <strong class="text-primary">0 για επιτυχία</strong> και <strong class="text-red">θετικό αριθμό (error code)</strong> για σφάλμα. Χρησιμοποίησε <code class="text-yellow">strerror()</code> αντί <code>perror()</code>.
-  </p>
-
-  <div class="grid2">
-    <div>
-      <div class="card">
-        <div class="card-title">Error Handling Pattern</div>
-        <div class="cb auto-style-f73641">
-<span class="kw">int</span> err;
-err = <span class="fn">pthread_create</span>(&amp;tid, <span class="nm">NULL</span>, func, arg);
-<span class="kw">if</span> (err != <span class="nm">0</span>) {
-    <span class="fn">fprintf</span>(stderr, <span class="st">"create: %s\n"</span>, <span class="fn">strerror</span>(err));
-    <span class="fn">exit</span>(<span class="nm">1</span>);
-}
-<span class="cm">// ❌ WRONG: perror("create"); — αυτή χρησιμοποιεί errno</span>
-<span class="cm">// ❌ WRONG: if (err == -1) — δεν επιστρέφουν -1!</span>
-        </div>
-        <div class="wbox mt-8">
-          <div class="lbl text-yellow">strerror() vs perror()</div>
-          Η <code>perror()</code> ελέγχει το global <code>errno</code>. Οι pthread functions <strong>δεν θέτουν errno</strong> — επιστρέφουν τον error code απευθείας. Χρησιμοποίησε <code>strerror(err)</code> για να μετατρέψεις τον κωδικό σε string.
-        </div>
-      </div>
-    </div>
-    <div>
-      <div class="card">
-        <div class="card-title">Safe Return Values from Threads</div>
-        <p class="auto-style-9bfa52">Τι μπορεί να επιστρέψει ένα thread μέσω <code>pthread_exit()</code>;</p>
-
-        <div class="good-side mb-8">
-          <div class="side-label text-green">✅ Safe</div>
-          <ul class="auto-style-2fd4f2">
-            <li><strong>malloc'd memory:</strong> <code>int *p = malloc(sizeof(int)); *p = 42; pthread_exit(p);</code></li>
-            <li><strong>String literals:</strong> <code>pthread_exit("done");</code> — ζουν στο .rodata segment</li>
-            <li><strong>Global variables:</strong> Ζουν στο data segment (αλλά πρόσεξε concurrent access!)</li>
-          </ul>
-        </div>
-
-        <div class="bad-side">
-          <div class="side-label text-red">❌ Unsafe</div>
-          <ul class="auto-style-2fd4f2">
-            <li><strong>Automatic (local) variables:</strong> <code>int x = 42; pthread_exit(&amp;x);</code> — Το stack του thread καταστρέφεται μετά το exit! Dangling pointer!</li>
-          </ul>
-        </div>
-      </div>
-      <div class="tip mt-10">
-        <div class="tip-icon">🧠</div>
-        <div>
-          <div class="tip-title">Exam Tip — Thread Return Memory Safety</div>
-          <div class="tip-text">
-            Μην επιστρέφεις <strong>ποτέ</strong> δείκτη σε τοπική (automatic) μεταβλητή από ένα thread. Όταν το thread τερματίζει, το stack frame του καταστρέφεται και η μνήμη αποδεσμεύεται. Ο δείκτης γίνεται <strong>dangling pointer</strong>, και οποιαδήποτε προσπάθεια πρόσβασης σε αυτόν από το thread-caller (μέσω <code>pthread_join</code>) θα οδηγήσει σε garbage values ή Segmentation Fault.<br>
-            <strong>Ασφαλείς τρόποι επιστροφής:</strong>
-            <ul class="auto-style-d87f7c">
-              <li>Δέσμευση στο heap μέσω <code>malloc()</code> (ο caller αναλαμβάνει το <code>free()</code>).</li>
-              <li>Χρήση static ή global μεταβλητών (με προσοχή στο synchronization).</li>
-              <li>Casting της ίδιας της τιμής σε <code>void*</code> (αν χωράει, π.χ. <code>pthread_exit((void*)(intptr_t)x)</code>) χωρίς pointer reference.</li>
-            </ul>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <div class="section-quiz" data-topic="topic6" data-section="errors"></div>
-</section>
-
-<!-- ═══════════════════════ 6. RACE CONDITIONS ═══════════════════════ -->
-<section id="races">
-  <div class="sh"><div class="sh-icon bg-red-dim">🏎️</div><h2>6. Race Conditions</h2></div>
-
-  <p class="section-desc">
-    Ένα <strong class="text-red">race condition</strong> συμβαίνει όταν δύο ή περισσότερα threads προσπελαύνουν τα ίδια δεδομένα ταυτόχρονα και τουλάχιστον ένα <em>γράφει</em>. Το αποτέλεσμα εξαρτάται από τη σειρά εκτέλεσης (scheduling) — η οποία δεν είναι ντετερμινιστική.
-  </p>
-
-  <div class="grid2">
-    <div>
-      <div class="card">
-        <div class="card-title">Example — wordcount1.c (Buggy!)</div>
-        <div class="cb auto-style-f73641">
-<span class="kw">int</span> <span class="sf-field">total_words</span> = <span class="nm">0</span>;  <span class="cm">// GLOBAL — shared by all threads!</span>
-
-<span class="kw">void</span> *<span class="fn">count_words</span>(<span class="kw">void</span> *<span class="sf-field">arg</span>) {
-    <span class="kw">char</span> *<span class="sf-field">filename</span> = (<span class="kw">char</span> *)arg;
-    <span class="kw">int</span> <span class="sf-field">count</span> = <span class="nm">0</span>;
-    <span class="cm">// ... count words in file ...</span>
-    <span class="sf-field">total_words</span> += count;  <span class="cm">// ⚠️ RACE CONDITION!</span>
-    <span class="fn">pthread_exit</span>(<span class="nm">NULL</span>);
-}
-        </div>
-        <div class="rbox mt-8">
-          <div class="lbl text-red">The Problem</div>
-          Η εντολή <code>total_words += count</code> δεν είναι <strong>atomic</strong>! Αποτελείται από 3 βήματα:<br>
-          1. LOAD total_words → register<br>
-          2. ADD count → register<br>
-          3. STORE register → total_words<br>
-          Αν δύο threads κάνουν αυτά τα βήματα ταυτόχρονα, μια πρόσθεση μπορεί να <em>χαθεί</em>!
-        </div>
-      </div>
-    </div>
-    <div>
-      <div class="card">
-        <div class="card-title">Race Condition Visualization</div>
-        <div class="thread-diagram auto-style-a3b7a3">
-<span class="text-dim">total_words = 100 αρχικά</span><br>
-<span class="text-green">Thread A:</span> LOAD 100 → regA<br>
-<span class="text-yellow">Thread B:</span> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; LOAD 100 → regB<br>
-<span class="text-green">Thread A:</span> ADD 5 → 105<br>
-<span class="text-yellow">Thread B:</span> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ADD 3 → 103<br>
-<span class="text-green">Thread A:</span> STORE 105 → total_words<br>
-<span class="text-yellow">Thread B:</span> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; STORE 103 → total_words<br>
-<span class="auto-style-b7c7b3">Result: 103 (should be 108!)</span> <span class="cm">← Thread A's work LOST!</span>
-        </div>
-      </div>
-
-      <div class="tip mt-10">
-        <div class="tip-icon">🧠</div>
-        <div>
-          <div class="tip-title">Tip — "Correct" δεν σημαίνει σωστό</div>
-          <div class="tip-text">
-            Ένα πρόγραμμα με race condition μπορεί να φαίνεται ότι δουλεύει σωστά 99% του χρόνου. Αυτό κάνει τα race conditions <strong>εξαιρετικά δύσκολο</strong> να βρεθούν. Μπορεί να εμφανιστούν μόνο κάτω από φόρτωση, ή σε συγκεκριμένα hardware. <em>Αν κοινά δεδομένα γράφονται από πάνω από ένα thread, χρειάζεσαι synchronization</em>.
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <div class="section-quiz" data-topic="topic6" data-section="races"></div>
-</section>
-
-<!-- ═══════════════════════ 7. MUTEXES ═══════════════════════ -->
-<section id="mutexes">
-  <div class="sh"><div class="sh-icon bg-purple-dim">🔒</div><h2>7. POSIX Mutexes (Mutual Exclusion)</h2></div>
-
-  <p class="section-desc">
-    Ένας <strong class="text-purple">mutex</strong> (MUTual EXclusion) είναι ένα <em>κλείδωμα</em>. Μόνο ένα thread τη φορά μπορεί να κρατάει ένα mutex. Αν ένα δεύτερο thread προσπαθήσει να κλειδώσει, θα <strong class="text-primary">μπλοκάρει</strong> μέχρι ο πρώτος να ξεκλειδώσει. Αυτός είναι ο βασικός τρόπος προστασίας <em>critical sections</em>.
-  </p>
-
-  <div class="grid2">
-    <div>
-      <div class="card">
-        <div class="card-title">Mutex API</div>
-        <div class="cb auto-style-aab09c">
-<span class="cm">// Initialization (two ways)</span>
-<span class="tp">pthread_mutex_t</span> mtx = <span class="mc">PTHREAD_MUTEX_INITIALIZER</span>; <span class="cm">// static</span>
-<span class="fn">pthread_mutex_init</span>(&amp;mtx, <span class="nm">NULL</span>);                   <span class="cm">// dynamic</span>
-
-<span class="cm">// Lock / Unlock</span>
-<span class="fn">pthread_mutex_lock</span>(&amp;mtx);    <span class="cm">// blocks if locked</span>
-<span class="fn">pthread_mutex_trylock</span>(&amp;mtx); <span class="cm">// returns EBUSY if locked</span>
-<span class="fn">pthread_mutex_unlock</span>(&amp;mtx);  <span class="cm">// release</span>
-
-<span class="cm">// Destruction</span>
-<span class="fn">pthread_mutex_destroy</span>(&amp;mtx); <span class="cm">// free resources</span>
-        </div>
-
-        <div class="ibox mt-10">
-          <div class="lbl text-blue">Static vs Dynamic Init</div>
-          <code>PTHREAD_MUTEX_INITIALIZER</code> για global/static mutexes. <code>pthread_mutex_init()</code> αν ο mutex είναι δυναμικός ή χρειάζεσαι non-default attributes.
-        </div>
-      </div>
-
-      <div class="card mt-10">
-        <div class="card-title">Critical Section Pattern</div>
-        <div class="cb auto-style-bbf441">
-<span class="fn">pthread_mutex_lock</span>(&amp;mtx);
-<span class="cm">/* ── Critical Section ── */</span>
-<span class="cm">/* Μόνο ΕΝΑ thread μπορεί </span>
-<span class="cm">   να είναι εδώ τη φορά!   */</span>
-total_words += count;
-<span class="cm">/* ── End Critical Section ── */</span>
-<span class="fn">pthread_mutex_unlock</span>(&amp;mtx);
-        </div>
-      </div>
-    </div>
-    <div>
-      <div class="card">
-        <div class="card-title">wordcount2.c — Fixed with Mutex</div>
-        <div class="cb auto-style-f73641">
-<span class="kw">int</span> <span class="sf-field">total_words</span> = <span class="nm">0</span>;
-<span class="tp">pthread_mutex_t</span> <span class="sf-field">count_mutex</span> = <span class="mc">PTHREAD_MUTEX_INITIALIZER</span>;
-
-<span class="kw">void</span> *<span class="fn">count_words</span>(<span class="kw">void</span> *<span class="sf-field">arg</span>) {
-    <span class="kw">char</span> *<span class="sf-field">filename</span> = (<span class="kw">char</span> *)arg;
-    <span class="kw">int</span> <span class="sf-field">count</span> = <span class="nm">0</span>;
-    <span class="cm">// ... count words in file ...</span>
-
-    <span class="fn">pthread_mutex_lock</span>(&amp;count_mutex);   <span class="cm">// 🔒</span>
-    total_words += count;                <span class="cm">// safe!</span>
-    <span class="fn">pthread_mutex_unlock</span>(&amp;count_mutex); <span class="cm">// 🔓</span>
-
-    <span class="fn">pthread_exit</span>(<span class="nm">NULL</span>);
-}
-        </div>
-        <div class="gbox mt-8">
-          <div class="lbl text-green">Fixed!</div>
-          Τώρα μόνο ένα thread τη φορά μπορεί να τροποποιήσει το <code>total_words</code>. Το αποτέλεσμα είναι πάντα σωστό.
-        </div>
-      </div>
-
-      <div class="wbox mt-10">
-        <div class="lbl text-yellow">Mutex Rules</div>
-        <ul class="auto-style-1b41d3">
-          <li>Μόνο ο <strong>κάτοχος</strong> μπορεί να κάνει unlock</li>
-          <li>Κάνε lock <strong>μόνο</strong> στο μικρότερο δυνατό section κώδικα</li>
-          <li>Πάντα <strong>ξεκλείδωνε</strong> τον mutex — αν ξεχάσεις = <strong class="text-red">deadlock</strong></li>
-          <li>trylock() επιστρέφει <code>EBUSY</code> αν κλειδωμένο — δεν μπλοκάρει</li>
-        </ul>
-      </div>
-    </div>
-  </div>
-
-  <div class="section-quiz" data-topic="topic6" data-section="mutexes"></div>
-</section>
-
-<!-- ═══════════════════════ 8. CONDITION VARIABLES ═══════════════════════ -->
-<section id="condvars">
-  <div class="sh"><div class="sh-icon bg-orange-dim">🔔</div><h2>8. Condition Variables</h2></div>
-
-  <p class="section-desc">
-    Τα <strong class="text-orange">condition variables</strong> επιτρέπουν σε ένα thread να <em>περιμένει</em> μέχρι κάποια συνθήκη γίνει αληθής, χωρίς busy waiting. Δουλεύουν πάντα <strong>σε συνδυασμό</strong> με ένα mutex. Σκέψου τα ως "alarm" — αντί να ελέγχεις κάθε λίγο, κοιμάσαι και σε ξυπνάνε.
-  </p>
-
-  <div class="grid2">
-    <div>
-      <div class="card">
-        <div class="card-title">Condition Variable API</div>
-        <div class="cb auto-style-aab09c">
-<span class="cm">// Initialization</span>
-<span class="tp">pthread_cond_t</span> cv = <span class="mc">PTHREAD_COND_INITIALIZER</span>; <span class="cm">// static</span>
-<span class="fn">pthread_cond_init</span>(&amp;cv, <span class="nm">NULL</span>);                  <span class="cm">// dynamic</span>
-
-<span class="cm">// Wait — releases mutex, sleeps, re-acquires mutex on wakeup</span>
-<span class="fn">pthread_cond_wait</span>(&amp;cv, &amp;mtx);
-
-<span class="cm">// Signal — wake ONE waiting thread</span>
-<span class="fn">pthread_cond_signal</span>(&amp;cv);
-
-<span class="cm">// Broadcast — wake ALL waiting threads</span>
-<span class="fn">pthread_cond_broadcast</span>(&amp;cv);
-
-<span class="cm">// Destruction</span>
-<span class="fn">pthread_cond_destroy</span>(&amp;cv);
-        </div>
-      </div>
-
-      <div class="card mt-10">
-        <div class="card-title">How pthread_cond_wait() Works</div>
-        <div class="thread-diagram auto-style-9d4976">
-<span class="auto-style-2de001">pthread_cond_wait(&amp;cv, &amp;mtx):</span><br>
-<span class="auto-style-c0a681">1.</span> <span class="text-red">Unlock</span> mutex (ατομικά)<br>
-<span class="auto-style-c0a681">2.</span> <span class="text-muted">Sleep</span> — thread μπαίνει σε αναμονή<br>
-<span class="auto-style-c0a681">3.</span> <span class="text-green">Wake up</span> (σήμα ελήφθη)<br>
-<span class="auto-style-c0a681">4.</span> <span class="text-blue">Re-lock</span> mutex (μπλοκάρει αν χρειαστεί)<br>
-<span class="auto-style-c0a681">5.</span> <span class="text-primary">Return</span> — ο caller ξανακρατάει τον mutex
-        </div>
-        <div class="ibox mt-8">
-          <div class="lbl text-blue">Atomic unlock+sleep</div>
-          Τα βήματα 1+2 γίνονται ατομικά — κανένα thread δεν μπορεί να στείλει signal μεταξύ τους. Αυτό αποτρέπει lost wakeups.
-        </div>
-      </div>
-    </div>
-    <div>
-      <div class="card">
-        <div class="card-title">Example — mutex_condvar.c</div>
-        <div class="cb auto-style-98b404">
-<span class="tp">pthread_mutex_t</span> mtx = <span class="mc">PTHREAD_MUTEX_INITIALIZER</span>;
-<span class="tp">pthread_cond_t</span>  cv  = <span class="mc">PTHREAD_COND_INITIALIZER</span>;
-<span class="kw">int</span> <span class="sf-field">ready</span> = <span class="nm">0</span>;
-
-<span class="kw">void</span> *<span class="fn">waiter</span>(<span class="kw">void</span> *arg) {
-    <span class="fn">pthread_mutex_lock</span>(&amp;mtx);
-    <span class="kw">while</span> (!ready)  <span class="cm">// ← WHILE, not IF!</span>
-        <span class="fn">pthread_cond_wait</span>(&amp;cv, &amp;mtx);
-    <span class="fn">printf</span>(<span class="st">"Ready! Proceeding...\n"</span>);
-    <span class="fn">pthread_mutex_unlock</span>(&amp;mtx);
-    <span class="kw">return</span> <span class="nm">NULL</span>;
-}
-
-<span class="kw">void</span> *<span class="fn">signaler</span>(<span class="kw">void</span> *arg) {
-    <span class="fn">sleep</span>(<span class="nm">2</span>);
-    <span class="fn">pthread_mutex_lock</span>(&amp;mtx);
-    ready = <span class="nm">1</span>;
-    <span class="fn">printf</span>(<span class="st">"Signaling...\n"</span>);
-    <span class="fn">pthread_cond_signal</span>(&amp;cv);
-    <span class="fn">pthread_mutex_unlock</span>(&amp;mtx);
-    <span class="kw">return</span> <span class="nm">NULL</span>;
-}
-        </div>
-      </div>
-
-      <div class="card mt-10">
-        <div class="card-title">counter.c — Threshold Signaling</div>
-        <p class="auto-style-2fd4f2">
-          3 threads αυξάνουν ένα counter. Ένα 4ο thread κοιμάται μέχρι ο counter φτάσει ένα threshold:
-        </p>
-        <div class="cb auto-style-23dace">
-<span class="cm">// Incrementer thread</span>
-<span class="fn">pthread_mutex_lock</span>(&amp;count_mutex);
-count++;
-<span class="kw">if</span> (count == <span class="nm">COUNT_LIMIT</span>)
-    <span class="fn">pthread_cond_signal</span>(&amp;count_threshold_cv);
-<span class="fn">pthread_mutex_unlock</span>(&amp;count_mutex);
-
-<span class="cm">// Watcher thread</span>
-<span class="fn">pthread_mutex_lock</span>(&amp;count_mutex);
-<span class="kw">while</span> (count &lt; <span class="nm">COUNT_LIMIT</span>)
-    <span class="fn">pthread_cond_wait</span>(&amp;count_threshold_cv, &amp;count_mutex);
-<span class="fn">printf</span>(<span class="st">"Threshold reached! count=%d\n"</span>, count);
-<span class="fn">pthread_mutex_unlock</span>(&amp;count_mutex);
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <div class="section-quiz" data-topic="topic6" data-section="condvars"></div>
-</section>
-
-<!-- ═══════════════════════ 9. MONITOR-STYLE ═══════════════════════ -->
-<section id="monitor">
-  <div class="sh"><div class="sh-icon bg-cyan-dim">📐</div><h2>9. Monitor-Style Programming &amp; Spurious Wakeups</h2></div>
-
-  <p class="section-desc">
-    Ο <strong class="text-cyan">monitor-style</strong> programming είναι η σωστή μεθοδολογία: mutexes + condition variables, με <strong>while loops</strong> γύρω από τα wait calls. Αυτό ονομάζεται "defensive programming" γιατί προστατεύει από <em>spurious wakeups</em> και concurrent races.
-  </p>
-
-  <div class="grid2">
-    <div>
-      <div class="card">
-        <div class="card-title">Spurious Wakeups — Γιατί while αντί if;</div>
-        <div class="compare">
-          <div class="bad-side">
-            <div class="side-label text-red">❌ if (wrong)</div>
-            <div class="cb auto-style-7bf338">
-<span class="kw">if</span> (!ready)  <span class="cm">// check once</span>
-    <span class="fn">pthread_cond_wait</span>(&amp;cv, &amp;m);
-<span class="cm">// may proceed when not ready!</span>
+          <div class="card">
+            <div class="card-title">pthread_create()</div>
+            <div class="cb auto-style-1c027c">
+              <span class="kw">int</span> <span class="fn">pthread_create</span>(
+              <span class="tp">pthread_t</span> *<span class="sf-field">thread</span>, <span class="cm">// output:
+                thread ID</span>
+              <span class="kw">const</span> <span class="tp">pthread_attr_t</span> *<span class="sf-field">attr</span>,
+              <span class="cm">// NULL = defaults</span>
+              <span class="kw">void</span> *(*<span class="fn">start_routine</span>)(<span class="kw">void</span> *),
+              <span class="cm">// thread function</span>
+              <span class="kw">void</span> *<span class="sf-field">arg</span> <span class="cm">// argument to
+                function</span>
+              );
+            </div>
+            <div class="retval-row">
+              <div class="retval">
+                <div class="retval-num text-green">0</div>
+                <div class="retval-desc">Success</div>
+              </div>
+              <div class="retval">
+                <div class="retval-num text-red">&gt; 0</div>
+                <div class="retval-desc">Error code (NOT -1 like fork!)</div>
+              </div>
+            </div>
+            <div class="ibox">
+              <div class="lbl text-blue">Thread Function Signature</div>
+              Πρέπει πάντα: <code>void *function_name(void *arg)</code>. Δέχεται ένα <code>void *</code> argument και
+              επιστρέφει <code>void *</code>.
             </div>
           </div>
-          <div class="good-side">
-            <div class="side-label text-green">✅ while (correct)</div>
-            <div class="cb auto-style-7bf338">
-<span class="kw">while</span> (!ready)  <span class="cm">// re-check</span>
-    <span class="fn">pthread_cond_wait</span>(&amp;cv, &amp;m);
-<span class="cm">// guaranteed ready == true!</span>
+
+          <div class="card mt-10">
+            <div class="card-title">pthread_exit()</div>
+            <div class="cb auto-style-ebc108">
+              <span class="kw">void</span> <span class="fn">pthread_exit</span>(<span class="kw">void</span> *<span
+                class="sf-field">retval</span>);
+              <span class="cm">// Τερματίζει μόνο το ΤΡΕΧΟΝ thread</span>
+              <span class="cm">// Δεν τερματίζει ολόκληρη τη διεργασία!</span>
+              <span class="cm">// Η retval μπορεί να ληφθεί μέσω pthread_join()</span>
+            </div>
+            <div class="wbox mt-8">
+              <div class="lbl text-yellow">exit() vs pthread_exit()</div>
+              Η <code>exit()</code> τερματίζει <strong>ολόκληρη τη διεργασία</strong> (και όλα τα threads). Η
+              <code>pthread_exit()</code> τερματίζει μόνο το τρέχον thread. Αν η main() τερματίσει με
+              <code>return</code>, η διεργασία πεθαίνει — αν θέλεις τα υπόλοιπα threads να συνεχίσουν, χρησιμοποίησε
+              <code>pthread_exit()</code> στη main!
             </div>
           </div>
         </div>
-        <p class="auto-style-1a0979">
-          <strong class="text-primary">Γιατί;</strong> Ένα thread μπορεί να ξυπνήσει χωρίς λόγο (<em>spurious wakeup</em>) — είτε από τον scheduler, είτε γιατί κάποιο άλλο thread "έφαγε" τη συνθήκη μεταξύ signal και re-lock. Με <code>while</code>, ξαναελέγχεις τη συνθήκη μετά το wakeup.
-        </p>
+        <div>
+          <div class="card">
+            <div class="card-title">Example — multi_hello.c</div>
+            <div class="cb auto-style-f73641">
+              <span class="mc">#include</span> <span class="st">&lt;stdio.h&gt;</span>
+              <span class="mc">#include</span> <span class="st">&lt;stdlib.h&gt;</span>
+              <span class="mc">#include</span> <span class="st">&lt;pthread.h&gt;</span>
+
+              <span class="mc">#define</span> <span class="nm">NUM_THREADS</span> <span class="nm">5</span>
+
+              <span class="kw">void</span> *<span class="fn">hello</span>(<span class="kw">void</span> *<span
+                class="sf-field">argp</span>) {
+              <span class="kw">int</span> <span class="sf-field">my_id</span> = *(<span class="kw">int</span> *)argp;
+              <span class="fn">printf</span>(<span class="st">"Thread %d says Hello!\n"</span>, my_id);
+              <span class="fn">pthread_exit</span>(<span class="nm">NULL</span>);
+              }
+
+              <span class="kw">int</span> <span class="fn">main</span>() {
+              <span class="tp">pthread_t</span> tid[<span class="nm">NUM_THREADS</span>];
+              <span class="kw">int</span> id[<span class="nm">NUM_THREADS</span>];
+
+              <span class="kw">for</span> (<span class="kw">int</span> i = <span class="nm">0</span>; i &lt; <span
+                class="nm">NUM_THREADS</span>; i++) {
+              id[i] = i;
+              <span class="fn">pthread_create</span>(&amp;tid[i], <span class="nm">NULL</span>, hello, &amp;id[i]);
+              }
+              <span class="kw">for</span> (<span class="kw">int</span> i = <span class="nm">0</span>; i &lt; <span
+                class="nm">NUM_THREADS</span>; i++)
+              <span class="fn">pthread_join</span>(tid[i], <span class="nm">NULL</span>);
+              <span class="kw">return</span> <span class="nm">0</span>;
+              }
+            </div>
+            <div class="ibox mt-8">
+              <div class="lbl text-blue">Non-deterministic Output!</div>
+              Η σειρά εκτύπωσης αλλάζει κάθε φορά! Π.χ.: Thread 2, Thread 0, Thread 4, Thread 1, Thread 3. Ο scheduler
+              αποφασίζει ποιο thread τρέχει πότε.
+            </div>
+          </div>
+
+          <div class="rbox mt-10">
+            <div class="lbl text-red">Common Bug — Passing Shared Variable</div>
+            <div class="cb auto-style-a699e8">
+              <span class="cm">// ❌ WRONG: all threads may see i=5!</span>
+              <span class="kw">for</span> (i = <span class="nm">0</span>; i &lt; <span class="nm">5</span>; i++)
+              <span class="fn">pthread_create</span>(&amp;tid[i], <span class="nm">NULL</span>, hello, &amp;i);
+              <span class="cm">// ✅ CORRECT: each thread gets its own copy</span>
+              <span class="kw">for</span> (i = <span class="nm">0</span>; i &lt; <span class="nm">5</span>; i++) {
+              id[i] = i;
+              <span class="fn">pthread_create</span>(&amp;tid[i], <span class="nm">NULL</span>, hello, &amp;id[i]);
+              }
+            </div>
+            Αν περάσεις <code>&amp;i</code> (τη loop variable), η τιμή μπορεί να αλλάξει πριν το thread την διαβάσει!
+            Χρησιμοποίησε ξεχωριστό array.
+          </div>
+        </div>
       </div>
 
-      <div class="tip mt-10">
-        <div class="tip-icon">🧠</div>
+      <div class="section-quiz" data-topic="topic6" data-section="create"></div>
+    </section>
+
+    <!-- ═══════════════════════ 4. THREAD MANAGEMENT ═══════════════════════ -->
+    <section id="management">
+      <div class="sh">
+        <div class="sh-icon bg-blue-dim">🔧</div>
+        <h2>4. Thread Management: join, detach, self, cancel, kill</h2>
+      </div>
+
+      <p class="section-desc">
+        Αφού δημιουργήσεις ένα thread, πρέπει να το <em>διαχειριστείς</em>: να περιμένεις να τελειώσει (join), να το
+        αφήσεις ελεύθερο (detach), ή ακόμα και να το ακυρώσεις (cancel). Αν δεν κάνεις ούτε join ούτε detach,
+        δημιουργείται <strong class="text-red">resource leak</strong>.
+      </p>
+
+      <div class="grid2">
         <div>
-          <div class="tip-title">Exam Tip — Spurious Wakeups &amp; Condition Variables</div>
-          <div class="tip-text">
-            Η χρήση της <code>while</code> γύρω από την <code>pthread_cond_wait()</code> είναι <strong>υποχρεωτική</strong> για δύο λόγους:
-            <ul class="auto-style-d87f7c">
-              <li><strong>Spurious Wakeup:</strong> Ο scheduler του λειτουργικού συστήματος μπορεί να ξυπνήσει ένα μπλοκαρισμένο thread χωρίς να έχει σταλεί signal (συμβαίνει για λόγους απόδοσης και χαμηλού επιπέδου αρχιτεκτονικής).</li>
-              <li><strong>Mesa/Lampson Semantics:</strong> Όταν ένα thread λαμβάνει signal και ξυπνάει, <em>δεν εκτελείται αμέσως</em>. Πρέπει πρώτα να ξανα-αποκτήσει το mutex. Στο ενδιάμεσο διάστημα, ένα άλλο thread μπορεί να μπει, να αποκτήσει το mutex, να καταναλώσει τον πόρο (ready = false) και να βγει. Αν είχαμε <code>if</code>, το ξυπνημένο thread θα συνέχιζε τυφλά και θα προσπελαύανε μη έγκυρο state.</li>
+          <div class="card">
+            <div class="card-title">pthread_join() — Wait for thread</div>
+            <div class="cb auto-style-ebc108">
+              <span class="kw">int</span> <span class="fn">pthread_join</span>(<span class="tp">pthread_t</span> <span
+                class="sf-field">thread</span>, <span class="kw">void</span> **<span class="sf-field">retval</span>);
+              <span class="cm">// Blocks until thread terminates</span>
+              <span class="cm">// retval receives the exit value</span>
+              <span class="cm">// Σαν τη wait() για processes!</span>
+            </div>
+            <p class="auto-style-fd762a">
+              Αν δεν σε νοιάζει η τιμή επιστροφής, πέρνα <code>NULL</code> ως δεύτερο argument. Κάθε thread μπορεί να
+              γίνει join <strong>μόνο μία φορά</strong>.
+            </p>
+          </div>
+
+          <div class="card mt-10">
+            <div class="card-title">pthread_detach() — Fire and forget</div>
+            <div class="cb auto-style-ebc108">
+              <span class="kw">int</span> <span class="fn">pthread_detach</span>(<span class="tp">pthread_t</span> <span
+                class="sf-field">thread</span>);
+              <span class="cm">// Resources freed automatically on termination</span>
+              <span class="cm">// Cannot join a detached thread!</span>
+            </div>
+            <p class="auto-style-fd762a">
+              Χρήσιμο για "background" threads. Δεν χρειάζεται κάποιος να τα περιμένει. Όταν τελειώσουν, καθαρίζονται
+              αυτόματα.
+            </p>
+          </div>
+
+          <div class="card mt-10">
+            <div class="card-title">pthread_self() — Get own ID</div>
+            <div class="cb auto-style-ebc108">
+              <span class="tp">pthread_t</span> <span class="fn">pthread_self</span>(<span class="kw">void</span>);
+              <span class="cm">// Returns the calling thread's ID</span>
+              <span class="cm">// Like getpid() for threads</span>
+            </div>
+          </div>
+        </div>
+        <div>
+          <div class="card">
+            <div class="card-title">pthread_cancel() — Request cancellation</div>
+            <div class="cb auto-style-ebc108">
+              <span class="kw">int</span> <span class="fn">pthread_cancel</span>(<span class="tp">pthread_t</span> <span
+                class="sf-field">thread</span>);
+              <span class="cm">// Sends cancellation request</span>
+              <span class="cm">// Thread may not die immediately!</span>
+              <span class="cm">// Depends on cancellation state/type</span>
+            </div>
+            <p class="auto-style-fd762a">
+              Η ακύρωση δεν είναι instant — το thread ελέγχει σε <em>cancellation points</em> (π.χ. μέσα σε
+              pthread_join, read, sleep). Μπορεί να απενεργοποιηθεί.
+            </p>
+          </div>
+
+          <div class="card mt-10">
+            <div class="card-title">pthread_kill() — Send signal to thread</div>
+            <div class="cb auto-style-ebc108">
+              <span class="kw">int</span> <span class="fn">pthread_kill</span>(<span class="tp">pthread_t</span> <span
+                class="sf-field">thread</span>, <span class="kw">int</span> <span class="sf-field">sig</span>);
+              <span class="cm">// Like kill() but for a specific thread</span>
+              <span class="cm">// sig=0 tests if thread exists</span>
+            </div>
+          </div>
+
+          <div class="tip mt-10">
+            <div class="tip-icon">🧠</div>
+            <div>
+              <div class="tip-title">Tip — join vs detach</div>
+              <div class="tip-text">
+                <strong>Πρέπει να κάνεις ένα από τα δύο</strong> για κάθε thread (join ή detach). Αν δεν κάνεις κανένα,
+                τα resources δεν ελευθερώνονται = <strong class="text-red">thread leak</strong> (σαν zombie
+                processes).<br>
+                <strong>Κανόνας:</strong> Χρειάζεσαι αποτέλεσμα → <code>join</code>. Δεν σε νοιάζει →
+                <code>detach</code>.
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="section-quiz" data-topic="topic6" data-section="management"></div>
+    </section>
+
+    <!-- ═══════════════════════ 5. ERRORS & RETURN VALUES ═══════════════════════ -->
+    <section id="errors">
+      <div class="sh">
+        <div class="sh-icon bg-yellow-dim">⚠️</div>
+        <h2>5. Error Handling &amp; Safe Return Values</h2>
+      </div>
+
+      <p class="section-desc">
+        Οι pthread functions δεν χρησιμοποιούν errno! Επιστρέφουν <strong class="text-primary">0 για επιτυχία</strong>
+        και <strong class="text-red">θετικό αριθμό (error code)</strong> για σφάλμα. Χρησιμοποίησε <code
+          class="text-yellow">strerror()</code> αντί <code>perror()</code>.
+      </p>
+
+      <div class="grid2">
+        <div>
+          <div class="card">
+            <div class="card-title">Error Handling Pattern</div>
+            <div class="cb auto-style-f73641">
+              <span class="kw">int</span> err;
+              err = <span class="fn">pthread_create</span>(&amp;tid, <span class="nm">NULL</span>, func, arg);
+              <span class="kw">if</span> (err != <span class="nm">0</span>) {
+              <span class="fn">fprintf</span>(stderr, <span class="st">"create: %s\n"</span>, <span
+                class="fn">strerror</span>(err));
+              <span class="fn">exit</span>(<span class="nm">1</span>);
+              }
+              <span class="cm">// ❌ WRONG: perror("create"); — αυτή χρησιμοποιεί errno</span>
+              <span class="cm">// ❌ WRONG: if (err == -1) — δεν επιστρέφουν -1!</span>
+            </div>
+            <div class="wbox mt-8">
+              <div class="lbl text-yellow">strerror() vs perror()</div>
+              Η <code>perror()</code> ελέγχει το global <code>errno</code>. Οι pthread functions <strong>δεν θέτουν
+                errno</strong> — επιστρέφουν τον error code απευθείας. Χρησιμοποίησε <code>strerror(err)</code> για να
+              μετατρέψεις τον κωδικό σε string.
+            </div>
+          </div>
+        </div>
+        <div>
+          <div class="card">
+            <div class="card-title">Safe Return Values from Threads</div>
+            <p class="auto-style-9bfa52">Τι μπορεί να επιστρέψει ένα thread μέσω <code>pthread_exit()</code>;</p>
+
+            <div class="good-side mb-8">
+              <div class="side-label text-green">✅ Safe</div>
+              <ul class="auto-style-2fd4f2">
+                <li><strong>malloc'd memory:</strong>
+                  <code>int *p = malloc(sizeof(int)); *p = 42; pthread_exit(p);</code></li>
+                <li><strong>String literals:</strong> <code>pthread_exit("done");</code> — ζουν στο .rodata segment</li>
+                <li><strong>Global variables:</strong> Ζουν στο data segment (αλλά πρόσεξε concurrent access!)</li>
+              </ul>
+            </div>
+
+            <div class="bad-side">
+              <div class="side-label text-red">❌ Unsafe</div>
+              <ul class="auto-style-2fd4f2">
+                <li><strong>Automatic (local) variables:</strong> <code>int x = 42; pthread_exit(&amp;x);</code> — Το
+                  stack του thread καταστρέφεται μετά το exit! Dangling pointer!</li>
+              </ul>
+            </div>
+          </div>
+          <div class="tip mt-10">
+            <div class="tip-icon">🧠</div>
+            <div>
+              <div class="tip-title">Exam Tip — Thread Return Memory Safety</div>
+              <div class="tip-text">
+                Μην επιστρέφεις <strong>ποτέ</strong> δείκτη σε τοπική (automatic) μεταβλητή από ένα thread. Όταν το
+                thread τερματίζει, το stack frame του καταστρέφεται και η μνήμη αποδεσμεύεται. Ο δείκτης γίνεται
+                <strong>dangling pointer</strong>, και οποιαδήποτε προσπάθεια πρόσβασης σε αυτόν από το thread-caller
+                (μέσω <code>pthread_join</code>) θα οδηγήσει σε garbage values ή Segmentation Fault.<br>
+                <strong>Ασφαλείς τρόποι επιστροφής:</strong>
+                <ul class="auto-style-d87f7c">
+                  <li>Δέσμευση στο heap μέσω <code>malloc()</code> (ο caller αναλαμβάνει το <code>free()</code>).</li>
+                  <li>Χρήση static ή global μεταβλητών (με προσοχή στο synchronization).</li>
+                  <li>Casting της ίδιας της τιμής σε <code>void*</code> (αν χωράει, π.χ.
+                    <code>pthread_exit((void*)(intptr_t)x)</code>) χωρίς pointer reference.</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="section-quiz" data-topic="topic6" data-section="errors"></div>
+    </section>
+
+    <!-- ═══════════════════════ 6. RACE CONDITIONS ═══════════════════════ -->
+    <section id="races">
+      <div class="sh">
+        <div class="sh-icon bg-red-dim">🏎️</div>
+        <h2>6. Race Conditions</h2>
+      </div>
+
+      <p class="section-desc">
+        Ένα <strong class="text-red">race condition</strong> συμβαίνει όταν δύο ή περισσότερα threads προσπελαύνουν τα
+        ίδια δεδομένα ταυτόχρονα και τουλάχιστον ένα <em>γράφει</em>. Το αποτέλεσμα εξαρτάται από τη σειρά εκτέλεσης
+        (scheduling) — η οποία δεν είναι ντετερμινιστική.
+      </p>
+
+      <div class="grid2">
+        <div>
+          <div class="card">
+            <div class="card-title">Example — wordcount1.c (Buggy!)</div>
+            <div class="cb auto-style-f73641">
+              <span class="kw">int</span> <span class="sf-field">total_words</span> = <span class="nm">0</span>; <span
+                class="cm">// GLOBAL — shared by all threads!</span>
+
+              <span class="kw">void</span> *<span class="fn">count_words</span>(<span class="kw">void</span> *<span
+                class="sf-field">arg</span>) {
+              <span class="kw">char</span> *<span class="sf-field">filename</span> = (<span class="kw">char</span>
+              *)arg;
+              <span class="kw">int</span> <span class="sf-field">count</span> = <span class="nm">0</span>;
+              <span class="cm">// ... count words in file ...</span>
+              <span class="sf-field">total_words</span> += count; <span class="cm">// ⚠️ RACE CONDITION!</span>
+              <span class="fn">pthread_exit</span>(<span class="nm">NULL</span>);
+              }
+            </div>
+            <div class="rbox mt-8">
+              <div class="lbl text-red">The Problem</div>
+              Η εντολή <code>total_words += count</code> δεν είναι <strong>atomic</strong>! Αποτελείται από 3
+              βήματα:<br>
+              1. LOAD total_words → register<br>
+              2. ADD count → register<br>
+              3. STORE register → total_words<br>
+              Αν δύο threads κάνουν αυτά τα βήματα ταυτόχρονα, μια πρόσθεση μπορεί να <em>χαθεί</em>!
+            </div>
+          </div>
+        </div>
+        <div>
+          <div class="card">
+            <div class="card-title">Race Condition Visualization</div>
+            <div class="thread-diagram auto-style-a3b7a3">
+              <span class="text-dim">total_words = 100 αρχικά</span><br>
+              <span class="text-green">Thread A:</span> LOAD 100 → regA<br>
+              <span class="text-yellow">Thread B:</span> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+              LOAD 100 → regB<br>
+              <span class="text-green">Thread A:</span> ADD 5 → 105<br>
+              <span class="text-yellow">Thread B:</span> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+              ADD 3 → 103<br>
+              <span class="text-green">Thread A:</span> STORE 105 → total_words<br>
+              <span class="text-yellow">Thread B:</span> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+              STORE 103 → total_words<br>
+              <span class="auto-style-b7c7b3">Result: 103 (should be 108!)</span> <span class="cm">← Thread A's work
+                LOST!</span>
+            </div>
+          </div>
+
+          <div class="tip mt-10">
+            <div class="tip-icon">🧠</div>
+            <div>
+              <div class="tip-title">Tip — "Correct" δεν σημαίνει σωστό</div>
+              <div class="tip-text">
+                Ένα πρόγραμμα με race condition μπορεί να φαίνεται ότι δουλεύει σωστά 99% του χρόνου. Αυτό κάνει τα race
+                conditions <strong>εξαιρετικά δύσκολο</strong> να βρεθούν. Μπορεί να εμφανιστούν μόνο κάτω από φόρτωση,
+                ή σε συγκεκριμένα hardware. <em>Αν κοινά δεδομένα γράφονται από πάνω από ένα thread, χρειάζεσαι
+                  synchronization</em>.
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="section-quiz" data-topic="topic6" data-section="races"></div>
+    </section>
+
+    <!-- ═══════════════════════ 7. MUTEXES ═══════════════════════ -->
+    <section id="mutexes">
+      <div class="sh">
+        <div class="sh-icon bg-purple-dim">🔒</div>
+        <h2>7. POSIX Mutexes (Mutual Exclusion)</h2>
+      </div>
+
+      <p class="section-desc">
+        Ένας <strong class="text-purple">mutex</strong> (MUTual EXclusion) είναι ένα <em>κλείδωμα</em>. Μόνο ένα thread
+        τη φορά μπορεί να κρατάει ένα mutex. Αν ένα δεύτερο thread προσπαθήσει να κλειδώσει, θα <strong
+          class="text-primary">μπλοκάρει</strong> μέχρι ο πρώτος να ξεκλειδώσει. Αυτός είναι ο βασικός τρόπος προστασίας
+        <em>critical sections</em>.
+      </p>
+
+      <div class="grid2">
+        <div>
+          <div class="card">
+            <div class="card-title">Mutex API</div>
+            <div class="cb auto-style-aab09c">
+              <span class="cm">// Initialization (two ways)</span>
+              <span class="tp">pthread_mutex_t</span> mtx = <span class="mc">PTHREAD_MUTEX_INITIALIZER</span>; <span
+                class="cm">// static</span>
+              <span class="fn">pthread_mutex_init</span>(&amp;mtx, <span class="nm">NULL</span>); <span class="cm">//
+                dynamic</span>
+
+              <span class="cm">// Lock / Unlock</span>
+              <span class="fn">pthread_mutex_lock</span>(&amp;mtx); <span class="cm">// blocks if locked</span>
+              <span class="fn">pthread_mutex_trylock</span>(&amp;mtx); <span class="cm">// returns EBUSY if
+                locked</span>
+              <span class="fn">pthread_mutex_unlock</span>(&amp;mtx); <span class="cm">// release</span>
+
+              <span class="cm">// Destruction</span>
+              <span class="fn">pthread_mutex_destroy</span>(&amp;mtx); <span class="cm">// free resources</span>
+            </div>
+
+            <div class="ibox mt-10">
+              <div class="lbl text-blue">Static vs Dynamic Init</div>
+              <code>PTHREAD_MUTEX_INITIALIZER</code> για global/static mutexes. <code>pthread_mutex_init()</code> αν ο
+              mutex είναι δυναμικός ή χρειάζεσαι non-default attributes.
+            </div>
+          </div>
+
+          <div class="card mt-10">
+            <div class="card-title">Critical Section Pattern</div>
+            <div class="cb auto-style-bbf441">
+              <span class="fn">pthread_mutex_lock</span>(&amp;mtx);
+              <span class="cm">/* ── Critical Section ── */</span>
+              <span class="cm">/* Μόνο ΕΝΑ thread μπορεί </span>
+              <span class="cm"> να είναι εδώ τη φορά! */</span>
+              total_words += count;
+              <span class="cm">/* ── End Critical Section ── */</span>
+              <span class="fn">pthread_mutex_unlock</span>(&amp;mtx);
+            </div>
+          </div>
+        </div>
+        <div>
+          <div class="card">
+            <div class="card-title">wordcount2.c — Fixed with Mutex</div>
+            <div class="cb auto-style-f73641">
+              <span class="kw">int</span> <span class="sf-field">total_words</span> = <span class="nm">0</span>;
+              <span class="tp">pthread_mutex_t</span> <span class="sf-field">count_mutex</span> = <span
+                class="mc">PTHREAD_MUTEX_INITIALIZER</span>;
+
+              <span class="kw">void</span> *<span class="fn">count_words</span>(<span class="kw">void</span> *<span
+                class="sf-field">arg</span>) {
+              <span class="kw">char</span> *<span class="sf-field">filename</span> = (<span class="kw">char</span>
+              *)arg;
+              <span class="kw">int</span> <span class="sf-field">count</span> = <span class="nm">0</span>;
+              <span class="cm">// ... count words in file ...</span>
+
+              <span class="fn">pthread_mutex_lock</span>(&amp;count_mutex); <span class="cm">// 🔒</span>
+              total_words += count; <span class="cm">// safe!</span>
+              <span class="fn">pthread_mutex_unlock</span>(&amp;count_mutex); <span class="cm">// 🔓</span>
+
+              <span class="fn">pthread_exit</span>(<span class="nm">NULL</span>);
+              }
+            </div>
+            <div class="gbox mt-8">
+              <div class="lbl text-green">Fixed!</div>
+              Τώρα μόνο ένα thread τη φορά μπορεί να τροποποιήσει το <code>total_words</code>. Το αποτέλεσμα είναι πάντα
+              σωστό.
+            </div>
+          </div>
+
+          <div class="wbox mt-10">
+            <div class="lbl text-yellow">Mutex Rules</div>
+            <ul class="auto-style-1b41d3">
+              <li>Μόνο ο <strong>κάτοχος</strong> μπορεί να κάνει unlock</li>
+              <li>Κάνε lock <strong>μόνο</strong> στο μικρότερο δυνατό section κώδικα</li>
+              <li>Πάντα <strong>ξεκλείδωνε</strong> τον mutex — αν ξεχάσεις = <strong class="text-red">deadlock</strong>
+              </li>
+              <li>trylock() επιστρέφει <code>EBUSY</code> αν κλειδωμένο — δεν μπλοκάρει</li>
             </ul>
           </div>
         </div>
       </div>
 
-      <div class="card mt-10">
-        <div class="card-title">Abstract Monitor Operations</div>
-        <table class="vtbl auto-style-6863e7">
-          <thead><tr><th>Operation</th><th>Effect</th></tr></thead>
-          <tbody>
-            <tr><td><code class="text-yellow">lock(m)</code></td><td>Acquire mutex. Block if already held.</td></tr>
-            <tr><td><code class="text-yellow">unlock(m)</code></td><td>Release mutex.</td></tr>
-            <tr><td><code class="text-yellow">wait(cv, m)</code></td><td>Atomically: unlock m, sleep. On wakeup: re-lock m.</td></tr>
-            <tr><td><code class="text-yellow">signal(cv)</code></td><td>Wake one waiter (if any).</td></tr>
-            <tr><td><code class="text-yellow">broadcast(cv)</code></td><td>Wake all waiters.</td></tr>
-          </tbody>
-        </table>
-      </div>
-    </div>
-    <div>
-      <div class="card">
-        <div class="card-title">Golden Rules of Monitor-Style Programming</div>
-        <div class="auto-style-70ab05">
-          <ol class="auto-style-df9ba5">
-            <li class="mb-8"><strong class="text-green">Πάντα κλείδωνε τον mutex</strong> πριν ελέγξεις ή αλλάξεις τη shared μεταβλητή</li>
-            <li class="mb-8"><strong class="text-green">Πάντα while loop</strong> γύρω από <code>pthread_cond_wait()</code></li>
-            <li class="mb-8"><strong class="text-green">Σηματοδότησε (signal/broadcast)</strong> ενώ κρατάς τον mutex (ή αμέσως μετά το unlock)</li>
-            <li class="mb-8"><strong class="text-green">Κράτα τα critical sections μικρά</strong> — ελαχιστοποίησε τον χρόνο κλειδώματος</li>
-            <li><strong class="text-green">Ένας mutex ανά condition variable</strong> — μην αναμιγνύεις mutexes</li>
-          </ol>
-        </div>
+      <div class="section-quiz" data-topic="topic6" data-section="mutexes"></div>
+    </section>
+
+    <!-- ═══════════════════════ 8. CONDITION VARIABLES ═══════════════════════ -->
+    <section id="condvars">
+      <div class="sh">
+        <div class="sh-icon bg-orange-dim">🔔</div>
+        <h2>8. Condition Variables</h2>
       </div>
 
-      <div class="card mt-10">
-        <div class="card-title">Readers/Writers Pattern</div>
-        <p class="auto-style-f70c40">Πολλαπλοί readers ταυτόχρονα ΟΚ, αλλά μόνο ένας writer:</p>
-        <div class="cb auto-style-b7fdac">
-<span class="cm">// Reader</span>
-<span class="fn">lock</span>(m);
-<span class="kw">while</span> (active_writers &gt; <span class="nm">0</span>) <span class="fn">wait</span>(cv, m);
-active_readers++;
-<span class="fn">unlock</span>(m);
-<span class="cm">/* ... read ... */</span>
-<span class="fn">lock</span>(m); active_readers--;
-<span class="kw">if</span> (active_readers == <span class="nm">0</span>) <span class="fn">signal</span>(cv);
-<span class="fn">unlock</span>(m);
+      <p class="section-desc">
+        Τα <strong class="text-orange">condition variables</strong> επιτρέπουν σε ένα thread να <em>περιμένει</em> μέχρι
+        κάποια συνθήκη γίνει αληθής, χωρίς busy waiting. Δουλεύουν πάντα <strong>σε συνδυασμό</strong> με ένα mutex.
+        Σκέψου τα ως "alarm" — αντί να ελέγχεις κάθε λίγο, κοιμάσαι και σε ξυπνάνε.
+      </p>
 
-<span class="cm">// Writer</span>
-<span class="fn">lock</span>(m);
-<span class="kw">while</span> (active_writers + active_readers &gt; <span class="nm">0</span>) <span class="fn">wait</span>(cv, m);
-active_writers++;
-<span class="fn">unlock</span>(m);
-<span class="cm">/* ... write ... */</span>
-<span class="fn">lock</span>(m); active_writers--; <span class="fn">broadcast</span>(cv);
-<span class="fn">unlock</span>(m);
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <div class="section-quiz" data-topic="topic6" data-section="monitor"></div>
-</section>
-
-<!-- ═══════════════════════ 10. THREAD SAFETY ═══════════════════════ -->
-<section id="safety">
-  <div class="sh"><div class="sh-icon bg-yellow-dim">🛡️</div><h2>10. Thread Safety &amp; Reentrant Functions</h2></div>
-
-  <p class="section-desc">
-    Μια συνάρτηση είναι <strong class="text-yellow">thread-safe</strong> αν μπορεί να κληθεί ταυτόχρονα από πολλαπλά threads χωρίς race conditions. Πολλές κλασικές C functions <strong class="text-red">δεν</strong> είναι thread-safe γιατί χρησιμοποιούν static εσωτερικά buffers.
-  </p>
-
-  <div class="grid2">
-    <div>
-      <div class="card">
-        <div class="card-title">Thread-Unsafe Functions</div>
-        <table class="vtbl auto-style-6863e7">
-          <thead><tr><th>Unsafe</th><th>Thread-safe Alternative</th></tr></thead>
-          <tbody>
-            <tr><td><code>strtok()</code></td><td><code class="text-green">strtok_r()</code></td></tr>
-            <tr><td><code>gethostbyname()</code></td><td><code class="text-green">gethostbyname_r()</code></td></tr>
-            <tr><td><code>localtime()</code></td><td><code class="text-green">localtime_r()</code></td></tr>
-            <tr><td><code>rand()</code></td><td><code class="text-green">rand_r()</code></td></tr>
-            <tr><td><code>ctime()</code></td><td><code class="text-green">ctime_r()</code></td></tr>
-            <tr><td><code>readdir()</code></td><td><code class="text-green">readdir_r()</code></td></tr>
-          </tbody>
-        </table>
-        <div class="ibox mt-8">
-          <div class="lbl text-blue">The _r Suffix Convention</div>
-          Οι reentrant εκδόσεις τελειώνουν σε <code>_r</code> (reentrant). Δέχονται ένα εξωτερικό buffer αντί να χρησιμοποιούν internal static storage.
-        </div>
-      </div>
-    </div>
-    <div>
-      <div class="card">
-        <div class="card-title">Making a Function Thread-Safe</div>
-        <p class="auto-style-f70c40">3 στρατηγικές:</p>
-        <ol class="auto-style-264644">
-          <li class="mb-8"><strong class="text-green">Replace static with caller-provided buffer:</strong> Η <code>strtok_r()</code> δέχεται <code>char **saveptr</code> αντί internal state.</li>
-          <li class="mb-8"><strong class="text-yellow">Lock with mutex:</strong> Wrap non-safe calls με mutex. Απλό αλλά μειώνει parallelism.</li>
-          <li><strong class="text-cyan">Thread-Local Storage:</strong> Κάθε thread έχει δικό του αντίγραφο (TLS).</li>
-        </ol>
-      </div>
-
-      <div class="tip mt-10">
-        <div class="tip-icon">🧠</div>
+      <div class="grid2">
         <div>
-          <div class="tip-title">Exam Tip — Γιατί η strtok() δεν είναι thread-safe;</div>
-          <div class="tip-text">
-            Η <code>strtok()</code> χρησιμοποιεί ένα <strong>internal static pointer</strong> για να θυμάται πού σταμάτησε. Αν δύο threads καλέσουν <code>strtok()</code> ταυτόχρονα, ο ένας θα "πατήσει" τον pointer του άλλου. Η <code>strtok_r()</code> σπάει αυτό βάζοντας τον caller να περάσει τον <code>saveptr</code>.
+          <div class="card">
+            <div class="card-title">Condition Variable API</div>
+            <div class="cb auto-style-aab09c">
+              <span class="cm">// Initialization</span>
+              <span class="tp">pthread_cond_t</span> cv = <span class="mc">PTHREAD_COND_INITIALIZER</span>; <span
+                class="cm">// static</span>
+              <span class="fn">pthread_cond_init</span>(&amp;cv, <span class="nm">NULL</span>); <span class="cm">//
+                dynamic</span>
+
+              <span class="cm">// Wait — releases mutex, sleeps, re-acquires mutex on wakeup</span>
+              <span class="fn">pthread_cond_wait</span>(&amp;cv, &amp;mtx);
+
+              <span class="cm">// Signal — wake ONE waiting thread</span>
+              <span class="fn">pthread_cond_signal</span>(&amp;cv);
+
+              <span class="cm">// Broadcast — wake ALL waiting threads</span>
+              <span class="fn">pthread_cond_broadcast</span>(&amp;cv);
+
+              <span class="cm">// Destruction</span>
+              <span class="fn">pthread_cond_destroy</span>(&amp;cv);
+            </div>
+          </div>
+
+          <div class="card mt-10">
+            <div class="card-title">How pthread_cond_wait() Works</div>
+            <div class="thread-diagram auto-style-9d4976">
+              <span class="auto-style-2de001">pthread_cond_wait(&amp;cv, &amp;mtx):</span><br>
+              <span class="auto-style-c0a681">1.</span> <span class="text-red">Unlock</span> mutex (ατομικά)<br>
+              <span class="auto-style-c0a681">2.</span> <span class="text-muted">Sleep</span> — thread μπαίνει σε
+              αναμονή<br>
+              <span class="auto-style-c0a681">3.</span> <span class="text-green">Wake up</span> (σήμα ελήφθη)<br>
+              <span class="auto-style-c0a681">4.</span> <span class="text-blue">Re-lock</span> mutex (μπλοκάρει αν
+              χρειαστεί)<br>
+              <span class="auto-style-c0a681">5.</span> <span class="text-primary">Return</span> — ο caller ξανακρατάει
+              τον mutex
+            </div>
+            <div class="ibox mt-8">
+              <div class="lbl text-blue">Atomic unlock+sleep</div>
+              Τα βήματα 1+2 γίνονται ατομικά — κανένα thread δεν μπορεί να στείλει signal μεταξύ τους. Αυτό αποτρέπει
+              lost wakeups.
+            </div>
+          </div>
+        </div>
+        <div>
+          <div class="card">
+            <div class="card-title">Example — mutex_condvar.c</div>
+            <div class="cb auto-style-98b404">
+              <span class="tp">pthread_mutex_t</span> mtx = <span class="mc">PTHREAD_MUTEX_INITIALIZER</span>;
+              <span class="tp">pthread_cond_t</span> cv = <span class="mc">PTHREAD_COND_INITIALIZER</span>;
+              <span class="kw">int</span> <span class="sf-field">ready</span> = <span class="nm">0</span>;
+
+              <span class="kw">void</span> *<span class="fn">waiter</span>(<span class="kw">void</span> *arg) {
+              <span class="fn">pthread_mutex_lock</span>(&amp;mtx);
+              <span class="kw">while</span> (!ready) <span class="cm">// ← WHILE, not IF!</span>
+              <span class="fn">pthread_cond_wait</span>(&amp;cv, &amp;mtx);
+              <span class="fn">printf</span>(<span class="st">"Ready! Proceeding...\n"</span>);
+              <span class="fn">pthread_mutex_unlock</span>(&amp;mtx);
+              <span class="kw">return</span> <span class="nm">NULL</span>;
+              }
+
+              <span class="kw">void</span> *<span class="fn">signaler</span>(<span class="kw">void</span> *arg) {
+              <span class="fn">sleep</span>(<span class="nm">2</span>);
+              <span class="fn">pthread_mutex_lock</span>(&amp;mtx);
+              ready = <span class="nm">1</span>;
+              <span class="fn">printf</span>(<span class="st">"Signaling...\n"</span>);
+              <span class="fn">pthread_cond_signal</span>(&amp;cv);
+              <span class="fn">pthread_mutex_unlock</span>(&amp;mtx);
+              <span class="kw">return</span> <span class="nm">NULL</span>;
+              }
+            </div>
+          </div>
+
+          <div class="card mt-10">
+            <div class="card-title">counter.c — Threshold Signaling</div>
+            <p class="auto-style-2fd4f2">
+              3 threads αυξάνουν ένα counter. Ένα 4ο thread κοιμάται μέχρι ο counter φτάσει ένα threshold:
+            </p>
+            <div class="cb auto-style-23dace">
+              <span class="cm">// Incrementer thread</span>
+              <span class="fn">pthread_mutex_lock</span>(&amp;count_mutex);
+              count++;
+              <span class="kw">if</span> (count == <span class="nm">COUNT_LIMIT</span>)
+              <span class="fn">pthread_cond_signal</span>(&amp;count_threshold_cv);
+              <span class="fn">pthread_mutex_unlock</span>(&amp;count_mutex);
+
+              <span class="cm">// Watcher thread</span>
+              <span class="fn">pthread_mutex_lock</span>(&amp;count_mutex);
+              <span class="kw">while</span> (count &lt; <span class="nm">COUNT_LIMIT</span>)
+              <span class="fn">pthread_cond_wait</span>(&amp;count_threshold_cv, &amp;count_mutex);
+              <span class="fn">printf</span>(<span class="st">"Threshold reached! count=%d\n"</span>, count);
+              <span class="fn">pthread_mutex_unlock</span>(&amp;count_mutex);
+            </div>
           </div>
         </div>
       </div>
-    </div>
-  </div>
 
-  <div class="section-quiz" data-topic="topic6" data-section="safety"></div>
-</section>
+      <div class="section-quiz" data-topic="topic6" data-section="condvars"></div>
+    </section>
 
-<!-- ═══════════════════════ 11. PRODUCER-CONSUMER ═══════════════════════ -->
-<section id="prodcons">
-  <div class="sh"><div class="sh-icon bg-green-dim">🏭</div><h2>11. Producer-Consumer Problem</h2></div>
-
-  <p class="section-desc">
-    Το <strong class="text-green">Producer-Consumer</strong> είναι κλασικό πρόβλημα συγχρονισμού: ένας (ή περισσότεροι) producers βάζουν items σε ένα bounded buffer, και ένας (ή περισσότεροι) consumers τα αφαιρούν. Ο producer πρέπει να <em>περιμένει</em> αν ο buffer είναι γεμάτος, και ο consumer αν είναι άδειος.
-  </p>
-
-  <div class="grid2">
-    <div>
-      <div class="card">
-        <div class="card-title">Bounded Cyclical Buffer</div>
-        <div class="cb auto-style-4180a9">
-<span class="mc">#define</span> <span class="nm">BUFSIZE</span> <span class="nm">8</span>
-
-<span class="kw">typedef struct</span> {
-    <span class="kw">int</span> <span class="sf-field">data</span>[<span class="nm">BUFSIZE</span>];
-    <span class="kw">int</span> <span class="sf-field">start</span>;   <span class="cm">// next position to read from</span>
-    <span class="kw">int</span> <span class="sf-field">end</span>;     <span class="cm">// next position to write to</span>
-    <span class="kw">int</span> <span class="sf-field">count</span>;   <span class="cm">// current number of items</span>
-} <span class="tp">pool_t</span>;
-
-<span class="kw">void</span> <span class="fn">place</span>(<span class="tp">pool_t</span> *pool, <span class="kw">int</span> data) {
-    <span class="fn">pthread_mutex_lock</span>(&amp;mtx);
-    <span class="kw">while</span> (pool-&gt;count == <span class="nm">BUFSIZE</span>)       <span class="cm">// full?</span>
-        <span class="fn">pthread_cond_wait</span>(&amp;cond_nonfull, &amp;mtx);
-    pool-&gt;data[pool-&gt;end] = data;
-    pool-&gt;end = (pool-&gt;end + <span class="nm">1</span>) % <span class="nm">BUFSIZE</span>;
-    pool-&gt;count++;
-    <span class="fn">pthread_cond_signal</span>(&amp;cond_nonempty);  <span class="cm">// wake consumer</span>
-    <span class="fn">pthread_mutex_unlock</span>(&amp;mtx);
-}
-
-<span class="kw">int</span> <span class="fn">obtain</span>(<span class="tp">pool_t</span> *pool) {
-    <span class="fn">pthread_mutex_lock</span>(&amp;mtx);
-    <span class="kw">while</span> (pool-&gt;count == <span class="nm">0</span>)              <span class="cm">// empty?</span>
-        <span class="fn">pthread_cond_wait</span>(&amp;cond_nonempty, &amp;mtx);
-    <span class="kw">int</span> data = pool-&gt;data[pool-&gt;start];
-    pool-&gt;start = (pool-&gt;start + <span class="nm">1</span>) % <span class="nm">BUFSIZE</span>;
-    pool-&gt;count--;
-    <span class="fn">pthread_cond_signal</span>(&amp;cond_nonfull);   <span class="cm">// wake producer</span>
-    <span class="fn">pthread_mutex_unlock</span>(&amp;mtx);
-    <span class="kw">return</span> data;
-}
-        </div>
-      </div>
-    </div>
-    <div>
-      <div class="card">
-        <div class="card-title">prod-cons.c — Full Program</div>
-        <div class="cb auto-style-98b404">
-<span class="tp">pthread_mutex_t</span> mtx;
-<span class="tp">pthread_cond_t</span>  cond_nonempty, cond_nonfull;
-<span class="tp">pool_t</span> pool;
-
-<span class="kw">void</span> *<span class="fn">producer</span>(<span class="kw">void</span> *ptr) {
-    <span class="kw">while</span> (num_of_items &gt; <span class="nm">0</span>) {
-        <span class="fn">place</span>(&amp;pool, num_of_items);
-        <span class="fn">printf</span>(<span class="st">"producer: %d\n"</span>, num_of_items);
-        num_of_items--;
-        <span class="fn">pthread_cond_signal</span>(&amp;cond_nonempty);
-        <span class="fn">usleep</span>(<span class="nm">300000</span>);
-    }
-    <span class="fn">pthread_exit</span>(<span class="nm">0</span>);
-}
-
-<span class="kw">void</span> *<span class="fn">consumer</span>(<span class="kw">void</span> *ptr) {
-    <span class="kw">while</span> (num_of_items &gt; <span class="nm">0</span> || pool.count &gt; <span class="nm">0</span>) {
-        <span class="fn">printf</span>(<span class="st">"consumer: %d\n"</span>, <span class="fn">obtain</span>(&amp;pool));
-        <span class="fn">pthread_cond_signal</span>(&amp;cond_nonfull);
-        <span class="fn">usleep</span>(<span class="nm">500000</span>);
-    }
-    <span class="fn">pthread_exit</span>(<span class="nm">0</span>);
-}
-
-<span class="kw">int</span> <span class="fn">main</span>() {
-    <span class="tp">pthread_t</span> cons, prod;
-    <span class="fn">initialize</span>(&amp;pool);
-    <span class="fn">pthread_mutex_init</span>(&amp;mtx, <span class="nm">0</span>);
-    <span class="fn">pthread_cond_init</span>(&amp;cond_nonempty, <span class="nm">0</span>);
-    <span class="fn">pthread_cond_init</span>(&amp;cond_nonfull, <span class="nm">0</span>);
-    <span class="fn">pthread_create</span>(&amp;cons, <span class="nm">0</span>, consumer, <span class="nm">0</span>);
-    <span class="fn">pthread_create</span>(&amp;prod, <span class="nm">0</span>, producer, <span class="nm">0</span>);
-    <span class="fn">pthread_join</span>(prod, <span class="nm">0</span>);
-    <span class="fn">pthread_join</span>(cons, <span class="nm">0</span>);
-    <span class="fn">pthread_cond_destroy</span>(&amp;cond_nonempty);
-    <span class="fn">pthread_cond_destroy</span>(&amp;cond_nonfull);
-    <span class="fn">pthread_mutex_destroy</span>(&amp;mtx);
-    <span class="kw">return</span> <span class="nm">0</span>;
-}
-        </div>
+    <!-- ═══════════════════════ 9. MONITOR-STYLE ═══════════════════════ -->
+    <section id="monitor">
+      <div class="sh">
+        <div class="sh-icon bg-cyan-dim">📐</div>
+        <h2>9. Monitor-Style Programming &amp; Spurious Wakeups</h2>
       </div>
 
-      <div class="tip mt-10">
-        <div class="tip-icon">🧠</div>
+      <p class="section-desc">
+        Ο <strong class="text-cyan">monitor-style</strong> programming είναι η σωστή μεθοδολογία: mutexes + condition
+        variables, με <strong>while loops</strong> γύρω από τα wait calls. Αυτό ονομάζεται "defensive programming" γιατί
+        προστατεύει από <em>spurious wakeups</em> και concurrent races.
+      </p>
+
+      <div class="grid2">
         <div>
-          <div class="tip-title">Food for Thought</div>
-          <div class="tip-text">
-            <strong>Q:</strong> Αν ο usleep αντικατασταθεί με usleep(0), τι αλλάζει;<br>
-            <strong>A:</strong> Ο producer τρέχει πολύ πιο γρήγορα, γεμίζει τον buffer, εμφανίζονται "Found Buffer Full" μηνύματα. Η σχεδίαση με condition variables αποτρέπει busy-waiting.<br><br>
-            <strong>Q:</strong> Τι δεδομένα προστατεύονται από τον mutex;<br>
-            <strong>A:</strong> Ο buffer (pool), count, start, end. Η μεταβλητή <code>num_of_items</code> ΔΕΝ προστατεύεται — αυτό είναι bug αν υπάρχουν πολλοί producers!
+          <div class="card">
+            <div class="card-title">Spurious Wakeups — Γιατί while αντί if;</div>
+            <div class="compare">
+              <div class="bad-side">
+                <div class="side-label text-red">❌ if (wrong)</div>
+                <div class="cb auto-style-7bf338">
+                  <span class="kw">if</span> (!ready) <span class="cm">// check once</span>
+                  <span class="fn">pthread_cond_wait</span>(&amp;cv, &amp;m);
+                  <span class="cm">// may proceed when not ready!</span>
+                </div>
+              </div>
+              <div class="good-side">
+                <div class="side-label text-green">✅ while (correct)</div>
+                <div class="cb auto-style-7bf338">
+                  <span class="kw">while</span> (!ready) <span class="cm">// re-check</span>
+                  <span class="fn">pthread_cond_wait</span>(&amp;cv, &amp;m);
+                  <span class="cm">// guaranteed ready == true!</span>
+                </div>
+              </div>
+            </div>
+            <p class="auto-style-1a0979">
+              <strong class="text-primary">Γιατί;</strong> Ένα thread μπορεί να ξυπνήσει χωρίς λόγο (<em>spurious
+                wakeup</em>) — είτε από τον scheduler, είτε γιατί κάποιο άλλο thread "έφαγε" τη συνθήκη μεταξύ signal
+              και re-lock. Με <code>while</code>, ξαναελέγχεις τη συνθήκη μετά το wakeup.
+            </p>
+          </div>
+
+          <div class="tip mt-10">
+            <div class="tip-icon">🧠</div>
+            <div>
+              <div class="tip-title">Exam Tip — Spurious Wakeups &amp; Condition Variables</div>
+              <div class="tip-text">
+                Η χρήση της <code>while</code> γύρω από την <code>pthread_cond_wait()</code> είναι
+                <strong>υποχρεωτική</strong> για δύο λόγους:
+                <ul class="auto-style-d87f7c">
+                  <li><strong>Spurious Wakeup:</strong> Ο scheduler του λειτουργικού συστήματος μπορεί να ξυπνήσει ένα
+                    μπλοκαρισμένο thread χωρίς να έχει σταλεί signal (συμβαίνει για λόγους απόδοσης και χαμηλού επιπέδου
+                    αρχιτεκτονικής).</li>
+                  <li><strong>Mesa/Lampson Semantics:</strong> Όταν ένα thread λαμβάνει signal και ξυπνάει, <em>δεν
+                      εκτελείται αμέσως</em>. Πρέπει πρώτα να ξανα-αποκτήσει το mutex. Στο ενδιάμεσο διάστημα, ένα άλλο
+                    thread μπορεί να μπει, να αποκτήσει το mutex, να καταναλώσει τον πόρο (ready = false) και να βγει.
+                    Αν είχαμε <code>if</code>, το ξυπνημένο thread θα συνέχιζε τυφλά και θα προσπελαύανε μη έγκυρο
+                    state.</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+
+          <div class="card mt-10">
+            <div class="card-title">Abstract Monitor Operations</div>
+            <table class="vtbl auto-style-6863e7">
+              <thead>
+                <tr>
+                  <th>Operation</th>
+                  <th>Effect</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><code class="text-yellow">lock(m)</code></td>
+                  <td>Acquire mutex. Block if already held.</td>
+                </tr>
+                <tr>
+                  <td><code class="text-yellow">unlock(m)</code></td>
+                  <td>Release mutex.</td>
+                </tr>
+                <tr>
+                  <td><code class="text-yellow">wait(cv, m)</code></td>
+                  <td>Atomically: unlock m, sleep. On wakeup: re-lock m.</td>
+                </tr>
+                <tr>
+                  <td><code class="text-yellow">signal(cv)</code></td>
+                  <td>Wake one waiter (if any).</td>
+                </tr>
+                <tr>
+                  <td><code class="text-yellow">broadcast(cv)</code></td>
+                  <td>Wake all waiters.</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+        <div>
+          <div class="card">
+            <div class="card-title">Golden Rules of Monitor-Style Programming</div>
+            <div class="auto-style-70ab05">
+              <ol class="auto-style-df9ba5">
+                <li class="mb-8"><strong class="text-green">Πάντα κλείδωνε τον mutex</strong> πριν ελέγξεις ή αλλάξεις
+                  τη shared μεταβλητή</li>
+                <li class="mb-8"><strong class="text-green">Πάντα while loop</strong> γύρω από
+                  <code>pthread_cond_wait()</code></li>
+                <li class="mb-8"><strong class="text-green">Σηματοδότησε (signal/broadcast)</strong> ενώ κρατάς τον
+                  mutex (ή αμέσως μετά το unlock)</li>
+                <li class="mb-8"><strong class="text-green">Κράτα τα critical sections μικρά</strong> — ελαχιστοποίησε
+                  τον χρόνο κλειδώματος</li>
+                <li><strong class="text-green">Ένας mutex ανά condition variable</strong> — μην αναμιγνύεις mutexes</li>
+              </ol>
+            </div>
+          </div>
+
+          <div class="card mt-10">
+            <div class="card-title">Readers/Writers Pattern</div>
+            <p class="auto-style-f70c40">Πολλαπλοί readers ταυτόχρονα ΟΚ, αλλά μόνο ένας writer:</p>
+            <div class="cb auto-style-b7fdac">
+              <span class="cm">// Reader</span>
+              <span class="fn">lock</span>(m);
+              <span class="kw">while</span> (active_writers &gt; <span class="nm">0</span>) <span
+                class="fn">wait</span>(cv, m);
+              active_readers++;
+              <span class="fn">unlock</span>(m);
+              <span class="cm">/* ... read ... */</span>
+              <span class="fn">lock</span>(m); active_readers--;
+              <span class="kw">if</span> (active_readers == <span class="nm">0</span>) <span
+                class="fn">signal</span>(cv);
+              <span class="fn">unlock</span>(m);
+
+              <span class="cm">// Writer</span>
+              <span class="fn">lock</span>(m);
+              <span class="kw">while</span> (active_writers + active_readers &gt; <span class="nm">0</span>) <span
+                class="fn">wait</span>(cv, m);
+              active_writers++;
+              <span class="fn">unlock</span>(m);
+              <span class="cm">/* ... write ... */</span>
+              <span class="fn">lock</span>(m); active_writers--; <span class="fn">broadcast</span>(cv);
+              <span class="fn">unlock</span>(m);
+            </div>
           </div>
         </div>
       </div>
-    </div>
+
+      <div class="section-quiz" data-topic="topic6" data-section="monitor"></div>
+    </section>
+
+    <!-- ═══════════════════════ 10. THREAD SAFETY ═══════════════════════ -->
+    <section id="safety">
+      <div class="sh">
+        <div class="sh-icon bg-yellow-dim">🛡️</div>
+        <h2>10. Thread Safety &amp; Reentrant Functions</h2>
+      </div>
+
+      <p class="section-desc">
+        Μια συνάρτηση είναι <strong class="text-yellow">thread-safe</strong> αν μπορεί να κληθεί ταυτόχρονα από πολλαπλά
+        threads χωρίς race conditions. Πολλές κλασικές C functions <strong class="text-red">δεν</strong> είναι
+        thread-safe γιατί χρησιμοποιούν static εσωτερικά buffers.
+      </p>
+
+      <div class="grid2">
+        <div>
+          <div class="card">
+            <div class="card-title">Thread-Unsafe Functions</div>
+            <table class="vtbl auto-style-6863e7">
+              <thead>
+                <tr>
+                  <th>Unsafe</th>
+                  <th>Thread-safe Alternative</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><code>strtok()</code></td>
+                  <td><code class="text-green">strtok_r()</code></td>
+                </tr>
+                <tr>
+                  <td><code>gethostbyname()</code></td>
+                  <td><code class="text-green">gethostbyname_r()</code></td>
+                </tr>
+                <tr>
+                  <td><code>localtime()</code></td>
+                  <td><code class="text-green">localtime_r()</code></td>
+                </tr>
+                <tr>
+                  <td><code>rand()</code></td>
+                  <td><code class="text-green">rand_r()</code></td>
+                </tr>
+                <tr>
+                  <td><code>ctime()</code></td>
+                  <td><code class="text-green">ctime_r()</code></td>
+                </tr>
+                <tr>
+                  <td><code>readdir()</code></td>
+                  <td><code class="text-green">readdir_r()</code></td>
+                </tr>
+              </tbody>
+            </table>
+            <div class="ibox mt-8">
+              <div class="lbl text-blue">The _r Suffix Convention</div>
+              Οι reentrant εκδόσεις τελειώνουν σε <code>_r</code> (reentrant). Δέχονται ένα εξωτερικό buffer αντί να
+              χρησιμοποιούν internal static storage.
+            </div>
+          </div>
+        </div>
+        <div>
+          <div class="card">
+            <div class="card-title">Making a Function Thread-Safe</div>
+            <p class="auto-style-f70c40">3 στρατηγικές:</p>
+            <ol class="auto-style-264644">
+              <li class="mb-8"><strong class="text-green">Replace static with caller-provided buffer:</strong> Η
+                <code>strtok_r()</code> δέχεται <code>char **saveptr</code> αντί internal state.</li>
+              <li class="mb-8"><strong class="text-yellow">Lock with mutex:</strong> Wrap non-safe calls με mutex. Απλό
+                αλλά μειώνει parallelism.</li>
+              <li><strong class="text-cyan">Thread-Local Storage:</strong> Κάθε thread έχει δικό του αντίγραφο (TLS).
+              </li>
+            </ol>
+          </div>
+
+          <div class="tip mt-10">
+            <div class="tip-icon">🧠</div>
+            <div>
+              <div class="tip-title">Exam Tip — Γιατί η strtok() δεν είναι thread-safe;</div>
+              <div class="tip-text">
+                Η <code>strtok()</code> χρησιμοποιεί ένα <strong>internal static pointer</strong> για να θυμάται πού
+                σταμάτησε. Αν δύο threads καλέσουν <code>strtok()</code> ταυτόχρονα, ο ένας θα "πατήσει" τον pointer του
+                άλλου. Η <code>strtok_r()</code> σπάει αυτό βάζοντας τον caller να περάσει τον <code>saveptr</code>.
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="section-quiz" data-topic="topic6" data-section="safety"></div>
+    </section>
+
+    <!-- ═══════════════════════ 11. PRODUCER-CONSUMER ═══════════════════════ -->
+    <section id="prodcons">
+      <div class="sh">
+        <div class="sh-icon bg-green-dim">🏭</div>
+        <h2>11. Producer-Consumer Problem</h2>
+      </div>
+
+      <p class="section-desc">
+        Το <strong class="text-green">Producer-Consumer</strong> είναι κλασικό πρόβλημα συγχρονισμού: ένας (ή
+        περισσότεροι) producers βάζουν items σε ένα bounded buffer, και ένας (ή περισσότεροι) consumers τα αφαιρούν. Ο
+        producer πρέπει να <em>περιμένει</em> αν ο buffer είναι γεμάτος, και ο consumer αν είναι άδειος.
+      </p>
+
+      <div class="grid2">
+        <div>
+          <div class="card">
+            <div class="card-title">Bounded Cyclical Buffer</div>
+            <div class="cb auto-style-4180a9">
+              <span class="mc">#define</span> <span class="nm">BUFSIZE</span> <span class="nm">8</span>
+
+              <span class="kw">typedef struct</span> {
+              <span class="kw">int</span> <span class="sf-field">data</span>[<span class="nm">BUFSIZE</span>];
+              <span class="kw">int</span> <span class="sf-field">start</span>; <span class="cm">// next position to read
+                from</span>
+              <span class="kw">int</span> <span class="sf-field">end</span>; <span class="cm">// next position to write
+                to</span>
+              <span class="kw">int</span> <span class="sf-field">count</span>; <span class="cm">// current number of
+                items</span>
+              } <span class="tp">pool_t</span>;
+
+              <span class="kw">void</span> <span class="fn">place</span>(<span class="tp">pool_t</span> *pool, <span
+                class="kw">int</span> data) {
+              <span class="fn">pthread_mutex_lock</span>(&amp;mtx);
+              <span class="kw">while</span> (pool-&gt;count == <span class="nm">BUFSIZE</span>) <span class="cm">//
+                full?</span>
+              <span class="fn">pthread_cond_wait</span>(&amp;cond_nonfull, &amp;mtx);
+              pool-&gt;data[pool-&gt;end] = data;
+              pool-&gt;end = (pool-&gt;end + <span class="nm">1</span>) % <span class="nm">BUFSIZE</span>;
+              pool-&gt;count++;
+              <span class="fn">pthread_cond_signal</span>(&amp;cond_nonempty); <span class="cm">// wake consumer</span>
+              <span class="fn">pthread_mutex_unlock</span>(&amp;mtx);
+              }
+
+              <span class="kw">int</span> <span class="fn">obtain</span>(<span class="tp">pool_t</span> *pool) {
+              <span class="fn">pthread_mutex_lock</span>(&amp;mtx);
+              <span class="kw">while</span> (pool-&gt;count == <span class="nm">0</span>) <span class="cm">//
+                empty?</span>
+              <span class="fn">pthread_cond_wait</span>(&amp;cond_nonempty, &amp;mtx);
+              <span class="kw">int</span> data = pool-&gt;data[pool-&gt;start];
+              pool-&gt;start = (pool-&gt;start + <span class="nm">1</span>) % <span class="nm">BUFSIZE</span>;
+              pool-&gt;count--;
+              <span class="fn">pthread_cond_signal</span>(&amp;cond_nonfull); <span class="cm">// wake producer</span>
+              <span class="fn">pthread_mutex_unlock</span>(&amp;mtx);
+              <span class="kw">return</span> data;
+              }
+            </div>
+          </div>
+        </div>
+        <div>
+          <div class="card">
+            <div class="card-title">prod-cons.c — Full Program</div>
+            <div class="cb auto-style-98b404">
+              <span class="tp">pthread_mutex_t</span> mtx;
+              <span class="tp">pthread_cond_t</span> cond_nonempty, cond_nonfull;
+              <span class="tp">pool_t</span> pool;
+
+              <span class="kw">void</span> *<span class="fn">producer</span>(<span class="kw">void</span> *ptr) {
+              <span class="kw">while</span> (num_of_items &gt; <span class="nm">0</span>) {
+              <span class="fn">place</span>(&amp;pool, num_of_items);
+              <span class="fn">printf</span>(<span class="st">"producer: %d\n"</span>, num_of_items);
+              num_of_items--;
+              <span class="fn">pthread_cond_signal</span>(&amp;cond_nonempty);
+              <span class="fn">usleep</span>(<span class="nm">300000</span>);
+              }
+              <span class="fn">pthread_exit</span>(<span class="nm">0</span>);
+              }
+
+              <span class="kw">void</span> *<span class="fn">consumer</span>(<span class="kw">void</span> *ptr) {
+              <span class="kw">while</span> (num_of_items &gt; <span class="nm">0</span> || pool.count &gt; <span
+                class="nm">0</span>) {
+              <span class="fn">printf</span>(<span class="st">"consumer: %d\n"</span>, <span
+                class="fn">obtain</span>(&amp;pool));
+              <span class="fn">pthread_cond_signal</span>(&amp;cond_nonfull);
+              <span class="fn">usleep</span>(<span class="nm">500000</span>);
+              }
+              <span class="fn">pthread_exit</span>(<span class="nm">0</span>);
+              }
+
+              <span class="kw">int</span> <span class="fn">main</span>() {
+              <span class="tp">pthread_t</span> cons, prod;
+              <span class="fn">initialize</span>(&amp;pool);
+              <span class="fn">pthread_mutex_init</span>(&amp;mtx, <span class="nm">0</span>);
+              <span class="fn">pthread_cond_init</span>(&amp;cond_nonempty, <span class="nm">0</span>);
+              <span class="fn">pthread_cond_init</span>(&amp;cond_nonfull, <span class="nm">0</span>);
+              <span class="fn">pthread_create</span>(&amp;cons, <span class="nm">0</span>, consumer, <span
+                class="nm">0</span>);
+              <span class="fn">pthread_create</span>(&amp;prod, <span class="nm">0</span>, producer, <span
+                class="nm">0</span>);
+              <span class="fn">pthread_join</span>(prod, <span class="nm">0</span>);
+              <span class="fn">pthread_join</span>(cons, <span class="nm">0</span>);
+              <span class="fn">pthread_cond_destroy</span>(&amp;cond_nonempty);
+              <span class="fn">pthread_cond_destroy</span>(&amp;cond_nonfull);
+              <span class="fn">pthread_mutex_destroy</span>(&amp;mtx);
+              <span class="kw">return</span> <span class="nm">0</span>;
+              }
+            </div>
+          </div>
+
+          <div class="tip mt-10">
+            <div class="tip-icon">🧠</div>
+            <div>
+              <div class="tip-title">Food for Thought</div>
+              <div class="tip-text">
+                <strong>Q:</strong> Αν ο usleep αντικατασταθεί με usleep(0), τι αλλάζει;<br>
+                <strong>A:</strong> Ο producer τρέχει πολύ πιο γρήγορα, γεμίζει τον buffer, εμφανίζονται "Found Buffer
+                Full" μηνύματα. Η σχεδίαση με condition variables αποτρέπει busy-waiting.<br><br>
+                <strong>Q:</strong> Τι δεδομένα προστατεύονται από τον mutex;<br>
+                <strong>A:</strong> Ο buffer (pool), count, start, end. Η μεταβλητή <code>num_of_items</code> ΔΕΝ
+                προστατεύεται — αυτό είναι bug αν υπάρχουν πολλοί producers!
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="section-quiz" data-topic="topic6" data-section="prodcons"></div>
+    </section>
+
+    <!-- ═══════════════════════ 12. CONCURRENCY ERRORS ═══════════════════════ -->
+    <section id="concurrency">
+      <div class="sh">
+        <div class="sh-icon bg-red-dim">💥</div>
+        <h2>12. Concurrency Errors</h2>
+      </div>
+
+      <p class="section-desc">
+        Οι κατηγορίες σφαλμάτων σε multi-threaded κώδικα. Κάθε τύπος σφάλματος απαιτεί <em>διαφορετική</em>
+        αντιμετώπιση. Η κατανόηση αυτών είναι κρίσιμη για εξετάσεις.
+      </p>
+
+      <div class="grid2">
+        <div>
+          <div class="card">
+            <div class="card-title">1. Data Races</div>
+            <div class="rbox mb-8">
+              <div class="lbl text-red">Definition</div>
+              Δύο ή περισσότερα threads προσπελαύνουν τα ίδια δεδομένα ταυτόχρονα, τουλάχιστον ένα γράφει, και
+              <strong>δεν υπάρχει synchronization</strong>.
+            </div>
+            <p class="auto-style-2fd4f2"><strong class="text-primary">Fix:</strong> Mutex γύρω από κάθε shared variable
+              access.</p>
+          </div>
+
+          <div class="card mt-10">
+            <div class="card-title">2. Atomicity Violations</div>
+            <div class="rbox mb-8">
+              <div class="lbl text-red">Definition</div>
+              Μια σειρά λειτουργιών που <em>πρέπει</em> να εκτελεστεί ατομικά, αλλά κάποιο thread παρεμβαίνει μεταξύ
+              τους.
+            </div>
+            <div class="cb auto-style-7bf338">
+              <span class="cm">// Thread A: check + use must be atomic!</span>
+              <span class="kw">if</span> (ptr != <span class="nm">NULL</span>) <span class="cm">// ← Thread B sets
+                ptr=NULL here!</span>
+              ptr-&gt;field = <span class="nm">42</span>; <span class="cm">// ← CRASH: null dereference</span>
+            </div>
+            <p class="auto-style-2fd4f2"><strong class="text-primary">Fix:</strong> Wrap check-then-act σε ένα mutex.
+            </p>
+          </div>
+        </div>
+        <div>
+          <div class="card">
+            <div class="card-title">3. Order (Logical) Violations</div>
+            <div class="rbox mb-8">
+              <div class="lbl text-red">Definition</div>
+              Η εκτέλεση πρέπει να ακολουθεί μια <em>λογική σειρά</em> (π.χ. init πριν use), αλλά δεν εξασφαλίζεται.
+            </div>
+            <p class="auto-style-2fd4f2"><strong class="text-primary">Fix:</strong> Condition variables για ordering
+              guarantees.</p>
+          </div>
+
+          <div class="card mt-10">
+            <div class="card-title">4. Deadlocks</div>
+            <div class="rbox mb-8">
+              <div class="lbl text-red">Definition</div>
+              Δύο ή περισσότερα threads <em>περιμένουν αμοιβαία</em> — κανένα δεν μπορεί να προχωρήσει. Κλασική
+              κατάσταση: Thread A κρατά Lock 1 και θέλει Lock 2, Thread B κρατά Lock 2 και θέλει Lock 1.
+            </div>
+            <div class="thread-diagram auto-style-a3b7a3">
+              <span class="text-green">Thread A:</span> lock(m1) → ... → lock(m2) <span
+                class="text-red">BLOCKED</span><br>
+              <span class="text-yellow">Thread B:</span> lock(m2) → ... → lock(m1) <span
+                class="text-red">BLOCKED</span><br>
+              <span class="auto-style-b7c7b3">DEADLOCK!</span> Κανένα δεν μπορεί να συνεχίσει.
+            </div>
+            <p class="auto-style-1a0979"><strong class="text-primary">Fix:</strong> Πάντα κλείδωνε τα mutexes με
+              <strong>σταθερή σειρά</strong> (lock ordering). Ή χρησιμοποίησε trylock().</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="tip">
+        <div class="tip-icon">🧠</div>
+        <div>
+          <div class="tip-title">Mnemonic — DRAO (Data Race, Atomicity, Ordering, Deadlock)</div>
+          <div class="tip-text">
+            Θυμήσου τα 4 είδη: <strong class="text-blue">D</strong>ata race (no lock), <strong
+              class="text-green">R</strong>... <strong class="text-yellow">A</strong>tomicity violation (lock but not
+            around entire operation), <strong class="text-orange">O</strong>rder violation (wrong sequence), <strong
+              class="text-red">D</strong>eadlock (circular wait). Η λύση: περισσότερα locks + σωστή σειρά.
+          </div>
+        </div>
+      </div>
+
+      <div class="section-quiz" data-topic="topic6" data-section="concurrency"></div>
+    </section>
+
+    <!-- ═══════════════════════ 13. LOCKING STRATEGIES ═══════════════════════ -->
+    <section id="locking">
+      <div class="sh">
+        <div class="sh-icon bg-purple-dim">⚙️</div>
+        <h2>13. Locking Strategies &amp; Composability</h2>
+      </div>
+
+      <p class="section-desc">
+        Πόσο "λεπτό" πρέπει να είναι το locking; <strong class="text-purple">Coarse-grained</strong> = ένα lock για τα
+        πάντα (απλό αλλά αργό). <strong class="text-cyan">Fine-grained</strong> = πολλά locks (γρήγορο αλλά πολύπλοκο
+        και κίνδυνος deadlock). Η επιλογή εξαρτάται από τις ανάγκες.
+      </p>
+
+      <div class="grid2">
+        <div>
+          <div class="card">
+            <div class="card-title">Coarse vs Fine-Grained Locking</div>
+            <table class="vtbl auto-style-6863e7">
+              <thead>
+                <tr>
+                  <th>Aspect</th>
+                  <th class="text-purple">Coarse</th>
+                  <th class="text-cyan">Fine</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><strong>Locks</strong></td>
+                  <td>Ένα lock για όλα</td>
+                  <td>Πολλά locks (ένα ανά resource)</td>
+                </tr>
+                <tr>
+                  <td><strong>Complexity</strong></td>
+                  <td>Απλό</td>
+                  <td>Πολύπλοκο</td>
+                </tr>
+                <tr>
+                  <td><strong>Parallelism</strong></td>
+                  <td>Χαμηλό (σειριοποίηση)</td>
+                  <td>Υψηλό (παράλληλη πρόσβαση)</td>
+                </tr>
+                <tr>
+                  <td><strong>Deadlock Risk</strong></td>
+                  <td>Χαμηλό</td>
+                  <td>Υψηλό</td>
+                </tr>
+                <tr>
+                  <td><strong>Correctness</strong></td>
+                  <td>Εύκολη</td>
+                  <td>Δύσκολη</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <div class="card mt-10">
+            <div class="card-title">Why Multi-Threaded Code Is Hard</div>
+            <ul class="auto-style-aa23d4">
+              <li class="auto-style-2937bf"><strong class="text-primary">Locks are global:</strong> Η ιδιότητα "ποιο
+                lock κρατώ" επηρεάζει ολόκληρο το πρόγραμμα — δεν κρύβεται πίσω από interface.</li>
+              <li class="auto-style-2937bf"><strong class="text-primary">No modularity:</strong> Callers πρέπει να
+                ξέρουν τι locks παίρνουν τα callees.</li>
+              <li class="auto-style-2937bf"><strong class="text-primary">Condition variables are non-local:</strong>
+                Πρέπει να ξέρεις ποια CV να σηματοδοτήσεις κάθε φορά.</li>
+              <li><strong class="text-primary">No composability:</strong> Δεν μπορείς να φτιάξεις safe services από safe
+                sub-services!</li>
+            </ul>
+          </div>
+        </div>
+        <div>
+          <div class="card">
+            <div class="card-title">Account Library — Composability Problem</div>
+            <div class="cb auto-style-98b404">
+              <span class="kw">typedef struct</span> {
+              <span class="kw">int</span> <span class="sf-field">balance</span>;
+              <span class="tp">pthread_mutex_t</span> <span class="sf-field">account_mutex</span>;
+              } <span class="tp">account_type</span>;
+
+              <span class="kw">void</span> <span class="fn">synch_withdraw</span>(<span class="tp">account_type</span>
+              *acc, <span class="kw">int</span> amount) {
+              <span class="fn">lock</span>(acc-&gt;account_mutex);
+              <span class="fn">withdraw</span>(acc, amount);
+              <span class="fn">unlock</span>(acc-&gt;account_mutex);
+              }
+
+              <span class="cm">// Client code — ATOMICITY VIOLATION!</span>
+              <span class="kw">void</span> <span class="fn">move</span>(<span class="tp">account_type</span> *acc1,
+              <span class="tp">account_type</span> *acc2, <span class="kw">int</span> amount) {
+              <span class="fn">synch_withdraw</span>(acc1, amount); <span class="cm">// lock1, withdraw, unlock1</span>
+              <span class="cm">// ← state visible between operations!</span>
+              <span class="fn">synch_deposit</span>(acc2, amount); <span class="cm">// lock2, deposit, unlock2</span>
+              }
+            </div>
+            <div class="rbox mt-8">
+              <div class="lbl text-red">Problem 1: Atomicity</div>
+              Μεταξύ withdraw και deposit, κάποιος μπορεί να δει ότι χρήματα "εξαφανίστηκαν".
+            </div>
+            <div class="cb auto-style-542e89">
+              <span class="cm">// Fix attempt — DEADLOCK RISK!</span>
+              <span class="kw">void</span> <span class="fn">atomic_move</span>(<span class="tp">account_type</span>
+              *acc1, <span class="tp">account_type</span> *acc2, <span class="kw">int</span> amt) {
+              <span class="fn">lock</span>(acc1-&gt;account_mutex);
+              <span class="fn">lock</span>(acc2-&gt;account_mutex); <span class="cm">// DEADLOCK if another</span>
+              <span class="fn">withdraw</span>(acc1, amt); <span class="cm">// thread does move(acc2,acc1)!</span>
+              <span class="fn">deposit</span>(acc2, amt);
+              <span class="fn">unlock</span>(acc2-&gt;account_mutex);
+              <span class="fn">unlock</span>(acc1-&gt;account_mutex);
+              }
+              <span class="cm">// move(s,t,...) || move(t,s,...) → DEADLOCK</span>
+              <span class="cm">// move(s,s,...) → SELF-DEADLOCK!</span>
+            </div>
+            <div class="wbox mt-8">
+              <div class="lbl text-yellow">Problem 2: Deadlock</div>
+              Αν <code>move(A,B)</code> τρέχει ταυτόχρονα με <code>move(B,A)</code>, κάθε ένα κλειδώνει τον πρώτο
+              λογαριασμό και περιμένει τον δεύτερο → <strong class="text-red">deadlock</strong>. Λύση: lock ordering
+              (πάντα κλείδωνε τον λογαριασμό με τη μικρότερη διεύθυνση πρώτα).
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="section-quiz" data-topic="topic6" data-section="locking"></div>
+    </section>
+
   </div>
 
-  <div class="section-quiz" data-topic="topic6" data-section="prodcons"></div>
-</section>
-
-<!-- ═══════════════════════ 12. CONCURRENCY ERRORS ═══════════════════════ -->
-<section id="concurrency">
-  <div class="sh"><div class="sh-icon bg-red-dim">💥</div><h2>12. Concurrency Errors</h2></div>
-
-  <p class="section-desc">
-    Οι κατηγορίες σφαλμάτων σε multi-threaded κώδικα. Κάθε τύπος σφάλματος απαιτεί <em>διαφορετική</em> αντιμετώπιση. Η κατανόηση αυτών είναι κρίσιμη για εξετάσεις.
-  </p>
-
-  <div class="grid2">
-    <div>
-      <div class="card">
-        <div class="card-title">1. Data Races</div>
-        <div class="rbox mb-8">
-          <div class="lbl text-red">Definition</div>
-          Δύο ή περισσότερα threads προσπελαύνουν τα ίδια δεδομένα ταυτόχρονα, τουλάχιστον ένα γράφει, και <strong>δεν υπάρχει synchronization</strong>.
-        </div>
-        <p class="auto-style-2fd4f2"><strong class="text-primary">Fix:</strong> Mutex γύρω από κάθε shared variable access.</p>
-      </div>
-
-      <div class="card mt-10">
-        <div class="card-title">2. Atomicity Violations</div>
-        <div class="rbox mb-8">
-          <div class="lbl text-red">Definition</div>
-          Μια σειρά λειτουργιών που <em>πρέπει</em> να εκτελεστεί ατομικά, αλλά κάποιο thread παρεμβαίνει μεταξύ τους.
-        </div>
-        <div class="cb auto-style-7bf338">
-<span class="cm">// Thread A: check + use must be atomic!</span>
-<span class="kw">if</span> (ptr != <span class="nm">NULL</span>)   <span class="cm">// ← Thread B sets ptr=NULL here!</span>
-    ptr-&gt;field = <span class="nm">42</span>; <span class="cm">// ← CRASH: null dereference</span>
-        </div>
-        <p class="auto-style-2fd4f2"><strong class="text-primary">Fix:</strong> Wrap check-then-act σε ένα mutex.</p>
-      </div>
-    </div>
-    <div>
-      <div class="card">
-        <div class="card-title">3. Order (Logical) Violations</div>
-        <div class="rbox mb-8">
-          <div class="lbl text-red">Definition</div>
-          Η εκτέλεση πρέπει να ακολουθεί μια <em>λογική σειρά</em> (π.χ. init πριν use), αλλά δεν εξασφαλίζεται.
-        </div>
-        <p class="auto-style-2fd4f2"><strong class="text-primary">Fix:</strong> Condition variables για ordering guarantees.</p>
-      </div>
-
-      <div class="card mt-10">
-        <div class="card-title">4. Deadlocks</div>
-        <div class="rbox mb-8">
-          <div class="lbl text-red">Definition</div>
-          Δύο ή περισσότερα threads <em>περιμένουν αμοιβαία</em> — κανένα δεν μπορεί να προχωρήσει. Κλασική κατάσταση: Thread A κρατά Lock 1 και θέλει Lock 2, Thread B κρατά Lock 2 και θέλει Lock 1.
-        </div>
-        <div class="thread-diagram auto-style-a3b7a3">
-<span class="text-green">Thread A:</span> lock(m1) → ... → lock(m2) <span class="text-red">BLOCKED</span><br>
-<span class="text-yellow">Thread B:</span> lock(m2) → ... → lock(m1) <span class="text-red">BLOCKED</span><br>
-<span class="auto-style-b7c7b3">DEADLOCK!</span> Κανένα δεν μπορεί να συνεχίσει.
-        </div>
-        <p class="auto-style-1a0979"><strong class="text-primary">Fix:</strong> Πάντα κλείδωνε τα mutexes με <strong>σταθερή σειρά</strong> (lock ordering). Ή χρησιμοποίησε trylock().</p>
-      </div>
-    </div>
-  </div>
-
-  <div class="tip">
-    <div class="tip-icon">🧠</div>
-    <div>
-      <div class="tip-title">Mnemonic — DRAO (Data Race, Atomicity, Ordering, Deadlock)</div>
-      <div class="tip-text">
-        Θυμήσου τα 4 είδη: <strong class="text-blue">D</strong>ata race (no lock), <strong class="text-green">R</strong>... <strong class="text-yellow">A</strong>tomicity violation (lock but not around entire operation), <strong class="text-orange">O</strong>rder violation (wrong sequence), <strong class="text-red">D</strong>eadlock (circular wait). Η λύση: περισσότερα locks + σωστή σειρά.
-      </div>
-    </div>
-  </div>
-
-  <div class="section-quiz" data-topic="topic6" data-section="concurrency"></div>
-</section>
-
-<!-- ═══════════════════════ 13. LOCKING STRATEGIES ═══════════════════════ -->
-<section id="locking">
-  <div class="sh"><div class="sh-icon bg-purple-dim">⚙️</div><h2>13. Locking Strategies &amp; Composability</h2></div>
-
-  <p class="section-desc">
-    Πόσο "λεπτό" πρέπει να είναι το locking; <strong class="text-purple">Coarse-grained</strong> = ένα lock για τα πάντα (απλό αλλά αργό). <strong class="text-cyan">Fine-grained</strong> = πολλά locks (γρήγορο αλλά πολύπλοκο και κίνδυνος deadlock). Η επιλογή εξαρτάται από τις ανάγκες.
-  </p>
-
-  <div class="grid2">
-    <div>
-      <div class="card">
-        <div class="card-title">Coarse vs Fine-Grained Locking</div>
-        <table class="vtbl auto-style-6863e7">
-          <thead><tr><th>Aspect</th><th class="text-purple">Coarse</th><th class="text-cyan">Fine</th></tr></thead>
-          <tbody>
-            <tr><td><strong>Locks</strong></td><td>Ένα lock για όλα</td><td>Πολλά locks (ένα ανά resource)</td></tr>
-            <tr><td><strong>Complexity</strong></td><td>Απλό</td><td>Πολύπλοκο</td></tr>
-            <tr><td><strong>Parallelism</strong></td><td>Χαμηλό (σειριοποίηση)</td><td>Υψηλό (παράλληλη πρόσβαση)</td></tr>
-            <tr><td><strong>Deadlock Risk</strong></td><td>Χαμηλό</td><td>Υψηλό</td></tr>
-            <tr><td><strong>Correctness</strong></td><td>Εύκολη</td><td>Δύσκολη</td></tr>
-          </tbody>
-        </table>
-      </div>
-
-      <div class="card mt-10">
-        <div class="card-title">Why Multi-Threaded Code Is Hard</div>
-        <ul class="auto-style-aa23d4">
-          <li class="auto-style-2937bf"><strong class="text-primary">Locks are global:</strong> Η ιδιότητα "ποιο lock κρατώ" επηρεάζει ολόκληρο το πρόγραμμα — δεν κρύβεται πίσω από interface.</li>
-          <li class="auto-style-2937bf"><strong class="text-primary">No modularity:</strong> Callers πρέπει να ξέρουν τι locks παίρνουν τα callees.</li>
-          <li class="auto-style-2937bf"><strong class="text-primary">Condition variables are non-local:</strong> Πρέπει να ξέρεις ποια CV να σηματοδοτήσεις κάθε φορά.</li>
-          <li><strong class="text-primary">No composability:</strong> Δεν μπορείς να φτιάξεις safe services από safe sub-services!</li>
-        </ul>
-      </div>
-    </div>
-    <div>
-      <div class="card">
-        <div class="card-title">Account Library — Composability Problem</div>
-        <div class="cb auto-style-98b404">
-<span class="kw">typedef struct</span> {
-    <span class="kw">int</span> <span class="sf-field">balance</span>;
-    <span class="tp">pthread_mutex_t</span> <span class="sf-field">account_mutex</span>;
-} <span class="tp">account_type</span>;
-
-<span class="kw">void</span> <span class="fn">synch_withdraw</span>(<span class="tp">account_type</span> *acc, <span class="kw">int</span> amount) {
-    <span class="fn">lock</span>(acc-&gt;account_mutex);
-    <span class="fn">withdraw</span>(acc, amount);
-    <span class="fn">unlock</span>(acc-&gt;account_mutex);
-}
-
-<span class="cm">// Client code — ATOMICITY VIOLATION!</span>
-<span class="kw">void</span> <span class="fn">move</span>(<span class="tp">account_type</span> *acc1, <span class="tp">account_type</span> *acc2, <span class="kw">int</span> amount) {
-    <span class="fn">synch_withdraw</span>(acc1, amount); <span class="cm">// lock1, withdraw, unlock1</span>
-    <span class="cm">// ← state visible between operations!</span>
-    <span class="fn">synch_deposit</span>(acc2, amount);  <span class="cm">// lock2, deposit, unlock2</span>
-}
-        </div>
-        <div class="rbox mt-8">
-          <div class="lbl text-red">Problem 1: Atomicity</div>
-          Μεταξύ withdraw και deposit, κάποιος μπορεί να δει ότι χρήματα "εξαφανίστηκαν".
-        </div>
-        <div class="cb auto-style-542e89">
-<span class="cm">// Fix attempt — DEADLOCK RISK!</span>
-<span class="kw">void</span> <span class="fn">atomic_move</span>(<span class="tp">account_type</span> *acc1, <span class="tp">account_type</span> *acc2, <span class="kw">int</span> amt) {
-    <span class="fn">lock</span>(acc1-&gt;account_mutex);
-    <span class="fn">lock</span>(acc2-&gt;account_mutex);  <span class="cm">// DEADLOCK if another</span>
-    <span class="fn">withdraw</span>(acc1, amt);        <span class="cm">// thread does move(acc2,acc1)!</span>
-    <span class="fn">deposit</span>(acc2, amt);
-    <span class="fn">unlock</span>(acc2-&gt;account_mutex);
-    <span class="fn">unlock</span>(acc1-&gt;account_mutex);
-}
-<span class="cm">// move(s,t,...) || move(t,s,...) → DEADLOCK</span>
-<span class="cm">// move(s,s,...) → SELF-DEADLOCK!</span>
-        </div>
-        <div class="wbox mt-8">
-          <div class="lbl text-yellow">Problem 2: Deadlock</div>
-          Αν <code>move(A,B)</code> τρέχει ταυτόχρονα με <code>move(B,A)</code>, κάθε ένα κλειδώνει τον πρώτο λογαριασμό και περιμένει τον δεύτερο → <strong class="text-red">deadlock</strong>. Λύση: lock ordering (πάντα κλείδωνε τον λογαριασμό με τη μικρότερη διεύθυνση πρώτα).
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <div class="section-quiz" data-topic="topic6" data-section="locking"></div>
-</section>
-
-</div>
-
-<div class="footer">K24 · Προγραμματισμός Συστήματος · ΕΚΠΑ · Topic 6: POSIX Threads (pthreads)</div>
+  <div class="footer">K24 · Προγραμματισμός Συστήματος · ΕΚΠΑ · Topic 6: POSIX Threads (pthreads)</div>
 </body>
+
 </html>

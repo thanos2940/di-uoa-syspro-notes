@@ -1,31 +1,193 @@
 <!DOCTYPE html>
 <html lang="el">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Topic 4 · Fork, Exec, Pipes &amp; IPC</title>
-<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;700&family=Syne:wght@400;700;800&family=Lora:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="styles/base.css">
-<link rel="stylesheet" href="styles/layout.css">
-<link rel="stylesheet" href="styles/components.css">
-<style>
-:root{--bg:#0f0900;--bg-rgb: 15, 9, 0;--surf:#1a1200;--surf2:#221800;--border:#3a2800;--orange:#ff9500;--orange-rgb: 255, 149, 0;--odim:#1a0f00;--green:#52d98e;--green-rgb: 82, 217, 142;--gdim:#081a0d;--blue:#5badff;--bdim:#071427;--yellow:#ffda5e;--ydim:#1a1400;--red:#ff6b6b;--rdim:#1a0808;--purple:#c278ff;--pdim:#140a27;--cyan:#40e0d0;--txt:#fff8ec;--muted:#a0906a;--dim:#5a4a2a}
 
-.hero::after{content:'fork()';position:absolute;right:32px;bottom:16px;font-family:'JetBrains Mono',monospace;font-size:clamp(1.5rem,4vw,3rem);color:rgba(255,149,0,.05);pointer-events:none;font-weight:700}
-.cb{background:#050300;}
-.kw{color:var(--orange);font-weight:600}.fn{color:var(--green)}.st{color:var(--yellow)}.cm{color:var(--dim);font-style:italic}.nm{color:var(--purple)}.tp{color:var(--cyan)}.mc{color:#ffb86c}.pr{color:var(--muted)}.ok{color:var(--green)}.er{color:var(--red)}
-.fork-arr{color:var(--dim);padding:6px 0}
-.fork-split{display:flex;gap:20px;justify-content:center;margin-top:8px}
-.fork-branch{display:flex;flex-direction:column;align-items:center;gap:6px}
-.fork-val{color:var(--dim)}
-.pipe-diag{background:#050300;border:1px solid var(--border);border-radius:10px;padding:20px 24px}
-.pipe-fd{border-radius:4px;padding:4px 10px}
-.ptree{font-family:'JetBrains Mono',monospace;line-height:2.2;background:#050300;border:1px solid var(--border);border-radius:8px;padding:18px 22px}
-.pt-pid{color:var(--orange)}.pt-name{color:var(--txt)}.pt-dim{color:var(--dim);font-style:italic}.pt-zombie{color:var(--red)}.pt-orphan{color:var(--yellow)}
-.retval-row{display:flex;gap:10px;flex-wrap:wrap;margin:12px 0}
-.retval{flex:1;min-width:120px;background:var(--surf);border:1px solid var(--border);border-radius:8px;padding:12px;text-align:center}
-.retval-num{font-family:'JetBrains Mono',monospace;font-weight:700;margin-bottom:4px}
-.retval-desc{color:var(--muted)}
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Topic 4 · Fork, Exec, Pipes &amp; IPC</title>
+  <link
+    href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;700&family=Syne:wght@400;700;800&family=Lora:ital,wght@0,400;0,600;1,400&display=swap"
+    rel="stylesheet">
+  <link rel="stylesheet" href="styles/base.css">
+  <link rel="stylesheet" href="styles/layout.css">
+  <link rel="stylesheet" href="styles/components.css">
+  <style>
+    :root {
+      --bg: #0f0900;
+      --bg-rgb: 15, 9, 0;
+      --surf: #1a1200;
+      --surf2: #221800;
+      --border: #3a2800;
+      --orange: #ff9500;
+      --orange-rgb: 255, 149, 0;
+      --odim: #1a0f00;
+      --green: #52d98e;
+      --green-rgb: 82, 217, 142;
+      --gdim: #081a0d;
+      --blue: #5badff;
+      --bdim: #071427;
+      --yellow: #ffda5e;
+      --ydim: #1a1400;
+      --red: #ff6b6b;
+      --rdim: #1a0808;
+      --purple: #c278ff;
+      --pdim: #140a27;
+      --cyan: #40e0d0;
+      --txt: #fff8ec;
+      --muted: #a0906a;
+      --dim: #5a4a2a
+    }
+
+    .hero::after {
+      content: 'fork()';
+      position: absolute;
+      right: 32px;
+      bottom: 16px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: clamp(1.5rem, 4vw, 3rem);
+      color: rgba(255, 149, 0, .05);
+      pointer-events: none;
+      font-weight: 700
+    }
+
+    .cb {
+      background: #050300;
+    }
+
+    .kw {
+      color: var(--orange);
+      font-weight: 600
+    }
+
+    .fn {
+      color: var(--green)
+    }
+
+    .st {
+      color: var(--yellow)
+    }
+
+    .cm {
+      color: var(--dim);
+      font-style: italic
+    }
+
+    .nm {
+      color: var(--purple)
+    }
+
+    .tp {
+      color: var(--cyan)
+    }
+
+    .mc {
+      color: #ffb86c
+    }
+
+    .pr {
+      color: var(--muted)
+    }
+
+    .ok {
+      color: var(--green)
+    }
+
+    .er {
+      color: var(--red)
+    }
+
+    .fork-arr {
+      color: var(--dim);
+      padding: 6px 0
+    }
+
+    .fork-split {
+      display: flex;
+      gap: 20px;
+      justify-content: center;
+      margin-top: 8px
+    }
+
+    .fork-branch {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 6px
+    }
+
+    .fork-val {
+      color: var(--dim)
+    }
+
+    .pipe-diag {
+      background: #050300;
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 20px 24px
+    }
+
+    .pipe-fd {
+      border-radius: 4px;
+      padding: 4px 10px
+    }
+
+    .ptree {
+      font-family: 'JetBrains Mono', monospace;
+      line-height: 2.2;
+      background: #050300;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 18px 22px
+    }
+
+    .pt-pid {
+      color: var(--orange)
+    }
+
+    .pt-name {
+      color: var(--txt)
+    }
+
+    .pt-dim {
+      color: var(--dim);
+      font-style: italic
+    }
+
+    .pt-zombie {
+      color: var(--red)
+    }
+
+    .pt-orphan {
+      color: var(--yellow)
+    }
+
+    .retval-row {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin: 12px 0
+    }
+
+    .retval {
+      flex: 1;
+      min-width: 120px;
+      background: var(--surf);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 12px;
+      text-align: center
+    }
+
+    .retval-num {
+      font-family: 'JetBrains Mono', monospace;
+      font-weight: 700;
+      margin-bottom: 4px
+    }
+
+    .retval-desc {
+      color: var(--muted)
+    }
+
     html[data-theme="light"] .hero {
       background: var(--hero-bg);
       background-image: linear-gradient(150deg, rgb(248, 250, 252) 0%, rgb(240, 253, 244) 55%, rgb(248, 250, 252) 100%);
@@ -54,538 +216,719 @@
       background-origin: initial;
       background-clip: initial;
     }
-    </style>
-<script src="js/nav.js" defer></script>
-  <script src="data/questions.js" defer></script><script src="js/quiz-loader.js" defer></script>
+  </style>
+  <script src="js/nav.js" defer></script>
+  <script src="data/questions.js" defer></script>
+  <script src="js/quiz-loader.js" defer></script>
 </head>
+
 <body>
-<div id="site-nav"></div>
+  <div id="site-nav"></div>
 
-<div class="hero">
-  <div class="hero-label">K24 · Topic 4</div>
-  <h1>fork(), exec(), <em>Pipes</em> &amp; IPC</h1>
-  <p>Δημιουργία διεργασιών, εκτέλεση προγραμμάτων, anonymous pipes, FIFOs, zombie/orphan — με tips για κάθε system call και έννοια.</p>
-  <div class="chips">
-    <span class="chip">fork()</span><span class="chip">exec family</span><span class="chip">wait/waitpid</span>
-    <span class="chip">pipes</span><span class="chip">FIFOs</span><span class="chip">zombie/orphan</span>
-  </div>
-</div>
-
-<nav class="toc">
-  <a href="#fork">fork()</a><a href="#exec">exec()</a><a href="#wait">wait()</a>
-  <a href="#zombie">Zombie/Orphan</a><a href="#pipes">Anonymous Pipes</a>
-  <a href="#fifo">Named Pipes</a><a href="#patterns">Patterns</a>
-</nav>
-
-<div class="wrap">
-
-<!-- FORK -->
-<section id="fork">
-  <div class="sh"><div class="sh-icon bg-orange-dim">🔀</div><h2>fork() — Δημιουργία Νέας Διεργασίας</h2></div>
-
-  <p class="section-desc-lg">
-    Η <code>fork()</code> δημιουργεί ένα <strong class="text-primary">πανομοιότυπο αντίγραφο</strong> της τρέχουσας διεργασίας.
-    Μετά την fork υπάρχουν <em>δύο</em> διεργασίες που εκτελούν τον ίδιο κώδικα —
-    διαφέρουν μόνο στην τιμή που επέστρεψε η fork().
-  </p>
-
-  <div class="grid2">
-    <div>
-      <div class="cb"><span class="mc">#include</span> <span class="st">&lt;unistd.h&gt;</span>
-<span class="mc">#include</span> <span class="st">&lt;sys/types.h&gt;</span>
-<span class="tp">pid_t</span> pid = <span class="fn">fork</span>();
-<span class="kw">if</span> (pid == -<span class="nm">1</span>) {
-<span class="fn">perror</span>(<span class="st">"fork"</span>); <span class="fn">exit</span>(<span class="nm">1</span>);
-<span class="cm">// ↑ η fork() απέτυχε (σπάνιο)</span>
-} <span class="kw">else if</span> (pid == <span class="nm">0</span>) {
-<span class="cm">// ΕΔΩ ΕΙΜΑΙ ΤΟ CHILD</span>
-<span class="cm">// pid == 0 σημαίνει "είμαι το παιδί"</span>
-<span class="fn">printf</span>(<span class="st">"Child, PID=%d\n"</span>, <span class="fn">getpid</span>());
-<span class="fn">exit</span>(<span class="nm">0</span>);
-} <span class="kw">else</span> {
-<span class="cm">// ΕΔΩ ΕΙΜΑΙ ΤΟ PARENT</span>
-<span class="cm">// pid == PID του child που μόλις φτιάξαμε</span>
-<span class="fn">printf</span>(<span class="st">"Parent, child PID=%d\n"</span>, pid);
-<span class="fn">wait</span>(<span class="mc">NULL</span>);   <span class="cm">// περιμένω να τελειώσει το child</span>
-}
-</div>
+  <div class="hero">
+    <div class="hero-label">K24 · Topic 4</div>
+    <h1>fork(), exec(), <em>Pipes</em> &amp; IPC</h1>
+    <p>Δημιουργία διεργασιών, εκτέλεση προγραμμάτων, anonymous pipes, FIFOs, zombie/orphan — με tips για κάθε system
+      call και έννοια.</p>
+    <div class="chips">
+      <span class="chip">fork()</span><span class="chip">exec family</span><span class="chip">wait/waitpid</span>
+      <span class="chip">pipes</span><span class="chip">FIFOs</span><span class="chip">zombie/orphan</span>
     </div>
+  </div>
 
-    <div>
-      <div class="fork-diagram">
-        <div class="fork-proc fp-parent">PARENT<br><small class="text-orange-alpha-fw400">καλεί fork()</small></div>
-        <div class="fork-arr">↓ fork() ↓</div>
-        <div class="fork-split">
-          <div class="fork-branch">
-            <div class="fork-proc fp-parent">PARENT</div>
-            <div class="fork-val">pid = child_PID<br>(θετικός αριθμός)</div>
-          </div>
-          <div class="fork-branch">
-            <div class="fork-proc fp-child">CHILD</div>
-            <div class="fork-val">pid = 0<br>("είμαι το παιδί")</div>
-          </div>
-          <div class="fork-branch">
-            <div class="fork-proc fp-err">ERROR</div>
-            <div class="fork-val">pid = -1<br>(μόνο στον parent)</div>
-          </div>
-        </div>
+  <nav class="toc">
+    <a href="#fork">fork()</a><a href="#exec">exec()</a><a href="#wait">wait()</a>
+    <a href="#zombie">Zombie/Orphan</a><a href="#pipes">Anonymous Pipes</a>
+    <a href="#fifo">Named Pipes</a><a href="#patterns">Patterns</a>
+  </nav>
+
+  <div class="wrap">
+
+    <!-- FORK -->
+    <section id="fork">
+      <div class="sh">
+        <div class="sh-icon bg-orange-dim">🔀</div>
+        <h2>fork() — Δημιουργία Νέας Διεργασίας</h2>
       </div>
 
-      <div class="tip">
-        <div class="tip-icon">🧠</div>
+      <p class="section-desc-lg">
+        Η <code>fork()</code> δημιουργεί ένα <strong class="text-primary">πανομοιότυπο αντίγραφο</strong> της τρέχουσας
+        διεργασίας.
+        Μετά την fork υπάρχουν <em>δύο</em> διεργασίες που εκτελούν τον ίδιο κώδικα —
+        διαφέρουν μόνο στην τιμή που επέστρεψε η fork().
+      </p>
+
+      <div class="grid2">
         <div>
-          <div class="tip-title">Tip — τιμές επιστροφής</div>
-          <div class="tip-text">
-            <strong>Parent</strong> παίρνει το PID του child (>0) — λογικό, γιατί ο parent θέλει να ξέρει ποιο παιδί έφτιαξε.<br>
-            <strong>Child</strong> παίρνει 0 — "είμαι το παιδί, δεν γνωρίζω το PID μου ακόμα". Το δικό του PID βρίσκεται με getpid().<br>
-            <strong>-1</strong> = αποτυχία (π.χ. εξαντλήθηκε ο πίνακας διεργασιών).
+          <div class="cb"><span class="mc">#include</span> <span class="st">&lt;unistd.h&gt;</span>
+            <span class="mc">#include</span> <span class="st">&lt;sys/types.h&gt;</span>
+            <span class="tp">pid_t</span> pid = <span class="fn">fork</span>();
+            <span class="kw">if</span> (pid == -<span class="nm">1</span>) {
+            <span class="fn">perror</span>(<span class="st">"fork"</span>); <span class="fn">exit</span>(<span
+              class="nm">1</span>);
+            <span class="cm">// ↑ η fork() απέτυχε (σπάνιο)</span>
+            } <span class="kw">else if</span> (pid == <span class="nm">0</span>) {
+            <span class="cm">// ΕΔΩ ΕΙΜΑΙ ΤΟ CHILD</span>
+            <span class="cm">// pid == 0 σημαίνει "είμαι το παιδί"</span>
+            <span class="fn">printf</span>(<span class="st">"Child, PID=%d\n"</span>, <span class="fn">getpid</span>());
+            <span class="fn">exit</span>(<span class="nm">0</span>);
+            } <span class="kw">else</span> {
+            <span class="cm">// ΕΔΩ ΕΙΜΑΙ ΤΟ PARENT</span>
+            <span class="cm">// pid == PID του child που μόλις φτιάξαμε</span>
+            <span class="fn">printf</span>(<span class="st">"Parent, child PID=%d\n"</span>, pid);
+            <span class="fn">wait</span>(<span class="mc">NULL</span>); <span class="cm">// περιμένω να τελειώσει το
+              child</span>
+            }
+          </div>
+        </div>
+
+        <div>
+          <div class="fork-diagram">
+            <div class="fork-proc fp-parent">PARENT<br><small class="text-orange-alpha-fw400">καλεί fork()</small></div>
+            <div class="fork-arr">↓ fork() ↓</div>
+            <div class="fork-split">
+              <div class="fork-branch">
+                <div class="fork-proc fp-parent">PARENT</div>
+                <div class="fork-val">pid = child_PID<br>(θετικός αριθμός)</div>
+              </div>
+              <div class="fork-branch">
+                <div class="fork-proc fp-child">CHILD</div>
+                <div class="fork-val">pid = 0<br>("είμαι το παιδί")</div>
+              </div>
+              <div class="fork-branch">
+                <div class="fork-proc fp-err">ERROR</div>
+                <div class="fork-val">pid = -1<br>(μόνο στον parent)</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="tip">
+            <div class="tip-icon">🧠</div>
+            <div>
+              <div class="tip-title">Tip — τιμές επιστροφής</div>
+              <div class="tip-text">
+                <strong>Parent</strong> παίρνει το PID του child (>0) — λογικό, γιατί ο parent θέλει να ξέρει ποιο παιδί
+                έφτιαξε.<br>
+                <strong>Child</strong> παίρνει 0 — "είμαι το παιδί, δεν γνωρίζω το PID μου ακόμα". Το δικό του PID
+                βρίσκεται με getpid().<br>
+                <strong>-1</strong> = αποτυχία (π.χ. εξαντλήθηκε ο πίνακας διεργασιών).
+              </div>
+            </div>
           </div>
         </div>
       </div>
-    </div>
-  </div>
 
-  <div class="retval-row">
-    <div class="retval"><div class="retval-num text-orange">&gt; 0</div><div class="retval-desc">Είμαι ο PARENT — αυτή είναι η τιμή = PID του child</div></div>
-    <div class="retval"><div class="retval-num text-green">= 0</div><div class="retval-desc">Είμαι το CHILD — "0" σημαίνει "είμαι το παιδί"</div></div>
-    <div class="retval"><div class="retval-num text-red">= -1</div><div class="retval-desc">ΑΠΟΤΥΧΙΑ — ελέγξε errno (EAGAIN, ENOMEM)</div></div>
-  </div>
-
-  <div class="card">
-    <div class="card-title">Τι κληρονομεί το child;</div>
-    <div class="grid2">
-      <div>
-        <div class="gbox"><div class="lbl text-green">✅ Κληρονομεί</div>
-          Αντίγραφο μνήμης (code, stack, heap) · <strong class="text-primary">Αντίγραφο FD table</strong> (ανοιχτά αρχεία, pipes) · Signal handlers · Environment variables · Τρέχων κατάλογος
+      <div class="retval-row">
+        <div class="retval">
+          <div class="retval-num text-orange">&gt; 0</div>
+          <div class="retval-desc">Είμαι ο PARENT — αυτή είναι η τιμή = PID του child</div>
+        </div>
+        <div class="retval">
+          <div class="retval-num text-green">= 0</div>
+          <div class="retval-desc">Είμαι το CHILD — "0" σημαίνει "είμαι το παιδί"</div>
+        </div>
+        <div class="retval">
+          <div class="retval-num text-red">= -1</div>
+          <div class="retval-desc">ΑΠΟΤΥΧΙΑ — ελέγξε errno (EAGAIN, ENOMEM)</div>
         </div>
       </div>
-      <div>
-        <div class="rbox"><div class="lbl text-red">✗ ΔΕΝ κληρονομεί</div>
-          Pending signals · Memory locks · File locks · Timers (alarm) · PID (έχει νέο PID)
+
+      <div class="card">
+        <div class="card-title">Τι κληρονομεί το child;</div>
+        <div class="grid2">
+          <div>
+            <div class="gbox">
+              <div class="lbl text-green">✅ Κληρονομεί</div>
+              Αντίγραφο μνήμης (code, stack, heap) · <strong class="text-primary">Αντίγραφο FD table</strong> (ανοιχτά
+              αρχεία, pipes) · Signal handlers · Environment variables · Τρέχων κατάλογος
+            </div>
+          </div>
+          <div>
+            <div class="rbox">
+              <div class="lbl text-red">✗ ΔΕΝ κληρονομεί</div>
+              Pending signals · Memory locks · File locks · Timers (alarm) · PID (έχει νέο PID)
+            </div>
+            <div class="tip">
+              <div class="tip-icon">🧠</div>
+              <div>
+                <div class="tip-title">Tip — Copy-on-Write</div>
+                <div class="tip-text">Το child <strong>δεν παίρνει αμέσως αντίγραφο</strong> μνήμης — μοιράζονται την
+                  ίδια φυσική μνήμη ώσπου κάποιος γράψει σε κάτι. Αυτό κάνει τη fork() γρήγορη ακόμα και για μεγάλες
+                  διεργασίες.</div>
+              </div>
+            </div>
+          </div>
         </div>
-        <div class="tip"><div class="tip-icon">🧠</div><div><div class="tip-title">Tip — Copy-on-Write</div><div class="tip-text">Το child <strong>δεν παίρνει αμέσως αντίγραφο</strong> μνήμης — μοιράζονται την ίδια φυσική μνήμη ώσπου κάποιος γράψει σε κάτι. Αυτό κάνει τη fork() γρήγορη ακόμα και για μεγάλες διεργασίες.</div></div></div>
       </div>
-    </div>
-  </div>
 
       <div class="section-quiz" data-topic="topic4" data-section="fork"></div>
     </section>
 
-<!-- EXEC -->
-<section id="exec">
-  <div class="sh"><div class="sh-icon bg-green-dim">🚀</div><h2>exec() family — Εκτέλεση Νέου Προγράμματος</h2></div>
-
-  <p class="section-desc">
-    Η <code>exec()</code> <strong class="text-primary">αντικαθιστά</strong> την τρέχουσα διεργασία με ένα νέο πρόγραμμα — σαν "μεταμόρφωση": το PID παραμένει ίδιο, αλλά ο κώδικας, τα δεδομένα, το stack αντικαθίστανται πλήρως.
-    Ο κώδικας μετά την exec() <em>δεν εκτελείται ποτέ</em> αν πετύχει. Τυπικά πρώτα κάνουμε <code>fork()</code> και μετά στο child <code>exec()</code> — έτσι ξεκινάμε νέα προγράμματα χωρίς να σκοτώσουμε τον parent.
-  </p>
-
-  <table class="etbl mb-14">
-    <tr><th>Function</th><th>Path</th><th>Args</th><th>Env</th><th>Παράδειγμα κλήσης</th></tr>
-    <tr>
-      <td class="mono">execl()</td><td>full path</td><td>list</td><td>inherit</td>
-      <td class="mono text-muted">execl("/bin/ls","ls","-l",NULL)</td>
-    </tr>
-    <tr>
-      <td class="mono">execv()</td><td>full path</td><td>array</td><td>inherit</td>
-      <td class="mono text-muted">execv("/bin/ls", argv)</td>
-    </tr>
-    <tr>
-      <td class="mono">execlp()</td><td class="text-green">PATH ✓</td><td>list</td><td>inherit</td>
-      <td class="mono text-muted">execlp("ls","ls","-l",NULL)</td>
-    </tr>
-    <tr>
-      <td class="mono">execvp()</td><td class="text-green">PATH ✓</td><td>array</td><td>inherit</td>
-      <td class="mono text-muted">execvp("ls", argv)</td>
-    </tr>
-    <tr>
-      <td class="mono">execve()</td><td>full path</td><td>array</td><td class="text-green">explicit ✓</td>
-      <td class="mono text-muted">execve(path, argv, envp)</td>
-    </tr>
-  </table>
-
-  <div class="tip">
-    <div class="tip-icon">🧠</div>
-    <div>
-      <div class="tip-title">Tip — πώς να θυμάσαι ποια είναι ποια</div>
-      <div class="tip-text">
-        Το suffix λέει τα πάντα:<br>
-        <strong>l</strong> = list — arguments ως ξεχωριστά strings: <code>execl(path, "ls", "-l", NULL)</code><br>
-        <strong>v</strong> = vector/array — arguments ως array: <code>char *argv[] = {"ls","-l",NULL}</code><br>
-        <strong>p</strong> = PATH search — δεν χρειάζεσαι full path, βρίσκει αυτόματα στο PATH<br>
-        <strong>e</strong> = environment — περνάς ρητά το environment (envp)<br>
-        <strong>execvp</strong> = vector + PATH search = το πιο χρήσιμο σε shells
+    <!-- EXEC -->
+    <section id="exec">
+      <div class="sh">
+        <div class="sh-icon bg-green-dim">🚀</div>
+        <h2>exec() family — Εκτέλεση Νέου Προγράμματος</h2>
       </div>
-    </div>
-  </div>
 
-  <div class="grid2">
-    <div>
-      <div class="cb"><span class="cm">// τυπικό pattern: fork() + exec()</span>
-<span class="tp">pid_t</span> pid = <span class="fn">fork</span>();
-<span class="kw">if</span> (pid == <span class="nm">0</span>) {
-<span class="cm">// CHILD: αντικαθίσταται από ls</span>
-<span class="fn">execlp</span>(<span class="st">"ls"</span>, <span class="st">"ls"</span>, <span class="st">"-la"</span>, <span class="mc">NULL</span>);
-<span class="cm">// αν φτάσω εδώ, η exec απέτυχε</span>
-<span class="fn">perror</span>(<span class="st">"exec"</span>);
-<span class="fn">exit</span>(<span class="nm">1</span>);
-} <span class="kw">else if</span> (pid &gt; <span class="nm">0</span>) {
-<span class="fn">waitpid</span>(pid, <span class="mc">NULL</span>, <span class="nm">0</span>);
-} <span class="kw">else</span> {
-<span class="fn">perror</span>(<span class="st">"fork"</span>); <span class="fn">exit</span>(<span class="nm">1</span>);
-}
-</div>
-    </div>
-    <div>
-      <div class="cb"><span class="cm">// execv με array</span>
-<span class="tp">char</span> *args[] = {<span class="st">"ls"</span>, <span class="st">"-la"</span>, <span class="mc">NULL</span>};
-<span class="cm">// ΠΡΟΣΟΧΗ: το τελευταίο ΠΑΝΤΑ NULL!</span>
-<span class="fn">execvp</span>(<span class="st">"ls"</span>, args);
-<span class="cm">// exec με pipe — child γράφει στο pipe</span>
-<span class="kw">if</span> (pid == <span class="nm">0</span>) {
-<span class="fn">dup2</span>(pipe_fd[<span class="nm">1</span>], <span class="nm">1</span>);   <span class="cm">// stdout → pipe</span>
-<span class="fn">close</span>(pipe_fd[<span class="nm">0</span>]);
-<span class="fn">close</span>(pipe_fd[<span class="nm">1</span>]);
-<span class="fn">execlp</span>(<span class="st">"ls"</span>, <span class="st">"ls"</span>, <span class="mc">NULL</span>);
-}
-</div>
-      <div class="ibox"><div class="lbl text-blue">Τι κρατάει μετά exec()</div>Open file descriptors παραμένουν (εκτός αν έχουν FD_CLOEXEC). Αυτό επιτρέπει να περνάμε pipes στα εκτελούμενα προγράμματα μέσω dup2() πριν την exec().</div>
-    </div>
-  </div>
+      <p class="section-desc">
+        Η <code>exec()</code> <strong class="text-primary">αντικαθιστά</strong> την τρέχουσα διεργασία με ένα νέο
+        πρόγραμμα — σαν "μεταμόρφωση": το PID παραμένει ίδιο, αλλά ο κώδικας, τα δεδομένα, το stack αντικαθίστανται
+        πλήρως.
+        Ο κώδικας μετά την exec() <em>δεν εκτελείται ποτέ</em> αν πετύχει. Τυπικά πρώτα κάνουμε <code>fork()</code> και
+        μετά στο child <code>exec()</code> — έτσι ξεκινάμε νέα προγράμματα χωρίς να σκοτώσουμε τον parent.
+      </p>
+
+      <table class="etbl mb-14">
+        <tr>
+          <th>Function</th>
+          <th>Path</th>
+          <th>Args</th>
+          <th>Env</th>
+          <th>Παράδειγμα κλήσης</th>
+        </tr>
+        <tr>
+          <td class="mono">execl()</td>
+          <td>full path</td>
+          <td>list</td>
+          <td>inherit</td>
+          <td class="mono text-muted">execl("/bin/ls","ls","-l",NULL)</td>
+        </tr>
+        <tr>
+          <td class="mono">execv()</td>
+          <td>full path</td>
+          <td>array</td>
+          <td>inherit</td>
+          <td class="mono text-muted">execv("/bin/ls", argv)</td>
+        </tr>
+        <tr>
+          <td class="mono">execlp()</td>
+          <td class="text-green">PATH ✓</td>
+          <td>list</td>
+          <td>inherit</td>
+          <td class="mono text-muted">execlp("ls","ls","-l",NULL)</td>
+        </tr>
+        <tr>
+          <td class="mono">execvp()</td>
+          <td class="text-green">PATH ✓</td>
+          <td>array</td>
+          <td>inherit</td>
+          <td class="mono text-muted">execvp("ls", argv)</td>
+        </tr>
+        <tr>
+          <td class="mono">execve()</td>
+          <td>full path</td>
+          <td>array</td>
+          <td class="text-green">explicit ✓</td>
+          <td class="mono text-muted">execve(path, argv, envp)</td>
+        </tr>
+      </table>
+
+      <div class="tip">
+        <div class="tip-icon">🧠</div>
+        <div>
+          <div class="tip-title">Tip — πώς να θυμάσαι ποια είναι ποια</div>
+          <div class="tip-text">
+            Το suffix λέει τα πάντα:<br>
+            <strong>l</strong> = list — arguments ως ξεχωριστά strings: <code>execl(path, "ls", "-l", NULL)</code><br>
+            <strong>v</strong> = vector/array — arguments ως array: <code>char *argv[] = {"ls","-l",NULL}</code><br>
+            <strong>p</strong> = PATH search — δεν χρειάζεσαι full path, βρίσκει αυτόματα στο PATH<br>
+            <strong>e</strong> = environment — περνάς ρητά το environment (envp)<br>
+            <strong>execvp</strong> = vector + PATH search = το πιο χρήσιμο σε shells
+          </div>
+        </div>
+      </div>
+
+      <div class="grid2">
+        <div>
+          <div class="cb"><span class="cm">// τυπικό pattern: fork() + exec()</span>
+            <span class="tp">pid_t</span> pid = <span class="fn">fork</span>();
+            <span class="kw">if</span> (pid == <span class="nm">0</span>) {
+            <span class="cm">// CHILD: αντικαθίσταται από ls</span>
+            <span class="fn">execlp</span>(<span class="st">"ls"</span>, <span class="st">"ls"</span>, <span
+              class="st">"-la"</span>, <span class="mc">NULL</span>);
+            <span class="cm">// αν φτάσω εδώ, η exec απέτυχε</span>
+            <span class="fn">perror</span>(<span class="st">"exec"</span>);
+            <span class="fn">exit</span>(<span class="nm">1</span>);
+            } <span class="kw">else if</span> (pid &gt; <span class="nm">0</span>) {
+            <span class="fn">waitpid</span>(pid, <span class="mc">NULL</span>, <span class="nm">0</span>);
+            } <span class="kw">else</span> {
+            <span class="fn">perror</span>(<span class="st">"fork"</span>); <span class="fn">exit</span>(<span
+              class="nm">1</span>);
+            }
+          </div>
+        </div>
+        <div>
+          <div class="cb"><span class="cm">// execv με array</span>
+            <span class="tp">char</span> *args[] = {<span class="st">"ls"</span>, <span class="st">"-la"</span>, <span
+              class="mc">NULL</span>};
+            <span class="cm">// ΠΡΟΣΟΧΗ: το τελευταίο ΠΑΝΤΑ NULL!</span>
+            <span class="fn">execvp</span>(<span class="st">"ls"</span>, args);
+            <span class="cm">// exec με pipe — child γράφει στο pipe</span>
+            <span class="kw">if</span> (pid == <span class="nm">0</span>) {
+            <span class="fn">dup2</span>(pipe_fd[<span class="nm">1</span>], <span class="nm">1</span>); <span
+              class="cm">// stdout → pipe</span>
+            <span class="fn">close</span>(pipe_fd[<span class="nm">0</span>]);
+            <span class="fn">close</span>(pipe_fd[<span class="nm">1</span>]);
+            <span class="fn">execlp</span>(<span class="st">"ls"</span>, <span class="st">"ls"</span>, <span
+              class="mc">NULL</span>);
+            }
+          </div>
+          <div class="ibox">
+            <div class="lbl text-blue">Τι κρατάει μετά exec()</div>Open file descriptors παραμένουν (εκτός αν έχουν
+            FD_CLOEXEC). Αυτό επιτρέπει να περνάμε pipes στα εκτελούμενα προγράμματα μέσω dup2() πριν την exec().
+          </div>
+        </div>
+      </div>
 
       <div class="section-quiz" data-topic="topic4" data-section="exec"></div>
     </section>
 
-<!-- WAIT -->
-<section id="wait">
-  <div class="sh"><div class="sh-icon bg-blue-dim">⏳</div><h2>wait() και waitpid() — Συλλογή Exit Status</h2></div>
+    <!-- WAIT -->
+    <section id="wait">
+      <div class="sh">
+        <div class="sh-icon bg-blue-dim">⏳</div>
+        <h2>wait() και waitpid() — Συλλογή Exit Status</h2>
+      </div>
 
-  <p class="section-desc-lg">
-    Όταν ένας πατέρας δημιουργεί μια νέα διεργασία (child), πρέπει να φροντίσει για τον τερματισμό της. 
-    Η <code>wait()</code> επιτρέπει στον parent να <strong class="text-primary">συγχρονιστεί</strong> με το παιδί του: σταματά την εκτέλεση μέχρι το παιδί να τελειώσει, 
-    μαθαίνει αν η εργασία πέτυχε (exit status) και ελευθερώνει την εγγραφή του παιδιού από τον πίνακα διεργασιών (προλαμβάνοντας τα <em>zombies</em>).
-  </p>
+      <p class="section-desc-lg">
+        Όταν ένας πατέρας δημιουργεί μια νέα διεργασία (child), πρέπει να φροντίσει για τον τερματισμό της.
+        Η <code>wait()</code> επιτρέπει στον parent να <strong class="text-primary">συγχρονιστεί</strong> με το παιδί
+        του: σταματά την εκτέλεση μέχρι το παιδί να τελειώσει,
+        μαθαίνει αν η εργασία πέτυχε (exit status) και ελευθερώνει την εγγραφή του παιδιού από τον πίνακα διεργασιών
+        (προλαμβάνοντας τα <em>zombies</em>).
+      </p>
 
-  <div class="grid2">
-    <div>
-      <div class="cb"><span class="mc">#include</span> <span class="st">&lt;sys/wait.h&gt;</span>
-<span class="tp">int</span> status;
-<span class="tp">pid_t</span> dead_pid;
-<span class="cm">// wait: περιμένει ΟΠΟΙΟΔΗΠΟΤΕ child</span>
-dead_pid = <span class="fn">wait</span>(&amp;status);
-<span class="cm">// waitpid: περιμένει ΣΥΓΚΕΚΡΙΜΕΝΟ child</span>
-dead_pid = <span class="fn">waitpid</span>(child_pid, &amp;status, <span class="nm">0</span>);
-<span class="cm">// -1: περιμένει ΟΠΟΙΟΔΗΠΟΤΕ (ίδιο με wait)</span>
-dead_pid = <span class="fn">waitpid</span>(-<span class="nm">1</span>, &amp;status, <span class="nm">0</span>);
-<span class="cm">// WNOHANG: non-blocking, επιστρέφει 0 αν δεν τελείωσε</span>
-dead_pid = <span class="fn">waitpid</span>(-<span class="nm">1</span>, &amp;status, <span class="mc">WNOHANG</span>);
-<span class="cm">// ανάλυση exit status</span>
-<span class="kw">if</span> (<span class="mc">WIFEXITED</span>(status)) {
-<span class="fn">printf</span>(<span class="st">"exit: %d\n"</span>, <span class="mc">WEXITSTATUS</span>(status));
-}
-<span class="kw">if</span> (<span class="mc">WIFSIGNALED</span>(status)) {
-<span class="fn">printf</span>(<span class="st">"killed by: %d\n"</span>, <span class="mc">WTERMSIG</span>(status));
-}
-</div>
-    </div>
-    <div>
-      <div class="tip">
-        <div class="tip-icon">🧠</div>
+      <div class="grid2">
         <div>
-          <div class="tip-title">Tip — macros από το όνομα</div>
-          <div class="tip-text">
-            <strong>W</strong>IF<strong>EXITED</strong> = "W"ait "IF" child "EXITED" normally (exit/return)<br>
-            <strong>W</strong>IF<strong>SIGNALED</strong> = "W"ait "IF" killed by "SIGNAL"<br>
-            <strong>W</strong>EXIT<strong>STATUS</strong> = ποιος ήταν ο exit code (0-255)<br>
-            <strong>W</strong>TERM<strong>SIG</strong> = ποιο signal το σκότωσε<br>
-            Το W μπροστά = "Wait macro".
+          <div class="cb"><span class="mc">#include</span> <span class="st">&lt;sys/wait.h&gt;</span>
+            <span class="tp">int</span> status;
+            <span class="tp">pid_t</span> dead_pid;
+            <span class="cm">// wait: περιμένει ΟΠΟΙΟΔΗΠΟΤΕ child</span>
+            dead_pid = <span class="fn">wait</span>(&amp;status);
+            <span class="cm">// waitpid: περιμένει ΣΥΓΚΕΚΡΙΜΕΝΟ child</span>
+            dead_pid = <span class="fn">waitpid</span>(child_pid, &amp;status, <span class="nm">0</span>);
+            <span class="cm">// -1: περιμένει ΟΠΟΙΟΔΗΠΟΤΕ (ίδιο με wait)</span>
+            dead_pid = <span class="fn">waitpid</span>(-<span class="nm">1</span>, &amp;status, <span
+              class="nm">0</span>);
+            <span class="cm">// WNOHANG: non-blocking, επιστρέφει 0 αν δεν τελείωσε</span>
+            dead_pid = <span class="fn">waitpid</span>(-<span class="nm">1</span>, &amp;status, <span
+              class="mc">WNOHANG</span>);
+            <span class="cm">// ανάλυση exit status</span>
+            <span class="kw">if</span> (<span class="mc">WIFEXITED</span>(status)) {
+            <span class="fn">printf</span>(<span class="st">"exit: %d\n"</span>, <span
+              class="mc">WEXITSTATUS</span>(status));
+            }
+            <span class="kw">if</span> (<span class="mc">WIFSIGNALED</span>(status)) {
+            <span class="fn">printf</span>(<span class="st">"killed by: %d\n"</span>, <span
+              class="mc">WTERMSIG</span>(status));
+            }
+          </div>
+        </div>
+        <div>
+          <div class="tip">
+            <div class="tip-icon">🧠</div>
+            <div>
+              <div class="tip-title">Tip — macros από το όνομα</div>
+              <div class="tip-text">
+                <strong>W</strong>IF<strong>EXITED</strong> = "W"ait "IF" child "EXITED" normally (exit/return)<br>
+                <strong>W</strong>IF<strong>SIGNALED</strong> = "W"ait "IF" killed by "SIGNAL"<br>
+                <strong>W</strong>EXIT<strong>STATUS</strong> = ποιος ήταν ο exit code (0-255)<br>
+                <strong>W</strong>TERM<strong>SIG</strong> = ποιο signal το σκότωσε<br>
+                Το W μπροστά = "Wait macro".
+              </div>
+            </div>
+          </div>
+          <div class="card">
+            <div class="card-title">waitpid — πρώτο argument</div>
+            <div class="cb"><span class="cm">// pid > 0: περιμένει ΑΥΤΟ το child</span>
+              <span class="fn">waitpid</span>(child_pid, &amp;status, <span class="nm">0</span>);
+              <span class="cm">// pid == -1: περιμένει ΟΠΟΙΟΔΗΠΟΤΕ child</span>
+              <span class="fn">waitpid</span>(-<span class="nm">1</span>, &amp;status, <span class="nm">0</span>); <span
+                class="cm">// = wait()</span>
+              <span class="cm">// pid == 0: οποιοδήποτε child ΤΗΣ ΙΔΙΑΣ process group</span>
+              <span class="fn">waitpid</span>(<span class="nm">0</span>, &amp;status, <span class="nm">0</span>);
+              <span class="cm">// WNOHANG: αν δεν τελείωσε κανένα child,</span>
+              <span class="cm">// επιστρέφει 0 αμέσως (μη-blocking)</span>
+              <span class="fn">waitpid</span>(-<span class="nm">1</span>, &amp;status, <span class="mc">WNOHANG</span>);
+            </div>
+            <div class="tip">
+              <div class="tip-icon">🧠</div>
+              <div>
+                <div class="tip-title">Tip — WNOHANG</div>
+                <div class="tip-text"><strong>W</strong>ait <strong>NO</strong> <strong>HANG</strong>ing = "περίμενε
+                  χωρίς να κολλήσεις". Χρήσιμο σε loops: ελέγχεις αν τελείωσε child χωρίς να μπλοκάρεις.</div>
+              </div>
+            </div>
           </div>
         </div>
       </div>
-      <div class="card">
-        <div class="card-title">waitpid — πρώτο argument</div>
-        <div class="cb"><span class="cm">// pid > 0: περιμένει ΑΥΤΟ το child</span>
-<span class="fn">waitpid</span>(child_pid, &amp;status, <span class="nm">0</span>);
-<span class="cm">// pid == -1: περιμένει ΟΠΟΙΟΔΗΠΟΤΕ child</span>
-<span class="fn">waitpid</span>(-<span class="nm">1</span>, &amp;status, <span class="nm">0</span>);  <span class="cm">// = wait()</span>
-<span class="cm">// pid == 0: οποιοδήποτε child ΤΗΣ ΙΔΙΑΣ process group</span>
-<span class="fn">waitpid</span>(<span class="nm">0</span>, &amp;status, <span class="nm">0</span>);
-<span class="cm">// WNOHANG: αν δεν τελείωσε κανένα child,</span>
-<span class="cm">// επιστρέφει 0 αμέσως (μη-blocking)</span>
-<span class="fn">waitpid</span>(-<span class="nm">1</span>, &amp;status, <span class="mc">WNOHANG</span>);
-</div>
-        <div class="tip"><div class="tip-icon">🧠</div><div><div class="tip-title">Tip — WNOHANG</div><div class="tip-text"><strong>W</strong>ait <strong>NO</strong> <strong>HANG</strong>ing = "περίμενε χωρίς να κολλήσεις". Χρήσιμο σε loops: ελέγχεις αν τελείωσε child χωρίς να μπλοκάρεις.</div></div></div>
-      </div>
-    </div>
-  </div>
 
       <div class="section-quiz" data-topic="topic4" data-section="wait"></div>
     </section>
 
-<!-- ZOMBIE / ORPHAN -->
-<section id="zombie">
-  <div class="sh"><div class="sh-icon bg-red-dim">💀</div><h2>Zombie &amp; Orphan Processes</h2></div>
-
-  <p class="section-desc-lg">
-    Δύο ειδικές καταστάσεις προκύπτουν από λάθος διαχείριση του κύκλου ζωής μιας διεργασίας.
-    Ο <strong class="text-red">Zombie</strong>: το παιδί τελείωσε αλλά κανείς δεν "διάβασε" την κατάστασή του. Ο <strong class="text-yellow">Orphan</strong>: ο γονέας τελείωσε πριν το παιδί. Τα δύο αυτά σενάρια έχουν εντελώς διαφορετικές συνέπειες.
-  </p>
-
-  <div class="grid2">
-    <div>
-      <div class="card">
-        <div class="card-title text-red">🧟 Zombie Process</div>
-        <p class="section-desc-xs">
-          Child <strong class="text-primary">τερμάτισε</strong> αλλά ο parent
-          δεν έχει κάνει <code>wait()</code> ακόμα. Ο kernel κρατά ζωντανή μια
-          εγγραφή (exit status) στον process table — κανείς δεν την έχει "μαζέψει".
-        </p>
-        <div class="cb"><span class="cm">// zombie: parent "ξεχνά" να κάνει wait</span>
-<span class="kw">if</span> (<span class="fn">fork</span>() == <span class="nm">0</span>) {
-<span class="fn">exit</span>(<span class="nm">0</span>);  <span class="cm">// child τελειώνει αμέσως</span>
-}
-<span class="cm">// parent συνεχίζει χωρίς wait()</span>
-<span class="fn">sleep</span>(<span class="nm">30</span>);  <span class="cm">// ps aux δείχνει [defunct] ή Z</span>
-</div>
-        <div class="rbox"><div class="lbl text-red">🚨 Γιατί είναι κακό</div>Κάθε zombie καταλαμβάνει μια εγγραφή στον process table. Αν δεν "μαζεύεις" τα παιδιά σου, ο πίνακας εξαντλείται και δεν μπορείς να φτιάξεις νέες διεργασίες.</div>
-        <div class="tip"><div class="tip-icon">🧠</div><div><div class="tip-title">Λύση</div><div class="tip-text">Πάντα <code>wait()</code> ή <code>waitpid()</code> μετά από fork(). Για servers: handler για SIGCHLD που κάνει <code>waitpid(-1, NULL, WNOHANG)</code> σε loop.</div></div></div>
+    <!-- ZOMBIE / ORPHAN -->
+    <section id="zombie">
+      <div class="sh">
+        <div class="sh-icon bg-red-dim">💀</div>
+        <h2>Zombie &amp; Orphan Processes</h2>
       </div>
-    </div>
-    <div>
-      <div class="card">
-        <div class="card-title text-yellow">👻 Orphan Process</div>
-        <p class="section-desc-xs">
-          Parent <strong class="text-primary">τερμάτισε πριν το child</strong>.
-          Ο kernel υιοθετεί αυτόματα τα ορφανά παιδιά στον
-          <strong class="text-cyan">init (PID 1)</strong>.
-        </p>
-        <div class="cb"><span class="cm">// orphan: parent πεθαίνει πρώτος</span>
-<span class="kw">if</span> (<span class="fn">fork</span>() == <span class="nm">0</span>) {
-<span class="fn">sleep</span>(<span class="nm">30</span>);  <span class="cm">// child τρέχει ακόμα</span>
-<span class="fn">exit</span>(<span class="nm">0</span>);
-}
-<span class="fn">exit</span>(<span class="nm">0</span>);  <span class="cm">// parent εξάγεται πρώτος</span>
-<span class="cm">// child γίνεται orphan</span>
-<span class="cm">// → init (PID 1) γίνεται ο νέος parent</span>
-</div>
-        <div class="gbox"><div class="lbl text-green">✅ Δεν είναι πρόβλημα</div>Τα orphans δεν είναι πρόβλημα — ο init κάνει wait() για αυτά. Δεν "συσσωρεύονται" γιατί ο init τα φροντίζει.</div>
-        <div class="tip"><div class="tip-icon">🧠</div><div><div class="tip-title">Tip — ορφανός vs zombie</div><div class="tip-text"><strong>Orphan</strong> = "γονέας πέθανε πρώτος" → υιοθετείται από init → <strong>ΟΚ</strong>.<br><strong>Zombie</strong> = "παιδί πέθανε, γονέας δεν ρώτησε πώς" → μένει στον πίνακα → <strong>πρόβλημα</strong>.</div></div></div>
-      </div>
-    </div>
-  </div>
 
-  <div class="ptree">
-    <div class="header-dim">PROCESS TREE — παράδειγμα</div>
-    <span class="pt-pid">1</span> <span class="pt-name">init/systemd</span><br>
-    └── <span class="pt-pid">1234</span> <span class="pt-name">bash</span><br>
-    &nbsp;&nbsp;&nbsp;&nbsp;└── <span class="pt-pid">1235</span> <span class="pt-name">my_server</span> <span class="pt-dim">(parent)</span><br>
-    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;├── <span class="pt-pid">1236</span> <span class="pt-name">worker_1</span> <span class="pt-dim">(running OK)</span><br>
-    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;├── <span class="pt-zombie">1237 worker_2 [Z] ← ZOMBIE — τελείωσε, parent δεν έκανε wait()</span><br>
-    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;└── <span class="pt-orphan">1238 worker_3 ← αν parent (1235) πεθάνει, γίνεται ORPHAN → υιοθετεί ο init</span>
-  </div>
+      <p class="section-desc-lg">
+        Δύο ειδικές καταστάσεις προκύπτουν από λάθος διαχείριση του κύκλου ζωής μιας διεργασίας.
+        Ο <strong class="text-red">Zombie</strong>: το παιδί τελείωσε αλλά κανείς δεν "διάβασε" την κατάστασή του. Ο
+        <strong class="text-yellow">Orphan</strong>: ο γονέας τελείωσε πριν το παιδί. Τα δύο αυτά σενάρια έχουν εντελώς
+        διαφορετικές συνέπειες.
+      </p>
+
+      <div class="grid2">
+        <div>
+          <div class="card">
+            <div class="card-title text-red">🧟 Zombie Process</div>
+            <p class="section-desc-xs">
+              Child <strong class="text-primary">τερμάτισε</strong> αλλά ο parent
+              δεν έχει κάνει <code>wait()</code> ακόμα. Ο kernel κρατά ζωντανή μια
+              εγγραφή (exit status) στον process table — κανείς δεν την έχει "μαζέψει".
+            </p>
+            <div class="cb"><span class="cm">// zombie: parent "ξεχνά" να κάνει wait</span>
+              <span class="kw">if</span> (<span class="fn">fork</span>() == <span class="nm">0</span>) {
+              <span class="fn">exit</span>(<span class="nm">0</span>); <span class="cm">// child τελειώνει αμέσως</span>
+              }
+              <span class="cm">// parent συνεχίζει χωρίς wait()</span>
+              <span class="fn">sleep</span>(<span class="nm">30</span>); <span class="cm">// ps aux δείχνει [defunct] ή
+                Z</span>
+            </div>
+            <div class="rbox">
+              <div class="lbl text-red">🚨 Γιατί είναι κακό</div>Κάθε zombie καταλαμβάνει μια εγγραφή στον process
+              table. Αν δεν "μαζεύεις" τα παιδιά σου, ο πίνακας εξαντλείται και δεν μπορείς να φτιάξεις νέες διεργασίες.
+            </div>
+            <div class="tip">
+              <div class="tip-icon">🧠</div>
+              <div>
+                <div class="tip-title">Λύση</div>
+                <div class="tip-text">Πάντα <code>wait()</code> ή <code>waitpid()</code> μετά από fork(). Για servers:
+                  handler για SIGCHLD που κάνει <code>waitpid(-1, NULL, WNOHANG)</code> σε loop.</div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div>
+          <div class="card">
+            <div class="card-title text-yellow">👻 Orphan Process</div>
+            <p class="section-desc-xs">
+              Parent <strong class="text-primary">τερμάτισε πριν το child</strong>.
+              Ο kernel υιοθετεί αυτόματα τα ορφανά παιδιά στον
+              <strong class="text-cyan">init (PID 1)</strong>.
+            </p>
+            <div class="cb"><span class="cm">// orphan: parent πεθαίνει πρώτος</span>
+              <span class="kw">if</span> (<span class="fn">fork</span>() == <span class="nm">0</span>) {
+              <span class="fn">sleep</span>(<span class="nm">30</span>); <span class="cm">// child τρέχει ακόμα</span>
+              <span class="fn">exit</span>(<span class="nm">0</span>);
+              }
+              <span class="fn">exit</span>(<span class="nm">0</span>); <span class="cm">// parent εξάγεται πρώτος</span>
+              <span class="cm">// child γίνεται orphan</span>
+              <span class="cm">// → init (PID 1) γίνεται ο νέος parent</span>
+            </div>
+            <div class="gbox">
+              <div class="lbl text-green">✅ Δεν είναι πρόβλημα</div>Τα orphans δεν είναι πρόβλημα — ο init κάνει wait()
+              για αυτά. Δεν "συσσωρεύονται" γιατί ο init τα φροντίζει.
+            </div>
+            <div class="tip">
+              <div class="tip-icon">🧠</div>
+              <div>
+                <div class="tip-title">Tip — ορφανός vs zombie</div>
+                <div class="tip-text"><strong>Orphan</strong> = "γονέας πέθανε πρώτος" → υιοθετείται από init →
+                  <strong>ΟΚ</strong>.<br><strong>Zombie</strong> = "παιδί πέθανε, γονέας δεν ρώτησε πώς" → μένει στον
+                  πίνακα → <strong>πρόβλημα</strong>.</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="ptree">
+        <div class="header-dim">PROCESS TREE — παράδειγμα</div>
+        <span class="pt-pid">1</span> <span class="pt-name">init/systemd</span><br>
+        └── <span class="pt-pid">1234</span> <span class="pt-name">bash</span><br>
+        &nbsp;&nbsp;&nbsp;&nbsp;└── <span class="pt-pid">1235</span> <span class="pt-name">my_server</span> <span
+          class="pt-dim">(parent)</span><br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;├── <span class="pt-pid">1236</span> <span
+          class="pt-name">worker_1</span> <span class="pt-dim">(running OK)</span><br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;├── <span class="pt-zombie">1237 worker_2 [Z] ← ZOMBIE —
+          τελείωσε, parent δεν έκανε wait()</span><br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;└── <span class="pt-orphan">1238 worker_3 ← αν parent (1235)
+          πεθάνει, γίνεται ORPHAN → υιοθετεί ο init</span>
+      </div>
 
       <div class="section-quiz" data-topic="topic4" data-section="zombie"></div>
     </section>
 
-<!-- PIPES -->
-<section id="pipes">
-  <div class="sh"><div class="sh-icon bg-green-dim">🔧</div><h2>Anonymous Pipes — pipe()</h2></div>
-
-  <p class="section-desc">
-    Ένα pipe είναι ένα <strong class="text-primary">μονής κατεύθυνσης κανάλι</strong> επικοινωνίας στη μνήμη. 
-    Φαντάσου το σαν ένα σωλήνα όπου η μία διεργασία ρίχνει δεδομένα από τη μια άκρη και η άλλη τα μαζεύει από την άλλη. 
-    Είναι ο βασικός τρόπος για να "μιλήσουν" μεταξύ τους διεργασίες που έχουν κοινή καταγωγή (π.χ. parent-child).
-  </p>
-
-  <div class="grid2">
-    <div>
-      <div class="cb"><span class="tp">int</span> p[<span class="nm">2</span>];
-<span class="kw">if</span> (<span class="fn">pipe</span>(p) == -<span class="nm">1</span>) {
-<span class="fn">perror</span>(<span class="st">"pipe"</span>); <span class="fn">exit</span>(<span class="nm">1</span>);
-}
-<span class="cm">// p[0] = read end, p[1] = write end</span>
-<span class="tp">pid_t</span> pid = <span class="fn">fork</span>();
-<span class="kw">if</span> (pid == <span class="nm">0</span>) {           <span class="cm">// CHILD: reader</span>
-<span class="fn">close</span>(p[<span class="nm">1</span>]);          <span class="cm">// κλείνω write end</span>
-<span class="tp">char</span> buf[<span class="nm">256</span>];
-<span class="tp">ssize_t</span> n = <span class="fn">read</span>(p[<span class="nm">0</span>], buf, <span class="kw">sizeof</span>(buf));
-buf[n] = <span class="st">'\0'</span>;
-<span class="fn">printf</span>(<span class="st">"got: %s\n"</span>, buf);
-<span class="fn">close</span>(p[<span class="nm">0</span>]);
-<span class="fn">exit</span>(<span class="nm">0</span>);
-} <span class="kw">else</span> {                   <span class="cm">// PARENT: writer</span>
-<span class="fn">close</span>(p[<span class="nm">0</span>]);          <span class="cm">// κλείνω read end</span>
-<span class="fn">write</span>(p[<span class="nm">1</span>], <span class="st">"hello"</span>, <span class="nm">5</span>);
-<span class="fn">close</span>(p[<span class="nm">1</span>]);          <span class="cm">// κλείνω → EOF για reader</span>
-<span class="fn">wait</span>(<span class="mc">NULL</span>);
-}
-</div>
-    </div>
-    <div>
-      <div class="pipe-diag">
-        <div class="flex-row-between-mb12">
-          <div class="pipe-proc pp-parent">PARENT<br><small class="fw-400">writer</small></div>
-          <div class="pipe-proc pp-child">CHILD<br><small class="fw-400">reader</small></div>
-        </div>
-        <div class="pipe-channel">
-          <div class="pipe-fd pfd-w">p[1] write</div>
-          <div class="pipe-tube">→ data flows → → →</div>
-          <div class="pipe-fd pfd-r">p[0] read</div>
-        </div>
-        <div class="text-mono-center-dim">
-          Parent: close(p[0]) · Child: close(p[1])
-        </div>
+    <!-- PIPES -->
+    <section id="pipes">
+      <div class="sh">
+        <div class="sh-icon bg-green-dim">🔧</div>
+        <h2>Anonymous Pipes — pipe()</h2>
       </div>
-      <div class="tip">
-        <div class="tip-icon">🧠</div>
+
+      <p class="section-desc">
+        Ένα pipe είναι ένα <strong class="text-primary">μονής κατεύθυνσης κανάλι</strong> επικοινωνίας στη μνήμη.
+        Φαντάσου το σαν ένα σωλήνα όπου η μία διεργασία ρίχνει δεδομένα από τη μια άκρη και η άλλη τα μαζεύει από την
+        άλλη.
+        Είναι ο βασικός τρόπος για να "μιλήσουν" μεταξύ τους διεργασίες που έχουν κοινή καταγωγή (π.χ. parent-child).
+      </p>
+
+      <div class="grid2">
         <div>
-          <div class="tip-title">Tip — p[0] και p[1]</div>
-          <div class="tip-text">
-            <strong>p[0]</strong> = read end. Θυμήσου: 0 = stdin = ανάγνωση.<br>
-            <strong>p[1]</strong> = write end. Θυμήσου: 1 = stdout = εγγραφή.<br>
-            Η σειρά στο array ακολουθεί την κατεύθυνση: 0→in, 1→out.
+          <div class="cb"><span class="tp">int</span> p[<span class="nm">2</span>];
+            <span class="kw">if</span> (<span class="fn">pipe</span>(p) == -<span class="nm">1</span>) {
+            <span class="fn">perror</span>(<span class="st">"pipe"</span>); <span class="fn">exit</span>(<span
+              class="nm">1</span>);
+            }
+            <span class="cm">// p[0] = read end, p[1] = write end</span>
+            <span class="tp">pid_t</span> pid = <span class="fn">fork</span>();
+            <span class="kw">if</span> (pid == <span class="nm">0</span>) { <span class="cm">// CHILD: reader</span>
+            <span class="fn">close</span>(p[<span class="nm">1</span>]); <span class="cm">// κλείνω write end</span>
+            <span class="tp">char</span> buf[<span class="nm">256</span>];
+            <span class="tp">ssize_t</span> n = <span class="fn">read</span>(p[<span class="nm">0</span>], buf, <span
+              class="kw">sizeof</span>(buf));
+            buf[n] = <span class="st">'\0'</span>;
+            <span class="fn">printf</span>(<span class="st">"got: %s\n"</span>, buf);
+            <span class="fn">close</span>(p[<span class="nm">0</span>]);
+            <span class="fn">exit</span>(<span class="nm">0</span>);
+            } <span class="kw">else</span> { <span class="cm">// PARENT: writer</span>
+            <span class="fn">close</span>(p[<span class="nm">0</span>]); <span class="cm">// κλείνω read end</span>
+            <span class="fn">write</span>(p[<span class="nm">1</span>], <span class="st">"hello"</span>, <span
+              class="nm">5</span>);
+            <span class="fn">close</span>(p[<span class="nm">1</span>]); <span class="cm">// κλείνω → EOF για
+              reader</span>
+            <span class="fn">wait</span>(<span class="mc">NULL</span>);
+            }
+          </div>
+        </div>
+        <div>
+          <div class="pipe-diag">
+            <div class="flex-row-between-mb12">
+              <div class="pipe-proc pp-parent">PARENT<br><small class="fw-400">writer</small></div>
+              <div class="pipe-proc pp-child">CHILD<br><small class="fw-400">reader</small></div>
+            </div>
+            <div class="pipe-channel">
+              <div class="pipe-fd pfd-w">p[1] write</div>
+              <div class="pipe-tube">→ data flows → → →</div>
+              <div class="pipe-fd pfd-r">p[0] read</div>
+            </div>
+            <div class="text-mono-center-dim">
+              Parent: close(p[0]) · Child: close(p[1])
+            </div>
+          </div>
+          <div class="tip">
+            <div class="tip-icon">🧠</div>
+            <div>
+              <div class="tip-title">Tip — p[0] και p[1]</div>
+              <div class="tip-text">
+                <strong>p[0]</strong> = read end. Θυμήσου: 0 = stdin = ανάγνωση.<br>
+                <strong>p[1]</strong> = write end. Θυμήσου: 1 = stdout = εγγραφή.<br>
+                Η σειρά στο array ακολουθεί την κατεύθυνση: 0→in, 1→out.
+              </div>
+            </div>
+          </div>
+          <div class="rbox">
+            <div class="lbl text-red">🚨 Γιατί κλείνουμε αχρείαστα ends;</div>
+            Αν ο reader δεν κλείσει το write end (p[1]), ο ίδιος είναι "potential writer"
+            οπότε δεν θα δει ποτέ EOF και θα μπλοκάρει στο read() για πάντα.
+            EOF έρχεται μόνο όταν <strong>ΟΛΑ</strong> τα write ends έχουν κλείσει.
+          </div>
+          <div class="tip">
+            <div class="tip-icon">🧠</div>
+            <div>
+              <div class="tip-title">Tip — SIGPIPE</div>
+              <div class="tip-text">Αν γράψεις σε pipe που δεν έχει <em>κανέναν</em> reader (το read end έχει κλείσει),
+                λαμβάνεις <strong>SIGPIPE</strong> (signal 13). "PIPE broken". Αν το αγνοήσεις, η write() επιστρέφει -1
+                με errno=EPIPE.</div>
+            </div>
           </div>
         </div>
       </div>
-      <div class="rbox">
-        <div class="lbl text-red">🚨 Γιατί κλείνουμε αχρείαστα ends;</div>
-        Αν ο reader δεν κλείσει το write end (p[1]), ο ίδιος είναι "potential writer"
-        οπότε δεν θα δει ποτέ EOF και θα μπλοκάρει στο read() για πάντα.
-        EOF έρχεται μόνο όταν <strong>ΟΛΑ</strong> τα write ends έχουν κλείσει.
-      </div>
-      <div class="tip"><div class="tip-icon">🧠</div><div><div class="tip-title">Tip — SIGPIPE</div><div class="tip-text">Αν γράψεις σε pipe που δεν έχει <em>κανέναν</em> reader (το read end έχει κλείσει), λαμβάνεις <strong>SIGPIPE</strong> (signal 13). "PIPE broken". Αν το αγνοήσεις, η write() επιστρέφει -1 με errno=EPIPE.</div></div></div>
-    </div>
-  </div>
 
       <div class="section-quiz" data-topic="topic4" data-section="pipes"></div>
     </section>
 
-<!-- FIFO -->
-<section id="fifo">
-  <div class="sh"><div class="sh-icon bg-purple-dim">📡</div><h2>Named Pipes (FIFOs) — mkfifo()</h2></div>
-
-  <p class="section-desc">
-    Τα FIFOs είναι pipes που έχουν <strong class="text-primary">όνομα στο filesystem</strong>. 
-    Ενώ τα anonymous pipes χάνονται όταν κλείσουν οι διεργασίες, ένα FIFO υπάρχει σαν αρχείο (αν και τα δεδομένα του δεν αποθηκεύονται στο δίσκο). 
-    Αυτό επιτρέπει σε <em>εντελώς άσχετες</em> διεργασίες να επικοινωνήσουν απλά ανοίγοντας το ίδιο όνομα αρχείου.
-  </p>
-
-  <div class="tip"><div class="tip-icon">🧠</div><div><div class="tip-title">Tip — FIFO = First In First Out</div><div class="tip-text">Το "FIFO" δεν είναι τυχαίο — τα δεδομένα βγαίνουν στην <strong>ίδια σειρά</strong> που μπήκαν. Σαν ουρά αναμονής. Η λέξη "named" = έχει όνομα στο filesystem (αντίθεση με anonymous pipe).</div></div></div>
-
-  <div class="grid2">
-    <div>
-      <div class="cb"><span class="mc">#include</span> <span class="st">&lt;sys/stat.h&gt;</span>
-<span class="mc">#include</span> <span class="st">&lt;fcntl.h&gt;</span>
-<span class="cm">// 1. δημιουργία FIFO (μία φορά)</span>
-<span class="kw">if</span> (<span class="fn">mkfifo</span>(<span class="st">"myfifo"</span>, <span class="nm">0666</span>) == -<span class="nm">1</span>) {
-<span class="kw">if</span> (errno != <span class="mc">EEXIST</span>) {  <span class="cm">// OK αν ήδη υπάρχει</span>
-<span class="fn">perror</span>(<span class="st">"mkfifo"</span>); <span class="fn">exit</span>(<span class="nm">1</span>);
-}
-}
-<span class="cm">// 2. WRITER process (ξεχωριστό πρόγραμμα)</span>
-<span class="tp">int</span> fd = <span class="fn">open</span>(<span class="st">"myfifo"</span>, <span class="mc">O_WRONLY</span>);
-<span class="cm">// ↑ ΜΠΛΟΚΑΡΕΙ ώσπου reader να ανοίξει!</span>
-<span class="fn">write</span>(fd, <span class="st">"hello"</span>, <span class="nm">5</span>);
-<span class="fn">close</span>(fd);
-<span class="cm">// 3. READER process (ξεχωριστό πρόγραμμα)</span>
-fd = <span class="fn">open</span>(<span class="st">"myfifo"</span>, <span class="mc">O_RDONLY</span>);
-<span class="cm">// ↑ ΜΠΛΟΚΑΡΕΙ ώσπου writer να ανοίξει!</span>
-<span class="fn">read</span>(fd, buf, <span class="kw">sizeof</span>(buf));
-<span class="fn">close</span>(fd);
-</div>
-    </div>
-    <div>
-      <div class="card">
-        <div class="card-title">Blocking &amp; Deadlock</div>
-        <p class="section-desc-xs">Το default open() σε FIFO <strong class="text-primary">μπλοκάρει</strong> ώσπου και τα δύο άκρα ανοίξουν. Αυτό μπορεί να δημιουργήσει deadlock:</p>
-        <div class="cb"><span class="cm">// DEADLOCK — κλασικό σενάριο:</span>
-<span class="cm">// Process A: open("fifo1", O_WRONLY) → μπλοκ</span>
-<span class="cm">// Process B: open("fifo2", O_WRONLY) → μπλοκ</span>
-<span class="cm">// Κανείς δεν ανοίγει το read end του άλλου!</span>
-<span class="cm">// ΛΥΣΗ: O_NONBLOCK</span>
-fd = <span class="fn">open</span>(<span class="st">"myfifo"</span>, <span class="mc">O_WRONLY</span>|<span class="mc">O_NONBLOCK</span>);
-<span class="cm">// επιστρέφει -1 (ENXIO) αν δεν υπάρχει reader</span>
-<span class="cm">// αντί να μπλοκάρει — ο caller αποφασίζει</span>
-</div>
-        <div class="tip"><div class="tip-icon">🧠</div><div><div class="tip-title">Tip — ENXIO</div><div class="tip-text"><strong>ENXIO</strong> = "No Such Device Or Address". Με O_NONBLOCK σε FIFO: "δεν υπάρχει reader ακόμα". Αυτό σου επιτρέπει να προσπαθήσεις ξανά αργότερα.</div></div></div>
+    <!-- FIFO -->
+    <section id="fifo">
+      <div class="sh">
+        <div class="sh-icon bg-purple-dim">📡</div>
+        <h2>Named Pipes (FIFOs) — mkfifo()</h2>
       </div>
-    </div>
-  </div>
+
+      <p class="section-desc">
+        Τα FIFOs είναι pipes που έχουν <strong class="text-primary">όνομα στο filesystem</strong>.
+        Ενώ τα anonymous pipes χάνονται όταν κλείσουν οι διεργασίες, ένα FIFO υπάρχει σαν αρχείο (αν και τα δεδομένα του
+        δεν αποθηκεύονται στο δίσκο).
+        Αυτό επιτρέπει σε <em>εντελώς άσχετες</em> διεργασίες να επικοινωνήσουν απλά ανοίγοντας το ίδιο όνομα αρχείου.
+      </p>
+
+      <div class="tip">
+        <div class="tip-icon">🧠</div>
+        <div>
+          <div class="tip-title">Tip — FIFO = First In First Out</div>
+          <div class="tip-text">Το "FIFO" δεν είναι τυχαίο — τα δεδομένα βγαίνουν στην <strong>ίδια σειρά</strong> που
+            μπήκαν. Σαν ουρά αναμονής. Η λέξη "named" = έχει όνομα στο filesystem (αντίθεση με anonymous pipe).</div>
+        </div>
+      </div>
+
+      <div class="grid2">
+        <div>
+          <div class="cb"><span class="mc">#include</span> <span class="st">&lt;sys/stat.h&gt;</span>
+            <span class="mc">#include</span> <span class="st">&lt;fcntl.h&gt;</span>
+            <span class="cm">// 1. δημιουργία FIFO (μία φορά)</span>
+            <span class="kw">if</span> (<span class="fn">mkfifo</span>(<span class="st">"myfifo"</span>, <span
+              class="nm">0666</span>) == -<span class="nm">1</span>) {
+            <span class="kw">if</span> (errno != <span class="mc">EEXIST</span>) { <span class="cm">// OK αν ήδη
+              υπάρχει</span>
+            <span class="fn">perror</span>(<span class="st">"mkfifo"</span>); <span class="fn">exit</span>(<span
+              class="nm">1</span>);
+            }
+            }
+            <span class="cm">// 2. WRITER process (ξεχωριστό πρόγραμμα)</span>
+            <span class="tp">int</span> fd = <span class="fn">open</span>(<span class="st">"myfifo"</span>, <span
+              class="mc">O_WRONLY</span>);
+            <span class="cm">// ↑ ΜΠΛΟΚΑΡΕΙ ώσπου reader να ανοίξει!</span>
+            <span class="fn">write</span>(fd, <span class="st">"hello"</span>, <span class="nm">5</span>);
+            <span class="fn">close</span>(fd);
+            <span class="cm">// 3. READER process (ξεχωριστό πρόγραμμα)</span>
+            fd = <span class="fn">open</span>(<span class="st">"myfifo"</span>, <span class="mc">O_RDONLY</span>);
+            <span class="cm">// ↑ ΜΠΛΟΚΑΡΕΙ ώσπου writer να ανοίξει!</span>
+            <span class="fn">read</span>(fd, buf, <span class="kw">sizeof</span>(buf));
+            <span class="fn">close</span>(fd);
+          </div>
+        </div>
+        <div>
+          <div class="card">
+            <div class="card-title">Blocking &amp; Deadlock</div>
+            <p class="section-desc-xs">Το default open() σε FIFO <strong class="text-primary">μπλοκάρει</strong> ώσπου
+              και τα δύο άκρα ανοίξουν. Αυτό μπορεί να δημιουργήσει deadlock:</p>
+            <div class="cb"><span class="cm">// DEADLOCK — κλασικό σενάριο:</span>
+              <span class="cm">// Process A: open("fifo1", O_WRONLY) → μπλοκ</span>
+              <span class="cm">// Process B: open("fifo2", O_WRONLY) → μπλοκ</span>
+              <span class="cm">// Κανείς δεν ανοίγει το read end του άλλου!</span>
+              <span class="cm">// ΛΥΣΗ: O_NONBLOCK</span>
+              fd = <span class="fn">open</span>(<span class="st">"myfifo"</span>, <span class="mc">O_WRONLY</span>|<span
+                class="mc">O_NONBLOCK</span>);
+              <span class="cm">// επιστρέφει -1 (ENXIO) αν δεν υπάρχει reader</span>
+              <span class="cm">// αντί να μπλοκάρει — ο caller αποφασίζει</span>
+            </div>
+            <div class="tip">
+              <div class="tip-icon">🧠</div>
+              <div>
+                <div class="tip-title">Tip — ENXIO</div>
+                <div class="tip-text"><strong>ENXIO</strong> = "No Such Device Or Address". Με O_NONBLOCK σε FIFO: "δεν
+                  υπάρχει reader ακόμα". Αυτό σου επιτρέπει να προσπαθήσεις ξανά αργότερα.</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
 
       <div class="section-quiz" data-topic="topic4" data-section="fifo"></div>
     </section>
 
-<!-- PATTERNS -->
-<section id="patterns">
-  <div class="sh"><div class="sh-icon bg-purple-dim">🧩</div><h2>Σημαντικά Patterns — Εξετάσεις</h2></div>
-
-  <p class="section-desc-lg">
-    Εδώ βλέπουμε πώς συνδυάζονται στην πράξη όλες οι παραπάνω έννοιες (fork, exec, pipe, dup2). 
-    Αυτά τα σχήματα αποτελούν τη βάση για τη λειτουργία ενός Shell και είναι από τα πιο συνηθισμένα θέματα στις εξετάσεις.
-  </p>
-
-  <div class="grid2">
-    <div>
-      <div class="card">
-        <div class="card-title">Shell Pipeline: <span class="text-mono-orange">ls | wc -l</span></div>
-        <div class="cb"><span class="tp">int</span> p[<span class="nm">2</span>];
-<span class="fn">pipe</span>(p);
-<span class="cm">// child 1: εκτελεί "ls", γράφει στο pipe</span>
-<span class="kw">if</span> (<span class="fn">fork</span>() == <span class="nm">0</span>) {
-<span class="fn">close</span>(p[<span class="nm">0</span>]);
-<span class="fn">dup2</span>(p[<span class="nm">1</span>], <span class="nm">1</span>);    <span class="cm">// stdout → pipe write</span>
-<span class="fn">close</span>(p[<span class="nm">1</span>]);
-<span class="fn">execlp</span>(<span class="st">"ls"</span>, <span class="st">"ls"</span>, <span class="mc">NULL</span>);
-<span class="fn">perror</span>(<span class="st">"exec ls"</span>); <span class="fn">exit</span>(<span class="nm">1</span>);
-}
-<span class="cm">// child 2: εκτελεί "wc -l", διαβάζει από pipe</span>
-<span class="kw">if</span> (<span class="fn">fork</span>() == <span class="nm">0</span>) {
-<span class="fn">close</span>(p[<span class="nm">1</span>]);
-<span class="fn">dup2</span>(p[<span class="nm">0</span>], <span class="nm">0</span>);    <span class="cm">// stdin ← pipe read</span>
-<span class="fn">close</span>(p[<span class="nm">0</span>]);
-<span class="fn">execlp</span>(<span class="st">"wc"</span>, <span class="st">"wc"</span>, <span class="st">"-l"</span>, <span class="mc">NULL</span>);
-<span class="fn">perror</span>(<span class="st">"exec wc"</span>); <span class="fn">exit</span>(<span class="nm">1</span>);
-}
-<span class="cm">// parent κλείνει ΚΑΙ τα δύο ends</span>
-<span class="fn">close</span>(p[<span class="nm">0</span>]); <span class="fn">close</span>(p[<span class="nm">1</span>]);
-<span class="fn">wait</span>(<span class="mc">NULL</span>); <span class="fn">wait</span>(<span class="mc">NULL</span>);  <span class="cm">// 2 children</span>
-</div>
-        <div class="tip"><div class="tip-icon">🧠</div><div><div class="tip-title">Tip — η σειρά των βημάτων</div><div class="tip-text">Σε κάθε child που χρησιμοποιεί pipe:<br>1. close αχρείαστο end<br>2. dup2 για σύνδεση stdin/stdout<br>3. close αρχικό pipe fd<br>4. exec<br>Ο parent κλείνει <strong>και τα δύο</strong> pipe ends μετά τα forks.</div></div></div>
+    <!-- PATTERNS -->
+    <section id="patterns">
+      <div class="sh">
+        <div class="sh-icon bg-purple-dim">🧩</div>
+        <h2>Σημαντικά Patterns — Εξετάσεις</h2>
       </div>
-    </div>
-    <div>
-      <div class="card">
-        <div class="card-title">SIGCHLD Handler — Zombie Prevention</div>
-        <div class="cb"><span class="tp">void</span> <span class="fn">sigchld_handler</span>(<span class="tp">int</span> sig) {
-<span class="tp">int</span> status;
-<span class="tp">pid_t</span> pid;
-<span class="cm">// loop μέχρι να μαζέψουμε ΟΛΑ</span>
-<span class="cm">// τα παιδιά που τελείωσαν</span>
-<span class="kw">while</span> ((pid = <span class="fn">waitpid</span>(-<span class="nm">1</span>, &amp;status, <span class="mc">WNOHANG</span>)) &gt; <span class="nm">0</span>) {
-<span class="cm">/* zombie ελευθερώθηκε */</span>
-}
-}
-<span class="cm">// εγκατάσταση handler</span>
-<span class="kw">struct</span> <span class="tp">sigaction</span> sa;
-sa.sa_handler = sigchld_handler;
-sa.sa_flags = <span class="mc">SA_RESTART</span>;
-<span class="fn">sigemptyset</span>(&amp;sa.sa_mask);
-<span class="fn">sigaction</span>(<span class="mc">SIGCHLD</span>, &amp;sa, <span class="mc">NULL</span>);
-</div>
-        <div class="tip"><div class="tip-icon">🧠</div><div><div class="tip-title">Tip — SA_RESTART</div><div class="tip-text"><strong>SA_RESTART</strong> = "μετά τον handler, επανέναρξε αυτόματα τυχόν interrupted system calls". Χωρίς αυτό, system calls (read, accept…) επιστρέφουν -1 με errno=EINTR όταν έρθει signal.</div></div></div>
-      </div>
-    </div>
-  </div>
 
-  
+      <p class="section-desc-lg">
+        Εδώ βλέπουμε πώς συνδυάζονται στην πράξη όλες οι παραπάνω έννοιες (fork, exec, pipe, dup2).
+        Αυτά τα σχήματα αποτελούν τη βάση για τη λειτουργία ενός Shell και είναι από τα πιο συνηθισμένα θέματα στις
+        εξετάσεις.
+      </p>
+
+      <div class="grid2">
+        <div>
+          <div class="card">
+            <div class="card-title">Shell Pipeline: <span class="text-mono-orange">ls | wc -l</span></div>
+            <div class="cb"><span class="tp">int</span> p[<span class="nm">2</span>];
+              <span class="fn">pipe</span>(p);
+              <span class="cm">// child 1: εκτελεί "ls", γράφει στο pipe</span>
+              <span class="kw">if</span> (<span class="fn">fork</span>() == <span class="nm">0</span>) {
+              <span class="fn">close</span>(p[<span class="nm">0</span>]);
+              <span class="fn">dup2</span>(p[<span class="nm">1</span>], <span class="nm">1</span>); <span class="cm">//
+                stdout → pipe write</span>
+              <span class="fn">close</span>(p[<span class="nm">1</span>]);
+              <span class="fn">execlp</span>(<span class="st">"ls"</span>, <span class="st">"ls"</span>, <span
+                class="mc">NULL</span>);
+              <span class="fn">perror</span>(<span class="st">"exec ls"</span>); <span class="fn">exit</span>(<span
+                class="nm">1</span>);
+              }
+              <span class="cm">// child 2: εκτελεί "wc -l", διαβάζει από pipe</span>
+              <span class="kw">if</span> (<span class="fn">fork</span>() == <span class="nm">0</span>) {
+              <span class="fn">close</span>(p[<span class="nm">1</span>]);
+              <span class="fn">dup2</span>(p[<span class="nm">0</span>], <span class="nm">0</span>); <span class="cm">//
+                stdin ← pipe read</span>
+              <span class="fn">close</span>(p[<span class="nm">0</span>]);
+              <span class="fn">execlp</span>(<span class="st">"wc"</span>, <span class="st">"wc"</span>, <span
+                class="st">"-l"</span>, <span class="mc">NULL</span>);
+              <span class="fn">perror</span>(<span class="st">"exec wc"</span>); <span class="fn">exit</span>(<span
+                class="nm">1</span>);
+              }
+              <span class="cm">// parent κλείνει ΚΑΙ τα δύο ends</span>
+              <span class="fn">close</span>(p[<span class="nm">0</span>]); <span class="fn">close</span>(p[<span
+                class="nm">1</span>]);
+              <span class="fn">wait</span>(<span class="mc">NULL</span>); <span class="fn">wait</span>(<span
+                class="mc">NULL</span>); <span class="cm">// 2 children</span>
+            </div>
+            <div class="tip">
+              <div class="tip-icon">🧠</div>
+              <div>
+                <div class="tip-title">Tip — η σειρά των βημάτων</div>
+                <div class="tip-text">Σε κάθε child που χρησιμοποιεί pipe:<br>1. close αχρείαστο end<br>2. dup2 για
+                  σύνδεση stdin/stdout<br>3. close αρχικό pipe fd<br>4. exec<br>Ο parent κλείνει <strong>και τα
+                    δύο</strong> pipe ends μετά τα forks.</div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div>
+          <div class="card">
+            <div class="card-title">SIGCHLD Handler — Zombie Prevention</div>
+            <div class="cb"><span class="tp">void</span> <span class="fn">sigchld_handler</span>(<span
+                class="tp">int</span> sig) {
+              <span class="tp">int</span> status;
+              <span class="tp">pid_t</span> pid;
+              <span class="cm">// loop μέχρι να μαζέψουμε ΟΛΑ</span>
+              <span class="cm">// τα παιδιά που τελείωσαν</span>
+              <span class="kw">while</span> ((pid = <span class="fn">waitpid</span>(-<span class="nm">1</span>,
+              &amp;status, <span class="mc">WNOHANG</span>)) &gt; <span class="nm">0</span>) {
+              <span class="cm">/* zombie ελευθερώθηκε */</span>
+              }
+              }
+              <span class="cm">// εγκατάσταση handler</span>
+              <span class="kw">struct</span> <span class="tp">sigaction</span> sa;
+              sa.sa_handler = sigchld_handler;
+              sa.sa_flags = <span class="mc">SA_RESTART</span>;
+              <span class="fn">sigemptyset</span>(&amp;sa.sa_mask);
+              <span class="fn">sigaction</span>(<span class="mc">SIGCHLD</span>, &amp;sa, <span class="mc">NULL</span>);
+            </div>
+            <div class="tip">
+              <div class="tip-icon">🧠</div>
+              <div>
+                <div class="tip-title">Tip — SA_RESTART</div>
+                <div class="tip-text"><strong>SA_RESTART</strong> = "μετά τον handler, επανέναρξε αυτόματα τυχόν
+                  interrupted system calls". Χωρίς αυτό, system calls (read, accept…) επιστρέφουν -1 με errno=EINTR όταν
+                  έρθει signal.</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+
       <div class="section-quiz" data-topic="topic4" data-section="patterns"></div>
     </section>
 
-</div>
-<div class="footer">K24 · Προγραμματισμός Συστήματος · ΕΚΠΑ · Topic 4: fork(), exec(), Pipes &amp; IPC</div>
+  </div>
+  <div class="footer">K24 · Προγραμματισμός Συστήματος · ΕΚΠΑ · Topic 4: fork(), exec(), Pipes &amp; IPC</div>
 </body>
+
 </html>
-
-
-
-

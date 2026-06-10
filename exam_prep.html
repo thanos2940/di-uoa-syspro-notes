@@ -1,0 +1,1174 @@
+<!DOCTYPE html>
+<html lang="el">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Exam Prep · Ασκήσεις &amp; Στρατηγική</title>
+  <link
+    href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;700&family=Syne:wght@400;700;800&family=Lora:ital,wght@0,400;0,600;1,400&display=swap"
+    rel="stylesheet">
+  <link rel="stylesheet" href="styles/base.css">
+  <link rel="stylesheet" href="styles/layout.css">
+  <link rel="stylesheet" href="styles/components.css">
+  <style>
+    :root {
+      --bg: #0d1117;
+      --bg-rgb: 13, 17, 23;
+      --surf: #161b22;
+      --surf2: #1c2230;
+      --border: #30363d;
+      --blue: #58a6ff;
+      --blue-rgb: 88, 166, 255;
+      --bdim: #0d1f40;
+      --green: #3fb950;
+      --green-rgb: 63, 185, 80;
+      --gdim: #0d2218;
+      --yellow: #e3b341;
+      --ydim: #2d2208;
+      --red: #f85149;
+      --red-rgb: 248, 81, 73;
+      --rdim: #2d1010;
+      --cyan: #39d4c8;
+      --cdim: #0a2422;
+      --purple: #bc8cff;
+      --purple-rgb: 188, 140, 255;
+      --pdim: #1a1040;
+      --orange: #f0883e;
+      --orange-rgb: 240, 136, 62;
+      --odim: #2d1800;
+      --txt: #e6edf3;
+      --muted: #8b949e;
+      --dim: #6e7681
+    }
+
+    .hero {
+      background: var(--hero-bg);
+      background-image: linear-gradient(150deg, rgb(13, 17, 23) 0%, rgb(45, 24, 0) 55%, rgb(13, 17, 23) 100%);
+    }
+
+    .hero::after {
+      content: '$ ./exam --duration=120min';
+      position: absolute;
+      right: 32px;
+      bottom: 16px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: clamp(1rem, 3vw, 2rem);
+      color: rgba(240, 136, 62, .07);
+      pointer-events: none;
+      font-weight: 700
+    }
+
+    .cb {
+      background: #060a10
+    }
+
+    .kw {
+      color: var(--blue);
+      font-weight: 600
+    }
+
+    .fn {
+      color: var(--yellow);
+      font-weight: 600
+    }
+
+    .st {
+      color: var(--orange)
+    }
+
+    .cm {
+      color: var(--dim);
+      font-style: italic
+    }
+
+    .nm {
+      color: var(--purple)
+    }
+
+    .tp {
+      color: var(--cyan)
+    }
+
+    .mc {
+      color: var(--purple);
+      font-weight: 600
+    }
+
+    .pr {
+      color: var(--muted)
+    }
+
+    .compare {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+      margin: 12px 0
+    }
+
+    .good-side {
+      background: var(--gdim);
+      border: 1px solid rgba(63, 185, 80, .2);
+      border-radius: 8px;
+      padding: 12px
+    }
+
+    .bad-side {
+      background: var(--rdim);
+      border: 1px solid rgba(248, 81, 73, .2);
+      border-radius: 8px;
+      padding: 12px
+    }
+
+    .side-label {
+      font-size: 0.8125rem;
+      font-family: 'JetBrains Mono', monospace;
+      letter-spacing: 1px;
+      font-weight: 700;
+      margin-bottom: 0.5rem;
+      text-transform: uppercase
+    }
+
+    .exam-stmt {
+      background: var(--surf);
+      border: 1px solid var(--border);
+      border-left: 4px solid var(--orange);
+      border-radius: 8px;
+      padding: 16px 20px;
+      margin: 14px 0;
+      overflow-wrap: anywhere
+    }
+
+    .exam-stmt .stmt-label {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.75rem;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--orange);
+      font-weight: 700;
+      margin-bottom: 8px
+    }
+
+    @media (max-width:700px) {
+      .compare {
+        grid-template-columns: 1fr
+      }
+    }
+
+    html[data-theme="light"] .hero {
+      background: var(--hero-bg);
+      background-image: linear-gradient(150deg, rgb(248, 250, 252) 0%, rgb(255, 247, 237) 55%, rgb(248, 250, 252) 100%);
+    }
+
+    html[data-theme="light"] .hero::after {
+      color: rgba(var(--orange-rgb), 0.15);
+    }
+  </style>
+  <script src="js/nav.js" defer></script>
+  <script src="data/questions.js" defer></script>
+  <script src="js/quiz-loader.js" defer></script>
+</head>
+
+<body>
+  <div id="site-nav"></div>
+
+  <div class="hero">
+    <div class="hero-label">K24 · Exam Prep</div>
+    <h1>Εξεταστική <em>— Ασκήσεις &amp; Στρατηγική</em></h1>
+    <p>Λυμένες ασκήσεις στο στυλ της εξέτασης, τα μοτίβα που επανέρχονται, drills «τι θα τυπώσει;» και η γέφυρα από τις
+      εργασίες στα θέματα. Όπως λέει και ο καθηγητής: <em>«αν γράψατε εσείς τον κώδικα των εργασιών, θα είστε μια
+        χαρά»</em>.</p>
+    <div class="chips">
+      <span class="chip">120 λεπτά</span><span class="chip">θεωρία + κώδικας στο χαρτί</span>
+      <span class="chip">sockets</span><span class="chip">threads + condvars</span><span
+        class="chip">fork/exec</span><span class="chip">bash</span>
+    </div>
+  </div>
+
+  <nav class="toc">
+    <a href="#format">Δομή Εξέτασης</a><a href="#theory">Θεωρία-Flash</a><a href="#socketfn">Άσκηση: Socket Function</a>
+    <a href="#threads">Άσκηση: Συγχρονισμένα Threads</a><a href="#forkexec">Άσκηση: Fork &amp; Exec</a><a
+      href="#bash">Άσκηση: Bash Script</a>
+    <a href="#trace">«Τι θα τυπώσει;»</a><a href="#bridge">Εργασίες → Εξέταση</a>
+  </nav>
+
+  <div class="wrap">
+
+    <!-- ═══════════════════════ 1. FORMAT ═══════════════════════ -->
+    <section id="format">
+      <div class="sh">
+        <div class="sh-icon bg-orange-dim">📋</div>
+        <h2>1. Πώς Μοιάζει η Εξέταση</h2>
+      </div>
+
+      <p class="section-desc">
+        Η εξέταση έχει τυπικά σταθερή δομή: <strong>~5 θέματα σε 120 λεπτά</strong>, χωρίς σημειώσεις/βιβλία, με γραπτό
+        κώδικα στο χαρτί. Πέρα από τη θεωρία, τα θέματα κώδικα ανήκουν σχεδόν πάντα στις ίδιες <strong
+          class="text-orange">4 «οικογένειες» ασκήσεων</strong> — και αυτές δουλεύουμε σε αυτή τη σελίδα.
+      </p>
+
+      <div class="grid2">
+        <div>
+          <table class="vtbl">
+            <tr>
+              <th>Οικογένεια</th>
+              <th>Περιεχόμενο</th>
+            </tr>
+            <tr>
+              <td><strong>Θεωρία</strong></td>
+              <td>Σύντομα ερωτήματα «περιγράψτε 2 διαφορές / 2 τρόπους / 2 περιπτώσεις»</td>
+            </tr>
+            <tr>
+              <td><strong>Sockets</strong></td>
+              <td>Συνάρτηση C που διαβάζει/γράφει δυαδικά δεδομένα σε <strong class="text-cyan">socket</strong> (read
+                loop + byte order), συχνά με mini ερώτημα «τι τιμή/πόσα bytes;»</td>
+            </tr>
+            <tr>
+              <td><strong>Threads</strong></td>
+              <td>Πρόγραμμα με <strong class="text-green">N threads συγχρονισμένα</strong> με mutex + condition variable
+                (χωρίς sleep / busy waiting)</td>
+            </tr>
+            <tr>
+              <td><strong>Processes</strong></td>
+              <td>Πρόγραμμα με <strong class="text-purple">fork() + exec*() + wait()</strong></td>
+            </tr>
+            <tr>
+              <td><strong>Bash</strong></td>
+              <td><strong class="text-yellow">Script</strong> με έλεγχο παραμέτρων, έλεγχο αρχείων/καταλόγων και grep/wc
+              </td>
+            </tr>
+          </table>
+
+          <div class="tip">
+            <div class="tip-icon">📎</div>
+            <div>
+              <div class="tip-title">Στο φύλλο της εξέτασης δίνονται prototypes</div>
+              <div class="tip-text">
+                Το φύλλο συνήθως κλείνει με <strong>prototypes των συναρτήσεων</strong> που μπορεί να χρειαστείς:
+                <code>fork, execvp, wait, waitpid, kill, read, write, ntohs/htons/ntohl/htonl, pthread_create/join, pthread_mutex_*, pthread_cond_*</code>.
+                Δεν χρειάζεται να θυμάσαι απ' έξω υπογραφές — χρειάζεται να ξέρεις <em>πώς συνδυάζονται</em>.
+              </div>
+            </div>
+          </div>
+        </div>
+        <div>
+          <div class="card">
+            <div class="card-title">Στρατηγική 120 λεπτών</div>
+            <ul>
+              <li><strong class="text-green">Πρώτα η θεωρία:</strong> 10–15 λεπτά, είναι «δώρο» — δες την <a
+                  href="#theory">Θεωρία-Flash</a> παρακάτω.</li>
+              <li><strong class="text-cyan">Μετά το θέμα που σου κάθεται καλύτερα.</strong> Τα θέματα κώδικα είναι
+                ανεξάρτητα μεταξύ τους.</li>
+              <li><strong class="text-yellow">Σκελετός πριν τον κώδικα:</strong> γράψε πρώτα σε σχόλια τα βήματα (π.χ.
+                «1. διάβασε n, 2. loop, 3. στείλε άθροισμα») και γέμισε μετά.</li>
+              <li><strong class="text-orange">Μην κολλάς σε λεπτομέρειες σύνταξης</strong> — ένα ξεχασμένο
+                <code>;</code> δεν κοστίζει όσο μια λάθος λογική συγχρονισμού.</li>
+              <li><strong class="text-red">Πρόσεξε τα «Απαραίτητα»:</strong> αν η εκφώνηση λέει «χωρίς busy waiting» και
+                βάλεις <code>sleep()</code> σε loop, χάνεις το θέμα.</li>
+            </ul>
+          </div>
+          <div class="wbox mt-10">
+            <div class="lbl text-yellow">Ο κανόνας του καθηγητή</div>
+            «Αν γράψατε τον κώδικα των εργασιών μόνοι σας, θα είστε μια χαρά.» Οι ασκήσεις είναι <em>μικρογραφίες</em>
+            των εργασιών: η άσκηση socket είναι το πρωτόκολλο επικοινωνίας που υλοποίησες, η άσκηση threads η ουρά
+            εργασιών με τους workers, η άσκηση fork/exec η εκτέλεση των jobs. Δες τη <a href="#bridge">γέφυρα εργασιών →
+              εξέτασης</a>.
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ═══════════════════════ 2. THEORY FLASH ═══════════════════════ -->
+    <section id="theory">
+      <div class="sh">
+        <div class="sh-icon bg-blue-dim">💬</div>
+        <h2>2. Θεωρία-Flash</h2>
+      </div>
+
+      <p class="section-desc">
+        Τα ερωτήματα θεωρίας ζητούν σχεδόν πάντα <strong>σύντομες, ονομαστικές απαντήσεις</strong>: «2 διαφορές», «2
+        τρόποι», «2 περιπτώσεις». Παρακάτω είναι τα κλασικά ζεύγη με έτοιμες απαντήσεις σε «exam length» — δύο γραμμές
+        ανά σκέλος αρκούν.
+      </p>
+
+      <div class="grid2">
+        <div>
+          <div class="card">
+            <div class="card-title">Process vs Thread — 2 διαφορές</div>
+            <ul>
+              <li><strong class="text-green">Address space:</strong> κάθε process έχει δικό του· τα threads μιας process
+                <em>μοιράζονται</em> τον ίδιο (code, data, heap, fds). Κάθε thread έχει μόνο δικό του
+                stack/PC/registers.</li>
+              <li><strong class="text-cyan">Κόστος δημιουργίας:</strong> το <code>fork()</code> αντιγράφει ολόκληρη
+                εικόνα process· το <code>pthread_create()</code> είναι 10–100× φθηνότερο.</li>
+              <li><em>Bonus εναλλακτική:</em> επικοινωνία — threads μέσω κοινής μνήμης απευθείας, processes μόνο μέσω
+                IPC (pipes, sockets, shared memory).</li>
+            </ul>
+          </div>
+
+          <div class="card">
+            <div class="card-title">2 περιπτώσεις που ένα process λαμβάνει SIGCHLD</div>
+            <ul>
+              <li>Όταν ένα <strong class="text-green">παιδί του τερματίσει</strong> (κανονικά με exit ή από σήμα).</li>
+              <li>Όταν ένα παιδί του <strong class="text-yellow">σταματήσει</strong> (π.χ.
+                <code>SIGSTOP</code>/<code>SIGTSTP</code>) ή <strong class="text-cyan">συνεχίσει</strong>
+                (<code>SIGCONT</code>).</li>
+            </ul>
+          </div>
+
+          <div class="card">
+            <div class="card-title">Blocking vs Non-blocking I/O</div>
+            <ul>
+              <li><strong class="text-green">Blocking:</strong> η <code>read()</code> «παγώνει» την κλήση μέχρι να
+                υπάρξουν δεδομένα (ή EOF).</li>
+              <li><strong class="text-orange">Non-blocking</strong> (<code>O_NONBLOCK</code>): η <code>read()</code>
+                επιστρέφει <em>αμέσως</em>· αν δεν υπάρχουν δεδομένα γυρνά −1 με
+                <code>errno == EAGAIN/EWOULDBLOCK</code>.</li>
+            </ul>
+          </div>
+
+          <div class="card">
+            <div class="card-title">2 τρόποι επικοινωνίας μεταξύ processes</div>
+            <ul>
+              <li><strong class="text-cyan">Pipes / Named pipes (FIFOs)</strong> — μονόδρομο κανάλι bytes μεταξύ
+                συγγενικών (ή μη) διεργασιών.</li>
+              <li><strong class="text-purple">Sockets</strong> — αμφίδρομα, και μεταξύ διαφορετικών μηχανών.</li>
+              <li><em>Άλλες αποδεκτές:</em> shared memory, message queues, signals, κοινά αρχεία.</li>
+            </ul>
+          </div>
+        </div>
+        <div>
+          <div class="card">
+            <div class="card-title">Hard links vs Soft links — 2 διαφορές</div>
+            <ul>
+              <li><strong class="text-green">Hard link:</strong> δείχνει στο <em>ίδιο inode</em> — το αρχείο ζει όσο
+                υπάρχει τουλάχιστον ένα hard link. Δεν επιτρέπεται σε directories, ούτε across filesystems.</li>
+              <li><strong class="text-cyan">Soft (symbolic) link:</strong> ξεχωριστό αρχείο που περιέχει ένα
+                <em>path</em>. Μπορεί να διασχίζει filesystems και να δείχνει σε φάκελο, αλλά «σπάει» (dangling) αν
+                διαγραφεί ο στόχος.</li>
+            </ul>
+          </div>
+
+          <div class="card">
+            <div class="card-title">TCP vs UDP — 2 διαφορές</div>
+            <ul>
+              <li><strong class="text-green">TCP:</strong> connection-oriented, <em>αξιόπιστο</em> — εγγυάται παράδοση
+                και σωστή σειρά (stream of bytes).</li>
+              <li><strong class="text-orange">UDP:</strong> connectionless, best-effort — datagrams που μπορεί να χαθούν
+                ή να φτάσουν εκτός σειράς, αλλά με μικρότερο overhead.</li>
+            </ul>
+          </div>
+
+          <div class="card">
+            <div class="card-title">Stack vs Heap — διαφορά</div>
+            <ul>
+              <li><strong class="text-green">Stack:</strong> αυτόματη δέσμευση (τοπικές μεταβλητές), LIFO, ελευθερώνεται
+                μόλις επιστρέψει η συνάρτηση, περιορισμένο μέγεθος.</li>
+              <li><strong class="text-purple">Heap:</strong> δυναμική δέσμευση με <code>malloc()/free()</code>, ζει
+                μέχρι να την ελευθερώσεις ρητά, μεγαλύτερο αλλά πιο αργό.</li>
+              <li><em>Σύνδεση με threads:</em> κάθε thread έχει <em>δικό του stack</em> αλλά όλα μοιράζονται το <em>ίδιο
+                  heap</em>.</li>
+            </ul>
+          </div>
+
+          <div class="card">
+            <div class="card-title">2 τρόποι να περάσεις παραμέτρους μέσω exec()</div>
+            <ul>
+              <li><strong class="text-green">Ορίσματα γραμμής εντολών</strong> — ο πίνακας <code>argv</code> που δίνεις
+                στην <code>execvp(file, argv)</code> γίνεται το <code>argv</code> της <code>main()</code> του νέου
+                προγράμματος.</li>
+              <li><strong class="text-cyan">Μεταβλητές περιβάλλοντος</strong> — μέσω <code>execle()/execve()</code>
+                (όρισμα <code>envp</code>) ή κληρονομιά του <code>environ</code>· το νέο πρόγραμμα τις διαβάζει με
+                <code>getenv()</code>.</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <div class="tip">
+        <div class="tip-icon">🧠</div>
+        <div>
+          <div class="tip-title">Μοτίβο απάντησης για «2 διαφορές»</div>
+          <div class="tip-text">Δώσε <strong>έναν άξονα σύγκρισης ανά διαφορά</strong> και τις δύο πλευρές του: «Ως προς
+            το address space: η process …, ενώ το thread …». Έτσι ο διορθωτής βλέπει αμέσως ότι είναι όντως
+            <em>διαφορά</em> και όχι δύο τυχαία facts.</div>
+        </div>
+      </div>
+
+      <div class="section-quiz" data-topic="examprep" data-section="theory"></div>
+    </section>
+
+    <!-- ═══════════════════════ 3. SOCKET FUNCTION ═══════════════════════ -->
+    <section id="socketfn">
+      <div class="sh">
+        <div class="sh-icon bg-cyan-dim">🔌</div>
+        <h2>3. Άσκηση «Συνάρτηση με Sockets» — Λυμένη</h2>
+      </div>
+
+      <p class="section-desc">
+        Η τυπική άσκηση sockets είναι μια συνάρτηση C που <strong>διαβάζει δυαδικά δεδομένα από socket, τα επεξεργάζεται
+          και γράφει το αποτέλεσμα πίσω</strong>. Τα δύο σημεία που βαθμολογούνται: σωστό <strong class="text-cyan">byte
+          order</strong> (ntoh*/hton*) και σωστό <strong class="text-green">read/write loop</strong> (η read/write
+        μπορεί να μεταφέρει λιγότερα bytes απ' όσα ζήτησες!).
+      </p>
+
+      <div class="exam-stmt">
+        <div class="stmt-label">Άσκηση 1 — recv_and_sum</div>
+        <p>Γράψτε μια συνάρτηση <code>int recv_and_sum(int sock)</code> σε C/C++ που υλοποιεί τον εξής αλγόριθμο:</p>
+        <ul>
+          <li>i) Από το socket <code>sock</code> λαμβάνεται πρώτα ένας ακέραιος (<strong>4 bytes, network byte
+              order</strong>) που αντιστοιχεί στο πλήθος <code>n</code> των επόμενων αριθμών.</li>
+          <li>ii) Έπειτα λαμβάνονται <code>n</code> ακέραιοι (<strong>2 bytes ο καθένας</strong>, επίσης network byte
+            order).</li>
+          <li>iii) Υπολογίζεται το άθροισμά τους.</li>
+          <li>iv) Το αποτέλεσμα στέλνεται πίσω στον αποστολέα (network byte order) μέσω του ίδιου socket.</li>
+          <li>v) Η συνάρτηση επιστρέφει 0 σε περίπτωση επιτυχίας, −1 σε περίπτωση σφάλματος.</li>
+        </ul>
+        <p><strong>Ερώτημα (β):</strong> Αν ο αποστολέας στείλει πρώτα <code>n = 5</code> και μετά τους αριθμούς
+          <code>1, 2, 3, 4, 5</code>, ποια τιμή (σε δεκαδικό) θα σταλεί πίσω;</p>
+      </div>
+
+      <div class="cb">
+        <pre><span class="cm">// Βοηθητική: διαβάζει ΑΚΡΙΒΩΣ n bytes — η read() μπορεί να γυρίσει λιγότερα</span>
+<span class="tp">ssize_t</span> <span class="fn">read_all</span>(<span class="kw">int</span> fd, <span class="kw">void</span> *buf, <span class="tp">size_t</span> n) {
+    <span class="tp">size_t</span> total = <span class="nm">0</span>;
+    <span class="kw">while</span> (total &lt; n) {
+        <span class="tp">ssize_t</span> r = <span class="fn">read</span>(fd, (<span class="kw">char</span>*)buf + total, n - total);
+        <span class="kw">if</span> (r &lt;= <span class="nm">0</span>) <span class="kw">return</span> <span class="nm">-1</span>;   <span class="cm">// 0: έκλεισε η σύνδεση, -1: σφάλμα</span>
+        total += r;
+    }
+    <span class="kw">return</span> total;
+}
+
+<span class="cm">// Βοηθητική: γράφει ΑΚΡΙΒΩΣ n bytes — συμμετρική της read_all</span>
+<span class="tp">ssize_t</span> <span class="fn">write_all</span>(<span class="kw">int</span> fd, <span class="kw">const</span> <span class="kw">void</span> *buf, <span class="tp">size_t</span> n) {
+    <span class="tp">size_t</span> total = <span class="nm">0</span>;
+    <span class="kw">while</span> (total &lt; n) {
+        <span class="tp">ssize_t</span> w = <span class="fn">write</span>(fd, (<span class="kw">const char</span>*)buf + total, n - total);
+        <span class="kw">if</span> (w &lt;= <span class="nm">0</span>) <span class="kw">return</span> <span class="nm">-1</span>;
+        total += w;
+    }
+    <span class="kw">return</span> total;
+}
+
+<span class="kw">int</span> <span class="fn">recv_and_sum</span>(<span class="kw">int</span> sock) {
+    <span class="cm">// (i) πλήθος n: 4 bytes σε network byte order → uint32_t + ntohl</span>
+    <span class="tp">uint32_t</span> n_net;
+    <span class="kw">if</span> (<span class="fn">read_all</span>(sock, &amp;n_net, <span class="nm">4</span>) != <span class="nm">4</span>) <span class="kw">return</span> <span class="nm">-1</span>;
+    <span class="tp">uint32_t</span> n = <span class="fn">ntohl</span>(n_net);
+
+    <span class="cm">// (ii)+(iii) n αριθμοί των 2 bytes → uint16_t + ntohs, αθροίζονται</span>
+    <span class="tp">uint32_t</span> sum = <span class="nm">0</span>;
+    <span class="kw">for</span> (<span class="tp">uint32_t</span> i = <span class="nm">0</span>; i &lt; n; i++) {
+        <span class="tp">uint16_t</span> v_net;
+        <span class="kw">if</span> (<span class="fn">read_all</span>(sock, &amp;v_net, <span class="nm">2</span>) != <span class="nm">2</span>) <span class="kw">return</span> <span class="nm">-1</span>;
+        sum += <span class="fn">ntohs</span>(v_net);
+    }
+
+    <span class="cm">// (iv) αποτέλεσμα πίσω σε network byte order</span>
+    <span class="tp">uint32_t</span> sum_net = <span class="fn">htonl</span>(sum);
+    <span class="kw">if</span> (<span class="fn">write_all</span>(sock, &amp;sum_net, <span class="nm">4</span>) != <span class="nm">4</span>) <span class="kw">return</span> <span class="nm">-1</span>;
+
+    <span class="kw">return</span> <span class="nm">0</span>;   <span class="cm">// (v) επιτυχία</span>
+}</pre>
+      </div>
+
+      <div class="grid2">
+        <div>
+          <div class="card">
+            <div class="card-title">Απάντηση ερωτήματος (β) — γιατί 15</div>
+            <p>Η συνάρτηση αθροίζει τους 5 αριθμούς: <code>1+2+3+4+5 = <strong class="text-green">15</strong></code>. Το
+              <code>htonl()</code> αλλάζει <em>τη σειρά των bytes στο καλώδιο</em>, όχι την τιμή — ο παραλήπτης που θα
+              κάνει <code>ntohl()</code> θα δει πάλι 15. Αν η ερώτηση ήταν «τι θα δει παραλήπτης που <em>ξεχνάει</em> το
+              ntohl σε little-endian μηχανή», η απάντηση θα ήταν το byte-swapped 15 = <code>0x0F000000</code> =
+              251.658.240 — αυτό ακριβώς το λάθος ψαρεύει η άσκηση.</p>
+          </div>
+          <div class="tip">
+            <div class="tip-icon">🎯</div>
+            <div>
+              <div class="tip-title">Το checklist της άσκησης socket</div>
+              <div class="tip-text">
+                1️⃣ Σωστό <strong>μέγεθος τύπου</strong>: 4 bytes → <code>uint32_t/int</code> + <code>ntohl</code>, 2
+                bytes → <code>uint16_t/short</code> + <code>ntohs</code>.<br>
+                2️⃣ <strong>Loop γύρω από read/write</strong> — μην υποθέσεις ότι ένα read φέρνει όλα τα bytes.<br>
+                3️⃣ Έλεγχος <strong>κάθε</strong> κλήσης και <code>return -1</code>.<br>
+                4️⃣ Μετατροπή <strong>και στην αποστολή</strong> (<code>htonl</code> πριν το write) — το μισό byte order
+                είναι μηδέν βαθμοί byte order.
+              </div>
+            </div>
+          </div>
+        </div>
+        <div>
+          <div class="exam-stmt">
+            <div class="stmt-label">Άσκηση 2 — παραλλαγή: get_mydata</div>
+            <p>Γράψτε <code>int get_mydata(int in_socket, int out_socket, char *st)</code> που: i) διαβάζει από το
+              <code>in_socket</code> 2 bytes που θεωρούμε ακέραιο <code>n</code>· ii) πολλαπλασιάζει κάθε byte του
+              πίνακα <code>st</code> με το <code>n</code> και το γράφει ως <strong>ακέραιο (4 bytes)</strong> στο
+              <code>out_socket</code>, μέχρι να συναντήσει byte ίσο με 0 στο <code>st</code> — το μηδενικό στέλνεται κι
+              αυτό.</p>
+            <p><strong>Ερώτημα (β):</strong> Αν το <code>st</code> έχει συνολικά 122 bytes (μαζί με το μηδενικό), πόσα
+              bytes θα γραφτούν στο <code>out_socket</code>;</p>
+          </div>
+          <div class="cb">
+            <pre><span class="kw">int</span> <span class="fn">get_mydata</span>(<span class="kw">int</span> in_socket, <span class="kw">int</span> out_socket, <span class="kw">char</span> *st) {
+    <span class="tp">uint16_t</span> n_net;                       <span class="cm">// 2 bytes → short</span>
+    <span class="kw">if</span> (<span class="fn">read_all</span>(in_socket, &amp;n_net, <span class="nm">2</span>) != <span class="nm">2</span>) <span class="kw">return</span> <span class="nm">-1</span>;
+    <span class="kw">int</span> n = <span class="fn">ntohs</span>(n_net);
+
+    <span class="kw">for</span> (<span class="kw">int</span> i = <span class="nm">0</span>; ; i++) {
+        <span class="tp">int32_t</span> val = st[i] * n;          <span class="cm">// byte × n → int</span>
+        <span class="tp">int32_t</span> val_net = <span class="fn">htonl</span>(val);
+        <span class="kw">if</span> (<span class="fn">write_all</span>(out_socket, &amp;val_net, <span class="nm">4</span>) != <span class="nm">4</span>) <span class="kw">return</span> <span class="nm">-1</span>;
+        <span class="kw">if</span> (st[i] == <span class="nm">0</span>) <span class="kw">break</span>;           <span class="cm">// το 0 στάλθηκε ήδη (0×n = 0)</span>
+    }
+    <span class="kw">return</span> <span class="nm">0</span>;
+}</pre>
+          </div>
+          <div class="wbox">
+            <div class="lbl text-orange">Απάντηση ερωτήματος (β)</div>
+            Κάθε ένα από τα 122 bytes (121 δεδομένα + το μηδενικό) γράφεται ως ακέραιος των 4 bytes:
+            <code>122 × 4 = <strong>488 bytes</strong></code>. Το μοτίβο της ερώτησης: <em>«πόσα bytes βγαίνουν»</em> =
+            πλήθος εγγραφών × μέγεθος εγγραφής στην έξοδο — όχι το μέγεθος εισόδου.
+          </div>
+        </div>
+      </div>
+
+      <div class="section-quiz" data-topic="examprep" data-section="socketfn"></div>
+    </section>
+
+    <!-- ═══════════════════════ 4. SYNCHRONIZED THREADS ═══════════════════════ -->
+    <section id="threads">
+      <div class="sh">
+        <div class="sh-icon bg-green-dim">🧵</div>
+        <h2>4. Άσκηση «Συγχρονισμένα Threads» — Λυμένη</h2>
+      </div>
+
+      <p class="section-desc">
+        Το βαρύτερο και πιο προβλέψιμο μοτίβο: <strong>N threads πρέπει να ενεργήσουν με αυστηρή σειρά</strong>,
+        υποχρεωτικά με <code>pthread_mutex_t</code> + <code>pthread_cond_t</code>, ρητά <strong class="text-red">χωρίς
+          sleep() και χωρίς busy waiting</strong>. Η λύση είναι πάντα το ίδιο σχήμα: μια κοινή μεταβλητή <strong
+          class="text-green">«σειράς» (turn)</strong> + <code>while</code> + <code>cond_wait</code> +
+        <code>broadcast</code>.
+      </p>
+
+      <div class="exam-stmt">
+        <div class="stmt-label">Άσκηση 1 — εκτύπωση με σειρά A→B→C</div>
+        <p>Γράψτε πρόγραμμα C που δημιουργεί 3 threads, τα οποία εκτελούν κυκλικά: Thread A τυπώνει "A", Thread B
+          τυπώνει "B", Thread C τυπώνει "C". Η εκτύπωση πρέπει να γίνει με τη σειρά <strong>A → B → C → A → B →
+            C…</strong> για 9 συνολικά εκτυπώσεις (A-B-C-A-B-C-A-B-C).</p>
+        <p><strong>Απαραίτητα:</strong> χρήση <code>pthread_cond_t</code> και <code>pthread_mutex_t</code> για τον
+          συντονισμό· να μη χρησιμοποιηθεί <code>sleep()</code> ή busy waiting· η λύση να είναι <em>απολύτως</em>
+          συγχρονισμένη.</p>
+      </div>
+
+      <div class="cb">
+        <pre><span class="mc">#include</span> <span class="st">&lt;stdio.h&gt;</span>
+<span class="mc">#include</span> <span class="st">&lt;pthread.h&gt;</span>
+
+<span class="tp">pthread_mutex_t</span> lock = PTHREAD_MUTEX_INITIALIZER;
+<span class="tp">pthread_cond_t</span>  cond = PTHREAD_COND_INITIALIZER;
+<span class="kw">int</span> turn = <span class="nm">0</span>;                          <span class="cm">// 0 → A, 1 → B, 2 → C : ποιανού είναι η σειρά</span>
+
+<span class="kw">void</span> *<span class="fn">worker</span>(<span class="kw">void</span> *arg) {
+    <span class="kw">int</span> id = *(<span class="kw">int</span> *)arg;
+    <span class="kw">const char</span> *names[] = {<span class="st">"A"</span>, <span class="st">"B"</span>, <span class="st">"C"</span>};
+
+    <span class="kw">for</span> (<span class="kw">int</span> i = <span class="nm">0</span>; i &lt; <span class="nm">3</span>; i++) {      <span class="cm">// 3 κύκλοι × 3 threads = 9 εκτυπώσεις</span>
+        <span class="fn">pthread_mutex_lock</span>(&amp;lock);
+
+        <span class="kw">while</span> (turn != id)              <span class="cm">// while, ΟΧΙ if! (spurious wakeups)</span>
+            <span class="fn">pthread_cond_wait</span>(&amp;cond, &amp;lock);
+
+        <span class="fn">printf</span>(<span class="st">"%s\n"</span>, names[id]);
+
+        turn = (turn + <span class="nm">1</span>) % <span class="nm">3</span>;          <span class="cm">// δίνω τη σειρά στο επόμενο</span>
+        <span class="fn">pthread_cond_broadcast</span>(&amp;cond);  <span class="cm">// ξυπνάω ΟΛΟΥΣ — βλ. γιατί παρακάτω</span>
+        <span class="fn">pthread_mutex_unlock</span>(&amp;lock);
+    }
+    <span class="kw">return</span> NULL;
+}
+
+<span class="kw">int</span> <span class="fn">main</span>(<span class="kw">void</span>) {
+    <span class="tp">pthread_t</span> tids[<span class="nm">3</span>];
+    <span class="kw">int</span> ids[<span class="nm">3</span>] = {<span class="nm">0</span>, <span class="nm">1</span>, <span class="nm">2</span>};           <span class="cm">// ΞΕΧΩΡΙΣΤΟ storage ανά thread (όχι &amp;i!)</span>
+
+    <span class="kw">for</span> (<span class="kw">int</span> i = <span class="nm">0</span>; i &lt; <span class="nm">3</span>; i++)
+        <span class="fn">pthread_create</span>(&amp;tids[i], NULL, worker, &amp;ids[i]);
+    <span class="kw">for</span> (<span class="kw">int</span> i = <span class="nm">0</span>; i &lt; <span class="nm">3</span>; i++)
+        <span class="fn">pthread_join</span>(tids[i], NULL);
+
+    <span class="kw">return</span> <span class="nm">0</span>;
+}</pre>
+      </div>
+
+      <div class="grid2">
+        <div>
+          <div class="card">
+            <div class="card-title">Τα 4 σημεία που κρίνουν τον βαθμό</div>
+            <ul>
+              <li><strong class="text-green">1. <code>while</code> γύρω από το <code>cond_wait</code></strong> — αν
+                βάλεις <code>if</code>, ένα spurious wakeup ή «λάθος» ξύπνημα τυπώνει εκτός σειράς.</li>
+              <li><strong class="text-cyan">2. <code>broadcast</code> αντί για <code>signal</code></strong> — το
+                <code>signal</code> ξυπνάει <em>ένα</em> τυχαίο thread· αν ξυπνήσει το λάθος, ξανακοιμάται και κανείς
+                δεν ξυπνά το σωστό → deadlock. (Εναλλακτικά: ένα condvar <em>ανά thread</em> και στοχευμένο signal —
+                επίσης σωστό.)</li>
+              <li><strong class="text-yellow">3. <code>&amp;ids[i]</code> και όχι <code>&amp;i</code></strong> — αν
+                δώσεις <code>&amp;i</code> σε όλα, μέχρι να τρέξουν ίσως δουν όλα <code>i == 3</code>.</li>
+              <li><strong class="text-orange">4. Η εκτύπωση γίνεται <em>μέσα</em> στο κλείδωμα</strong> — εδώ θέλουμε
+                αυστηρή σειρά, άρα και το <code>printf</code> προστατεύεται.</li>
+            </ul>
+          </div>
+          <div class="wbox">
+            <div class="lbl text-red">Αυτόματο μηδέν στην άσκηση</div>
+            <code>while (turn != id) { /* τίποτα */ }</code> χωρίς cond_wait = <strong>busy waiting</strong> —
+            απαγορεύεται ρητά από την εκφώνηση. Το ίδιο και <code>sleep(1)</code> «για να προλάβει το άλλο thread». Η
+            <em>μόνη</em> αποδεκτή αναμονή είναι <code>pthread_cond_wait</code> (που ελευθερώνει το mutex όσο κοιμάται
+            και το ξανακλειδώνει στο ξύπνημα).
+          </div>
+        </div>
+        <div>
+          <div class="exam-stmt">
+            <div class="stmt-label">Άσκηση 2 — παραλλαγή με N threads σε αλυσίδα</div>
+            <p>Πρόγραμμα με <strong>10 threads</strong>· καθένα παίρνει ως όρισμα το id του (1–10). Κάθε thread τυπώνει
+              τον αριθμό του και μετά «δίνει τη σκυτάλη» στο επόμενο (το 1 στο 2, το 2 στο 3, …)· το thread 10 δεν
+              ειδοποιεί κανένα.</p>
+          </div>
+          <div class="card">
+            <div class="card-title">Πώς γενικεύεται — ίδιος σκελετός</div>
+            <ul>
+              <li>Η ίδια λύση με <code>turn</code> από 1 έως 10:
+                <code>while (turn != my_id) pthread_cond_wait(...)</code>.</li>
+              <li>Μετά την εκτύπωση: <code>turn++</code> και <code>broadcast</code> — το «σήμα στο επόμενο»
+                <em>είναι</em> η αλλαγή του turn + το ξύπνημα.</li>
+              <li>Το thread 10 απλώς δεν αυξάνει το turn (ή το αυξάνει σε τιμή που δεν περιμένει κανείς) — δεν
+                χρειάζεται ειδική περίπτωση στο condvar.</li>
+              <li>Αν ζητηθεί «κάθε thread τυπώνει <em>μέχρι να ειδοποιηθεί</em>», το μοτίβο μένει ίδιο: η συνθήκη του
+                while γίνεται <code>while (!my_turn_to_stop)</code>.</li>
+            </ul>
+            <p class="section-desc-xs">Μάθε <strong>έναν</strong> σκελετό (mutex + turn + while/wait + broadcast) και
+              προσαρμόζεις μόνο τη συνθήκη. Είναι το ίδιο μοτίβο με μια blocking ουρά εργασιών:
+              <code>while (ουρά_άδεια &amp;&amp; !shutdown) pthread_cond_wait(...)</code> — δες τη <a
+                href="#bridge">γέφυρα με τις εργασίες</a>.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="section-quiz" data-topic="examprep" data-section="threads"></div>
+    </section>
+
+    <!-- ═══════════════════════ 5. FORK + EXEC ═══════════════════════ -->
+    <section id="forkexec">
+      <div class="sh">
+        <div class="sh-icon bg-purple-dim">🔀</div>
+        <h2>5. Άσκηση «Fork + Exec + Wait» — Λυμένη</h2>
+      </div>
+
+      <p class="section-desc">
+        Η άσκηση processes ζητάει σχεδόν πάντα τον <strong>ιερό συνδυασμό</strong>: <code>fork()</code> → στο παιδί
+        <code>exec*()</code> → στον γονιό <code>wait()/waitpid()</code>. Είναι ο πυρήνας του πώς ένας job scheduler
+        (όπως αυτός των εργασιών) εκτελεί εντολές — εδώ στη «γυμνή» εκδοχή της εξέτασης.
+      </p>
+
+      <div class="exam-stmt">
+        <div class="stmt-label">Άσκηση 1 — εκτέλεση εντολής σε παιδί</div>
+        <p>Γράψτε πρόγραμμα C/C++ που: παίρνει ως ορίσματα γραμμής εντολών 3 strings (π.χ.
+          <code>./prog hello world again</code>). Κατόπιν δημιουργεί ένα παιδί με <code>fork()</code>. Το παιδί καλεί
+          <code>execvp()</code> για να τρέξει το <code>/bin/echo</code> με τις παραμέτρους που δόθηκαν. Ο γονιός
+          περιμένει να τελειώσει το παιδί και τυπώνει <strong>"Child done"</strong>.</p>
+      </div>
+
+      <div class="cb">
+        <pre><span class="mc">#include</span> <span class="st">&lt;stdio.h&gt;</span>
+<span class="mc">#include</span> <span class="st">&lt;stdlib.h&gt;</span>
+<span class="mc">#include</span> <span class="st">&lt;unistd.h&gt;</span>
+<span class="mc">#include</span> <span class="st">&lt;sys/wait.h&gt;</span>
+
+<span class="kw">int</span> <span class="fn">main</span>(<span class="kw">int</span> argc, <span class="kw">char</span> *argv[]) {
+    <span class="kw">if</span> (argc != <span class="nm">4</span>) {                              <span class="cm">// πρόγραμμα + 3 strings</span>
+        <span class="fn">fprintf</span>(stderr, <span class="st">"Usage: %s s1 s2 s3\n"</span>, argv[<span class="nm">0</span>]);
+        <span class="fn">exit</span>(<span class="nm">1</span>);
+    }
+
+    <span class="tp">pid_t</span> pid = <span class="fn">fork</span>();
+    <span class="kw">if</span> (pid == <span class="nm">-1</span>) { <span class="fn">perror</span>(<span class="st">"fork"</span>); <span class="fn">exit</span>(<span class="nm">1</span>); }
+
+    <span class="kw">if</span> (pid == <span class="nm">0</span>) {                               <span class="cm">// ── παιδί ──</span>
+        <span class="kw">char</span> *args[] = {<span class="st">"echo"</span>, argv[<span class="nm">1</span>], argv[<span class="nm">2</span>], argv[<span class="nm">3</span>], NULL};
+        <span class="fn">execvp</span>(<span class="st">"/bin/echo"</span>, args);
+        <span class="fn">perror</span>(<span class="st">"execvp"</span>);                         <span class="cm">// εδώ φτάνουμε ΜΟΝΟ αν αποτύχει</span>
+        _exit(<span class="nm">1</span>);
+    }
+
+    <span class="fn">waitpid</span>(pid, NULL, <span class="nm">0</span>);                       <span class="cm">// ── γονιός: περιμένει ──</span>
+    <span class="fn">printf</span>(<span class="st">"Child done\n"</span>);
+    <span class="kw">return</span> <span class="nm">0</span>;
+}</pre>
+      </div>
+
+      <div class="grid2">
+        <div>
+          <div class="card">
+            <div class="card-title">Τα σημεία που βαθμολογούνται</div>
+            <ul>
+              <li><strong class="text-green"><code>args[0]</code> = όνομα προγράμματος</strong> (σύμβαση), <strong
+                  class="text-red">τελευταίο στοιχείο NULL</strong> — χωρίς το NULL η execvp έχει undefined behavior.
+              </li>
+              <li><strong class="text-cyan">Η exec δεν επιστρέφει ποτέ σε επιτυχία</strong> — αντικαθιστά ολόκληρη την
+                εικόνα της διεργασίας. Κώδικας μετά την execvp τρέχει μόνο σε αποτυχία.</li>
+              <li><strong class="text-yellow">Το wait εγγυάται τη σειρά εξόδου:</strong> πρώτα το echo του παιδιού, μετά
+                το "Child done". Χωρίς wait, η σειρά θα ήταν απρόβλεπτη (και το παιδί θα γινόταν zombie αν τερμάτιζε
+                πρώτο).</li>
+              <li><code>_exit()</code> στο παιδί μετά από αποτυχία exec — αποφεύγει double-flush των stdio buffers του
+                γονιού.</li>
+            </ul>
+          </div>
+        </div>
+        <div>
+          <div class="exam-stmt">
+            <div class="stmt-label">Άσκηση 2 — παραλλαγή: Fibonacci με διαδοχικά παιδιά</div>
+            <p>Πρόγραμμα που παίρνει από το command line έναν ακέραιο <code>ν</code>. Δημιουργεί <strong>ν διαδοχικά
+                παιδιά</strong> με <code>fork()</code>· κάθε παιδί (όχι ο γονιός) τυπώνει έναν όρο της σειράς Fibonacci
+              (F0=0, F1=1, Fn=Fn−1+Fn−2).</p>
+          </div>
+          <div class="card">
+            <div class="card-title">Το κρυφό insight της άσκησης Fibonacci</div>
+            <p class="section-desc-xs">Μετά το fork, γονιός και παιδί έχουν <strong>ξεχωριστά αντίγραφα</strong> μνήμης.
+              Ό,τι υπολογίσει το παιδί <em>χάνεται</em> όταν τερματίσει — άρα τη σειρά πρέπει να την προχωράει <strong
+                class="text-purple">ο γονιός</strong>, και κάθε παιδί απλώς τυπώνει την τρέχουσα τιμή:</p>
+            <div class="cb">
+              <pre><span class="kw">long</span> a = <span class="nm">0</span>, b = <span class="nm">1</span>;
+<span class="kw">for</span> (<span class="kw">int</span> i = <span class="nm">0</span>; i &lt; n; i++) {
+    <span class="tp">pid_t</span> pid = <span class="fn">fork</span>();
+    <span class="kw">if</span> (pid == <span class="nm">0</span>) {              <span class="cm">// παιδί: τυπώνει ΚΑΙ τερματίζει</span>
+        <span class="fn">printf</span>(<span class="st">"F%d = %ld\n"</span>, i, a);
+        _exit(<span class="nm">0</span>);                 <span class="cm">// αλλιώς θα συνέχιζε το loop!</span>
+    }
+    <span class="fn">waitpid</span>(pid, NULL, <span class="nm">0</span>);       <span class="cm">// "διαδοχικά" = ένα-ένα με τη σειρά</span>
+    <span class="kw">long</span> next = a + b; a = b; b = next;   <span class="cm">// ο ΓΟΝΙΟΣ προχωράει τη σειρά</span>
+}</pre>
+            </div>
+            <p class="section-desc-xs">Δύο κλασικά λάθη: (1) να ξεχάσεις το <code>_exit()</code> στο παιδί → κάθε παιδί
+              συνεχίζει το loop και κάνει δικά του fork → έκρηξη διεργασιών· (2) να υπολογίζει το παιδί τον επόμενο όρο
+              → ο γονιός δεν το βλέπει ποτέ.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="section-quiz" data-topic="examprep" data-section="forkexec"></div>
+    </section>
+
+    <!-- ═══════════════════════ 6. BASH ═══════════════════════ -->
+    <section id="bash">
+      <div class="sh">
+        <div class="sh-icon bg-yellow-dim">🐚</div>
+        <h2>6. Άσκηση «Bash Script» — Λυμένη</h2>
+      </div>
+
+      <p class="section-desc">
+        Η άσκηση bash έχει πάντα την ίδια «χορογραφία»: <strong>έλεγχος πλήθους παραμέτρων → έλεγχος ύπαρξης/δικαιωμάτων
+          αρχείου ή καταλόγου → grep/wc → φιλικό μήνυμα</strong>. Αν ξέρεις τα test flags (<code>-f -r -d</code>) και τη
+        διαφορά <code>grep -c</code> vs <code>grep -o | wc -l</code>, η άσκηση είναι 15 λεπτά.
+      </p>
+
+      <div class="exam-stmt">
+        <div class="stmt-label">Άσκηση 1 — μέτρηση λέξης-κλειδί σε αρχείο</div>
+        <p>Γράψτε ένα bash script που δέχεται 2 παραμέτρους: ένα αρχείο κειμένου και μία λέξη-κλειδί. Το πρόγραμμα
+          πρέπει να ελέγξει αν το αρχείο υπάρχει και είναι αναγνώσιμο. Αν ναι, θα μετρά και θα τυπώνει πόσες φορές
+          εμφανίζεται η λέξη-κλειδί στο αρχείο (ολόκληρη λέξη, όχι υπολέξη). Αν όχι, θα εμφανίζει κατάλληλο μήνυμα
+          σφάλματος.</p>
+      </div>
+
+      <div class="cb">
+        <pre><span class="cm">#!/bin/bash</span>
+
+<span class="cm"># 1. Έλεγχος πλήθους παραμέτρων</span>
+<span class="kw">if</span> [ $# -ne <span class="nm">2</span> ]; <span class="kw">then</span>
+    <span class="fn">echo</span> <span class="st">"Usage: $0 &lt;file&gt; &lt;keyword&gt;"</span>
+    <span class="kw">exit</span> <span class="nm">1</span>
+<span class="kw">fi</span>
+
+file=$<span class="nm">1</span>
+word=$<span class="nm">2</span>
+
+<span class="cm"># 2. Υπάρχει (ως κανονικό αρχείο) ΚΑΙ είναι αναγνώσιμο;</span>
+<span class="kw">if</span> [ ! -f <span class="st">"$file"</span> ] || [ ! -r <span class="st">"$file"</span> ]; <span class="kw">then</span>
+    <span class="fn">echo</span> <span class="st">"Error: '$file' does not exist or is not readable"</span>
+    <span class="kw">exit</span> <span class="nm">1</span>
+<span class="kw">fi</span>
+
+<span class="cm"># 3. Μέτρηση εμφανίσεων ΟΛΟΚΛΗΡΗΣ λέξης (-w), μία ανά γραμμή εξόδου (-o)</span>
+count=$(<span class="fn">grep</span> -ow <span class="st">"$word"</span> <span class="st">"$file"</span> | <span class="fn">wc</span> -l)
+
+<span class="kw">if</span> [ <span class="st">"$count"</span> -gt <span class="nm">0</span> ]; <span class="kw">then</span>
+    <span class="fn">echo</span> <span class="st">"'$word' appears $count times in '$file'"</span>
+<span class="kw">else</span>
+    <span class="fn">echo</span> <span class="st">"'$word' not found in '$file'"</span>
+<span class="kw">fi</span></pre>
+      </div>
+
+      <div class="grid2">
+        <div>
+          <div class="compare">
+            <div class="bad-side">
+              <div class="side-label text-red">✗ Η παγίδα</div>
+              <code>grep -c "$word" "$file"</code><br>
+              Μετράει <strong>γραμμές</strong> που περιέχουν τη λέξη — αν μια γραμμή την έχει 3 φορές, μετράει 1. Επίσης
+              χωρίς <code>-w</code> το «cat» ταιριάζει και στο «catalog».
+            </div>
+            <div class="good-side">
+              <div class="side-label text-green">✓ Το σωστό</div>
+              <code>grep -ow "$word" "$file" | wc -l</code><br>
+              Το <code>-o</code> τυπώνει <strong>κάθε εμφάνιση</strong> σε δική της γραμμή, το <code>-w</code> ταιριάζει
+              μόνο ολόκληρες λέξεις, το <code>wc -l</code> τις μετράει.
+            </div>
+          </div>
+          <div class="card">
+            <div class="card-title">Tο toolbox των ελέγχων</div>
+            <table class="vtbl">
+              <tr>
+                <th>Test</th>
+                <th>Σημασία</th>
+              </tr>
+              <tr>
+                <td><code>[ $# -ne 2 ]</code></td>
+                <td>πλήθος παραμέτρων ≠ 2</td>
+              </tr>
+              <tr>
+                <td><code>[ -f "$x" ]</code></td>
+                <td>υπάρχει &amp; είναι κανονικό αρχείο</td>
+              </tr>
+              <tr>
+                <td><code>[ -r "$x" ]</code> / <code>[ -w ]</code> / <code>[ -x ]</code></td>
+                <td>αναγνώσιμο / εγγράψιμο / εκτελέσιμο</td>
+              </tr>
+              <tr>
+                <td><code>[ -d "$x" ]</code></td>
+                <td>υπάρχει &amp; είναι κατάλογος</td>
+              </tr>
+              <tr>
+                <td><code>[ -e "$x" ]</code></td>
+                <td>υπάρχει (οτιδήποτε)</td>
+              </tr>
+            </table>
+            <p class="section-desc-xs">Πάντα <strong>quotes γύρω από τις μεταβλητές</strong> (<code>"$file"</code>) —
+              αλλιώς ονόματα με κενά σπάνε το test, και είναι από τα πρώτα πράγματα που κοιτάει ο διορθωτής.</p>
+          </div>
+        </div>
+        <div>
+          <div class="exam-stmt">
+            <div class="stmt-label">Άσκηση 2 — παραλλαγή: αναζήτηση σε κατάλογο</div>
+            <p>Script που δέχεται <strong>ακριβώς 3 παραμέτρους</strong>: έναν κατάλογο, μια φράση και ένα αρχείο
+              εξόδου. Ελέγχει ότι ο κατάλογος υπάρχει, ψάχνει τη φράση στα αρχεία του καταλόγου και καταγράφει στο
+              αρχείο εξόδου σε ποια αρχεία και πόσες φορές εμφανίζεται.</p>
+          </div>
+          <div class="cb">
+            <pre><span class="cm">#!/bin/bash</span>
+<span class="cm"># 1. Έλεγχος πλήθους παραμέτρων</span>
+<span class="kw">if</span> [ $# -ne <span class="nm">3</span> ]; <span class="kw">then</span>
+    <span class="fn">echo</span> <span class="st">"Usage: $0 &lt;dir&gt; &lt;phrase&gt; &lt;outfile&gt;"</span>
+    <span class="kw">exit</span> <span class="nm">1</span>
+<span class="kw">fi</span>
+
+dir=$<span class="nm">1</span>; phrase=$<span class="nm">2</span>; out=$<span class="nm">3</span>
+
+<span class="cm"># 2. Έλεγχος ότι είναι κατάλογος</span>
+<span class="kw">if</span> [ ! -d <span class="st">"$dir"</span> ]; <span class="kw">then</span>
+    <span class="fn">echo</span> <span class="st">"Error: '$dir' is not a directory"</span>
+    <span class="kw">exit</span> <span class="nm">1</span>
+<span class="kw">fi</span>
+
+<span class="cm"># 3. Άδειασμα/δημιουργία αρχείου εξόδου</span>
+&gt; <span class="st">"$out"</span>
+
+<span class="cm"># 4. Σάρωση των αρχείων του καταλόγου</span>
+<span class="kw">for</span> f <span class="kw">in</span> <span class="st">"$dir"</span>/*; <span class="kw">do</span>
+    [ -f <span class="st">"$f"</span> ] || <span class="kw">continue</span>      <span class="cm"># αγνόησε υποκαταλόγους κλπ.</span>
+    count=$(<span class="fn">grep</span> -o <span class="st">"$phrase"</span> <span class="st">"$f"</span> | <span class="fn">wc</span> -l)
+    <span class="kw">if</span> [ <span class="st">"$count"</span> -gt <span class="nm">0</span> ]; <span class="kw">then</span>
+        <span class="fn">echo</span> <span class="st">"$f: $count"</span> &gt;&gt; <span class="st">"$out"</span>
+    <span class="kw">fi</span>
+<span class="kw">done</span></pre>
+          </div>
+          <div class="tip">
+            <div class="tip-icon">🧠</div>
+            <div>
+              <div class="tip-title">Ο σκελετός που λύνει κάθε bash άσκηση</div>
+              <div class="tip-text">1️⃣ <code>if [ $# -ne N ]</code> → usage + exit 1.&nbsp; 2️⃣ test ύπαρξης
+                (<code>-f/-r</code> ή <code>-d</code>) → error + exit 1.&nbsp; 3️⃣ Η «δουλειά» (grep/wc/for).&nbsp; 4️⃣
+                Φιλικό μήνυμα. Γράψε τα 4 βήματα ως σχόλια πρώτα και γέμισέ τα.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="section-quiz" data-topic="examprep" data-section="bash"></div>
+    </section>
+
+    <!-- ═══════════════════════ 7. TRACE DRILL ═══════════════════════ -->
+    <section id="trace">
+      <div class="sh">
+        <div class="sh-icon bg-red-dim">🔍</div>
+        <h2>7. Drill: «Τι θα Τυπώσει;»</h2>
+      </div>
+
+      <p class="section-desc">
+        Ερωτήσεις τύπου «τι τυπώνει / πόσες φορές / τι τιμή επιστρέφει» είναι ιδανικές για multiple choice και mini
+        ερωτήματα. Δούλεψε τα παρακάτω <strong>στο χαρτί πρώτα</strong> και μετά αποκάλυψε την απάντηση.
+      </p>
+
+      <div class="quiz">
+        <h3>🔥 Fork &amp; Processes</h3>
+        <div class="qitems">
+          <div class="qitem">
+            <div class="qq">Πόσες φορές τυπώνεται το
+              "hi";<br><code>int main() { fork(); fork(); printf("hi\n"); }</code></div>
+            <div class="qa" id="tq1" style="display:none"><strong>4 φορές.</strong> Το 1ο fork → 2 διεργασίες· καθεμιά
+              κάνει το 2ο fork → 4 διεργασίες· όλες φτάνουν στο printf. Γενικά: n σειριακά fork → 2ⁿ διεργασίες.</div>
+            <button class="qa-toggle" onclick="toggleAnswer('tq1', this)">Δες απάντηση</button>
+          </div>
+          <div class="qitem">
+            <div class="qq">Πόσες φορές τυπώνεται το
+              "hi";<br><code>for (int i = 0; i &lt; 3; i++) fork();<br>printf("hi\n");</code></div>
+            <div class="qa" id="tq2" style="display:none"><strong>8 φορές</strong> (2³ διεργασίες). Κάθε iteration
+              διπλασιάζει τις διεργασίες που τρέχουν το loop — και ΟΛΕΣ (γονείς και παιδιά) συνεχίζουν μετά το loop στο
+              printf.</div>
+            <button class="qa-toggle" onclick="toggleAnswer('tq2', this)">Δες απάντηση</button>
+          </div>
+          <div class="qitem">
+            <div class="qq">Τι θα τυπωθεί;<br><code>printf("A");  // χωρίς \n<br>fork();<br>printf("B\n");</code></div>
+            <div class="qa" id="tq3" style="display:none"><strong>"AB" δύο φορές</strong> (π.χ. <code>AB</code> ↵
+              <code>AB</code>). Το "A" δεν έχει \n, μένει στον stdio buffer· το fork <em>αντιγράφει και τον buffer</em>·
+              κάθε διεργασία τελικά κάνει flush "AB\n". Κλασική παγίδα του buffering!</div>
+            <button class="qa-toggle" onclick="toggleAnswer('tq3', this)">Δες απάντηση</button>
+          </div>
+          <div class="qitem">
+            <div class="qq">Τι θα τυπώσει το παιδί και τι ο
+              γονιός;<br><code>int x = 5;<br>pid_t pid = fork();<br>if (pid == 0) { x = 10; printf("child x=%d\n", x); }<br>else { wait(NULL); printf("parent x=%d\n", x); }</code>
+            </div>
+            <div class="qa" id="tq4" style="display:none"><code>child x=10</code> και <code>parent x=5</code>. Μετά το
+              fork η μνήμη είναι <strong>ξεχωριστή</strong> (copy-on-write) — η αλλαγή του παιδιού δεν φαίνεται στον
+              γονιό. Αντίθεση με τα <em>threads</em>, που μοιράζονται τα globals. Αυτό είναι και το insight της άσκησης
+              Fibonacci στην §5.</div>
+            <button class="qa-toggle" onclick="toggleAnswer('tq4', this)">Δες απάντηση</button>
+          </div>
+          <div class="qitem">
+            <div class="qq">Στην άσκηση fork+exec της §5 (fork → παιδί execvp echo → γονιός waitpid → printf "Child
+              done"): μπορεί το "Child done" να εμφανιστεί ΠΡΙΝ από την έξοδο του echo;</div>
+            <div class="qa" id="tq5" style="display:none"><strong>Όχι.</strong> Το <code>waitpid()</code> μπλοκάρει
+              μέχρι να τερματίσει το παιδί — και το παιδί τερματίζει αφού το echo ολοκληρώσει την έξοδό του. Χωρίς το
+              wait όμως, η σειρά θα ήταν <em>απρόβλεπτη</em> (race μεταξύ γονιού/παιδιού στον scheduler).</div>
+            <button class="qa-toggle" onclick="toggleAnswer('tq5', this)">Δες απάντηση</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="quiz">
+        <h3>🧵 Threads &amp; Συγχρονισμός</h3>
+        <div class="qitems">
+          <div class="qitem">
+            <div class="qq">Δύο threads κάνουν από 1.000.000 φορές <code>counter++</code> σε global counter, ΧΩΡΙΣ
+              mutex. Τι τιμή θα έχει στο τέλος ο counter;</div>
+            <div class="qa" id="tq6" style="display:none"><strong>Απρόβλεπτη, συνήθως &lt; 2.000.000.</strong> Το
+              <code>counter++</code> είναι 3 βήματα (load → add → store)· όταν διαπλέκονται, χάνονται ενημερώσεις (lost
+              update). Σωστή απάντηση σε multiple choice: «οποιαδήποτε τιμή από 2 έως 2.000.000» — όχι «πάντα 2.000.000»
+              και όχι «πάντα 1.000.000».</div>
+            <button class="qa-toggle" onclick="toggleAnswer('tq6', this)">Δες απάντηση</button>
+          </div>
+          <div class="qitem">
+            <div class="qq">Στη λύση A→B→C, τι θα πάθαινε το πρόγραμμα αν αντί για <code>while (turn != id)</code>
+              γράφαμε <code>if (turn != id)</code>;</div>
+            <div class="qa" id="tq7" style="display:none">Μετά από <strong>spurious wakeup</strong> (ή broadcast που
+              ξυπνά «λάθος» thread) το thread θα συνέχιζε <em>χωρίς να ξαναελέγξει</em> τη συνθήκη → θα τύπωνε εκτός
+              σειράς. Κανόνας: το cond_wait μπαίνει ΠΑΝΤΑ σε while που ξαναελέγχει τη συνθήκη.</div>
+            <button class="qa-toggle" onclick="toggleAnswer('tq7', this)">Δες απάντηση</button>
+          </div>
+          <div class="qitem">
+            <div class="qq">Στην ίδια λύση, γιατί <code>pthread_cond_broadcast</code> και όχι
+              <code>pthread_cond_signal</code>;</div>
+            <div class="qa" id="tq8" style="display:none">Το <code>signal</code> ξυπνάει <strong>ένα αυθαίρετο</strong>
+              από τα threads που περιμένουν. Αν ξυπνήσει αυτό που ΔΕΝ έχει σειρά, θα δει <code>turn != id</code> και θα
+              ξανακοιμηθεί — και το σωστό thread δεν θα ξυπνήσει ποτέ → deadlock. Το <code>broadcast</code> τα ξυπνάει
+              όλα και «φιλτράρει» το while. (Εναλλακτικά σωστό: ένα condvar ανά thread + στοχευμένο signal.)</div>
+            <button class="qa-toggle" onclick="toggleAnswer('tq8', this)">Δες απάντηση</button>
+          </div>
+          <div class="qitem">
+            <div class="qq">Τι κάνει «αυτόματα» η <code>pthread_cond_wait(&amp;cond, &amp;lock)</code> με το mutex;
+            </div>
+            <div class="qa" id="tq9" style="display:none">Τρία πράγματα <strong>ατομικά</strong>: (1) ελευθερώνει το
+              <code>lock</code>, (2) κοιμίζει το thread στο <code>cond</code>, (3) όταν ξυπνήσει,
+              <strong>ξανακλειδώνει</strong> το lock πριν επιστρέψει. Γι' αυτό η συνθήκη μπορεί να ξαναελεγχθεί με
+              ασφάλεια στο while.</div>
+            <button class="qa-toggle" onclick="toggleAnswer('tq9', this)">Δες απάντηση</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="quiz">
+        <h3>🔌 I/O, Sockets &amp; Bash</h3>
+        <div class="qitems">
+          <div class="qitem">
+            <div class="qq">Η <code>read()</code> σε socket επέστρεψε 0. Τι σημαίνει;</div>
+            <div class="qa" id="tq10" style="display:none"><strong>EOF — η άλλη πλευρά έκλεισε τη σύνδεση.</strong> ΔΕΝ
+              είναι σφάλμα (το σφάλμα είναι −1). Ένα σωστό helper τύπου read_line/read_all ελέγχει ακριβώς αυτό
+              ξεχωριστά: «return 0 → ο πελάτης αποσυνδέθηκε».</div>
+            <button class="qa-toggle" onclick="toggleAnswer('tq10', this)">Δες απάντηση</button>
+          </div>
+          <div class="qitem">
+            <div class="qq">Ζήτησες <code>write(fd, buf, 1000)</code> και επέστρεψε 600. Είναι σφάλμα; Τι κάνεις;</div>
+            <div class="qa" id="tq11" style="display:none"><strong>Όχι, είναι «short write»</strong> — νόμιμη
+              συμπεριφορά σε sockets/pipes. Συνεχίζεις να γράφεις τα υπόλοιπα 400 από το <code>buf+600</code> σε loop —
+              αυτό ακριβώς κάνει μια βοηθητική <code>write_all()</code>, και είναι βαθμολογούμενο σημείο στις ασκήσεις
+              socket.</div>
+            <button class="qa-toggle" onclick="toggleAnswer('tq11', this)">Δες απάντηση</button>
+          </div>
+          <div class="qitem">
+            <div class="qq">Τι θα τυπωθεί στην
+              ΟΘΟΝΗ;<br><code>int fd = open("out.txt", O_WRONLY|O_CREAT|O_TRUNC, 0644);<br>dup2(fd, 1);<br>printf("hello\n");</code>
+            </div>
+            <div class="qa" id="tq12" style="display:none"><strong>Τίποτα.</strong> Το <code>dup2(fd, 1)</code> κάνει το
+              fd 1 (stdout) αντίγραφο του fd του αρχείου — το "hello" πάει στο out.txt. Είναι το κλασικό μοτίβο
+              ανακατεύθυνσης της εξόδου ενός job σε αρχείο: <code>dup2(out_fd, STDOUT_FILENO)</code> πριν την execvp.
+            </div>
+            <button class="qa-toggle" onclick="toggleAnswer('tq12', this)">Δες απάντηση</button>
+          </div>
+          <div class="qitem">
+            <div class="qq">Το αρχείο data.txt περιέχει μία γραμμή: <code>cat catalog cat</code>. Τι τυπώνει το
+              <code>grep -c "cat" data.txt</code> και τι το <code>grep -ow "cat" data.txt | wc -l</code>;</div>
+            <div class="qa" id="tq13" style="display:none"><code>grep -c</code> → <strong>1</strong> (μετράει
+              <em>γραμμές</em> που ταιριάζουν). <code>grep -ow | wc -l</code> → <strong>2</strong> (εμφανίσεις ολόκληρης
+              λέξης: τα 2 σκέτα "cat"· το "catalog" αποκλείεται από το -w). Αν έλειπε το -w θα ήταν 3. Αυτή η διάκριση
+              είναι το κλασικό ζητούμενο των bash ασκήσεων.</div>
+            <button class="qa-toggle" onclick="toggleAnswer('tq13', this)">Δες απάντηση</button>
+          </div>
+          <div class="qitem">
+            <div class="qq">Γράφεις σε socket του οποίου η άλλη πλευρά έχει κλείσει. Τι σήμα παίρνει η διεργασία σου και
+              πώς προστατεύεσαι;</div>
+            <div class="qa" id="tq14" style="display:none"><strong>SIGPIPE</strong> — και η default συμπεριφορά είναι να
+              ΣΚΟΤΩΣΕΙ τη διεργασία! Προστασία: <code>signal(SIGPIPE, SIG_IGN)</code> ώστε η write να επιστρέφει απλώς
+              −1 με <code>errno == EPIPE</code>. Συνηθισμένη πρώτη γραμμή της main σε κάθε server.</div>
+            <button class="qa-toggle" onclick="toggleAnswer('tq14', this)">Δες απάντηση</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ═══════════════════════ 8. BRIDGE ═══════════════════════ -->
+    <section id="bridge">
+      <div class="sh">
+        <div class="sh-icon bg-purple-dim">🌉</div>
+        <h2>8. Από τις Εργασίες στην Εξέταση</h2>
+      </div>
+
+      <p class="section-desc">
+        «Αν γράψατε τον κώδικα των εργασιών, θα είστε μια χαρά» — να γιατί. Κάθε οικογένεια ασκήσεων αντιστοιχεί σε μια
+        <strong>ιδέα που υλοποίησες</strong> στις εργασίες (κονσόλα ↔ συντονιστής ↔ workers που εκτελούν jobs). Δεν έχει
+        σημασία πώς ονόμασες τα αρχεία ή τις συναρτήσεις σου — σημασία έχει το <em>μοτίβο</em>. Πριν την εξέταση,
+        ξαναπέρνα αυτές τις 6 ιδέες:
+      </p>
+
+      <table class="vtbl">
+        <tr>
+          <th>Οικογένεια άσκησης</th>
+          <th>Η ιδέα στις εργασίες</th>
+          <th>Τι να προσέξεις</th>
+        </tr>
+        <tr>
+          <td><strong>Socket function</strong></td>
+          <td>Το πρωτόκολλο επικοινωνίας κονσόλας ↔ συντονιστή: βοηθητικές που γράφουν/διαβάζουν <em>όλα</em> τα bytes ή
+            μια ολόκληρη γραμμή, με προσυμφωνημένη μορφή μηνύματος.</td>
+          <td>Το while-loop γύρω από read/write, ο έλεγχος <code>r &lt;= 0</code>, το νόημα του <code>read() == 0</code>
+          </td>
+        </tr>
+        <tr>
+          <td><strong>Byte order</strong></td>
+          <td>Το γέμισμα της <code>sockaddr_in</code>: το port μπαίνει πάντα με <code>htons(port)</code>, οι σταθερές
+            διευθύνσεις με <code>htonl()</code>.</td>
+          <td>Πότε hton* (πριν φύγει στο δίκτυο) και πότε ntoh* (μόλις έρθει)</td>
+        </tr>
+        <tr>
+          <td><strong>Condvar συγχρονισμός</strong></td>
+          <td>Η ουρά εργασιών: workers που περιμένουν με <code>cond_wait</code> όσο η ουρά είναι άδεια, push που κάνει
+            <code>signal</code>, shutdown που κάνει <code>broadcast</code> για να ξυπνήσουν όλοι.</td>
+          <td>Γιατί while και όχι if· γιατί το shutdown θέλει <em>broadcast</em> ενώ για ένα νέο στοιχείο αρκεί signal
+          </td>
+        </tr>
+        <tr>
+          <td><strong>Fork / exec / wait</strong></td>
+          <td>Η εκτέλεση ενός job: fork → ανακατεύθυνση εξόδου με dup2 → execvp → waitpid και ανάγνωση του exit code με
+            <code>WIFEXITED/WEXITSTATUS</code>.</td>
+          <td>argv με NULL στο τέλος, perror + _exit ΜΕΤΑ την execvp, dup2 πριν την exec</td>
+        </tr>
+        <tr>
+          <td><strong>Signals</strong></td>
+          <td>Suspend/resume εργασιών με <code>kill(pid, SIGSTOP/SIGCONT)</code>, handlers που απλώς σηκώνουν ένα
+            <code>volatile sig_atomic_t</code> flag, και <code>SIG_IGN</code> στο SIGPIPE στους servers.</td>
+          <td>Ο handler μόνο σηκώνει flag· SIGSTOP/SIGCONT = πάγωμα/συνέχιση· γιατί αγνοούμε το SIGPIPE</td>
+        </tr>
+        <tr>
+          <td><strong>Processes vs Threads</strong></td>
+          <td>Η ίδια η εξέλιξη του project: από <em>processes + pipes</em> σε <em>threads + sockets</em> — και γιατί τα
+            κοινά δεδομένα χρειάστηκαν ξαφνικά mutexes.</td>
+          <td>Κοινός address space → προστασία με mutex· ξεχωριστός → επικοινωνία μόνο με IPC</td>
+        </tr>
+      </table>
+
+      <div class="grid2">
+        <div>
+          <div class="card">
+            <div class="card-title">Blocking pop από κοινή ουρά — ο σκελετός του συγχρονισμού</div>
+            <div class="cb">
+              <pre><span class="cm">// Worker περιμένει δουλειά: το μοτίβο condvar</span>
+<span class="fn">pthread_mutex_lock</span>(&amp;m);
+<span class="kw">while</span> (queue_is_empty &amp;&amp; !shutdown)   <span class="cm">// η συνθήκη ΠΑΝΤΑ σε while</span>
+    <span class="fn">pthread_cond_wait</span>(&amp;cond, &amp;m);     <span class="cm">// κοιμάται ΧΩΡΙΣ να κρατά το mutex</span>
+<span class="cm">/* ... παίρνω στοιχείο με κλειδωμένο mutex ... */</span>
+<span class="fn">pthread_mutex_unlock</span>(&amp;m);</pre>
+            </div>
+            <p class="section-desc-xs">Άλλαξε τη συνθήκη του while σε <code>turn != id</code> και έχεις τη λύση της
+              εκτύπωσης A→B→C. Ίδιο μοτίβο, άλλη συνθήκη.</p>
+          </div>
+        </div>
+        <div>
+          <div class="card">
+            <div class="card-title">Εκτέλεση εντολής σε παιδί — ο σκελετός του fork/exec</div>
+            <div class="cb">
+              <pre><span class="cm">// Πώς ένας scheduler τρέχει ένα job</span>
+<span class="tp">pid_t</span> pid = <span class="fn">fork</span>();
+<span class="kw">if</span> (pid == <span class="nm">0</span>) {
+    <span class="fn">dup2</span>(out_fd, STDOUT_FILENO);   <span class="cm">// προαιρετική ανακατεύθυνση εξόδου</span>
+    <span class="fn">execvp</span>(argv[<span class="nm">0</span>], argv);         <span class="cm">// argv: NULL στο τέλος!</span>
+    _exit(<span class="nm">1</span>);                      <span class="cm">// μόνο σε αποτυχία exec</span>
+}
+<span class="fn">waitpid</span>(pid, &amp;status, <span class="nm">0</span>);
+<span class="kw">int</span> code = WIFEXITED(status) ? WEXITSTATUS(status) : <span class="nm">-1</span>;</pre>
+            </div>
+            <p class="section-desc-xs">Στην εξέταση συνήθως λείπει το dup2 και προστίθεται «τύπωσε Child done» —
+              ευκολότερο από αυτό που ήδη παρέδωσες.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="tip">
+        <div class="tip-icon">✅</div>
+        <div>
+          <div class="tip-title">Checklist τελευταίας ημέρας</div>
+          <div class="tip-text">
+            1️⃣ Γράψε στο χαρτί (χωρίς να κοιτάς) τα 4 μοτίβα: read_all loop, turn+while+wait+broadcast, fork→exec→wait,
+            bash 4-βήματα.<br>
+            2️⃣ Πέρνα τη <a href="#theory">Θεωρία-Flash</a> — τα κλασικά ερωτήματα θεωρίας είναι όλα εκεί.<br>
+            3️⃣ Λύσε ξανά τα «Τι θα τυπώσει;» — αν τα 14/14 βγαίνουν αβίαστα, είσαι έτοιμος/η.<br>
+            4️⃣ Θυμήσου: τα prototypes δίνονται στην κόλλα. Κρίνεται η <em>λογική</em>, όχι η αποστήθιση.
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </div>
+
+  <div class="footer">
+    K24 · Τμήμα Πληροφορικής &amp; Τηλεπικοινωνιών · ΕΚΠΑ
+  </div>
+
+</body>
+
+</html>

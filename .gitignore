@@ -1,1 +1,22 @@
+# ── Build & tooling artefacts ──────────────────────────────────────────────────
+_build/
+conductor/archive/
+# ── One-off scripts & scratch files ────────────────────────────────────────────
+*.py
+*.txt
+questions_dump.txt
+scratch_lines.txt
+# ── Source material (not part of the published site) ───────────────────────────
+slides/
+assignments/
+exams/
+# ── Exam prep (standalone, not in the main nav) ────────────────────────────────
+# exam_prep.html
+# ── IDE / editor settings ──────────────────────────────────────────────────────
+.claude/
+.vscode/
+# ── OS noise ───────────────────────────────────────────────────────────────────
+.DS_Store
+Thumbs.db
+desktop.ini
 webnotes-builder/
