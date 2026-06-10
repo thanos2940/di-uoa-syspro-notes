@@ -14,6 +14,7 @@ const topics = [
     { id: 'topic5', title: 'Sockets & IPC', path: 'topic5_sockets.html', icon: '🌐' },
     { id: 'topic6', title: 'Threads', path: 'topic6_threads.html', icon: '🧵' },
     { id: 'topic7', title: 'System V IPC', path: 'topic7_ipc.html', icon: '📬' },
+    { id: 'examprep', title: 'Exam Prep', path: 'exam_prep.html', icon: '📋' },
     { id: 'quiz', title: 'Interactive Quiz', path: 'interactive_quiz.html', icon: '📝' }
 ];
 
@@ -55,7 +56,7 @@ function initNav() {
     hamburger.className = 'hamburger-btn';
     hamburger.innerHTML = '☰';
     hamburger.setAttribute('aria-label', 'Toggle Menu');
-    
+
     const toggleMenu = () => {
         linksContainer.classList.toggle('show');
         overlay.classList.toggle('show');
@@ -98,7 +99,7 @@ function initTheme() {
     toggleBtn.addEventListener('click', () => {
         const activeTheme = document.documentElement.getAttribute('data-theme');
         const newTheme = activeTheme === 'light' ? 'dark' : 'light';
-        
+
         document.documentElement.setAttribute('data-theme', newTheme);
         localStorage.setItem('theme', newTheme);
         toggleBtn.innerHTML = newTheme === 'light' ? '🌙' : '☀️';
