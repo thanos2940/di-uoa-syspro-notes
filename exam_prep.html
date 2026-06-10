@@ -262,7 +262,8 @@
               <li><strong class="text-yellow">Σκελετός πριν τον κώδικα:</strong> γράψε πρώτα σε σχόλια τα βήματα (π.χ.
                 «1. διάβασε n, 2. loop, 3. στείλε άθροισμα») και γέμισε μετά.</li>
               <li><strong class="text-orange">Μην κολλάς σε λεπτομέρειες σύνταξης</strong> — ένα ξεχασμένο
-                <code>;</code> δεν κοστίζει όσο μια λάθος λογική συγχρονισμού.</li>
+                <code>;</code> δεν κοστίζει όσο μια λάθος λογική συγχρονισμού.
+              </li>
               <li><strong class="text-red">Πρόσεξε τα «Απαραίτητα»:</strong> αν η εκφώνηση λέει «χωρίς busy waiting» και
                 βάλεις <code>sleep()</code> σε loop, χάνεις το θέμα.</li>
             </ul>
@@ -298,7 +299,8 @@
             <ul>
               <li><strong class="text-green">Address space:</strong> κάθε process έχει δικό του· τα threads μιας process
                 <em>μοιράζονται</em> τον ίδιο (code, data, heap, fds). Κάθε thread έχει μόνο δικό του
-                stack/PC/registers.</li>
+                stack/PC/registers.
+              </li>
               <li><strong class="text-cyan">Κόστος δημιουργίας:</strong> το <code>fork()</code> αντιγράφει ολόκληρη
                 εικόνα process· το <code>pthread_create()</code> είναι 10–100× φθηνότερο.</li>
               <li><em>Bonus εναλλακτική:</em> επικοινωνία — threads μέσω κοινής μνήμης απευθείας, processes μόνο μέσω
@@ -312,7 +314,8 @@
               <li>Όταν ένα <strong class="text-green">παιδί του τερματίσει</strong> (κανονικά με exit ή από σήμα).</li>
               <li>Όταν ένα παιδί του <strong class="text-yellow">σταματήσει</strong> (π.χ.
                 <code>SIGSTOP</code>/<code>SIGTSTP</code>) ή <strong class="text-cyan">συνεχίσει</strong>
-                (<code>SIGCONT</code>).</li>
+                (<code>SIGCONT</code>).
+              </li>
             </ul>
           </div>
 
@@ -323,7 +326,8 @@
                 υπάρξουν δεδομένα (ή EOF).</li>
               <li><strong class="text-orange">Non-blocking</strong> (<code>O_NONBLOCK</code>): η <code>read()</code>
                 επιστρέφει <em>αμέσως</em>· αν δεν υπάρχουν δεδομένα γυρνά −1 με
-                <code>errno == EAGAIN/EWOULDBLOCK</code>.</li>
+                <code>errno == EAGAIN/EWOULDBLOCK</code>.
+              </li>
             </ul>
           </div>
 
@@ -345,7 +349,8 @@
                 υπάρχει τουλάχιστον ένα hard link. Δεν επιτρέπεται σε directories, ούτε across filesystems.</li>
               <li><strong class="text-cyan">Soft (symbolic) link:</strong> ξεχωριστό αρχείο που περιέχει ένα
                 <em>path</em>. Μπορεί να διασχίζει filesystems και να δείχνει σε φάκελο, αλλά «σπάει» (dangling) αν
-                διαγραφεί ο στόχος.</li>
+                διαγραφεί ο στόχος.
+              </li>
             </ul>
           </div>
 
@@ -379,7 +384,8 @@
                 προγράμματος.</li>
               <li><strong class="text-cyan">Μεταβλητές περιβάλλοντος</strong> — μέσω <code>execle()/execve()</code>
                 (όρισμα <code>envp</code>) ή κληρονομιά του <code>environ</code>· το νέο πρόγραμμα τις διαβάζει με
-                <code>getenv()</code>.</li>
+                <code>getenv()</code>.
+              </li>
             </ul>
           </div>
         </div>
@@ -391,7 +397,8 @@
           <div class="tip-title">Μοτίβο απάντησης για «2 διαφορές»</div>
           <div class="tip-text">Δώσε <strong>έναν άξονα σύγκρισης ανά διαφορά</strong> και τις δύο πλευρές του: «Ως προς
             το address space: η process …, ενώ το thread …». Έτσι ο διορθωτής βλέπει αμέσως ότι είναι όντως
-            <em>διαφορά</em> και όχι δύο τυχαία facts.</div>
+            <em>διαφορά</em> και όχι δύο τυχαία facts.
+          </div>
         </div>
       </div>
 
@@ -425,7 +432,8 @@
           <li>v) Η συνάρτηση επιστρέφει 0 σε περίπτωση επιτυχίας, −1 σε περίπτωση σφάλματος.</li>
         </ul>
         <p><strong>Ερώτημα (β):</strong> Αν ο αποστολέας στείλει πρώτα <code>n = 5</code> και μετά τους αριθμούς
-          <code>1, 2, 3, 4, 5</code>, ποια τιμή (σε δεκαδικό) θα σταλεί πίσω;</p>
+          <code>1, 2, 3, 4, 5</code>, ποια τιμή (σε δεκαδικό) θα σταλεί πίσω;
+        </p>
       </div>
 
       <div class="cb">
@@ -481,7 +489,8 @@
               <code>htonl()</code> αλλάζει <em>τη σειρά των bytes στο καλώδιο</em>, όχι την τιμή — ο παραλήπτης που θα
               κάνει <code>ntohl()</code> θα δει πάλι 15. Αν η ερώτηση ήταν «τι θα δει παραλήπτης που <em>ξεχνάει</em> το
               ntohl σε little-endian μηχανή», η απάντηση θα ήταν το byte-swapped 15 = <code>0x0F000000</code> =
-              251.658.240 — αυτό ακριβώς το λάθος ψαρεύει η άσκηση.</p>
+              251.658.240 — αυτό ακριβώς το λάθος ψαρεύει η άσκηση.
+            </p>
           </div>
           <div class="tip">
             <div class="tip-icon">🎯</div>
@@ -505,7 +514,8 @@
               <code>in_socket</code> 2 bytes που θεωρούμε ακέραιο <code>n</code>· ii) πολλαπλασιάζει κάθε byte του
               πίνακα <code>st</code> με το <code>n</code> και το γράφει ως <strong>ακέραιο (4 bytes)</strong> στο
               <code>out_socket</code>, μέχρι να συναντήσει byte ίσο με 0 στο <code>st</code> — το μηδενικό στέλνεται κι
-              αυτό.</p>
+              αυτό.
+            </p>
             <p><strong>Ερώτημα (β):</strong> Αν το <code>st</code> έχει συνολικά 122 bytes (μαζί με το μηδενικό), πόσα
               bytes θα γραφτούν στο <code>out_socket</code>;</p>
           </div>
@@ -611,7 +621,8 @@
               <li><strong class="text-cyan">2. <code>broadcast</code> αντί για <code>signal</code></strong> — το
                 <code>signal</code> ξυπνάει <em>ένα</em> τυχαίο thread· αν ξυπνήσει το λάθος, ξανακοιμάται και κανείς
                 δεν ξυπνά το σωστό → deadlock. (Εναλλακτικά: ένα condvar <em>ανά thread</em> και στοχευμένο signal —
-                επίσης σωστό.)</li>
+                επίσης σωστό.)
+              </li>
               <li><strong class="text-yellow">3. <code>&amp;ids[i]</code> και όχι <code>&amp;i</code></strong> — αν
                 δώσεις <code>&amp;i</code> σε όλα, μέχρι να τρέξουν ίσως δουν όλα <code>i == 3</code>.</li>
               <li><strong class="text-orange">4. Η εκτύπωση γίνεται <em>μέσα</em> στο κλείδωμα</strong> — εδώ θέλουμε
@@ -637,9 +648,11 @@
             <div class="card-title">Πώς γενικεύεται — ίδιος σκελετός</div>
             <ul>
               <li>Η ίδια λύση με <code>turn</code> από 1 έως 10:
-                <code>while (turn != my_id) pthread_cond_wait(...)</code>.</li>
+                <code>while (turn != my_id) pthread_cond_wait(...)</code>.
+              </li>
               <li>Μετά την εκτύπωση: <code>turn++</code> και <code>broadcast</code> — το «σήμα στο επόμενο»
-                <em>είναι</em> η αλλαγή του turn + το ξύπνημα.</li>
+                <em>είναι</em> η αλλαγή του turn + το ξύπνημα.
+              </li>
               <li>Το thread 10 απλώς δεν αυξάνει το turn (ή το αυξάνει σε τιμή που δεν περιμένει κανείς) — δεν
                 χρειάζεται ειδική περίπτωση στο condvar.</li>
               <li>Αν ζητηθεί «κάθε thread τυπώνει <em>μέχρι να ειδοποιηθεί</em>», το μοτίβο μένει ίδιο: η συνθήκη του
@@ -648,7 +661,8 @@
             <p class="section-desc-xs">Μάθε <strong>έναν</strong> σκελετό (mutex + turn + while/wait + broadcast) και
               προσαρμόζεις μόνο τη συνθήκη. Είναι το ίδιο μοτίβο με μια blocking ουρά εργασιών:
               <code>while (ουρά_άδεια &amp;&amp; !shutdown) pthread_cond_wait(...)</code> — δες τη <a
-                href="#bridge">γέφυρα με τις εργασίες</a>.</p>
+                href="#bridge">γέφυρα με τις εργασίες</a>.
+            </p>
           </div>
         </div>
       </div>
@@ -674,7 +688,8 @@
         <p>Γράψτε πρόγραμμα C/C++ που: παίρνει ως ορίσματα γραμμής εντολών 3 strings (π.χ.
           <code>./prog hello world again</code>). Κατόπιν δημιουργεί ένα παιδί με <code>fork()</code>. Το παιδί καλεί
           <code>execvp()</code> για να τρέξει το <code>/bin/echo</code> με τις παραμέτρους που δόθηκαν. Ο γονιός
-          περιμένει να τελειώσει το παιδί και τυπώνει <strong>"Child done"</strong>.</p>
+          περιμένει να τελειώσει το παιδί και τυπώνει <strong>"Child done"</strong>.
+        </p>
       </div>
 
       <div class="cb">
@@ -938,7 +953,8 @@ dir=$<span class="nm">1</span>; phrase=$<span class="nm">2</span>; out=$<span cl
             <div class="qq">Τι θα τυπωθεί;<br><code>printf("A");  // χωρίς \n<br>fork();<br>printf("B\n");</code></div>
             <div class="qa" id="tq3" style="display:none"><strong>"AB" δύο φορές</strong> (π.χ. <code>AB</code> ↵
               <code>AB</code>). Το "A" δεν έχει \n, μένει στον stdio buffer· το fork <em>αντιγράφει και τον buffer</em>·
-              κάθε διεργασία τελικά κάνει flush "AB\n". Κλασική παγίδα του buffering!</div>
+              κάθε διεργασία τελικά κάνει flush "AB\n". Κλασική παγίδα του buffering!
+            </div>
             <button class="qa-toggle" onclick="toggleAnswer('tq3', this)">Δες απάντηση</button>
           </div>
           <div class="qitem">
@@ -971,7 +987,8 @@ dir=$<span class="nm">1</span>; phrase=$<span class="nm">2</span>; out=$<span cl
             <div class="qa" id="tq6" style="display:none"><strong>Απρόβλεπτη, συνήθως &lt; 2.000.000.</strong> Το
               <code>counter++</code> είναι 3 βήματα (load → add → store)· όταν διαπλέκονται, χάνονται ενημερώσεις (lost
               update). Σωστή απάντηση σε multiple choice: «οποιαδήποτε τιμή από 2 έως 2.000.000» — όχι «πάντα 2.000.000»
-              και όχι «πάντα 1.000.000».</div>
+              και όχι «πάντα 1.000.000».
+            </div>
             <button class="qa-toggle" onclick="toggleAnswer('tq6', this)">Δες απάντηση</button>
           </div>
           <div class="qitem">
@@ -984,7 +1001,8 @@ dir=$<span class="nm">1</span>; phrase=$<span class="nm">2</span>; out=$<span cl
           </div>
           <div class="qitem">
             <div class="qq">Στην ίδια λύση, γιατί <code>pthread_cond_broadcast</code> και όχι
-              <code>pthread_cond_signal</code>;</div>
+              <code>pthread_cond_signal</code>;
+            </div>
             <div class="qa" id="tq8" style="display:none">Το <code>signal</code> ξυπνάει <strong>ένα αυθαίρετο</strong>
               από τα threads που περιμένουν. Αν ξυπνήσει αυτό που ΔΕΝ έχει σειρά, θα δει <code>turn != id</code> και θα
               ξανακοιμηθεί — και το σωστό thread δεν θα ξυπνήσει ποτέ → deadlock. Το <code>broadcast</code> τα ξυπνάει
@@ -997,7 +1015,8 @@ dir=$<span class="nm">1</span>; phrase=$<span class="nm">2</span>; out=$<span cl
             <div class="qa" id="tq9" style="display:none">Τρία πράγματα <strong>ατομικά</strong>: (1) ελευθερώνει το
               <code>lock</code>, (2) κοιμίζει το thread στο <code>cond</code>, (3) όταν ξυπνήσει,
               <strong>ξανακλειδώνει</strong> το lock πριν επιστρέψει. Γι' αυτό η συνθήκη μπορεί να ξαναελεγχθεί με
-              ασφάλεια στο while.</div>
+              ασφάλεια στο while.
+            </div>
             <button class="qa-toggle" onclick="toggleAnswer('tq9', this)">Δες απάντηση</button>
           </div>
         </div>
@@ -1033,11 +1052,13 @@ dir=$<span class="nm">1</span>; phrase=$<span class="nm">2</span>; out=$<span cl
           </div>
           <div class="qitem">
             <div class="qq">Το αρχείο data.txt περιέχει μία γραμμή: <code>cat catalog cat</code>. Τι τυπώνει το
-              <code>grep -c "cat" data.txt</code> και τι το <code>grep -ow "cat" data.txt | wc -l</code>;</div>
+              <code>grep -c "cat" data.txt</code> και τι το <code>grep -ow "cat" data.txt | wc -l</code>;
+            </div>
             <div class="qa" id="tq13" style="display:none"><code>grep -c</code> → <strong>1</strong> (μετράει
               <em>γραμμές</em> που ταιριάζουν). <code>grep -ow | wc -l</code> → <strong>2</strong> (εμφανίσεις ολόκληρης
               λέξης: τα 2 σκέτα "cat"· το "catalog" αποκλείεται από το -w). Αν έλειπε το -w θα ήταν 3. Αυτή η διάκριση
-              είναι το κλασικό ζητούμενο των bash ασκήσεων.</div>
+              είναι το κλασικό ζητούμενο των bash ασκήσεων.
+            </div>
             <button class="qa-toggle" onclick="toggleAnswer('tq13', this)">Δες απάντηση</button>
           </div>
           <div class="qitem">
@@ -1088,20 +1109,23 @@ dir=$<span class="nm">1</span>; phrase=$<span class="nm">2</span>; out=$<span cl
         <tr>
           <td><strong>Condvar συγχρονισμός</strong></td>
           <td>Η ουρά εργασιών: workers που περιμένουν με <code>cond_wait</code> όσο η ουρά είναι άδεια, push που κάνει
-            <code>signal</code>, shutdown που κάνει <code>broadcast</code> για να ξυπνήσουν όλοι.</td>
+            <code>signal</code>, shutdown που κάνει <code>broadcast</code> για να ξυπνήσουν όλοι.
+          </td>
           <td>Γιατί while και όχι if· γιατί το shutdown θέλει <em>broadcast</em> ενώ για ένα νέο στοιχείο αρκεί signal
           </td>
         </tr>
         <tr>
           <td><strong>Fork / exec / wait</strong></td>
           <td>Η εκτέλεση ενός job: fork → ανακατεύθυνση εξόδου με dup2 → execvp → waitpid και ανάγνωση του exit code με
-            <code>WIFEXITED/WEXITSTATUS</code>.</td>
+            <code>WIFEXITED/WEXITSTATUS</code>.
+          </td>
           <td>argv με NULL στο τέλος, perror + _exit ΜΕΤΑ την execvp, dup2 πριν την exec</td>
         </tr>
         <tr>
           <td><strong>Signals</strong></td>
           <td>Suspend/resume εργασιών με <code>kill(pid, SIGSTOP/SIGCONT)</code>, handlers που απλώς σηκώνουν ένα
-            <code>volatile sig_atomic_t</code> flag, και <code>SIG_IGN</code> στο SIGPIPE στους servers.</td>
+            <code>volatile sig_atomic_t</code> flag, και <code>SIG_IGN</code> στο SIGPIPE στους servers.
+          </td>
           <td>Ο handler μόνο σηκώνει flag· SIGSTOP/SIGCONT = πάγωμα/συνέχιση· γιατί αγνοούμε το SIGPIPE</td>
         </tr>
         <tr>

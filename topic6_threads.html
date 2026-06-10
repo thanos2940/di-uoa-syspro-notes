@@ -485,17 +485,13 @@
           <div class="card">
             <div class="card-title">pthread_create()</div>
             <div class="cb auto-style-1c027c">
-              <span class="kw">int</span> <span class="fn">pthread_create</span>(
-              <span class="tp">pthread_t</span> *<span class="sf-field">thread</span>, <span class="cm">// output:
-                thread ID</span>
-              <span class="kw">const</span> <span class="tp">pthread_attr_t</span> *<span class="sf-field">attr</span>,
-              <span class="cm">// NULL = defaults</span>
-              <span class="kw">void</span> *(*<span class="fn">start_routine</span>)(<span class="kw">void</span> *),
-              <span class="cm">// thread function</span>
-              <span class="kw">void</span> *<span class="sf-field">arg</span> <span class="cm">// argument to
-                function</span>
-              );
-            </div>
+<span class="kw">int</span> <span class="fn">pthread_create</span>(
+    <span class="tp">pthread_t</span> *<span class="sf-field">thread</span>,          <span class="cm">// output: thread ID</span>
+    <span class="kw">const</span> <span class="tp">pthread_attr_t</span> *<span class="sf-field">attr</span>, <span class="cm">// NULL = defaults</span>
+    <span class="kw">void</span> *(*<span class="fn">start_routine</span>)(<span class="kw">void</span> *),  <span class="cm">// thread function</span>
+    <span class="kw">void</span> *<span class="sf-field">arg</span>                   <span class="cm">// argument to function</span>
+);
+</div>
             <div class="retval-row">
               <div class="retval">
                 <div class="retval-num text-green">0</div>
@@ -516,12 +512,11 @@
           <div class="card mt-10">
             <div class="card-title">pthread_exit()</div>
             <div class="cb auto-style-ebc108">
-              <span class="kw">void</span> <span class="fn">pthread_exit</span>(<span class="kw">void</span> *<span
-                class="sf-field">retval</span>);
-              <span class="cm">// Τερματίζει μόνο το ΤΡΕΧΟΝ thread</span>
-              <span class="cm">// Δεν τερματίζει ολόκληρη τη διεργασία!</span>
-              <span class="cm">// Η retval μπορεί να ληφθεί μέσω pthread_join()</span>
-            </div>
+<span class="kw">void</span> <span class="fn">pthread_exit</span>(<span class="kw">void</span> *<span class="sf-field">retval</span>);
+<span class="cm">// Τερματίζει μόνο το ΤΡΕΧΟΝ thread</span>
+<span class="cm">// Δεν τερματίζει ολόκληρη τη διεργασία!</span>
+<span class="cm">// Η retval μπορεί να ληφθεί μέσω pthread_join()</span>
+</div>
             <div class="wbox mt-8">
               <div class="lbl text-yellow">exit() vs pthread_exit()</div>
               Η <code>exit()</code> τερματίζει <strong>ολόκληρη τη διεργασία</strong> (και όλα τα threads). Η
@@ -535,34 +530,31 @@
           <div class="card">
             <div class="card-title">Example — multi_hello.c</div>
             <div class="cb auto-style-f73641">
-              <span class="mc">#include</span> <span class="st">&lt;stdio.h&gt;</span>
-              <span class="mc">#include</span> <span class="st">&lt;stdlib.h&gt;</span>
-              <span class="mc">#include</span> <span class="st">&lt;pthread.h&gt;</span>
+<span class="mc">#include</span> <span class="st">&lt;stdio.h&gt;</span>
+<span class="mc">#include</span> <span class="st">&lt;stdlib.h&gt;</span>
+<span class="mc">#include</span> <span class="st">&lt;pthread.h&gt;</span>
 
-              <span class="mc">#define</span> <span class="nm">NUM_THREADS</span> <span class="nm">5</span>
+<span class="mc">#define</span> <span class="nm">NUM_THREADS</span> <span class="nm">5</span>
 
-              <span class="kw">void</span> *<span class="fn">hello</span>(<span class="kw">void</span> *<span
-                class="sf-field">argp</span>) {
-              <span class="kw">int</span> <span class="sf-field">my_id</span> = *(<span class="kw">int</span> *)argp;
-              <span class="fn">printf</span>(<span class="st">"Thread %d says Hello!\n"</span>, my_id);
-              <span class="fn">pthread_exit</span>(<span class="nm">NULL</span>);
-              }
+<span class="kw">void</span> *<span class="fn">hello</span>(<span class="kw">void</span> *<span class="sf-field">argp</span>) {
+    <span class="kw">int</span> <span class="sf-field">my_id</span> = *(<span class="kw">int</span> *)argp;
+    <span class="fn">printf</span>(<span class="st">"Thread %d says Hello!\n"</span>, my_id);
+    <span class="fn">pthread_exit</span>(<span class="nm">NULL</span>);
+}
 
-              <span class="kw">int</span> <span class="fn">main</span>() {
-              <span class="tp">pthread_t</span> tid[<span class="nm">NUM_THREADS</span>];
-              <span class="kw">int</span> id[<span class="nm">NUM_THREADS</span>];
+<span class="kw">int</span> <span class="fn">main</span>() {
+    <span class="tp">pthread_t</span> tid[<span class="nm">NUM_THREADS</span>];
+    <span class="kw">int</span> id[<span class="nm">NUM_THREADS</span>];
 
-              <span class="kw">for</span> (<span class="kw">int</span> i = <span class="nm">0</span>; i &lt; <span
-                class="nm">NUM_THREADS</span>; i++) {
-              id[i] = i;
-              <span class="fn">pthread_create</span>(&amp;tid[i], <span class="nm">NULL</span>, hello, &amp;id[i]);
-              }
-              <span class="kw">for</span> (<span class="kw">int</span> i = <span class="nm">0</span>; i &lt; <span
-                class="nm">NUM_THREADS</span>; i++)
-              <span class="fn">pthread_join</span>(tid[i], <span class="nm">NULL</span>);
-              <span class="kw">return</span> <span class="nm">0</span>;
-              }
-            </div>
+    <span class="kw">for</span> (<span class="kw">int</span> i = <span class="nm">0</span>; i &lt; <span class="nm">NUM_THREADS</span>; i++) {
+        id[i] = i;
+        <span class="fn">pthread_create</span>(&amp;tid[i], <span class="nm">NULL</span>, hello, &amp;id[i]);
+    }
+    <span class="kw">for</span> (<span class="kw">int</span> i = <span class="nm">0</span>; i &lt; <span class="nm">NUM_THREADS</span>; i++)
+        <span class="fn">pthread_join</span>(tid[i], <span class="nm">NULL</span>);
+    <span class="kw">return</span> <span class="nm">0</span>;
+}
+</div>
             <div class="ibox mt-8">
               <div class="lbl text-blue">Non-deterministic Output!</div>
               Η σειρά εκτύπωσης αλλάζει κάθε φορά! Π.χ.: Thread 2, Thread 0, Thread 4, Thread 1, Thread 3. Ο scheduler
@@ -573,15 +565,15 @@
           <div class="rbox mt-10">
             <div class="lbl text-red">Common Bug — Passing Shared Variable</div>
             <div class="cb auto-style-a699e8">
-              <span class="cm">// ❌ WRONG: all threads may see i=5!</span>
-              <span class="kw">for</span> (i = <span class="nm">0</span>; i &lt; <span class="nm">5</span>; i++)
-              <span class="fn">pthread_create</span>(&amp;tid[i], <span class="nm">NULL</span>, hello, &amp;i);
-              <span class="cm">// ✅ CORRECT: each thread gets its own copy</span>
-              <span class="kw">for</span> (i = <span class="nm">0</span>; i &lt; <span class="nm">5</span>; i++) {
-              id[i] = i;
-              <span class="fn">pthread_create</span>(&amp;tid[i], <span class="nm">NULL</span>, hello, &amp;id[i]);
-              }
-            </div>
+<span class="cm">// ❌ WRONG: all threads may see i=5!</span>
+<span class="kw">for</span> (i = <span class="nm">0</span>; i &lt; <span class="nm">5</span>; i++)
+    <span class="fn">pthread_create</span>(&amp;tid[i], <span class="nm">NULL</span>, hello, &amp;i);
+<span class="cm">// ✅ CORRECT: each thread gets its own copy</span>
+<span class="kw">for</span> (i = <span class="nm">0</span>; i &lt; <span class="nm">5</span>; i++) {
+    id[i] = i;
+    <span class="fn">pthread_create</span>(&amp;tid[i], <span class="nm">NULL</span>, hello, &amp;id[i]);
+}
+</div>
             Αν περάσεις <code>&amp;i</code> (τη loop variable), η τιμή μπορεί να αλλάξει πριν το thread την διαβάσει!
             Χρησιμοποίησε ξεχωριστό array.
           </div>
@@ -609,12 +601,11 @@
           <div class="card">
             <div class="card-title">pthread_join() — Wait for thread</div>
             <div class="cb auto-style-ebc108">
-              <span class="kw">int</span> <span class="fn">pthread_join</span>(<span class="tp">pthread_t</span> <span
-                class="sf-field">thread</span>, <span class="kw">void</span> **<span class="sf-field">retval</span>);
-              <span class="cm">// Blocks until thread terminates</span>
-              <span class="cm">// retval receives the exit value</span>
-              <span class="cm">// Σαν τη wait() για processes!</span>
-            </div>
+<span class="kw">int</span> <span class="fn">pthread_join</span>(<span class="tp">pthread_t</span> <span class="sf-field">thread</span>, <span class="kw">void</span> **<span class="sf-field">retval</span>);
+<span class="cm">// Blocks until thread terminates</span>
+<span class="cm">// retval receives the exit value</span>
+<span class="cm">// Σαν τη wait() για processes!</span>
+</div>
             <p class="auto-style-fd762a">
               Αν δεν σε νοιάζει η τιμή επιστροφής, πέρνα <code>NULL</code> ως δεύτερο argument. Κάθε thread μπορεί να
               γίνει join <strong>μόνο μία φορά</strong>.
@@ -624,11 +615,10 @@
           <div class="card mt-10">
             <div class="card-title">pthread_detach() — Fire and forget</div>
             <div class="cb auto-style-ebc108">
-              <span class="kw">int</span> <span class="fn">pthread_detach</span>(<span class="tp">pthread_t</span> <span
-                class="sf-field">thread</span>);
-              <span class="cm">// Resources freed automatically on termination</span>
-              <span class="cm">// Cannot join a detached thread!</span>
-            </div>
+<span class="kw">int</span> <span class="fn">pthread_detach</span>(<span class="tp">pthread_t</span> <span class="sf-field">thread</span>);
+<span class="cm">// Resources freed automatically on termination</span>
+<span class="cm">// Cannot join a detached thread!</span>
+</div>
             <p class="auto-style-fd762a">
               Χρήσιμο για "background" threads. Δεν χρειάζεται κάποιος να τα περιμένει. Όταν τελειώσουν, καθαρίζονται
               αυτόματα.
@@ -638,22 +628,21 @@
           <div class="card mt-10">
             <div class="card-title">pthread_self() — Get own ID</div>
             <div class="cb auto-style-ebc108">
-              <span class="tp">pthread_t</span> <span class="fn">pthread_self</span>(<span class="kw">void</span>);
-              <span class="cm">// Returns the calling thread's ID</span>
-              <span class="cm">// Like getpid() for threads</span>
-            </div>
+<span class="tp">pthread_t</span> <span class="fn">pthread_self</span>(<span class="kw">void</span>);
+<span class="cm">// Returns the calling thread's ID</span>
+<span class="cm">// Like getpid() for threads</span>
+</div>
           </div>
         </div>
         <div>
           <div class="card">
             <div class="card-title">pthread_cancel() — Request cancellation</div>
             <div class="cb auto-style-ebc108">
-              <span class="kw">int</span> <span class="fn">pthread_cancel</span>(<span class="tp">pthread_t</span> <span
-                class="sf-field">thread</span>);
-              <span class="cm">// Sends cancellation request</span>
-              <span class="cm">// Thread may not die immediately!</span>
-              <span class="cm">// Depends on cancellation state/type</span>
-            </div>
+<span class="kw">int</span> <span class="fn">pthread_cancel</span>(<span class="tp">pthread_t</span> <span class="sf-field">thread</span>);
+<span class="cm">// Sends cancellation request</span>
+<span class="cm">// Thread may not die immediately!</span>
+<span class="cm">// Depends on cancellation state/type</span>
+</div>
             <p class="auto-style-fd762a">
               Η ακύρωση δεν είναι instant — το thread ελέγχει σε <em>cancellation points</em> (π.χ. μέσα σε
               pthread_join, read, sleep). Μπορεί να απενεργοποιηθεί.
@@ -663,11 +652,10 @@
           <div class="card mt-10">
             <div class="card-title">pthread_kill() — Send signal to thread</div>
             <div class="cb auto-style-ebc108">
-              <span class="kw">int</span> <span class="fn">pthread_kill</span>(<span class="tp">pthread_t</span> <span
-                class="sf-field">thread</span>, <span class="kw">int</span> <span class="sf-field">sig</span>);
-              <span class="cm">// Like kill() but for a specific thread</span>
-              <span class="cm">// sig=0 tests if thread exists</span>
-            </div>
+<span class="kw">int</span> <span class="fn">pthread_kill</span>(<span class="tp">pthread_t</span> <span class="sf-field">thread</span>, <span class="kw">int</span> <span class="sf-field">sig</span>);
+<span class="cm">// Like kill() but for a specific thread</span>
+<span class="cm">// sig=0 tests if thread exists</span>
+</div>
           </div>
 
           <div class="tip mt-10">
@@ -707,16 +695,15 @@
           <div class="card">
             <div class="card-title">Error Handling Pattern</div>
             <div class="cb auto-style-f73641">
-              <span class="kw">int</span> err;
-              err = <span class="fn">pthread_create</span>(&amp;tid, <span class="nm">NULL</span>, func, arg);
-              <span class="kw">if</span> (err != <span class="nm">0</span>) {
-              <span class="fn">fprintf</span>(stderr, <span class="st">"create: %s\n"</span>, <span
-                class="fn">strerror</span>(err));
-              <span class="fn">exit</span>(<span class="nm">1</span>);
-              }
-              <span class="cm">// ❌ WRONG: perror("create"); — αυτή χρησιμοποιεί errno</span>
-              <span class="cm">// ❌ WRONG: if (err == -1) — δεν επιστρέφουν -1!</span>
-            </div>
+<span class="kw">int</span> err;
+err = <span class="fn">pthread_create</span>(&amp;tid, <span class="nm">NULL</span>, func, arg);
+<span class="kw">if</span> (err != <span class="nm">0</span>) {
+    <span class="fn">fprintf</span>(stderr, <span class="st">"create: %s\n"</span>, <span class="fn">strerror</span>(err));
+    <span class="fn">exit</span>(<span class="nm">1</span>);
+}
+<span class="cm">// ❌ WRONG: perror("create"); — αυτή χρησιμοποιεί errno</span>
+<span class="cm">// ❌ WRONG: if (err == -1) — δεν επιστρέφουν -1!</span>
+</div>
             <div class="wbox mt-8">
               <div class="lbl text-yellow">strerror() vs perror()</div>
               Η <code>perror()</code> ελέγχει το global <code>errno</code>. Οι pthread functions <strong>δεν θέτουν
@@ -791,19 +778,16 @@
           <div class="card">
             <div class="card-title">Example — wordcount1.c (Buggy!)</div>
             <div class="cb auto-style-f73641">
-              <span class="kw">int</span> <span class="sf-field">total_words</span> = <span class="nm">0</span>; <span
-                class="cm">// GLOBAL — shared by all threads!</span>
+<span class="kw">int</span> <span class="sf-field">total_words</span> = <span class="nm">0</span>;  <span class="cm">// GLOBAL — shared by all threads!</span>
 
-              <span class="kw">void</span> *<span class="fn">count_words</span>(<span class="kw">void</span> *<span
-                class="sf-field">arg</span>) {
-              <span class="kw">char</span> *<span class="sf-field">filename</span> = (<span class="kw">char</span>
-              *)arg;
-              <span class="kw">int</span> <span class="sf-field">count</span> = <span class="nm">0</span>;
-              <span class="cm">// ... count words in file ...</span>
-              <span class="sf-field">total_words</span> += count; <span class="cm">// ⚠️ RACE CONDITION!</span>
-              <span class="fn">pthread_exit</span>(<span class="nm">NULL</span>);
-              }
-            </div>
+<span class="kw">void</span> *<span class="fn">count_words</span>(<span class="kw">void</span> *<span class="sf-field">arg</span>) {
+    <span class="kw">char</span> *<span class="sf-field">filename</span> = (<span class="kw">char</span> *)arg;
+    <span class="kw">int</span> <span class="sf-field">count</span> = <span class="nm">0</span>;
+    <span class="cm">// ... count words in file ...</span>
+    <span class="sf-field">total_words</span> += count;  <span class="cm">// ⚠️ RACE CONDITION!</span>
+    <span class="fn">pthread_exit</span>(<span class="nm">NULL</span>);
+}
+</div>
             <div class="rbox mt-8">
               <div class="lbl text-red">The Problem</div>
               Η εντολή <code>total_words += count</code> δεν είναι <strong>atomic</strong>! Αποτελείται από 3
@@ -871,21 +855,18 @@
           <div class="card">
             <div class="card-title">Mutex API</div>
             <div class="cb auto-style-aab09c">
-              <span class="cm">// Initialization (two ways)</span>
-              <span class="tp">pthread_mutex_t</span> mtx = <span class="mc">PTHREAD_MUTEX_INITIALIZER</span>; <span
-                class="cm">// static</span>
-              <span class="fn">pthread_mutex_init</span>(&amp;mtx, <span class="nm">NULL</span>); <span class="cm">//
-                dynamic</span>
+<span class="cm">// Initialization (two ways)</span>
+<span class="tp">pthread_mutex_t</span> mtx = <span class="mc">PTHREAD_MUTEX_INITIALIZER</span>; <span class="cm">// static</span>
+<span class="fn">pthread_mutex_init</span>(&amp;mtx, <span class="nm">NULL</span>);                   <span class="cm">// dynamic</span>
 
-              <span class="cm">// Lock / Unlock</span>
-              <span class="fn">pthread_mutex_lock</span>(&amp;mtx); <span class="cm">// blocks if locked</span>
-              <span class="fn">pthread_mutex_trylock</span>(&amp;mtx); <span class="cm">// returns EBUSY if
-                locked</span>
-              <span class="fn">pthread_mutex_unlock</span>(&amp;mtx); <span class="cm">// release</span>
+<span class="cm">// Lock / Unlock</span>
+<span class="fn">pthread_mutex_lock</span>(&amp;mtx);    <span class="cm">// blocks if locked</span>
+<span class="fn">pthread_mutex_trylock</span>(&amp;mtx); <span class="cm">// returns EBUSY if locked</span>
+<span class="fn">pthread_mutex_unlock</span>(&amp;mtx);  <span class="cm">// release</span>
 
-              <span class="cm">// Destruction</span>
-              <span class="fn">pthread_mutex_destroy</span>(&amp;mtx); <span class="cm">// free resources</span>
-            </div>
+<span class="cm">// Destruction</span>
+<span class="fn">pthread_mutex_destroy</span>(&amp;mtx); <span class="cm">// free resources</span>
+</div>
 
             <div class="ibox mt-10">
               <div class="lbl text-blue">Static vs Dynamic Init</div>
@@ -897,38 +878,35 @@
           <div class="card mt-10">
             <div class="card-title">Critical Section Pattern</div>
             <div class="cb auto-style-bbf441">
-              <span class="fn">pthread_mutex_lock</span>(&amp;mtx);
-              <span class="cm">/* ── Critical Section ── */</span>
-              <span class="cm">/* Μόνο ΕΝΑ thread μπορεί </span>
-              <span class="cm"> να είναι εδώ τη φορά! */</span>
-              total_words += count;
-              <span class="cm">/* ── End Critical Section ── */</span>
-              <span class="fn">pthread_mutex_unlock</span>(&amp;mtx);
-            </div>
+<span class="fn">pthread_mutex_lock</span>(&amp;mtx);
+<span class="cm">/* ── Critical Section ── */</span>
+<span class="cm">/* Μόνο ΕΝΑ thread μπορεί </span>
+<span class="cm">   να είναι εδώ τη φορά!   */</span>
+total_words += count;
+<span class="cm">/* ── End Critical Section ── */</span>
+<span class="fn">pthread_mutex_unlock</span>(&amp;mtx);
+</div>
           </div>
         </div>
         <div>
           <div class="card">
             <div class="card-title">wordcount2.c — Fixed with Mutex</div>
             <div class="cb auto-style-f73641">
-              <span class="kw">int</span> <span class="sf-field">total_words</span> = <span class="nm">0</span>;
-              <span class="tp">pthread_mutex_t</span> <span class="sf-field">count_mutex</span> = <span
-                class="mc">PTHREAD_MUTEX_INITIALIZER</span>;
+<span class="kw">int</span> <span class="sf-field">total_words</span> = <span class="nm">0</span>;
+<span class="tp">pthread_mutex_t</span> <span class="sf-field">count_mutex</span> = <span class="mc">PTHREAD_MUTEX_INITIALIZER</span>;
 
-              <span class="kw">void</span> *<span class="fn">count_words</span>(<span class="kw">void</span> *<span
-                class="sf-field">arg</span>) {
-              <span class="kw">char</span> *<span class="sf-field">filename</span> = (<span class="kw">char</span>
-              *)arg;
-              <span class="kw">int</span> <span class="sf-field">count</span> = <span class="nm">0</span>;
-              <span class="cm">// ... count words in file ...</span>
+<span class="kw">void</span> *<span class="fn">count_words</span>(<span class="kw">void</span> *<span class="sf-field">arg</span>) {
+    <span class="kw">char</span> *<span class="sf-field">filename</span> = (<span class="kw">char</span> *)arg;
+    <span class="kw">int</span> <span class="sf-field">count</span> = <span class="nm">0</span>;
+    <span class="cm">// ... count words in file ...</span>
 
-              <span class="fn">pthread_mutex_lock</span>(&amp;count_mutex); <span class="cm">// 🔒</span>
-              total_words += count; <span class="cm">// safe!</span>
-              <span class="fn">pthread_mutex_unlock</span>(&amp;count_mutex); <span class="cm">// 🔓</span>
+    <span class="fn">pthread_mutex_lock</span>(&amp;count_mutex);   <span class="cm">// 🔒</span>
+    total_words += count;                <span class="cm">// safe!</span>
+    <span class="fn">pthread_mutex_unlock</span>(&amp;count_mutex); <span class="cm">// 🔓</span>
 
-              <span class="fn">pthread_exit</span>(<span class="nm">NULL</span>);
-              }
-            </div>
+    <span class="fn">pthread_exit</span>(<span class="nm">NULL</span>);
+}
+</div>
             <div class="gbox mt-8">
               <div class="lbl text-green">Fixed!</div>
               Τώρα μόνο ένα thread τη φορά μπορεί να τροποποιήσει το <code>total_words</code>. Το αποτέλεσμα είναι πάντα
@@ -970,24 +948,22 @@
           <div class="card">
             <div class="card-title">Condition Variable API</div>
             <div class="cb auto-style-aab09c">
-              <span class="cm">// Initialization</span>
-              <span class="tp">pthread_cond_t</span> cv = <span class="mc">PTHREAD_COND_INITIALIZER</span>; <span
-                class="cm">// static</span>
-              <span class="fn">pthread_cond_init</span>(&amp;cv, <span class="nm">NULL</span>); <span class="cm">//
-                dynamic</span>
+<span class="cm">// Initialization</span>
+<span class="tp">pthread_cond_t</span> cv = <span class="mc">PTHREAD_COND_INITIALIZER</span>; <span class="cm">// static</span>
+<span class="fn">pthread_cond_init</span>(&amp;cv, <span class="nm">NULL</span>);                  <span class="cm">// dynamic</span>
 
-              <span class="cm">// Wait — releases mutex, sleeps, re-acquires mutex on wakeup</span>
-              <span class="fn">pthread_cond_wait</span>(&amp;cv, &amp;mtx);
+<span class="cm">// Wait — releases mutex, sleeps, re-acquires mutex on wakeup</span>
+<span class="fn">pthread_cond_wait</span>(&amp;cv, &amp;mtx);
 
-              <span class="cm">// Signal — wake ONE waiting thread</span>
-              <span class="fn">pthread_cond_signal</span>(&amp;cv);
+<span class="cm">// Signal — wake ONE waiting thread</span>
+<span class="fn">pthread_cond_signal</span>(&amp;cv);
 
-              <span class="cm">// Broadcast — wake ALL waiting threads</span>
-              <span class="fn">pthread_cond_broadcast</span>(&amp;cv);
+<span class="cm">// Broadcast — wake ALL waiting threads</span>
+<span class="fn">pthread_cond_broadcast</span>(&amp;cv);
 
-              <span class="cm">// Destruction</span>
-              <span class="fn">pthread_cond_destroy</span>(&amp;cv);
-            </div>
+<span class="cm">// Destruction</span>
+<span class="fn">pthread_cond_destroy</span>(&amp;cv);
+</div>
           </div>
 
           <div class="card mt-10">
@@ -1014,29 +990,29 @@
           <div class="card">
             <div class="card-title">Example — mutex_condvar.c</div>
             <div class="cb auto-style-98b404">
-              <span class="tp">pthread_mutex_t</span> mtx = <span class="mc">PTHREAD_MUTEX_INITIALIZER</span>;
-              <span class="tp">pthread_cond_t</span> cv = <span class="mc">PTHREAD_COND_INITIALIZER</span>;
-              <span class="kw">int</span> <span class="sf-field">ready</span> = <span class="nm">0</span>;
+<span class="tp">pthread_mutex_t</span> mtx = <span class="mc">PTHREAD_MUTEX_INITIALIZER</span>;
+<span class="tp">pthread_cond_t</span>  cv  = <span class="mc">PTHREAD_COND_INITIALIZER</span>;
+<span class="kw">int</span> <span class="sf-field">ready</span> = <span class="nm">0</span>;
 
-              <span class="kw">void</span> *<span class="fn">waiter</span>(<span class="kw">void</span> *arg) {
-              <span class="fn">pthread_mutex_lock</span>(&amp;mtx);
-              <span class="kw">while</span> (!ready) <span class="cm">// ← WHILE, not IF!</span>
-              <span class="fn">pthread_cond_wait</span>(&amp;cv, &amp;mtx);
-              <span class="fn">printf</span>(<span class="st">"Ready! Proceeding...\n"</span>);
-              <span class="fn">pthread_mutex_unlock</span>(&amp;mtx);
-              <span class="kw">return</span> <span class="nm">NULL</span>;
-              }
+<span class="kw">void</span> *<span class="fn">waiter</span>(<span class="kw">void</span> *arg) {
+    <span class="fn">pthread_mutex_lock</span>(&amp;mtx);
+    <span class="kw">while</span> (!ready)  <span class="cm">// ← WHILE, not IF!</span>
+        <span class="fn">pthread_cond_wait</span>(&amp;cv, &amp;mtx);
+    <span class="fn">printf</span>(<span class="st">"Ready! Proceeding...\n"</span>);
+    <span class="fn">pthread_mutex_unlock</span>(&amp;mtx);
+    <span class="kw">return</span> <span class="nm">NULL</span>;
+}
 
-              <span class="kw">void</span> *<span class="fn">signaler</span>(<span class="kw">void</span> *arg) {
-              <span class="fn">sleep</span>(<span class="nm">2</span>);
-              <span class="fn">pthread_mutex_lock</span>(&amp;mtx);
-              ready = <span class="nm">1</span>;
-              <span class="fn">printf</span>(<span class="st">"Signaling...\n"</span>);
-              <span class="fn">pthread_cond_signal</span>(&amp;cv);
-              <span class="fn">pthread_mutex_unlock</span>(&amp;mtx);
-              <span class="kw">return</span> <span class="nm">NULL</span>;
-              }
-            </div>
+<span class="kw">void</span> *<span class="fn">signaler</span>(<span class="kw">void</span> *arg) {
+    <span class="fn">sleep</span>(<span class="nm">2</span>);
+    <span class="fn">pthread_mutex_lock</span>(&amp;mtx);
+    ready = <span class="nm">1</span>;
+    <span class="fn">printf</span>(<span class="st">"Signaling...\n"</span>);
+    <span class="fn">pthread_cond_signal</span>(&amp;cv);
+    <span class="fn">pthread_mutex_unlock</span>(&amp;mtx);
+    <span class="kw">return</span> <span class="nm">NULL</span>;
+}
+</div>
           </div>
 
           <div class="card mt-10">
@@ -1045,20 +1021,20 @@
               3 threads αυξάνουν ένα counter. Ένα 4ο thread κοιμάται μέχρι ο counter φτάσει ένα threshold:
             </p>
             <div class="cb auto-style-23dace">
-              <span class="cm">// Incrementer thread</span>
-              <span class="fn">pthread_mutex_lock</span>(&amp;count_mutex);
-              count++;
-              <span class="kw">if</span> (count == <span class="nm">COUNT_LIMIT</span>)
-              <span class="fn">pthread_cond_signal</span>(&amp;count_threshold_cv);
-              <span class="fn">pthread_mutex_unlock</span>(&amp;count_mutex);
+<span class="cm">// Incrementer thread</span>
+<span class="fn">pthread_mutex_lock</span>(&amp;count_mutex);
+count++;
+<span class="kw">if</span> (count == <span class="nm">COUNT_LIMIT</span>)
+    <span class="fn">pthread_cond_signal</span>(&amp;count_threshold_cv);
+<span class="fn">pthread_mutex_unlock</span>(&amp;count_mutex);
 
-              <span class="cm">// Watcher thread</span>
-              <span class="fn">pthread_mutex_lock</span>(&amp;count_mutex);
-              <span class="kw">while</span> (count &lt; <span class="nm">COUNT_LIMIT</span>)
-              <span class="fn">pthread_cond_wait</span>(&amp;count_threshold_cv, &amp;count_mutex);
-              <span class="fn">printf</span>(<span class="st">"Threshold reached! count=%d\n"</span>, count);
-              <span class="fn">pthread_mutex_unlock</span>(&amp;count_mutex);
-            </div>
+<span class="cm">// Watcher thread</span>
+<span class="fn">pthread_mutex_lock</span>(&amp;count_mutex);
+<span class="kw">while</span> (count &lt; <span class="nm">COUNT_LIMIT</span>)
+    <span class="fn">pthread_cond_wait</span>(&amp;count_threshold_cv, &amp;count_mutex);
+<span class="fn">printf</span>(<span class="st">"Threshold reached! count=%d\n"</span>, count);
+<span class="fn">pthread_mutex_unlock</span>(&amp;count_mutex);
+</div>
           </div>
         </div>
       </div>
@@ -1087,18 +1063,18 @@
               <div class="bad-side">
                 <div class="side-label text-red">❌ if (wrong)</div>
                 <div class="cb auto-style-7bf338">
-                  <span class="kw">if</span> (!ready) <span class="cm">// check once</span>
-                  <span class="fn">pthread_cond_wait</span>(&amp;cv, &amp;m);
-                  <span class="cm">// may proceed when not ready!</span>
-                </div>
+<span class="kw">if</span> (!ready)  <span class="cm">// check once</span>
+    <span class="fn">pthread_cond_wait</span>(&amp;cv, &amp;m);
+<span class="cm">// may proceed when not ready!</span>
+</div>
               </div>
               <div class="good-side">
                 <div class="side-label text-green">✅ while (correct)</div>
                 <div class="cb auto-style-7bf338">
-                  <span class="kw">while</span> (!ready) <span class="cm">// re-check</span>
-                  <span class="fn">pthread_cond_wait</span>(&amp;cv, &amp;m);
-                  <span class="cm">// guaranteed ready == true!</span>
-                </div>
+<span class="kw">while</span> (!ready)  <span class="cm">// re-check</span>
+    <span class="fn">pthread_cond_wait</span>(&amp;cv, &amp;m);
+<span class="cm">// guaranteed ready == true!</span>
+</div>
               </div>
             </div>
             <p class="auto-style-1a0979">
@@ -1185,28 +1161,25 @@
             <div class="card-title">Readers/Writers Pattern</div>
             <p class="auto-style-f70c40">Πολλαπλοί readers ταυτόχρονα ΟΚ, αλλά μόνο ένας writer:</p>
             <div class="cb auto-style-b7fdac">
-              <span class="cm">// Reader</span>
-              <span class="fn">lock</span>(m);
-              <span class="kw">while</span> (active_writers &gt; <span class="nm">0</span>) <span
-                class="fn">wait</span>(cv, m);
-              active_readers++;
-              <span class="fn">unlock</span>(m);
-              <span class="cm">/* ... read ... */</span>
-              <span class="fn">lock</span>(m); active_readers--;
-              <span class="kw">if</span> (active_readers == <span class="nm">0</span>) <span
-                class="fn">signal</span>(cv);
-              <span class="fn">unlock</span>(m);
+<span class="cm">// Reader</span>
+<span class="fn">lock</span>(m);
+<span class="kw">while</span> (active_writers &gt; <span class="nm">0</span>) <span class="fn">wait</span>(cv, m);
+active_readers++;
+<span class="fn">unlock</span>(m);
+<span class="cm">/* ... read ... */</span>
+<span class="fn">lock</span>(m); active_readers--;
+<span class="kw">if</span> (active_readers == <span class="nm">0</span>) <span class="fn">signal</span>(cv);
+<span class="fn">unlock</span>(m);
 
-              <span class="cm">// Writer</span>
-              <span class="fn">lock</span>(m);
-              <span class="kw">while</span> (active_writers + active_readers &gt; <span class="nm">0</span>) <span
-                class="fn">wait</span>(cv, m);
-              active_writers++;
-              <span class="fn">unlock</span>(m);
-              <span class="cm">/* ... write ... */</span>
-              <span class="fn">lock</span>(m); active_writers--; <span class="fn">broadcast</span>(cv);
-              <span class="fn">unlock</span>(m);
-            </div>
+<span class="cm">// Writer</span>
+<span class="fn">lock</span>(m);
+<span class="kw">while</span> (active_writers + active_readers &gt; <span class="nm">0</span>) <span class="fn">wait</span>(cv, m);
+active_writers++;
+<span class="fn">unlock</span>(m);
+<span class="cm">/* ... write ... */</span>
+<span class="fn">lock</span>(m); active_writers--; <span class="fn">broadcast</span>(cv);
+<span class="fn">unlock</span>(m);
+</div>
           </div>
         </div>
       </div>
@@ -1321,94 +1294,84 @@
           <div class="card">
             <div class="card-title">Bounded Cyclical Buffer</div>
             <div class="cb auto-style-4180a9">
-              <span class="mc">#define</span> <span class="nm">BUFSIZE</span> <span class="nm">8</span>
+<span class="mc">#define</span> <span class="nm">BUFSIZE</span> <span class="nm">8</span>
 
-              <span class="kw">typedef struct</span> {
-              <span class="kw">int</span> <span class="sf-field">data</span>[<span class="nm">BUFSIZE</span>];
-              <span class="kw">int</span> <span class="sf-field">start</span>; <span class="cm">// next position to read
-                from</span>
-              <span class="kw">int</span> <span class="sf-field">end</span>; <span class="cm">// next position to write
-                to</span>
-              <span class="kw">int</span> <span class="sf-field">count</span>; <span class="cm">// current number of
-                items</span>
-              } <span class="tp">pool_t</span>;
+<span class="kw">typedef struct</span> {
+    <span class="kw">int</span> <span class="sf-field">data</span>[<span class="nm">BUFSIZE</span>];
+    <span class="kw">int</span> <span class="sf-field">start</span>;   <span class="cm">// next position to read from</span>
+    <span class="kw">int</span> <span class="sf-field">end</span>;     <span class="cm">// next position to write to</span>
+    <span class="kw">int</span> <span class="sf-field">count</span>;   <span class="cm">// current number of items</span>
+} <span class="tp">pool_t</span>;
 
-              <span class="kw">void</span> <span class="fn">place</span>(<span class="tp">pool_t</span> *pool, <span
-                class="kw">int</span> data) {
-              <span class="fn">pthread_mutex_lock</span>(&amp;mtx);
-              <span class="kw">while</span> (pool-&gt;count == <span class="nm">BUFSIZE</span>) <span class="cm">//
-                full?</span>
-              <span class="fn">pthread_cond_wait</span>(&amp;cond_nonfull, &amp;mtx);
-              pool-&gt;data[pool-&gt;end] = data;
-              pool-&gt;end = (pool-&gt;end + <span class="nm">1</span>) % <span class="nm">BUFSIZE</span>;
-              pool-&gt;count++;
-              <span class="fn">pthread_cond_signal</span>(&amp;cond_nonempty); <span class="cm">// wake consumer</span>
-              <span class="fn">pthread_mutex_unlock</span>(&amp;mtx);
-              }
+<span class="kw">void</span> <span class="fn">place</span>(<span class="tp">pool_t</span> *pool, <span class="kw">int</span> data) {
+    <span class="fn">pthread_mutex_lock</span>(&amp;mtx);
+    <span class="kw">while</span> (pool-&gt;count == <span class="nm">BUFSIZE</span>)       <span class="cm">// full?</span>
+        <span class="fn">pthread_cond_wait</span>(&amp;cond_nonfull, &amp;mtx);
+    pool-&gt;data[pool-&gt;end] = data;
+    pool-&gt;end = (pool-&gt;end + <span class="nm">1</span>) % <span class="nm">BUFSIZE</span>;
+    pool-&gt;count++;
+    <span class="fn">pthread_cond_signal</span>(&amp;cond_nonempty);  <span class="cm">// wake consumer</span>
+    <span class="fn">pthread_mutex_unlock</span>(&amp;mtx);
+}
 
-              <span class="kw">int</span> <span class="fn">obtain</span>(<span class="tp">pool_t</span> *pool) {
-              <span class="fn">pthread_mutex_lock</span>(&amp;mtx);
-              <span class="kw">while</span> (pool-&gt;count == <span class="nm">0</span>) <span class="cm">//
-                empty?</span>
-              <span class="fn">pthread_cond_wait</span>(&amp;cond_nonempty, &amp;mtx);
-              <span class="kw">int</span> data = pool-&gt;data[pool-&gt;start];
-              pool-&gt;start = (pool-&gt;start + <span class="nm">1</span>) % <span class="nm">BUFSIZE</span>;
-              pool-&gt;count--;
-              <span class="fn">pthread_cond_signal</span>(&amp;cond_nonfull); <span class="cm">// wake producer</span>
-              <span class="fn">pthread_mutex_unlock</span>(&amp;mtx);
-              <span class="kw">return</span> data;
-              }
-            </div>
+<span class="kw">int</span> <span class="fn">obtain</span>(<span class="tp">pool_t</span> *pool) {
+    <span class="fn">pthread_mutex_lock</span>(&amp;mtx);
+    <span class="kw">while</span> (pool-&gt;count == <span class="nm">0</span>)              <span class="cm">// empty?</span>
+        <span class="fn">pthread_cond_wait</span>(&amp;cond_nonempty, &amp;mtx);
+    <span class="kw">int</span> data = pool-&gt;data[pool-&gt;start];
+    pool-&gt;start = (pool-&gt;start + <span class="nm">1</span>) % <span class="nm">BUFSIZE</span>;
+    pool-&gt;count--;
+    <span class="fn">pthread_cond_signal</span>(&amp;cond_nonfull);   <span class="cm">// wake producer</span>
+    <span class="fn">pthread_mutex_unlock</span>(&amp;mtx);
+    <span class="kw">return</span> data;
+}
+</div>
           </div>
         </div>
         <div>
           <div class="card">
             <div class="card-title">prod-cons.c — Full Program</div>
             <div class="cb auto-style-98b404">
-              <span class="tp">pthread_mutex_t</span> mtx;
-              <span class="tp">pthread_cond_t</span> cond_nonempty, cond_nonfull;
-              <span class="tp">pool_t</span> pool;
+<span class="tp">pthread_mutex_t</span> mtx;
+<span class="tp">pthread_cond_t</span>  cond_nonempty, cond_nonfull;
+<span class="tp">pool_t</span> pool;
 
-              <span class="kw">void</span> *<span class="fn">producer</span>(<span class="kw">void</span> *ptr) {
-              <span class="kw">while</span> (num_of_items &gt; <span class="nm">0</span>) {
-              <span class="fn">place</span>(&amp;pool, num_of_items);
-              <span class="fn">printf</span>(<span class="st">"producer: %d\n"</span>, num_of_items);
-              num_of_items--;
-              <span class="fn">pthread_cond_signal</span>(&amp;cond_nonempty);
-              <span class="fn">usleep</span>(<span class="nm">300000</span>);
-              }
-              <span class="fn">pthread_exit</span>(<span class="nm">0</span>);
-              }
+<span class="kw">void</span> *<span class="fn">producer</span>(<span class="kw">void</span> *ptr) {
+    <span class="kw">while</span> (num_of_items &gt; <span class="nm">0</span>) {
+        <span class="fn">place</span>(&amp;pool, num_of_items);
+        <span class="fn">printf</span>(<span class="st">"producer: %d\n"</span>, num_of_items);
+        num_of_items--;
+        <span class="fn">pthread_cond_signal</span>(&amp;cond_nonempty);
+        <span class="fn">usleep</span>(<span class="nm">300000</span>);
+    }
+    <span class="fn">pthread_exit</span>(<span class="nm">0</span>);
+}
 
-              <span class="kw">void</span> *<span class="fn">consumer</span>(<span class="kw">void</span> *ptr) {
-              <span class="kw">while</span> (num_of_items &gt; <span class="nm">0</span> || pool.count &gt; <span
-                class="nm">0</span>) {
-              <span class="fn">printf</span>(<span class="st">"consumer: %d\n"</span>, <span
-                class="fn">obtain</span>(&amp;pool));
-              <span class="fn">pthread_cond_signal</span>(&amp;cond_nonfull);
-              <span class="fn">usleep</span>(<span class="nm">500000</span>);
-              }
-              <span class="fn">pthread_exit</span>(<span class="nm">0</span>);
-              }
+<span class="kw">void</span> *<span class="fn">consumer</span>(<span class="kw">void</span> *ptr) {
+    <span class="kw">while</span> (num_of_items &gt; <span class="nm">0</span> || pool.count &gt; <span class="nm">0</span>) {
+        <span class="fn">printf</span>(<span class="st">"consumer: %d\n"</span>, <span class="fn">obtain</span>(&amp;pool));
+        <span class="fn">pthread_cond_signal</span>(&amp;cond_nonfull);
+        <span class="fn">usleep</span>(<span class="nm">500000</span>);
+    }
+    <span class="fn">pthread_exit</span>(<span class="nm">0</span>);
+}
 
-              <span class="kw">int</span> <span class="fn">main</span>() {
-              <span class="tp">pthread_t</span> cons, prod;
-              <span class="fn">initialize</span>(&amp;pool);
-              <span class="fn">pthread_mutex_init</span>(&amp;mtx, <span class="nm">0</span>);
-              <span class="fn">pthread_cond_init</span>(&amp;cond_nonempty, <span class="nm">0</span>);
-              <span class="fn">pthread_cond_init</span>(&amp;cond_nonfull, <span class="nm">0</span>);
-              <span class="fn">pthread_create</span>(&amp;cons, <span class="nm">0</span>, consumer, <span
-                class="nm">0</span>);
-              <span class="fn">pthread_create</span>(&amp;prod, <span class="nm">0</span>, producer, <span
-                class="nm">0</span>);
-              <span class="fn">pthread_join</span>(prod, <span class="nm">0</span>);
-              <span class="fn">pthread_join</span>(cons, <span class="nm">0</span>);
-              <span class="fn">pthread_cond_destroy</span>(&amp;cond_nonempty);
-              <span class="fn">pthread_cond_destroy</span>(&amp;cond_nonfull);
-              <span class="fn">pthread_mutex_destroy</span>(&amp;mtx);
-              <span class="kw">return</span> <span class="nm">0</span>;
-              }
-            </div>
+<span class="kw">int</span> <span class="fn">main</span>() {
+    <span class="tp">pthread_t</span> cons, prod;
+    <span class="fn">initialize</span>(&amp;pool);
+    <span class="fn">pthread_mutex_init</span>(&amp;mtx, <span class="nm">0</span>);
+    <span class="fn">pthread_cond_init</span>(&amp;cond_nonempty, <span class="nm">0</span>);
+    <span class="fn">pthread_cond_init</span>(&amp;cond_nonfull, <span class="nm">0</span>);
+    <span class="fn">pthread_create</span>(&amp;cons, <span class="nm">0</span>, consumer, <span class="nm">0</span>);
+    <span class="fn">pthread_create</span>(&amp;prod, <span class="nm">0</span>, producer, <span class="nm">0</span>);
+    <span class="fn">pthread_join</span>(prod, <span class="nm">0</span>);
+    <span class="fn">pthread_join</span>(cons, <span class="nm">0</span>);
+    <span class="fn">pthread_cond_destroy</span>(&amp;cond_nonempty);
+    <span class="fn">pthread_cond_destroy</span>(&amp;cond_nonfull);
+    <span class="fn">pthread_mutex_destroy</span>(&amp;mtx);
+    <span class="kw">return</span> <span class="nm">0</span>;
+}
+</div>
           </div>
 
           <div class="tip mt-10">
@@ -1464,11 +1427,10 @@
               τους.
             </div>
             <div class="cb auto-style-7bf338">
-              <span class="cm">// Thread A: check + use must be atomic!</span>
-              <span class="kw">if</span> (ptr != <span class="nm">NULL</span>) <span class="cm">// ← Thread B sets
-                ptr=NULL here!</span>
-              ptr-&gt;field = <span class="nm">42</span>; <span class="cm">// ← CRASH: null dereference</span>
-            </div>
+<span class="cm">// Thread A: check + use must be atomic!</span>
+<span class="kw">if</span> (ptr != <span class="nm">NULL</span>)   <span class="cm">// ← Thread B sets ptr=NULL here!</span>
+    ptr-&gt;field = <span class="nm">42</span>; <span class="cm">// ← CRASH: null dereference</span>
+</div>
             <p class="auto-style-2fd4f2"><strong class="text-primary">Fix:</strong> Wrap check-then-act σε ένα mutex.
             </p>
           </div>
@@ -1593,44 +1555,41 @@
           <div class="card">
             <div class="card-title">Account Library — Composability Problem</div>
             <div class="cb auto-style-98b404">
-              <span class="kw">typedef struct</span> {
-              <span class="kw">int</span> <span class="sf-field">balance</span>;
-              <span class="tp">pthread_mutex_t</span> <span class="sf-field">account_mutex</span>;
-              } <span class="tp">account_type</span>;
+<span class="kw">typedef struct</span> {
+    <span class="kw">int</span> <span class="sf-field">balance</span>;
+    <span class="tp">pthread_mutex_t</span> <span class="sf-field">account_mutex</span>;
+} <span class="tp">account_type</span>;
 
-              <span class="kw">void</span> <span class="fn">synch_withdraw</span>(<span class="tp">account_type</span>
-              *acc, <span class="kw">int</span> amount) {
-              <span class="fn">lock</span>(acc-&gt;account_mutex);
-              <span class="fn">withdraw</span>(acc, amount);
-              <span class="fn">unlock</span>(acc-&gt;account_mutex);
-              }
+<span class="kw">void</span> <span class="fn">synch_withdraw</span>(<span class="tp">account_type</span> *acc, <span class="kw">int</span> amount) {
+    <span class="fn">lock</span>(acc-&gt;account_mutex);
+    <span class="fn">withdraw</span>(acc, amount);
+    <span class="fn">unlock</span>(acc-&gt;account_mutex);
+}
 
-              <span class="cm">// Client code — ATOMICITY VIOLATION!</span>
-              <span class="kw">void</span> <span class="fn">move</span>(<span class="tp">account_type</span> *acc1,
-              <span class="tp">account_type</span> *acc2, <span class="kw">int</span> amount) {
-              <span class="fn">synch_withdraw</span>(acc1, amount); <span class="cm">// lock1, withdraw, unlock1</span>
-              <span class="cm">// ← state visible between operations!</span>
-              <span class="fn">synch_deposit</span>(acc2, amount); <span class="cm">// lock2, deposit, unlock2</span>
-              }
-            </div>
+<span class="cm">// Client code — ATOMICITY VIOLATION!</span>
+<span class="kw">void</span> <span class="fn">move</span>(<span class="tp">account_type</span> *acc1, <span class="tp">account_type</span> *acc2, <span class="kw">int</span> amount) {
+    <span class="fn">synch_withdraw</span>(acc1, amount); <span class="cm">// lock1, withdraw, unlock1</span>
+    <span class="cm">// ← state visible between operations!</span>
+    <span class="fn">synch_deposit</span>(acc2, amount);  <span class="cm">// lock2, deposit, unlock2</span>
+}
+</div>
             <div class="rbox mt-8">
               <div class="lbl text-red">Problem 1: Atomicity</div>
               Μεταξύ withdraw και deposit, κάποιος μπορεί να δει ότι χρήματα "εξαφανίστηκαν".
             </div>
             <div class="cb auto-style-542e89">
-              <span class="cm">// Fix attempt — DEADLOCK RISK!</span>
-              <span class="kw">void</span> <span class="fn">atomic_move</span>(<span class="tp">account_type</span>
-              *acc1, <span class="tp">account_type</span> *acc2, <span class="kw">int</span> amt) {
-              <span class="fn">lock</span>(acc1-&gt;account_mutex);
-              <span class="fn">lock</span>(acc2-&gt;account_mutex); <span class="cm">// DEADLOCK if another</span>
-              <span class="fn">withdraw</span>(acc1, amt); <span class="cm">// thread does move(acc2,acc1)!</span>
-              <span class="fn">deposit</span>(acc2, amt);
-              <span class="fn">unlock</span>(acc2-&gt;account_mutex);
-              <span class="fn">unlock</span>(acc1-&gt;account_mutex);
-              }
-              <span class="cm">// move(s,t,...) || move(t,s,...) → DEADLOCK</span>
-              <span class="cm">// move(s,s,...) → SELF-DEADLOCK!</span>
-            </div>
+<span class="cm">// Fix attempt — DEADLOCK RISK!</span>
+<span class="kw">void</span> <span class="fn">atomic_move</span>(<span class="tp">account_type</span> *acc1, <span class="tp">account_type</span> *acc2, <span class="kw">int</span> amt) {
+    <span class="fn">lock</span>(acc1-&gt;account_mutex);
+    <span class="fn">lock</span>(acc2-&gt;account_mutex);  <span class="cm">// DEADLOCK if another</span>
+    <span class="fn">withdraw</span>(acc1, amt);        <span class="cm">// thread does move(acc2,acc1)!</span>
+    <span class="fn">deposit</span>(acc2, amt);
+    <span class="fn">unlock</span>(acc2-&gt;account_mutex);
+    <span class="fn">unlock</span>(acc1-&gt;account_mutex);
+}
+<span class="cm">// move(s,t,...) || move(t,s,...) → DEADLOCK</span>
+<span class="cm">// move(s,s,...) → SELF-DEADLOCK!</span>
+</div>
             <div class="wbox mt-8">
               <div class="lbl text-yellow">Problem 2: Deadlock</div>
               Αν <code>move(A,B)</code> τρέχει ταυτόχρονα με <code>move(B,A)</code>, κάθε ένα κλειδώνει τον πρώτο

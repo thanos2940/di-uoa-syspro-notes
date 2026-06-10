@@ -361,8 +361,10 @@
         </div>
         <div class="cmd-desc">Εκτυπώνει το απόλυτο path του τρέχοντος καταλόγου. Χρήσιμο όταν χάνεσαι στο filesystem.
         </div>
-        <div class="cb"><span class="p">$</span> <span class="c">pwd</span><span
-            class="o">/home/alice/projects/k24</span></div>
+        <div class="cb">
+<span class="p">$</span> <span class="c">pwd</span><span
+class="o">/home/alice/projects/k24</span>
+</div>
         <div class="tip">
           <div class="tip-icon">🧠</div>
           <div>
@@ -376,18 +378,19 @@
       <div class="cmd-entry">
         <div class="cmd-head"><span class="cmd-name">ls</span><span class="cmd-full">LiSt</span></div>
         <div class="cmd-desc">Λίστα αρχείων καταλόγου. Τα σημαντικότερα flags:</div>
-        <div class="cb"><span class="c">ls</span> <span class="cm"># απλή λίστα</span>
-          <span class="c">ls</span> <span class="f">-l</span> <span class="cm"># long: permissions, owner, size,
-            date</span>
-          <span class="c">ls</span> <span class="f">-a</span> <span class="cm"># all: δείχνει κρυφά αρχεία (αρχίζουν με
-            .)</span>
-          <span class="c">ls</span> <span class="f">-la</span> <span class="cm"># συνδυασμός: long + all — το πιο
-            χρήσιμο</span>
-          <span class="c">ls</span> <span class="f">-lh</span> <span class="cm"># human-readable sizes (KB, MB αντί
-            bytes)</span>
-          <span class="c">ls</span> <span class="f">-R</span> <span class="cm"># recursive: μπαίνει σε
-            υποφακέλους</span>
-        </div>
+        <div class="cb">
+<span class="c">ls</span> <span class="cm"># απλή λίστα</span>
+<span class="c">ls</span> <span class="f">-l</span> <span class="cm"># long: permissions, owner, size,
+date</span>
+<span class="c">ls</span> <span class="f">-a</span> <span class="cm"># all: δείχνει κρυφά αρχεία (αρχίζουν με
+.)</span>
+<span class="c">ls</span> <span class="f">-la</span> <span class="cm"># συνδυασμός: long + all — το πιο
+χρήσιμο</span>
+<span class="c">ls</span> <span class="f">-lh</span> <span class="cm"># human-readable sizes (KB, MB αντί
+bytes)</span>
+<span class="c">ls</span> <span class="f">-R</span> <span class="cm"># recursive: μπαίνει σε
+υποφακέλους</span>
+</div>
         <div class="tip">
           <div class="tip-icon">🧠</div>
           <div>
@@ -403,14 +406,15 @@
       <div class="cmd-entry">
         <div class="cmd-head"><span class="cmd-name">cd</span><span class="cmd-full">Change Directory</span></div>
         <div class="cmd-desc">Αλλάζει τον τρέχοντα κατάλογο.</div>
-        <div class="cb"><span class="c">cd</span> <span class="a">/home/alice</span> <span class="cm"># absolute
-            path</span>
-          <span class="c">cd</span> <span class="a">projects</span> <span class="cm"># relative path</span>
-          <span class="c">cd</span> <span class="a">..</span> <span class="cm"># ένα επίπεδο πάνω</span>
-          <span class="c">cd</span> <span class="cm"># πάντα στο home (~)</span>
-          <span class="c">cd</span> <span class="a">-</span> <span class="cm"># εναλλαγή με τον προηγούμενο
-            κατάλογο</span>
-        </div>
+        <div class="cb">
+<span class="c">cd</span> <span class="a">/home/alice</span> <span class="cm"># absolute
+path</span>
+<span class="c">cd</span> <span class="a">projects</span> <span class="cm"># relative path</span>
+<span class="c">cd</span> <span class="a">..</span> <span class="cm"># ένα επίπεδο πάνω</span>
+<span class="c">cd</span> <span class="cm"># πάντα στο home (~)</span>
+<span class="c">cd</span> <span class="a">-</span> <span class="cm"># εναλλαγή με τον προηγούμενο
+κατάλογο</span>
+</div>
         <div class="tip">
           <div class="tip-icon">🧠</div>
           <div>
@@ -425,9 +429,10 @@
         <div class="cmd-entry">
           <div class="cmd-head"><span class="cmd-name">mkdir</span><span class="cmd-full">MaKe DIRectory</span></div>
           <div class="cmd-desc">Δημιουργεί κατάλογο.</div>
-          <div class="cb"><span class="c">mkdir</span> <span class="a">mydir</span><span class="c">mkdir</span>
-            <span class="f">-p</span> <span class="a">a/b/c/d</span> <span class="cm"># φτιάχνει ΟΛΑ τα ενδιάμεσα</span>
-          </div>
+          <div class="cb">
+<span class="c">mkdir</span> <span class="a">mydir</span><span class="c">mkdir</span>
+<span class="f">-p</span> <span class="a">a/b/c/d</span> <span class="cm"># φτιάχνει ΟΛΑ τα ενδιάμεσα</span>
+</div>
           <div class="tip">
             <div class="tip-icon">🧠</div>
             <div>
@@ -440,9 +445,10 @@
         <div class="cmd-entry">
           <div class="cmd-head"><span class="cmd-name">cp</span><span class="cmd-full">CoPy</span></div>
           <div class="cmd-desc">Αντιγράφει αρχεία/directories.</div>
-          <div class="cb"><span class="c">cp</span> <span class="a">src.txt dst.txt</span><span class="c">cp</span>
-            <span class="f">-r</span> <span class="a">dir1/ dir2/</span> <span class="cm"># recursive για dirs</span>
-          </div>
+          <div class="cb">
+<span class="c">cp</span> <span class="a">src.txt dst.txt</span><span class="c">cp</span>
+<span class="f">-r</span> <span class="a">dir1/ dir2/</span> <span class="cm"># recursive για dirs</span>
+</div>
           <div class="tip">
             <div class="tip-icon">🧠</div>
             <div>
@@ -458,14 +464,15 @@
         <div class="cmd-head"><span class="cmd-name">rm</span><span class="cmd-full">ReMove</span></div>
         <div class="cmd-desc">Διαγράφει αρχεία/directories. <strong class="text-red">Μόνιμο — δεν πάει σε
             Recycle Bin.</strong></div>
-        <div class="cb"><span class="c">rm</span> <span class="a">file.txt</span>
-          <span class="c">rm</span> <span class="f">-r</span> <span class="a">mydir/</span> <span class="cm">#
-            recursive: διαγράφει directory με περιεχόμενο</span>
-          <span class="c">rm</span> <span class="f">-f</span> <span class="a">file.txt</span> <span class="cm"># force:
-            δεν ρωτάει, δεν βγάζει error αν δεν υπάρχει</span>
-          <span class="c">rm</span> <span class="f">-rf</span> <span class="a">dir/</span> <span class="cm"># recursive
-            + force — ΠΡΟΣΟΧΗ</span>
-        </div>
+        <div class="cb">
+<span class="c">rm</span> <span class="a">file.txt</span>
+<span class="c">rm</span> <span class="f">-r</span> <span class="a">mydir/</span> <span class="cm">#
+recursive: διαγράφει directory με περιεχόμενο</span>
+<span class="c">rm</span> <span class="f">-f</span> <span class="a">file.txt</span> <span class="cm"># force:
+δεν ρωτάει, δεν βγάζει error αν δεν υπάρχει</span>
+<span class="c">rm</span> <span class="f">-rf</span> <span class="a">dir/</span> <span class="cm"># recursive
++ force — ΠΡΟΣΟΧΗ</span>
+</div>
         <div class="rbox">
           <div class="lbl text-red">⚠️ Κανένα undo</div><code>rm -rf /</code> ή <code>rm -rf *</code>
           διαγράφουν τα πάντα χωρίς επιβεβαίωση.
@@ -475,16 +482,17 @@
       <div class="cmd-entry">
         <div class="cmd-head"><span class="cmd-name">find</span></div>
         <div class="cmd-desc">Βρίσκει αρχεία με κριτήρια. Syntax: <code>find [path] [criteria] [action]</code></div>
-        <div class="cb"><span class="c">find</span> <span class="a">.</span> <span class="f">-name</span> <span
-            class="a">"*.c"</span>
-          <span class="cm"># pattern matching στο όνομα</span>
-          <span class="c">find</span> <span class="a">/tmp</span> <span class="f">-type</span> <span class="a">f</span>
-          <span class="cm"># μόνο files (f=file, d=directory)</span>
-          <span class="c">find</span> <span class="a">.</span> <span class="f">-name</span> <span
-            class="a">"*.log"</span> <span class="f">-delete</span> <span class="cm"># βρες ΚΑΙ διέγραψε</span>
-          <span class="c">find</span> <span class="a">.</span> <span class="f">-newer</span> <span
-            class="a">ref.txt</span> <span class="cm"># αρχεία νεότερα από ref.txt</span>
-        </div>
+        <div class="cb">
+<span class="c">find</span> <span class="a">.</span> <span class="f">-name</span> <span
+class="a">"*.c"</span>
+<span class="cm"># pattern matching στο όνομα</span>
+<span class="c">find</span> <span class="a">/tmp</span> <span class="f">-type</span> <span class="a">f</span>
+<span class="cm"># μόνο files (f=file, d=directory)</span>
+<span class="c">find</span> <span class="a">.</span> <span class="f">-name</span> <span
+class="a">"*.log"</span> <span class="f">-delete</span> <span class="cm"># βρες ΚΑΙ διέγραψε</span>
+<span class="c">find</span> <span class="a">.</span> <span class="f">-newer</span> <span
+class="a">ref.txt</span> <span class="cm"># αρχεία νεότερα από ref.txt</span>
+</div>
         <div class="tip">
           <div class="tip-icon">🧠</div>
           <div>
@@ -511,13 +519,14 @@
       <div class="cmd-entry">
         <div class="cmd-head"><span class="cmd-name">cat</span><span class="cmd-full">conCATenate</span></div>
         <div class="cmd-desc">Εκτυπώνει αρχεία στο stdout. Αρχικά φτιάχτηκε για <em>συνένωση</em> αρχείων.</div>
-        <div class="cb"><span class="c">cat</span> <span class="a">file.txt</span> <span class="cm"># τυπώνει το
-            αρχείο</span>
-          <span class="c">cat</span> <span class="a">f1.txt f2.txt</span> <span class="cm"># τυπώνει f1 μετά f2
-            (concatenate!)</span>
-          <span class="c">cat</span> <span class="a">f1.txt f2.txt</span> &gt; <span class="a">all.txt</span> <span
-            class="cm"># συνενώνει σε νέο αρχείο</span>
-        </div>
+        <div class="cb">
+<span class="c">cat</span> <span class="a">file.txt</span> <span class="cm"># τυπώνει το
+αρχείο</span>
+<span class="c">cat</span> <span class="a">f1.txt f2.txt</span> <span class="cm"># τυπώνει f1 μετά f2
+(concatenate!)</span>
+<span class="c">cat</span> <span class="a">f1.txt f2.txt</span> &gt; <span class="a">all.txt</span> <span
+class="cm"># συνενώνει σε νέο αρχείο</span>
+</div>
         <div class="tip">
           <div class="tip-icon">🧠</div>
           <div>
@@ -532,18 +541,19 @@
         <div class="cmd-head"><span class="cmd-name">grep</span><span class="cmd-full">Global Regular Expression
             Print</span></div>
         <div class="cmd-desc">Ψάχνει γραμμές που ταιριάζουν με pattern.</div>
-        <div class="cb"><span class="c">grep</span> <span class="a">"error"</span> <span class="a">log.txt</span> <span
-            class="cm">#
-            γραμμές με "error"</span>
-          <span class="c">grep</span> <span class="f">-i</span> <span class="a">"Error"</span> <span
-            class="a">log.txt</span> <span class="cm"># -i = insensitive (Error, error, ERROR)</span>
-          <span class="c">grep</span> <span class="f">-n</span> <span class="a">"main"</span> <span
-            class="a">prog.c</span> <span class="cm"># -n = number: δείχνει αριθμό γραμμής</span>
-          <span class="c">grep</span> <span class="f">-r</span> <span class="a">"TODO"</span> <span class="a">.</span>
-          <span class="cm"># -r = recursive: ψάχνει σε όλα τα αρχεία</span>
-          <span class="c">grep</span> <span class="f">-v</span> <span class="a">"ok"</span> <span
-            class="a">log.txt</span> <span class="cm"># -v = inVert: γραμμές που ΔΕΝ έχουν "ok"</span>
-        </div>
+        <div class="cb">
+<span class="c">grep</span> <span class="a">"error"</span> <span class="a">log.txt</span> <span
+class="cm">#
+γραμμές με "error"</span>
+<span class="c">grep</span> <span class="f">-i</span> <span class="a">"Error"</span> <span
+class="a">log.txt</span> <span class="cm"># -i = insensitive (Error, error, ERROR)</span>
+<span class="c">grep</span> <span class="f">-n</span> <span class="a">"main"</span> <span
+class="a">prog.c</span> <span class="cm"># -n = number: δείχνει αριθμό γραμμής</span>
+<span class="c">grep</span> <span class="f">-r</span> <span class="a">"TODO"</span> <span class="a">.</span>
+<span class="cm"># -r = recursive: ψάχνει σε όλα τα αρχεία</span>
+<span class="c">grep</span> <span class="f">-v</span> <span class="a">"ok"</span> <span
+class="a">log.txt</span> <span class="cm"># -v = inVert: γραμμές που ΔΕΝ έχουν "ok"</span>
+</div>
         <div class="tip">
           <div class="tip-icon">🧠</div>
           <div>
@@ -561,8 +571,10 @@
         <div class="cmd-entry">
           <div class="cmd-head"><span class="cmd-name">head</span></div>
           <div class="cmd-desc">Πρώτες N γραμμές (default 10).</div>
-          <div class="cb"><span class="c">head</span> <span class="f">-20</span> <span class="a">file.txt</span> <span
-              class="cm"># πρώτες 20</span></div>
+          <div class="cb">
+<span class="c">head</span> <span class="f">-20</span> <span class="a">file.txt</span> <span
+class="cm"># πρώτες 20</span>
+</div>
           <div class="tip">
             <div class="tip-icon">🧠</div>
             <div>
@@ -575,8 +587,10 @@
         <div class="cmd-entry">
           <div class="cmd-head"><span class="cmd-name">tail</span></div>
           <div class="cmd-desc">Τελευταίες N γραμμές. Το <code>-f</code> παρακολουθεί real-time.</div>
-          <div class="cb"><span class="c">tail</span> <span class="f">-f</span> <span class="a">log.txt</span> <span
-              class="cm"># live log monitoring</span></div>
+          <div class="cb">
+<span class="c">tail</span> <span class="f">-f</span> <span class="a">log.txt</span> <span
+class="cm"># live log monitoring</span>
+</div>
           <div class="tip">
             <div class="tip-icon">🧠</div>
             <div>
@@ -592,8 +606,10 @@
         <div class="cmd-entry">
           <div class="cmd-head"><span class="cmd-name">wc</span><span class="cmd-full">Word Count</span></div>
           <div class="cmd-desc">Μετράει γραμμές, λέξεις, bytes.</div>
-          <div class="cb"><span class="c">wc</span> <span class="f">-l</span> <span class="a">f</span> <span
-              class="cm"># lines · wc -w words · wc -c chars</span></div>
+          <div class="cb">
+<span class="c">wc</span> <span class="f">-l</span> <span class="a">f</span> <span
+class="cm"># lines · wc -w words · wc -c chars</span>
+</div>
           <div class="tip">
             <div class="tip-icon">🧠</div>
             <div>
@@ -606,8 +622,10 @@
         <div class="cmd-entry">
           <div class="cmd-head"><span class="cmd-name">sort</span></div>
           <div class="cmd-desc">Ταξινομεί γραμμές αλφαβητικά ή αριθμητικά.</div>
-          <div class="cb"><span class="c">sort</span> <span class="f">-n</span> <span class="a">f</span> <span
-              class="cm"># αριθμητικά · -r = reverse</span></div>
+          <div class="cb">
+<span class="c">sort</span> <span class="f">-n</span> <span class="a">f</span> <span
+class="cm"># αριθμητικά · -r = reverse</span>
+</div>
           <div class="tip">
             <div class="tip-icon">🧠</div>
             <div>
@@ -638,27 +656,28 @@
             <span class="text-red">owner</span>, 3 για <span class="text-yellow">group</span>, 3 για
             <span class="text-muted">others</span>.
           </p>
-          <div class="cb"><span class="cm"># ls -l output:</span>
-            <span class="text-dim">-</span><span class="text-red">rwx</span><span class="text-yellow">r-x</span><span
-              class="text-muted">r--</span> 1 alice dev 2048 Apr 25
-            prog
-            <span class="cm"># 1ος χαρακτήρας: τύπος αρχείου</span>
-            <span class="cm"># - = regular file</span>
-            <span class="cm"># d = directory</span>
-            <span class="cm"># l = symbolic link</span>
-            <span class="cm"># r=4, w=2, x=1 (δυαδικό: 100, 010, 001)</span>
-            <span class="cm"># rwx = 4+2+1 = 7</span>
-            <span class="cm"># r-x = 4+0+1 = 5</span>
-            <span class="cm"># r-- = 4+0+0 = 4</span>
-          </div>
+          <div class="cb">
+<span class="cm"># ls -l output:</span>
+<span class="text-dim">-</span><span class="text-red">rwx</span><span class="text-yellow">r-x</span><span
+class="text-muted">r--</span> 1 alice dev 2048 Apr 25
+prog
+<span class="cm"># 1ος χαρακτήρας: τύπος αρχείου</span>
+<span class="cm"># - = regular file</span>
+<span class="cm"># d = directory</span>
+<span class="cm"># l = symbolic link</span>
+<span class="cm"># r=4, w=2, x=1 (δυαδικό: 100, 010, 001)</span>
+<span class="cm"># rwx = 4+2+1 = 7</span>
+<span class="cm"># r-x = 4+0+1 = 5</span>
+<span class="cm"># r-- = 4+0+0 = 4</span>
+</div>
           <div class="cb mt-10">
-            <span class="c">chmod</span> <span class="f">755</span> <span class="a">script.sh</span> <span class="cm">#
-              octal notation</span>
-            <span class="c">chmod</span> <span class="f">+x</span> <span class="a">prog</span> <span class="cm">#
-              symbolic: πρόσθεσε execute σε όλους</span>
-            <span class="c">chmod</span> <span class="f">-w</span> <span class="a">file.txt</span> <span class="cm">#
-              αφαίρεσε write από όλους</span>
-          </div>
+<span class="c">chmod</span> <span class="f">755</span> <span class="a">script.sh</span> <span class="cm">#
+octal notation</span>
+<span class="c">chmod</span> <span class="f">+x</span> <span class="a">prog</span> <span class="cm">#
+symbolic: πρόσθεσε execute σε όλους</span>
+<span class="c">chmod</span> <span class="f">-w</span> <span class="a">file.txt</span> <span class="cm">#
+αφαίρεσε write από όλους</span>
+</div>
         </div>
         <div>
           <div class="tip">
@@ -735,35 +754,47 @@
         <div class="ritem">
           <div class="rop">&gt; file</div>
           <div class="rdesc">stdout → αρχείο. <strong>Αντικαθιστά</strong> αρχείο.</div>
-          <div class="cb mt-6"><span class="c">ls</span> &gt; <span class="a">out.txt</span></div>
+          <div class="cb mt-6">
+<span class="c">ls</span> &gt; <span class="a">out.txt</span>
+</div>
         </div>
         <div class="ritem">
           <div class="rop">&gt;&gt; file</div>
           <div class="rdesc">stdout → αρχείο. <strong>Προσθέτει</strong> στο τέλος.</div>
-          <div class="cb mt-6"><span class="c">echo</span> <span class="a">"log"</span> &gt;&gt; <span
-              class="a">log.txt</span></div>
+          <div class="cb mt-6">
+<span class="c">echo</span> <span class="a">"log"</span> &gt;&gt; <span
+class="a">log.txt</span>
+</div>
         </div>
         <div class="ritem">
           <div class="rop">&lt; file</div>
           <div class="rdesc">stdin ← αρχείο αντί keyboard.</div>
-          <div class="cb mt-6"><span class="c">sort</span> &lt; <span class="a">names.txt</span></div>
+          <div class="cb mt-6">
+<span class="c">sort</span> &lt; <span class="a">names.txt</span>
+</div>
         </div>
         <div class="ritem">
           <div class="rop">2&gt; file</div>
           <div class="rdesc">stderr → αρχείο (errors αποθηκεύονται).</div>
-          <div class="cb mt-6"><span class="c">gcc</span> <span class="a">prog.c</span> 2&gt; <span
-              class="a">err.txt</span></div>
+          <div class="cb mt-6">
+<span class="c">gcc</span> <span class="a">prog.c</span> 2&gt; <span
+class="a">err.txt</span>
+</div>
         </div>
         <div class="ritem">
           <div class="rop">2&gt;&amp;1</div>
           <div class="rdesc">stderr → εκεί που πάει το stdout.</div>
-          <div class="cb mt-6"><span class="c">make</span> &gt; <span class="a">all.log</span>
-            2&gt;&amp;1</div>
+          <div class="cb mt-6">
+<span class="c">make</span> &gt; <span class="a">all.log</span>
+2&gt;&amp;1
+</div>
         </div>
         <div class="ritem">
           <div class="rop">/dev/null</div>
           <div class="rdesc">Bit bucket — πετάει την έξοδο τελείως.</div>
-          <div class="cb mt-6"><span class="c">cmd</span> &gt;/dev/null 2&gt;&amp;1</div>
+          <div class="cb mt-6">
+<span class="c">cmd</span> &gt;/dev/null 2&gt;&amp;1
+</div>
         </div>
       </div>
       <div class="tip">
@@ -817,9 +848,10 @@
           <div class="cmd-entry">
             <div class="cmd-head"><span class="cmd-name">ps</span><span class="cmd-full">Process Status</span></div>
             <div class="cmd-desc">Εμφανίζει τρέχουσες διεργασίες.</div>
-            <div class="cb"><span class="c">ps</span> <span class="cm"># δικές μου</span><span class="c">ps</span>
-              <span class="f">aux</span> <span class="cm"># όλες οι διεργασίες</span>
-            </div>
+            <div class="cb">
+<span class="c">ps</span> <span class="cm"># δικές μου</span><span class="c">ps</span>
+<span class="f">aux</span> <span class="cm"># όλες οι διεργασίες</span>
+</div>
             <div class="tip">
               <div class="tip-icon">🧠</div>
               <div>
@@ -833,9 +865,11 @@
           <div class="cmd-entry">
             <div class="cmd-head"><span class="cmd-name">kill</span></div>
             <div class="cmd-desc">Στέλνει signal σε διεργασία (default: SIGTERM).</div>
-            <div class="cb"><span class="c">kill</span> <span class="a">1234</span> <span class="cm"># SIGTERM:
-                "παρακαλώ τερματίσου"</span><span class="c">kill</span> <span class="f">-9</span> <span
-                class="a">1234</span> <span class="cm"># SIGKILL: force kill, δεν αγνοείται</span></div>
+            <div class="cb">
+<span class="c">kill</span> <span class="a">1234</span> <span class="cm"># SIGTERM:
+"παρακαλώ τερματίσου"</span><span class="c">kill</span> <span class="f">-9</span> <span
+class="a">1234</span> <span class="cm"># SIGKILL: force kill, δεν αγνοείται</span>
+</div>
             <div class="tip">
               <div class="tip-icon">🧠</div>
               <div>
@@ -853,11 +887,12 @@
             <div class="cmd-head"><span class="cmd-name">&amp;</span><span class="cmd-full">background execution</span>
             </div>
             <div class="cmd-desc">Εκτελεί διεργασία στο background — δεν μπλοκάρει το terminal.</div>
-            <div class="cb"><span class="c">./prog</span> <span class="f">&amp;</span> <span class="cm"># εκτέλεση
-                background</span><span class="o">[1] 12345</span> <span class="cm"># job id [1] και PID
-                12345</span><span class="c">jobs</span> <span class="cm"># λίστα background jobs</span><span
-                class="c">fg</span> <span class="a">%1</span> <span class="cm"># φέρε το job 1 στο foreground</span>
-            </div>
+            <div class="cb">
+<span class="c">./prog</span> <span class="f">&amp;</span> <span class="cm"># εκτέλεση
+background</span><span class="o">[1] 12345</span> <span class="cm"># job id [1] και PID
+12345</span><span class="c">jobs</span> <span class="cm"># λίστα background jobs</span><span
+class="c">fg</span> <span class="a">%1</span> <span class="cm"># φέρε το job 1 στο foreground</span>
+</div>
             <div class="tip">
               <div class="tip-icon">🧠</div>
               <div>
@@ -884,17 +919,18 @@
       </p>
       <div class="grid2">
         <div>
-          <div class="cb"><span class="cm"># σημαντικές built-in μεταβλητές</span>
-            <span class="c">echo</span> <span class="a">$PATH</span> <span class="cm"># directories για
-              εκτελέσιμα</span>
-            <span class="c">echo</span> <span class="a">$HOME</span> <span class="cm"># home directory</span>
-            <span class="c">echo</span> <span class="a">$USER</span> <span class="cm"># τρέχων χρήστης</span>
-            <span class="c">echo</span> <span class="a">$$</span> <span class="cm"># PID τρέχοντος shell</span>
-            <span class="c">echo</span> <span class="a">$?</span> <span class="cm"># exit code τελευταίας
-              εντολής</span>
-            <span class="cm"># ορισμός + export για κληρονομιά</span>
-            <span class="c">export</span> <span class="a">MYVAR</span>=<span class="a">"hello"</span>
-          </div>
+          <div class="cb">
+<span class="cm"># σημαντικές built-in μεταβλητές</span>
+<span class="c">echo</span> <span class="a">$PATH</span> <span class="cm"># directories για
+εκτελέσιμα</span>
+<span class="c">echo</span> <span class="a">$HOME</span> <span class="cm"># home directory</span>
+<span class="c">echo</span> <span class="a">$USER</span> <span class="cm"># τρέχων χρήστης</span>
+<span class="c">echo</span> <span class="a">$$</span> <span class="cm"># PID τρέχοντος shell</span>
+<span class="c">echo</span> <span class="a">$?</span> <span class="cm"># exit code τελευταίας
+εντολής</span>
+<span class="cm"># ορισμός + export για κληρονομιά</span>
+<span class="c">export</span> <span class="a">MYVAR</span>=<span class="a">"hello"</span>
+</div>
         </div>
         <div>
           <div class="tip">
@@ -936,7 +972,9 @@
       <div class="cmd-entry">
         <div class="cmd-head"><span class="cmd-name">ln</span><span class="cmd-full">Hard Link</span></div>
         <div class="cmd-desc">Δημιουργεί νέο όνομα (hard link) για το ίδιο αρχείο.</div>
-        <div class="cb"><span class="c">ln</span> <span class="a">target.txt link.txt</span></div>
+        <div class="cb">
+<span class="c">ln</span> <span class="a">target.txt link.txt</span>
+</div>
         <ul class="list-muted-sm">
           <li>Μοιράζονται το <strong>ίδιο inode</strong>.</li>
           <li>Δεν γίνονται σε καταλόγους.</li>
@@ -949,8 +987,10 @@
         <div class="cmd-head"><span class="cmd-name">ln -s</span><span class="cmd-full">Soft / Symbolic Link</span>
         </div>
         <div class="cmd-desc">Δημιουργεί "συντόμευση" στο μονοπάτι του αρχείου.</div>
-        <div class="cb"><span class="c">ln</span> <span class="f">-s</span> <span class="a">target.txt
-            softlink.txt</span></div>
+        <div class="cb">
+<span class="c">ln</span> <span class="f">-s</span> <span class="a">target.txt
+softlink.txt</span>
+</div>
         <ul class="list-muted-sm">
           <li>Είναι απλά ένας <strong>δείκτης στο path</strong> του αρχείου.</li>
           <li>Μπορούν να γίνουν και σε καταλόγους.</li>

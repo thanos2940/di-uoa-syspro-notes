@@ -544,22 +544,22 @@
           </div>
         </div>
         <div>
-          <div class="cb"><span class="mc">#include</span> <span class="st">&lt;sys/types.h&gt;</span>
-            <span class="mc">#include</span> <span class="st">&lt;sys/socket.h&gt;</span>
+          <div class="cb">
+<span class="mc">#include</span> <span class="st">&lt;sys/types.h&gt;</span>
+<span class="mc">#include</span> <span class="st">&lt;sys/socket.h&gt;</span>
 
-            <span class="cm">// Prototype:</span>
-            <span class="cm">// int socket(int domain, int type, int protocol)</span>
-            <span class="cm">// Δημιουργεί socket, επιστρέφει fd ή -1</span>
+<span class="cm">// Prototype:</span>
+<span class="cm">// int socket(int domain, int type, int protocol)</span>
+<span class="cm">// Δημιουργεί socket, επιστρέφει fd ή -1</span>
 
-            <span class="tp">int</span> sock;
-            <span class="kw">if</span> ((sock = <span class="fn">socket</span>(<span class="mc">AF_INET</span>, <span
-              class="mc">SOCK_STREAM</span>, <span class="nm">0</span>)) == -<span class="nm">1</span>)
-            <span class="fn">perror_exit</span>(<span class="st">"socket"</span>);
+<span class="tp">int</span> sock;
+<span class="kw">if</span> ((sock = <span class="fn">socket</span>(<span class="mc">AF_INET</span>, <span class="mc">SOCK_STREAM</span>, <span class="nm">0</span>)) == -<span class="nm">1</span>)
+<span class="fn">perror_exit</span>(<span class="st">"socket"</span>);
 
-            <span class="cm">// domain: AF_INET (IPv4), AF_INET6, AF_UNIX</span>
-            <span class="cm">// type: SOCK_STREAM (TCP), SOCK_DGRAM (UDP)</span>
-            <span class="cm">// protocol: πάντα 0 (default for the type)</span>
-          </div>
+<span class="cm">// domain:   AF_INET (IPv4), AF_INET6, AF_UNIX</span>
+<span class="cm">// type:     SOCK_STREAM (TCP), SOCK_DGRAM (UDP)</span>
+<span class="cm">// protocol: πάντα 0 (default for the type)</span>
+</div>
           <div class="tip">
             <div class="tip-icon">🧠</div>
             <div>
@@ -600,26 +600,23 @@
 
       <div class="grid2">
         <div>
-          <div class="cb"><span class="mc">#include</span> <span class="st">&lt;sys/types.h&gt;</span>
-            <span class="mc">#include</span> <span class="st">&lt;netinet/in.h&gt;</span>
+          <div class="cb">
+<span class="mc">#include</span> <span class="st">&lt;sys/types.h&gt;</span>
+<span class="mc">#include</span> <span class="st">&lt;netinet/in.h&gt;</span>
 
-            <span class="cm">// Οι 4 "χρυσές" συναρτήσεις μετατροπής</span>
-            <span class="tp">uint16_t</span> <span class="fn">htons</span>(host_short); <span class="cm">// Host TO
-              Network Short</span>
-            <span class="tp">uint32_t</span> <span class="fn">htonl</span>(host_long); <span class="cm">// Host TO
-              Network Long</span>
-            <span class="tp">uint16_t</span> <span class="fn">ntohs</span>(net_short); <span class="cm">// Network TO
-              Host Short</span>
-            <span class="tp">uint32_t</span> <span class="fn">ntohl</span>(net_long); <span class="cm">// Network TO
-              Host Long</span>
+<span class="cm">// Οι 4 "χρυσές" συναρτήσεις μετατροπής</span>
+<span class="tp">uint16_t</span> <span class="fn">htons</span>(host_short); <span class="cm">// Host TO Network Short</span>
+<span class="tp">uint32_t</span> <span class="fn">htonl</span>(host_long);  <span class="cm">// Host TO Network Long</span>
+<span class="tp">uint16_t</span> <span class="fn">ntohs</span>(net_short);  <span class="cm">// Network TO Host Short</span>
+<span class="tp">uint32_t</span> <span class="fn">ntohl</span>(net_long);   <span class="cm">// Network TO Host Long</span>
 
-            <span class="cm">// Παράδειγμα:</span>
-            <span class="tp">uint16_t</span> n = <span class="nm">0xD04C</span>;
-            <span class="tp">uint16_t</span> net = <span class="fn">htons</span>(n);
-            <span class="cm">// Intel (LE): n bytes = 4C D0</span>
-            <span class="cm">// After htons: net bytes = D0 4C (Network Order)</span>
-            <span class="cm">// Σε Big Endian machine: δεν αλλάζει τίποτα!</span>
-          </div>
+<span class="cm">// Παράδειγμα:</span>
+<span class="tp">uint16_t</span> n = <span class="nm">0xD04C</span>;
+<span class="tp">uint16_t</span> net = <span class="fn">htons</span>(n);
+<span class="cm">// Intel (LE): n bytes = 4C D0</span>
+<span class="cm">// After htons: net bytes = D0 4C (Network Order)</span>
+<span class="cm">// Σε Big Endian machine: δεν αλλάζει τίποτα!</span>
+</div>
         </div>
         <div>
           <div class="tip">
@@ -663,46 +660,42 @@
 
       <div class="grid2">
         <div>
-          <div class="cb"><span class="mc">#include</span> <span class="st">&lt;netinet/in.h&gt;</span>
+          <div class="cb">
+<span class="mc">#include</span> <span class="st">&lt;netinet/in.h&gt;</span>
 
-            <span class="kw">struct</span> <span class="sf-type">sockaddr_in</span> {
-            <span class="sf-type">sa_family_t</span> <span class="sf-field">sin_family</span>; <span
-              class="sf-comment">/* AF_INET */</span>
-            <span class="sf-type">in_port_t</span> <span class="sf-field">sin_port</span>; <span class="sf-comment">/*
-              port σε NBO */</span>
-            <span class="kw">struct</span> <span class="sf-type">in_addr</span> <span class="sf-field">sin_addr</span>;
-            <span class="sf-comment">/* IPv4 address */</span>
-            };
+<span class="kw">struct</span> <span class="sf-type">sockaddr_in</span> {
+    <span class="sf-type">sa_family_t</span>    <span class="sf-field">sin_family</span>;   <span class="sf-comment">/* AF_INET */</span>
+    <span class="sf-type">in_port_t</span>      <span class="sf-field">sin_port</span>;     <span class="sf-comment">/* port σε NBO */</span>
+    <span class="kw">struct</span> <span class="sf-type">in_addr</span> <span class="sf-field">sin_addr</span>;     <span class="sf-comment">/* IPv4 address */</span>
+};
 
-            <span class="kw">struct</span> <span class="sf-type">in_addr</span> {
-            <span class="sf-type">in_addr_t</span> <span class="sf-field">s_addr</span>; <span class="sf-comment">/*
-              uint32_t σε NBO */</span>
-            };
+<span class="kw">struct</span> <span class="sf-type">in_addr</span> {
+    <span class="sf-type">in_addr_t</span>  <span class="sf-field">s_addr</span>;  <span class="sf-comment">/* uint32_t σε NBO */</span>
+};
 
-            <span class="sf-comment">/* in_port_t = uint16_t (2 bytes) */</span>
-            <span class="sf-comment">/* in_addr_t = uint32_t (4 bytes) */</span>
-          </div>
+<span class="sf-comment">/* in_port_t = uint16_t (2 bytes) */</span>
+<span class="sf-comment">/* in_addr_t = uint32_t (4 bytes) */</span>
+</div>
         </div>
         <div>
           <div class="card">
             <div class="card-title">Πώς γεμίζουμε τη δομή</div>
             <div class="cb auto-style-8b8072">
-              <span class="kw">struct</span> <span class="tp">sockaddr_in</span> server;
+<span class="kw">struct</span> <span class="tp">sockaddr_in</span> server;
 
-              <span class="cm">// 1. Address family: πάντα AF_INET</span>
-              server.sin_family = <span class="mc">AF_INET</span>;
+<span class="cm">// 1. Address family: πάντα AF_INET</span>
+server.sin_family = <span class="mc">AF_INET</span>;
 
-              <span class="cm">// 2. Port: ΠΑΝΤΑ htons()!</span>
-              server.sin_port = <span class="fn">htons</span>(<span class="nm">8080</span>);
+<span class="cm">// 2. Port: ΠΑΝΤΑ htons()!</span>
+server.sin_port = <span class="fn">htons</span>(<span class="nm">8080</span>);
 
-              <span class="cm">// 3. IP: INADDR_ANY = όλα τα interfaces</span>
-              server.sin_addr.s_addr = <span class="fn">htonl</span>(<span class="mc">INADDR_ANY</span>);
+<span class="cm">// 3. IP: INADDR_ANY = όλα τα interfaces</span>
+server.sin_addr.s_addr = <span class="fn">htonl</span>(<span class="mc">INADDR_ANY</span>);
 
-              <span class="cm">// Cast σε generic sockaddr* για bind():</span>
-              <span class="fn">bind</span>(sock, (<span class="kw">struct</span> <span class="tp">sockaddr</span>
-              *)&amp;server,
-              <span class="kw">sizeof</span>(server));
-            </div>
+<span class="cm">// Cast σε generic sockaddr* για bind():</span>
+<span class="fn">bind</span>(sock, (<span class="kw">struct</span> <span class="tp">sockaddr</span> *)&amp;server,
+<span class="kw">sizeof</span>(server));
+</div>
           </div>
           <div class="tip">
             <div class="tip-icon">🧠</div>
@@ -745,56 +738,47 @@
           <div class="card">
             <div class="card-title">gethostbyname() — DNS Lookup</div>
             <div class="cb auto-style-8b8072">
-              <span class="mc">#include</span> <span class="st">&lt;netdb.h&gt;</span>
+<span class="mc">#include</span> <span class="st">&lt;netdb.h&gt;</span>
 
-              <span class="kw">struct</span> <span class="tp">hostent</span> *h;
-              h = <span class="fn">gethostbyname</span>(<span class="st">"www.google.com"</span>);
-              <span class="kw">if</span> (h == <span class="mc">NULL</span>) {
-              <span class="fn">herror</span>(<span class="st">"gethostbyname"</span>);
-              <span class="fn">exit</span>(<span class="nm">1</span>);
-              }
-              <span class="cm">// h->h_addr_list[0] = IP σε NBO</span>
-              <span class="cm">// h->h_name = official hostname</span>
-              <span class="cm">// h->h_length = μήκος address (4 για IPv4)</span>
-            </div>
+<span class="kw">struct</span> <span class="tp">hostent</span> *h;
+h = <span class="fn">gethostbyname</span>(<span class="st">"www.google.com"</span>);
+<span class="kw">if</span> (h == <span class="mc">NULL</span>) {
+    <span class="fn">herror</span>(<span class="st">"gethostbyname"</span>);
+    <span class="fn">exit</span>(<span class="nm">1</span>);
+}
+<span class="cm">// h->h_addr_list[0] = IP σε NBO</span>
+<span class="cm">// h->h_name = official hostname</span>
+<span class="cm">// h->h_length = μήκος address (4 για IPv4)</span>
+</div>
             <div class="cb auto-style-ccefc7">
-              <span class="kw">struct</span> <span class="sf-type">hostent</span> {
-              <span class="sf-type">char</span> *<span class="sf-field">h_name</span>; <span class="sf-comment">/*
-                official name */</span>
-              <span class="sf-type">char</span> **<span class="sf-field">h_aliases</span>; <span class="sf-comment">/*
-                alt names */</span>
-              <span class="sf-type">int</span> <span class="sf-field">h_addrtype</span>; <span class="sf-comment">/*
-                AF_INET */</span>
-              <span class="sf-type">int</span> <span class="sf-field">h_length</span>; <span class="sf-comment">/* addr
-                len (4) */</span>
-              <span class="sf-type">char</span> **<span class="sf-field">h_addr_list</span>; <span class="sf-comment">/*
-                IP array */</span>
-              };
-            </div>
+<span class="kw">struct</span> <span class="sf-type">hostent</span> {
+    <span class="sf-type">char</span>  *<span class="sf-field">h_name</span>;       <span class="sf-comment">/* official name */</span>
+    <span class="sf-type">char</span>  **<span class="sf-field">h_aliases</span>;   <span class="sf-comment">/* alt names */</span>
+    <span class="sf-type">int</span>   <span class="sf-field">h_addrtype</span>;    <span class="sf-comment">/* AF_INET */</span>
+    <span class="sf-type">int</span>   <span class="sf-field">h_length</span>;      <span class="sf-comment">/* addr len (4) */</span>
+    <span class="sf-type">char</span>  **<span class="sf-field">h_addr_list</span>; <span class="sf-comment">/* IP array */</span>
+};
+</div>
           </div>
         </div>
         <div>
           <div class="card">
             <div class="card-title">IP Conversion Functions</div>
             <div class="cb auto-style-978ebc">
-              <span class="mc">#include</span> <span class="st">&lt;arpa/inet.h&gt;</span>
+<span class="mc">#include</span> <span class="st">&lt;arpa/inet.h&gt;</span>
 
-              <span class="cm">// OLD: μόνο IPv4</span>
-              <span class="cm">// string "1.2.3.4" → binary (NBO)</span>
-              <span class="fn">inet_aton</span>(<span class="st">"1.2.3.4"</span>, &amp;addr); <span class="cm">//
-                returns 1/0</span>
-              <span class="cm">// binary (NBO) → string "1.2.3.4"</span>
-              <span class="tp">char</span> *s = <span class="fn">inet_ntoa</span>(addr); <span class="cm">// static
-                buffer!</span>
+<span class="cm">// OLD: μόνο IPv4</span>
+<span class="cm">// string "1.2.3.4" → binary (NBO)</span>
+<span class="fn">inet_aton</span>(<span class="st">"1.2.3.4"</span>, &amp;addr);  <span class="cm">// returns 1/0</span>
+<span class="cm">// binary (NBO) → string "1.2.3.4"</span>
+<span class="tp">char</span> *s = <span class="fn">inet_ntoa</span>(addr);    <span class="cm">// static buffer!</span>
 
-              <span class="cm">// NEW: IPv4 + IPv6 (POSIX.1-2001)</span>
-              <span class="cm">// presentation → network (pton = "to network")</span>
-              <span class="fn">inet_pton</span>(<span class="mc">AF_INET</span>, <span class="st">"1.2.3.4"</span>,
-              &amp;addr);
-              <span class="cm">// network → presentation (ntop = "to presentation")</span>
-              <span class="fn">inet_ntop</span>(<span class="mc">AF_INET</span>, &amp;addr, buf, <span
-                class="kw">sizeof</span>(buf));
-            </div>
+<span class="cm">// NEW: IPv4 + IPv6 (POSIX.1-2001)</span>
+<span class="cm">// presentation → network (pton = "to network")</span>
+<span class="fn">inet_pton</span>(<span class="mc">AF_INET</span>, <span class="st">"1.2.3.4"</span>, &amp;addr);
+<span class="cm">// network → presentation (ntop = "to presentation")</span>
+<span class="fn">inet_ntop</span>(<span class="mc">AF_INET</span>, &amp;addr, buf, <span class="kw">sizeof</span>(buf));
+</div>
           </div>
           <div class="rbox mt-8">
             <div class="lbl text-red">🚨 Deprecation</div>
@@ -822,24 +806,20 @@
       <div class="card mt-12">
         <div class="card-title">Πλήρες παράδειγμα: hostname → IP string</div>
         <div class="cb auto-style-978ebc">
-          <span class="kw">struct</span> <span class="tp">hostent</span> *mymachine;
-          <span class="kw">struct</span> <span class="tp">in_addr</span> **addr_list;
-          <span class="tp">char</span> symbolicip[<span class="nm">50</span>];
+<span class="kw">struct</span> <span class="tp">hostent</span> *mymachine;
+<span class="kw">struct</span> <span class="tp">in_addr</span> **addr_list;
+<span class="tp">char</span> symbolicip[<span class="nm">50</span>];
 
-          <span class="kw">if</span> ((mymachine = <span class="fn">gethostbyname</span>(hostname)) == <span
-            class="mc">NULL</span>) {
-          <span class="fn">herror</span>(<span class="st">"gethostbyname"</span>); <span class="fn">exit</span>(<span
-            class="nm">1</span>);
-          }
-          addr_list = (<span class="kw">struct</span> <span class="tp">in_addr</span> **) mymachine-&gt;h_addr_list;
-          <span class="kw">for</span> (<span class="tp">int</span> i = <span class="nm">0</span>; addr_list[i] != <span
-            class="mc">NULL</span>; i++) {
-          <span class="fn">strcpy</span>(symbolicip, <span class="fn">inet_ntoa</span>(*addr_list[i]));
-          <span class="fn">printf</span>(<span class="st">"%s resolved to %s\n"</span>, mymachine-&gt;h_name,
-          symbolicip);
-          }
-          <span class="cm">// Output: di.uoa.gr resolved to 195.134.65.123</span>
-        </div>
+<span class="kw">if</span> ((mymachine = <span class="fn">gethostbyname</span>(hostname)) == <span class="mc">NULL</span>) {
+    <span class="fn">herror</span>(<span class="st">"gethostbyname"</span>); <span class="fn">exit</span>(<span class="nm">1</span>);
+}
+addr_list = (<span class="kw">struct</span> <span class="tp">in_addr</span> **) mymachine-&gt;h_addr_list;
+<span class="kw">for</span> (<span class="tp">int</span> i = <span class="nm">0</span>; addr_list[i] != <span class="mc">NULL</span>; i++) {
+    <span class="fn">strcpy</span>(symbolicip, <span class="fn">inet_ntoa</span>(*addr_list[i]));
+    <span class="fn">printf</span>(<span class="st">"%s resolved to %s\n"</span>, mymachine-&gt;h_name, symbolicip);
+}
+<span class="cm">// Output: di.uoa.gr resolved to 195.134.65.123</span>
+</div>
       </div>
 
       <div class="tip mt-12">
@@ -941,42 +921,40 @@
           <div class="card">
             <div class="card-title">bind() — Κατοχύρωση Port</div>
             <div class="cb auto-style-978ebc">
-              <span class="cm">// int bind(int socket,</span>
-              <span class="cm">// const struct sockaddr *address,</span>
-              <span class="cm">// socklen_t address_len);</span>
+<span class="cm">// int bind(int socket,</span>
+<span class="cm">//   const struct sockaddr *address,</span>
+<span class="cm">//   socklen_t address_len);</span>
 
-              <span class="kw">struct</span> <span class="tp">sockaddr_in</span> server;
-              server.sin_family = <span class="mc">AF_INET</span>;
-              server.sin_addr.s_addr = <span class="fn">htonl</span>(<span class="mc">INADDR_ANY</span>);
-              server.sin_port = <span class="fn">htons</span>(port);
-              <span class="kw">if</span> (<span class="fn">bind</span>(sock, (<span class="kw">struct</span> <span
-                class="tp">sockaddr</span> *)&amp;server,
-              <span class="kw">sizeof</span>(server)) &lt; <span class="nm">0</span>)
-              <span class="fn">perror_exit</span>(<span class="st">"bind"</span>);
-            </div>
+<span class="kw">struct</span> <span class="tp">sockaddr_in</span> server;
+server.sin_family = <span class="mc">AF_INET</span>;
+server.sin_addr.s_addr = <span class="fn">htonl</span>(<span class="mc">INADDR_ANY</span>);
+server.sin_port = <span class="fn">htons</span>(port);
+<span class="kw">if</span> (<span class="fn">bind</span>(sock, (<span class="kw">struct</span> <span class="tp">sockaddr</span> *)&amp;server,
+<span class="kw">sizeof</span>(server)) &lt; <span class="nm">0</span>)
+<span class="fn">perror_exit</span>(<span class="st">"bind"</span>);
+</div>
             <p class="auto-style-2ba567">Χωρίς bind, το OS δεν ξέρει σε ποιο port να στείλει τα εισερχόμενα πακέτα στον
               server.</p>
           </div>
           <div class="card mt-10">
             <div class="card-title">listen() &amp; accept()</div>
             <div class="cb auto-style-978ebc">
-              <span class="cm">// int listen(int socket, int backlog);</span>
-              <span class="cm">// Μέχρι backlog connections στην ουρά</span>
-              <span class="kw">if</span> (<span class="fn">listen</span>(sock, <span class="nm">5</span>) &lt; <span
-                class="nm">0</span>)
-              <span class="fn">perror_exit</span>(<span class="st">"listen"</span>);
+<span class="cm">// int listen(int socket, int backlog);</span>
+<span class="cm">// Μέχρι backlog connections στην ουρά</span>
+<span class="kw">if</span> (<span class="fn">listen</span>(sock, <span class="nm">5</span>) &lt; <span class="nm">0</span>)
+<span class="fn">perror_exit</span>(<span class="st">"listen"</span>);
 
-              <span class="cm">// int accept(int socket,</span>
-              <span class="cm">// struct sockaddr *address,</span>
-              <span class="cm">// socklen_t *address_len);</span>
-              <span class="tp">socklen_t</span> clientlen = <span class="kw">sizeof</span>(client);
-              cfd = <span class="fn">accept</span>(sock,
-              (<span class="kw">struct</span> <span class="tp">sockaddr</span> *)&amp;client,
-              &amp;clientlen);
-              <span class="cm">// BLOCKS μέχρι client connects!</span>
-              <span class="cm">// Επιστρέφει ΝΕΟ fd για τη σύνδεση</span>
-              <span class="cm">// client struct γεμίζει με τα στοιχεία του</span>
-            </div>
+<span class="cm">// int accept(int socket,</span>
+<span class="cm">//   struct sockaddr *address,</span>
+<span class="cm">//   socklen_t *address_len);</span>
+<span class="tp">socklen_t</span> clientlen = <span class="kw">sizeof</span>(client);
+cfd = <span class="fn">accept</span>(sock,
+(<span class="kw">struct</span> <span class="tp">sockaddr</span> *)&amp;client,
+&amp;clientlen);
+<span class="cm">// BLOCKS μέχρι client connects!</span>
+<span class="cm">// Επιστρέφει ΝΕΟ fd για τη σύνδεση</span>
+<span class="cm">// client struct γεμίζει με τα στοιχεία του</span>
+</div>
           </div>
         </div>
         <div>
@@ -1026,86 +1004,72 @@
       <div class="card mt-14">
         <div class="card-title">Πλήρης Annotated TCP Server (inet_str_server)</div>
         <div class="cb auto-style-4dc056">
-          <span class="mc">#include</span> <span class="st">&lt;stdio.h&gt;</span>
-          <span class="mc">#include</span> <span class="st">&lt;sys/wait.h&gt;</span> <span class="cm">/* wait */</span>
-          <span class="mc">#include</span> <span class="st">&lt;sys/types.h&gt;</span> <span class="cm">/* sockets
-            */</span>
-          <span class="mc">#include</span> <span class="st">&lt;sys/socket.h&gt;</span> <span class="cm">/* sockets
-            */</span>
-          <span class="mc">#include</span> <span class="st">&lt;netinet/in.h&gt;</span> <span class="cm">/* internet
-            sockets */</span>
-          <span class="mc">#include</span> <span class="st">&lt;netdb.h&gt;</span> <span class="cm">/* gethostbyaddr
-            */</span>
-          <span class="mc">#include</span> <span class="st">&lt;unistd.h&gt;</span> <span class="cm">/* fork, close
-            */</span>
-          <span class="mc">#include</span> <span class="st">&lt;stdlib.h&gt;</span> <span class="cm">/* exit */</span>
-          <span class="mc">#include</span> <span class="st">&lt;ctype.h&gt;</span> <span class="cm">/* toupper */</span>
-          <span class="mc">#include</span> <span class="st">&lt;signal.h&gt;</span> <span class="cm">/* signal */</span>
+<span class="mc">#include</span> <span class="st">&lt;stdio.h&gt;</span>
+<span class="mc">#include</span> <span class="st">&lt;sys/wait.h&gt;</span>        <span class="cm">/* wait */</span>
+<span class="mc">#include</span> <span class="st">&lt;sys/types.h&gt;</span>       <span class="cm">/* sockets */</span>
+<span class="mc">#include</span> <span class="st">&lt;sys/socket.h&gt;</span>      <span class="cm">/* sockets */</span>
+<span class="mc">#include</span> <span class="st">&lt;netinet/in.h&gt;</span>      <span class="cm">/* internet sockets */</span>
+<span class="mc">#include</span> <span class="st">&lt;netdb.h&gt;</span>           <span class="cm">/* gethostbyaddr */</span>
+<span class="mc">#include</span> <span class="st">&lt;unistd.h&gt;</span>          <span class="cm">/* fork, close */</span>
+<span class="mc">#include</span> <span class="st">&lt;stdlib.h&gt;</span>          <span class="cm">/* exit */</span>
+<span class="mc">#include</span> <span class="st">&lt;ctype.h&gt;</span>           <span class="cm">/* toupper */</span>
+<span class="mc">#include</span> <span class="st">&lt;signal.h&gt;</span>          <span class="cm">/* signal */</span>
 
-          <span class="tp">void</span> <span class="fn">sigchld_handler</span>(<span class="tp">int</span> sig) {
-          <span class="kw">while</span> (<span class="fn">waitpid</span>(-<span class="nm">1</span>, <span
-            class="mc">NULL</span>, <span class="mc">WNOHANG</span>) &gt; <span class="nm">0</span>);
-          }
+<span class="tp">void</span> <span class="fn">sigchld_handler</span>(<span class="tp">int</span> sig) {
+    <span class="kw">while</span> (<span class="fn">waitpid</span>(-<span class="nm">1</span>, <span class="mc">NULL</span>, <span class="mc">WNOHANG</span>) &gt; <span class="nm">0</span>);
+}
 
-          <span class="tp">void</span> <span class="fn">child_server</span>(<span class="tp">int</span> newsock) {
-          <span class="tp">char</span> buf[<span class="nm">1</span>];
-          <span class="kw">while</span> (<span class="fn">read</span>(newsock, buf, <span class="nm">1</span>) &gt;
-          <span class="nm">0</span>) { <span class="cm">/* Receive 1 char */</span>
-          <span class="fn">putchar</span>(buf[<span class="nm">0</span>]);
-          buf[<span class="nm">0</span>] = <span class="fn">toupper</span>(buf[<span class="nm">0</span>]); <span
-            class="cm">/* Capitalize */</span>
-          <span class="kw">if</span> (<span class="fn">write</span>(newsock, buf, <span class="nm">1</span>) &lt; <span
-            class="nm">0</span>)
-          <span class="fn">perror_exit</span>(<span class="st">"write"</span>); <span class="cm">/* Reply */</span>
-          }
-          <span class="fn">printf</span>(<span class="st">"Closing connection.\n"</span>);
-          <span class="fn">close</span>(newsock);
-          }
+<span class="tp">void</span> <span class="fn">child_server</span>(<span class="tp">int</span> newsock) {
+    <span class="tp">char</span> buf[<span class="nm">1</span>];
+    <span class="kw">while</span> (<span class="fn">read</span>(newsock, buf, <span class="nm">1</span>) &gt; <span class="nm">0</span>) {  <span class="cm">/* Receive 1 char */</span>
+        <span class="fn">putchar</span>(buf[<span class="nm">0</span>]);
+        buf[<span class="nm">0</span>] = <span class="fn">toupper</span>(buf[<span class="nm">0</span>]);           <span class="cm">/* Capitalize */</span>
+        <span class="kw">if</span> (<span class="fn">write</span>(newsock, buf, <span class="nm">1</span>) &lt; <span class="nm">0</span>)
+        <span class="fn">perror_exit</span>(<span class="st">"write"</span>);             <span class="cm">/* Reply */</span>
+    }
+    <span class="fn">printf</span>(<span class="st">"Closing connection.\n"</span>);
+    <span class="fn">close</span>(newsock);
+}
 
-          <span class="tp">int</span> <span class="fn">main</span>(<span class="tp">int</span> argc, <span
-            class="tp">char</span> *argv[]) {
-          <span class="tp">int</span> port, sock, newsock;
-          <span class="kw">struct</span> <span class="tp">sockaddr_in</span> server, client;
-          <span class="tp">socklen_t</span> clientlen;
-          <span class="kw">struct</span> <span class="tp">hostent</span> *rem;
+<span class="tp">int</span> <span class="fn">main</span>(<span class="tp">int</span> argc, <span class="tp">char</span> *argv[]) {
+    <span class="tp">int</span> port, sock, newsock;
+    <span class="kw">struct</span> <span class="tp">sockaddr_in</span> server, client;
+    <span class="tp">socklen_t</span> clientlen;
+    <span class="kw">struct</span> <span class="tp">hostent</span> *rem;
 
-          port = <span class="fn">atoi</span>(argv[<span class="nm">1</span>]);
-          <span class="fn">signal</span>(<span class="mc">SIGCHLD</span>, sigchld_handler); <span class="cm">/* Reap
-            zombies */</span>
+    port = <span class="fn">atoi</span>(argv[<span class="nm">1</span>]);
+    <span class="fn">signal</span>(<span class="mc">SIGCHLD</span>, sigchld_handler);         <span class="cm">/* Reap zombies */</span>
 
-          sock = <span class="fn">socket</span>(<span class="mc">AF_INET</span>, <span class="mc">SOCK_STREAM</span>,
-          <span class="nm">0</span>); <span class="cm">/* 1. Create socket */</span>
-          server.sin_family = <span class="mc">AF_INET</span>;
-          server.sin_addr.s_addr = <span class="fn">htonl</span>(<span class="mc">INADDR_ANY</span>);
-          server.sin_port = <span class="fn">htons</span>(port);
-          <span class="fn">bind</span>(sock, (<span class="kw">struct</span> <span
-            class="tp">sockaddr</span>*)&amp;server, <span class="cm">/* 2. Bind */</span>
-          <span class="kw">sizeof</span>(server));
-          <span class="fn">listen</span>(sock, <span class="nm">5</span>); <span class="cm">/* 3. Listen */</span>
+    sock = <span class="fn">socket</span>(<span class="mc">AF_INET</span>, <span class="mc">SOCK_STREAM</span>, <span class="nm">0</span>);   <span class="cm">/* 1. Create socket */</span>
+    server.sin_family = <span class="mc">AF_INET</span>;
+    server.sin_addr.s_addr = <span class="fn">htonl</span>(<span class="mc">INADDR_ANY</span>);
+    server.sin_port = <span class="fn">htons</span>(port);
+    <span class="fn">bind</span>(sock, (<span class="kw">struct</span> <span class="tp">sockaddr</span>*)&amp;server,       <span class="cm">/* 2. Bind */</span>
+    <span class="kw">sizeof</span>(server));
+    <span class="fn">listen</span>(sock, <span class="nm">5</span>);                            <span class="cm">/* 3. Listen */</span>
 
-          <span class="kw">while</span> (<span class="nm">1</span>) {
-          clientlen = <span class="kw">sizeof</span>(client);
-          newsock = <span class="fn">accept</span>(sock, <span class="cm">/* 4. Accept (BLOCKS) */</span>
-          (<span class="kw">struct</span> <span class="tp">sockaddr</span>*)&amp;client, &amp;clientlen);
+    <span class="kw">while</span> (<span class="nm">1</span>) {
+        clientlen = <span class="kw">sizeof</span>(client);
+        newsock = <span class="fn">accept</span>(sock,                    <span class="cm">/* 4. Accept (BLOCKS) */</span>
+        (<span class="kw">struct</span> <span class="tp">sockaddr</span>*)&amp;client, &amp;clientlen);
 
-          rem = <span class="fn">gethostbyaddr</span>( <span class="cm">/* Who connected? */</span>
-          (<span class="tp">char</span>*)&amp;client.sin_addr.s_addr,
-          <span class="kw">sizeof</span>(client.sin_addr.s_addr),
-          client.sin_family);
-          <span class="fn">printf</span>(<span class="st">"Accepted connection from %s\n"</span>, rem-&gt;h_name);
+        rem = <span class="fn">gethostbyaddr</span>(                      <span class="cm">/* Who connected? */</span>
+        (<span class="tp">char</span>*)&amp;client.sin_addr.s_addr,
+        <span class="kw">sizeof</span>(client.sin_addr.s_addr),
+        client.sin_family);
+        <span class="fn">printf</span>(<span class="st">"Accepted connection from %s\n"</span>, rem-&gt;h_name);
 
-          <span class="kw">switch</span> (<span class="fn">fork</span>()) { <span class="cm">/* 5. Fork child */</span>
-          <span class="kw">case</span> -<span class="nm">1</span>: <span class="fn">perror</span>(<span
-            class="st">"fork"</span>); <span class="kw">break</span>;
-          <span class="kw">case</span> <span class="nm">0</span>: <span class="cm">/* CHILD */</span>
-          <span class="fn">close</span>(sock); <span class="cm">/* Close listener! */</span>
-          <span class="fn">child_server</span>(newsock); <span class="cm">/* Handle client */</span>
-          <span class="fn">exit</span>(<span class="nm">0</span>);
-          }
-          <span class="fn">close</span>(newsock); <span class="cm">/* PARENT: close client fd immediately */</span>
-          }
-          }
-        </div>
+        <span class="kw">switch</span> (<span class="fn">fork</span>()) {                         <span class="cm">/* 5. Fork child */</span>
+            <span class="kw">case</span> -<span class="nm">1</span>: <span class="fn">perror</span>(<span class="st">"fork"</span>); <span class="kw">break</span>;
+            <span class="kw">case</span> <span class="nm">0</span>:                                    <span class="cm">/* CHILD */</span>
+            <span class="fn">close</span>(sock);                          <span class="cm">/* Close listener! */</span>
+            <span class="fn">child_server</span>(newsock);                 <span class="cm">/* Handle client */</span>
+            <span class="fn">exit</span>(<span class="nm">0</span>);
+        }
+        <span class="fn">close</span>(newsock);  <span class="cm">/* PARENT: close client fd immediately */</span>
+    }
+}
+</div>
       </div>
 
       <div class="section-quiz" data-topic="topic5" data-section="tcp-server"></div>
@@ -1167,85 +1131,74 @@
       <div class="card mt-14">
         <div class="card-title">connect() — Σύνδεση στον Server</div>
         <div class="cb auto-style-978ebc">
-          <span class="cm">// int connect(int socket,</span>
-          <span class="cm">// struct sockaddr *address, socklen_t address_len);</span>
+<span class="cm">// int connect(int socket,</span>
+<span class="cm">//   struct sockaddr *address, socklen_t address_len);</span>
 
-          <span class="kw">struct</span> <span class="tp">sockaddr_in</span> server;
-          <span class="kw">struct</span> <span class="tp">hostent</span> *rem;
+<span class="kw">struct</span> <span class="tp">sockaddr_in</span> server;
+<span class="kw">struct</span> <span class="tp">hostent</span> *rem;
 
-          rem = <span class="fn">gethostbyname</span>(hostname); <span class="cm">/* Resolve server IP */</span>
-          server.sin_family = <span class="mc">AF_INET</span>;
-          <span class="fn">memcpy</span>(&amp;server.sin_addr, rem-&gt;h_addr, rem-&gt;h_length);
-          server.sin_port = <span class="fn">htons</span>(port);
+rem = <span class="fn">gethostbyname</span>(hostname);   <span class="cm">/* Resolve server IP */</span>
+server.sin_family = <span class="mc">AF_INET</span>;
+<span class="fn">memcpy</span>(&amp;server.sin_addr, rem-&gt;h_addr, rem-&gt;h_length);
+server.sin_port = <span class="fn">htons</span>(port);
 
-          <span class="kw">if</span> (<span class="fn">connect</span>(sock, (<span class="kw">struct</span> <span
-            class="tp">sockaddr</span>*)&amp;server,
-          <span class="kw">sizeof</span>(server)) &lt; <span class="nm">0</span>)
-          <span class="fn">perror_exit</span>(<span class="st">"connect"</span>);
-          <span class="cm">// TCP handshake ολοκληρώνεται — μπορούμε read/write!</span>
-        </div>
+<span class="kw">if</span> (<span class="fn">connect</span>(sock, (<span class="kw">struct</span> <span class="tp">sockaddr</span>*)&amp;server,
+<span class="kw">sizeof</span>(server)) &lt; <span class="nm">0</span>)
+<span class="fn">perror_exit</span>(<span class="st">"connect"</span>);
+<span class="cm">// TCP handshake ολοκληρώνεται — μπορούμε read/write!</span>
+</div>
       </div>
 
       <div class="card mt-10">
         <div class="card-title">Πλήρης Annotated TCP Client (inet_str_client)</div>
         <div class="cb auto-style-4dc056">
-          <span class="mc">#include</span> <span class="st">&lt;stdio.h&gt;</span>
-          <span class="mc">#include</span> <span class="st">&lt;sys/types.h&gt;</span>
-          <span class="mc">#include</span> <span class="st">&lt;sys/socket.h&gt;</span>
-          <span class="mc">#include</span> <span class="st">&lt;netinet/in.h&gt;</span>
-          <span class="mc">#include</span> <span class="st">&lt;unistd.h&gt;</span> <span class="cm">/* read, write,
-            close */</span>
-          <span class="mc">#include</span> <span class="st">&lt;netdb.h&gt;</span>
-          <span class="mc">#include</span> <span class="st">&lt;stdlib.h&gt;</span>
-          <span class="mc">#include</span> <span class="st">&lt;string.h&gt;</span>
+<span class="mc">#include</span> <span class="st">&lt;stdio.h&gt;</span>
+<span class="mc">#include</span> <span class="st">&lt;sys/types.h&gt;</span>
+<span class="mc">#include</span> <span class="st">&lt;sys/socket.h&gt;</span>
+<span class="mc">#include</span> <span class="st">&lt;netinet/in.h&gt;</span>
+<span class="mc">#include</span> <span class="st">&lt;unistd.h&gt;</span>           <span class="cm">/* read, write, close */</span>
+<span class="mc">#include</span> <span class="st">&lt;netdb.h&gt;</span>
+<span class="mc">#include</span> <span class="st">&lt;stdlib.h&gt;</span>
+<span class="mc">#include</span> <span class="st">&lt;string.h&gt;</span>
 
-          <span class="tp">int</span> <span class="fn">main</span>(<span class="tp">int</span> argc, <span
-            class="tp">char</span> *argv[]) {
-          <span class="tp">int</span> port, sock, i;
-          <span class="tp">char</span> buf[<span class="nm">256</span>];
-          <span class="kw">struct</span> <span class="tp">sockaddr_in</span> server;
-          <span class="kw">struct</span> <span class="tp">hostent</span> *rem;
+<span class="tp">int</span> <span class="fn">main</span>(<span class="tp">int</span> argc, <span class="tp">char</span> *argv[]) {
+    <span class="tp">int</span> port, sock, i;
+    <span class="tp">char</span> buf[<span class="nm">256</span>];
+    <span class="kw">struct</span> <span class="tp">sockaddr_in</span> server;
+    <span class="kw">struct</span> <span class="tp">hostent</span> *rem;
 
-          <span class="cm">/* 1. Create socket */</span>
-          <span class="kw">if</span> ((sock = <span class="fn">socket</span>(<span class="mc">AF_INET</span>, <span
-            class="mc">SOCK_STREAM</span>, <span class="nm">0</span>)) &lt; <span class="nm">0</span>)
-          <span class="fn">perror_exit</span>(<span class="st">"socket"</span>);
+    <span class="cm">/* 1. Create socket */</span>
+    <span class="kw">if</span> ((sock = <span class="fn">socket</span>(<span class="mc">AF_INET</span>, <span class="mc">SOCK_STREAM</span>, <span class="nm">0</span>)) &lt; <span class="nm">0</span>)
+    <span class="fn">perror_exit</span>(<span class="st">"socket"</span>);
 
-          <span class="cm">/* 2. Resolve server &amp; connect */</span>
-          <span class="kw">if</span> ((rem = <span class="fn">gethostbyname</span>(argv[<span class="nm">1</span>])) ==
-          <span class="mc">NULL</span>) {
-          <span class="fn">herror</span>(<span class="st">"gethostbyname"</span>); <span class="fn">exit</span>(<span
-            class="nm">1</span>); }
-          port = <span class="fn">atoi</span>(argv[<span class="nm">2</span>]);
-          server.sin_family = <span class="mc">AF_INET</span>;
-          <span class="fn">memcpy</span>(&amp;server.sin_addr, rem-&gt;h_addr, rem-&gt;h_length);
-          server.sin_port = <span class="fn">htons</span>(port);
-          <span class="kw">if</span> (<span class="fn">connect</span>(sock, (<span class="kw">struct</span> <span
-            class="tp">sockaddr</span>*)&amp;server,
-          <span class="kw">sizeof</span>(server)) &lt; <span class="nm">0</span>)
-          <span class="fn">perror_exit</span>(<span class="st">"connect"</span>);
-          <span class="fn">printf</span>(<span class="st">"Connecting to %s port %d\n"</span>, argv[<span
-            class="nm">1</span>], port);
+    <span class="cm">/* 2. Resolve server &amp; connect */</span>
+    <span class="kw">if</span> ((rem = <span class="fn">gethostbyname</span>(argv[<span class="nm">1</span>])) == <span class="mc">NULL</span>) {
+        <span class="fn">herror</span>(<span class="st">"gethostbyname"</span>); <span class="fn">exit</span>(<span class="nm">1</span>); }
+    port = <span class="fn">atoi</span>(argv[<span class="nm">2</span>]);
+    server.sin_family = <span class="mc">AF_INET</span>;
+    <span class="fn">memcpy</span>(&amp;server.sin_addr, rem-&gt;h_addr, rem-&gt;h_length);
+    server.sin_port = <span class="fn">htons</span>(port);
+    <span class="kw">if</span> (<span class="fn">connect</span>(sock, (<span class="kw">struct</span> <span class="tp">sockaddr</span>*)&amp;server,
+    <span class="kw">sizeof</span>(server)) &lt; <span class="nm">0</span>)
+    <span class="fn">perror_exit</span>(<span class="st">"connect"</span>);
+    <span class="fn">printf</span>(<span class="st">"Connecting to %s port %d\n"</span>, argv[<span class="nm">1</span>], port);
 
-          <span class="cm">/* 3. Send/Receive loop */</span>
-          <span class="kw">do</span> {
-          <span class="fn">printf</span>(<span class="st">"Give input string: "</span>);
-          <span class="fn">fgets</span>(buf, <span class="kw">sizeof</span>(buf), stdin);
-          <span class="kw">for</span> (i = <span class="nm">0</span>; buf[i] != <span class="st">'\0'</span>; i++) {
-          <span class="kw">if</span> (<span class="fn">write</span>(sock, buf + i, <span class="nm">1</span>) &lt; <span
-            class="nm">0</span>) <span class="cm">/* Send char */</span>
-          <span class="fn">perror_exit</span>(<span class="st">"write"</span>);
-          <span class="kw">if</span> (<span class="fn">read</span>(sock, buf + i, <span class="nm">1</span>) &lt; <span
-            class="nm">0</span>) <span class="cm">/* Recv reply */</span>
-          <span class="fn">perror_exit</span>(<span class="st">"read"</span>);
-          }
-          <span class="fn">printf</span>(<span class="st">"Received string: %s"</span>, buf);
-          } <span class="kw">while</span> (<span class="fn">strcmp</span>(buf, <span class="st">"END\n"</span>) != <span
-            class="nm">0</span>);
+    <span class="cm">/* 3. Send/Receive loop */</span>
+    <span class="kw">do</span> {
+        <span class="fn">printf</span>(<span class="st">"Give input string: "</span>);
+        <span class="fn">fgets</span>(buf, <span class="kw">sizeof</span>(buf), stdin);
+        <span class="kw">for</span> (i = <span class="nm">0</span>; buf[i] != <span class="st">'\0'</span>; i++) {
+            <span class="kw">if</span> (<span class="fn">write</span>(sock, buf + i, <span class="nm">1</span>) &lt; <span class="nm">0</span>)   <span class="cm">/* Send char */</span>
+            <span class="fn">perror_exit</span>(<span class="st">"write"</span>);
+            <span class="kw">if</span> (<span class="fn">read</span>(sock, buf + i, <span class="nm">1</span>) &lt; <span class="nm">0</span>)    <span class="cm">/* Recv reply */</span>
+            <span class="fn">perror_exit</span>(<span class="st">"read"</span>);
+        }
+        <span class="fn">printf</span>(<span class="st">"Received string: %s"</span>, buf);
+    } <span class="kw">while</span> (<span class="fn">strcmp</span>(buf, <span class="st">"END\n"</span>) != <span class="nm">0</span>);
 
-          <span class="fn">close</span>(sock); <span class="cm">/* 4. Close */</span>
-          }
-        </div>
+    <span class="fn">close</span>(sock);                              <span class="cm">/* 4. Close */</span>
+}
+</div>
       </div>
 
       <div class="grid2 mt-10">
@@ -1281,14 +1234,13 @@
         <div class="card">
           <div class="card-title text-red">1. Iterative (Serial) Server</div>
           <div class="cb auto-style-4dc056">
-            <span class="kw">for</span> (;;) {
-            cfd = <span class="fn">accept</span>(lfd, ...); <span class="cm">/* Wait for client */</span>
-            <span class="kw">while</span> (no error)
-            <span class="fn">read</span>/<span class="fn">write</span>(cfd, ...); <span class="cm">/* Serve ONE client
-              */</span>
-            <span class="fn">close</span>(cfd);
-            }
-          </div>
+<span class="kw">for</span> (;;) {
+    cfd = <span class="fn">accept</span>(lfd, ...);    <span class="cm">/* Wait for client */</span>
+    <span class="kw">while</span> (no error)
+    <span class="fn">read</span>/<span class="fn">write</span>(cfd, ...);   <span class="cm">/* Serve ONE client */</span>
+    <span class="fn">close</span>(cfd);
+}
+</div>
           <ul class="auto-style-43f2a2">
             <li>Ελάχιστη μνήμη, μηδενικό overhead</li>
             <li class="text-red">Αν ο Client 1 αργήσει, ο Client 2 <strong>κάνει timeout!</strong></li>
@@ -1298,18 +1250,17 @@
         <div class="card">
           <div class="card-title text-green">2. Concurrent (Fork) Server</div>
           <div class="cb auto-style-4dc056">
-            <span class="kw">for</span> (;;) {
-            cfd = <span class="fn">accept</span>(lfd, ...);
-            <span class="kw">if</span> (<span class="fn">fork</span>() == <span class="nm">0</span>) { <span
-              class="cm">/* CHILD */</span>
-            <span class="fn">close</span>(lfd); <span class="cm">/* Δεν χρειάζεται listener */</span>
-            <span class="fn">handle_request</span>(cfd);
-            <span class="fn">close</span>(cfd);
-            <span class="fn">exit</span>(<span class="nm">0</span>);
-            }
-            <span class="fn">close</span>(cfd); <span class="cm">/* PARENT: κλείνει cfd ΑΜΕΣΩΣ */</span>
-            }
-          </div>
+<span class="kw">for</span> (;;) {
+    cfd = <span class="fn">accept</span>(lfd, ...);
+    <span class="kw">if</span> (<span class="fn">fork</span>() == <span class="nm">0</span>) {        <span class="cm">/* CHILD */</span>
+        <span class="fn">close</span>(lfd);             <span class="cm">/* Δεν χρειάζεται listener */</span>
+        <span class="fn">handle_request</span>(cfd);
+        <span class="fn">close</span>(cfd);
+        <span class="fn">exit</span>(<span class="nm">0</span>);
+    }
+    <span class="fn">close</span>(cfd);  <span class="cm">/* PARENT: κλείνει cfd ΑΜΕΣΩΣ */</span>
+}
+</div>
           <ul class="auto-style-43f2a2">
             <li class="text-green">Πλήρης απομόνωση μεταξύ clients</li>
             <li class="text-green">Απλό coding (κλασικό UNIX)</li>
@@ -1329,14 +1280,13 @@
       <div class="card mt-10">
         <div class="card-title">SIGCHLD Handler — Zombie Prevention</div>
         <div class="cb auto-style-978ebc">
-          <span class="tp">void</span> <span class="fn">sigchld_handler</span>(<span class="tp">int</span> sig) {
-          <span class="kw">while</span> (<span class="fn">waitpid</span>(-<span class="nm">1</span>, <span
-            class="mc">NULL</span>, <span class="mc">WNOHANG</span>) &gt; <span class="nm">0</span>);
-          <span class="cm">/* Loop: μάζεψε ΟΛΑ τα τελειωμένα children */</span>
-          }
-          <span class="cm">// Εγκατάσταση πριν το main loop:</span>
-          <span class="fn">signal</span>(<span class="mc">SIGCHLD</span>, sigchld_handler);
-        </div>
+<span class="tp">void</span> <span class="fn">sigchld_handler</span>(<span class="tp">int</span> sig) {
+    <span class="kw">while</span> (<span class="fn">waitpid</span>(-<span class="nm">1</span>, <span class="mc">NULL</span>, <span class="mc">WNOHANG</span>) &gt; <span class="nm">0</span>);
+    <span class="cm">/* Loop: μάζεψε ΟΛΑ τα τελειωμένα children */</span>
+}
+<span class="cm">// Εγκατάσταση πριν το main loop:</span>
+<span class="fn">signal</span>(<span class="mc">SIGCHLD</span>, sigchld_handler);
+</div>
         <div class="tip mt-8">
           <div class="tip-icon">🧠</div>
           <div>
@@ -1371,29 +1321,29 @@
           <div class="card">
             <div class="card-title">select() — Prototype &amp; Logic</div>
             <div class="cb auto-style-978ebc">
-              <span class="mc">#include</span> <span class="st">&lt;sys/time.h&gt;</span>
-              <span class="mc">#include</span> <span class="st">&lt;sys/types.h&gt;</span>
+<span class="mc">#include</span> <span class="st">&lt;sys/time.h&gt;</span>
+<span class="mc">#include</span> <span class="st">&lt;sys/types.h&gt;</span>
 
-              <span class="tp">int</span> <span class="fn">select</span>(
-              <span class="tp">int</span> nfds, <span class="cm">/* highest fd + 1 */</span>
-              <span class="tp">fd_set</span> *readfds, <span class="cm">/* watch for readable */</span>
-              <span class="tp">fd_set</span> *writefds, <span class="cm">/* watch for writable */</span>
-              <span class="tp">fd_set</span> *exceptfds, <span class="cm">/* watch for exceptions */</span>
-              <span class="kw">struct</span> <span class="tp">timeval</span> *timeout
-              );
-              <span class="cm">// Returns: # ready fds, 0=timeout, -1=error</span>
-            </div>
+<span class="tp">int</span> <span class="fn">select</span>(
+<span class="tp">int</span> nfds,          <span class="cm">/* highest fd + 1 */</span>
+<span class="tp">fd_set</span> *readfds,   <span class="cm">/* watch for readable */</span>
+<span class="tp">fd_set</span> *writefds,  <span class="cm">/* watch for writable */</span>
+<span class="tp">fd_set</span> *exceptfds, <span class="cm">/* watch for exceptions */</span>
+<span class="kw">struct</span> <span class="tp">timeval</span> *timeout
+);
+<span class="cm">// Returns: # ready fds, 0=timeout, -1=error</span>
+</div>
           </div>
           <div class="card mt-10">
             <div class="card-title">fd_set Macros</div>
             <div class="cb auto-style-978ebc">
-              <span class="tp">fd_set</span> readset;
+<span class="tp">fd_set</span> readset;
 
-              <span class="fn">FD_ZERO</span>(&amp;readset); <span class="cm">/* Καθάρισε το set */</span>
-              <span class="fn">FD_SET</span>(sock, &amp;readset); <span class="cm">/* Πρόσθεσε fd */</span>
-              <span class="fn">FD_CLR</span>(sock, &amp;readset); <span class="cm">/* Αφαίρεσε fd */</span>
-              <span class="fn">FD_ISSET</span>(sock, &amp;readset);<span class="cm">/* Είναι ready; */</span>
-            </div>
+<span class="fn">FD_ZERO</span>(&amp;readset);      <span class="cm">/* Καθάρισε το set */</span>
+<span class="fn">FD_SET</span>(sock, &amp;readset);  <span class="cm">/* Πρόσθεσε fd */</span>
+<span class="fn">FD_CLR</span>(sock, &amp;readset);  <span class="cm">/* Αφαίρεσε fd */</span>
+<span class="fn">FD_ISSET</span>(sock, &amp;readset);<span class="cm">/* Είναι ready; */</span>
+</div>
           </div>
         </div>
         <div>
@@ -1427,43 +1377,38 @@
       <div class="card mt-12">
         <div class="card-title">select() Server — Simplified Flow</div>
         <div class="cb auto-style-4dc056">
-          <span class="tp">int</span> highsock;
-          <span class="tp">int</span> connectlist[<span class="nm">5</span>]; <span class="cm">/* Array of connected
-            client fds */</span>
-          <span class="tp">fd_set</span> socks;
+<span class="tp">int</span> highsock;
+<span class="tp">int</span> connectlist[<span class="nm">5</span>];            <span class="cm">/* Array of connected client fds */</span>
+<span class="tp">fd_set</span> socks;
 
-          <span class="cm">/* Setup: socket, bind, listen, setnonblocking */</span>
-          highsock = sock;
-          <span class="fn">memset</span>(connectlist, <span class="nm">0</span>, <span
-            class="kw">sizeof</span>(connectlist));
+<span class="cm">/* Setup: socket, bind, listen, setnonblocking */</span>
+highsock = sock;
+<span class="fn">memset</span>(connectlist, <span class="nm">0</span>, <span class="kw">sizeof</span>(connectlist));
 
-          <span class="kw">while</span> (<span class="nm">1</span>) {
-          <span class="fn">FD_ZERO</span>(&amp;socks); <span class="cm">/* Reset every iteration! */</span>
-          <span class="fn">FD_SET</span>(sock, &amp;socks); <span class="cm">/* Add listening socket */</span>
-          <span class="kw">for</span> (<span class="tp">int</span> i = <span class="nm">0</span>; i &lt; <span
-            class="nm">5</span>; i++) <span class="cm">/* Add all connected clients */</span>
-          <span class="kw">if</span> (connectlist[i] != <span class="nm">0</span>) {
-          <span class="fn">FD_SET</span>(connectlist[i], &amp;socks);
-          <span class="kw">if</span> (connectlist[i] &gt; highsock)
-          highsock = connectlist[i];
-          }
+<span class="kw">while</span> (<span class="nm">1</span>) {
+    <span class="fn">FD_ZERO</span>(&amp;socks);             <span class="cm">/* Reset every iteration! */</span>
+    <span class="fn">FD_SET</span>(sock, &amp;socks);        <span class="cm">/* Add listening socket */</span>
+    <span class="kw">for</span> (<span class="tp">int</span> i = <span class="nm">0</span>; i &lt; <span class="nm">5</span>; i++)  <span class="cm">/* Add all connected clients */</span>
+        <span class="kw">if</span> (connectlist[i] != <span class="nm">0</span>) {
+            <span class="fn">FD_SET</span>(connectlist[i], &amp;socks);
+            <span class="kw">if</span> (connectlist[i] &gt; highsock)
+                highsock = connectlist[i];
+        }
 
-          <span class="cm">/* BLOCK until something happens */</span>
-          <span class="tp">int</span> ready = <span class="fn">select</span>(highsock + <span class="nm">1</span>,
-          &amp;socks,
-          <span class="mc">NULL</span>, <span class="mc">NULL</span>, &amp;timeout);
+    <span class="cm">/* BLOCK until something happens */</span>
+    <span class="tp">int</span> ready = <span class="fn">select</span>(highsock + <span class="nm">1</span>, &amp;socks,
+    <span class="mc">NULL</span>, <span class="mc">NULL</span>, &amp;timeout);
 
-          <span class="cm">/* New connection? */</span>
-          <span class="kw">if</span> (<span class="fn">FD_ISSET</span>(sock, &amp;socks))
-          handle_new_connection(); <span class="cm">/* accept() + add to list */</span>
+    <span class="cm">/* New connection? */</span>
+    <span class="kw">if</span> (<span class="fn">FD_ISSET</span>(sock, &amp;socks))
+        handle_new_connection();  <span class="cm">/* accept() + add to list */</span>
 
-          <span class="cm">/* Data from existing client? */</span>
-          <span class="kw">for</span> (<span class="tp">int</span> i = <span class="nm">0</span>; i &lt; <span
-            class="nm">5</span>; i++)
-          <span class="kw">if</span> (<span class="fn">FD_ISSET</span>(connectlist[i], &amp;socks))
-          deal_with_data(i); <span class="cm">/* read, process, respond */</span>
-          }
-        </div>
+    <span class="cm">/* Data from existing client? */</span>
+    <span class="kw">for</span> (<span class="tp">int</span> i = <span class="nm">0</span>; i &lt; <span class="nm">5</span>; i++)
+        <span class="kw">if</span> (<span class="fn">FD_ISSET</span>(connectlist[i], &amp;socks))
+            deal_with_data(i);    <span class="cm">/* read, process, respond */</span>
+}
+</div>
       </div>
 
       <div class="rbox mt-10">
@@ -1524,28 +1469,28 @@
           <div class="card">
             <div class="card-title">sendto() &amp; recvfrom()</div>
             <div class="cb auto-style-978ebc">
-              <span class="tp">ssize_t</span> <span class="fn">sendto</span>(
-              <span class="tp">int</span> sock,
-              <span class="kw">const</span> <span class="tp">void</span> *buf,
-              <span class="tp">size_t</span> count,
-              <span class="tp">int</span> flags,
-              <span class="kw">const</span> <span class="kw">struct</span> <span class="tp">sockaddr</span> *dest,
-              <span class="tp">socklen_t</span> len
-              );
-              <span class="cm">// Σαν write() αλλά ορίζει destination</span>
+<span class="tp">ssize_t</span> <span class="fn">sendto</span>(
+<span class="tp">int</span> sock,
+<span class="kw">const</span> <span class="tp">void</span> *buf,
+<span class="tp">size_t</span> count,
+<span class="tp">int</span> flags,
+<span class="kw">const</span> <span class="kw">struct</span> <span class="tp">sockaddr</span> *dest,
+<span class="tp">socklen_t</span> len
+);
+<span class="cm">// Σαν write() αλλά ορίζει destination</span>
 
-              <span class="tp">ssize_t</span> <span class="fn">recvfrom</span>(
-              <span class="tp">int</span> sock,
-              <span class="tp">void</span> *buf,
-              <span class="tp">size_t</span> count,
-              <span class="tp">int</span> flags,
-              <span class="kw">struct</span> <span class="tp">sockaddr</span> *addr,
-              <span class="tp">socklen_t</span> *len
-              );
-              <span class="cm">// Σαν read() αλλά γεμίζει source address</span>
-              <span class="cm">// addr/len μπορούν να είναι NULL</span>
-              <span class="cm">// flags: συνήθως 0</span>
-            </div>
+<span class="tp">ssize_t</span> <span class="fn">recvfrom</span>(
+<span class="tp">int</span> sock,
+<span class="tp">void</span> *buf,
+<span class="tp">size_t</span> count,
+<span class="tp">int</span> flags,
+<span class="kw">struct</span> <span class="tp">sockaddr</span> *addr,
+<span class="tp">socklen_t</span> *len
+);
+<span class="cm">// Σαν read() αλλά γεμίζει source address</span>
+<span class="cm">// addr/len μπορούν να είναι NULL</span>
+<span class="cm">// flags: συνήθως 0</span>
+</div>
           </div>
         </div>
         <div>
@@ -1574,52 +1519,43 @@
         <div class="good-side auto-style-33eedd">
           <div class="side-label text-cyan">UDP Server</div>
           <div class="cb auto-style-0534be">
-            sock = <span class="fn">socket</span>(<span class="mc">AF_INET</span>, <span class="mc">SOCK_DGRAM</span>,
-            <span class="nm">0</span>);
-            server.sin_family = <span class="mc">AF_INET</span>;
-            server.sin_addr.s_addr = <span class="fn">htonl</span>(<span class="mc">INADDR_ANY</span>);
-            server.sin_port = <span class="fn">htons</span>(<span class="nm">0</span>); <span class="cm">/* Auto-select
-              */</span>
-            <span class="fn">bind</span>(sock, serverptr, <span class="kw">sizeof</span>(server));
-            <span class="fn">getsockname</span>(sock, serverptr, &amp;serverlen);
-            <span class="fn">printf</span>(<span class="st">"Port: %d\n"</span>, <span
-              class="fn">ntohs</span>(server.sin_port));
-            <span class="kw">while</span> (<span class="nm">1</span>) {
-            clientlen = <span class="kw">sizeof</span>(client);
-            n = <span class="fn">recvfrom</span>(sock, buf, <span class="kw">sizeof</span>(buf), <span
-              class="nm">0</span>,
-            clientptr, &amp;clientlen);
-            <span class="fn">sendto</span>(sock, buf, n, <span class="nm">0</span>,
-            clientptr, clientlen); <span class="cm">/* Echo back */</span>
-            }
-          </div>
+sock = <span class="fn">socket</span>(<span class="mc">AF_INET</span>, <span class="mc">SOCK_DGRAM</span>, <span class="nm">0</span>);
+server.sin_family = <span class="mc">AF_INET</span>;
+server.sin_addr.s_addr = <span class="fn">htonl</span>(<span class="mc">INADDR_ANY</span>);
+server.sin_port = <span class="fn">htons</span>(<span class="nm">0</span>);  <span class="cm">/* Auto-select */</span>
+<span class="fn">bind</span>(sock, serverptr, <span class="kw">sizeof</span>(server));
+<span class="fn">getsockname</span>(sock, serverptr, &amp;serverlen);
+<span class="fn">printf</span>(<span class="st">"Port: %d\n"</span>, <span class="fn">ntohs</span>(server.sin_port));
+<span class="kw">while</span> (<span class="nm">1</span>) {
+    clientlen = <span class="kw">sizeof</span>(client);
+    n = <span class="fn">recvfrom</span>(sock, buf, <span class="kw">sizeof</span>(buf), <span class="nm">0</span>,
+    clientptr, &amp;clientlen);
+    <span class="fn">sendto</span>(sock, buf, n, <span class="nm">0</span>,
+    clientptr, clientlen); <span class="cm">/* Echo back */</span>
+}
+</div>
         </div>
         <div class="good-side auto-style-48170b">
           <div class="side-label text-blue">UDP Client</div>
           <div class="cb auto-style-0534be">
-            sock = <span class="fn">socket</span>(<span class="mc">AF_INET</span>, <span class="mc">SOCK_DGRAM</span>,
-            <span class="nm">0</span>);
-            rem = <span class="fn">gethostbyname</span>(argv[<span class="nm">1</span>]);
-            server.sin_family = <span class="mc">AF_INET</span>;
-            <span class="fn">memcpy</span>(&amp;server.sin_addr, rem-&gt;h_addr,
-            rem-&gt;h_length);
-            server.sin_port = <span class="fn">htons</span>(<span class="fn">atoi</span>(argv[<span
-              class="nm">2</span>]));
-            client.sin_family = <span class="mc">AF_INET</span>;
-            client.sin_addr.s_addr = <span class="fn">htonl</span>(<span class="mc">INADDR_ANY</span>);
-            client.sin_port = <span class="fn">htons</span>(<span class="nm">0</span>); <span class="cm">/* Auto port
-              */</span>
-            <span class="fn">bind</span>(sock, clientptr, <span class="kw">sizeof</span>(client));
-            <span class="kw">while</span> (<span class="fn">fgets</span>(buf, <span class="kw">sizeof</span>(buf),
-            stdin)) {
-            <span class="fn">sendto</span>(sock, buf, <span class="fn">strlen</span>(buf)+<span class="nm">1</span>,
-            <span class="nm">0</span>,
-            serverptr, serverlen);
-            <span class="fn">recvfrom</span>(sock, buf, <span class="kw">sizeof</span>(buf), <span class="nm">0</span>,
-            <span class="mc">NULL</span>, <span class="mc">NULL</span>); <span class="cm">/* Don't care src */</span>
-            <span class="fn">printf</span>(<span class="st">"%s\n"</span>, buf);
-            }
-          </div>
+sock = <span class="fn">socket</span>(<span class="mc">AF_INET</span>, <span class="mc">SOCK_DGRAM</span>, <span class="nm">0</span>);
+rem = <span class="fn">gethostbyname</span>(argv[<span class="nm">1</span>]);
+server.sin_family = <span class="mc">AF_INET</span>;
+<span class="fn">memcpy</span>(&amp;server.sin_addr, rem-&gt;h_addr,
+rem-&gt;h_length);
+server.sin_port = <span class="fn">htons</span>(<span class="fn">atoi</span>(argv[<span class="nm">2</span>]));
+client.sin_family = <span class="mc">AF_INET</span>;
+client.sin_addr.s_addr = <span class="fn">htonl</span>(<span class="mc">INADDR_ANY</span>);
+client.sin_port = <span class="fn">htons</span>(<span class="nm">0</span>);  <span class="cm">/* Auto port */</span>
+<span class="fn">bind</span>(sock, clientptr, <span class="kw">sizeof</span>(client));
+<span class="kw">while</span> (<span class="fn">fgets</span>(buf, <span class="kw">sizeof</span>(buf), stdin)) {
+    <span class="fn">sendto</span>(sock, buf, <span class="fn">strlen</span>(buf)+<span class="nm">1</span>, <span class="nm">0</span>,
+    serverptr, serverlen);
+    <span class="fn">recvfrom</span>(sock, buf, <span class="kw">sizeof</span>(buf), <span class="nm">0</span>,
+    <span class="mc">NULL</span>, <span class="mc">NULL</span>); <span class="cm">/* Don't care src */</span>
+    <span class="fn">printf</span>(<span class="st">"%s\n"</span>, buf);
+}
+</div>
         </div>
       </div>
 
@@ -1653,12 +1589,12 @@
               <code>bind(): Address Already in Use</code>. Γιατί; Ο kernel κρατάει το port σε <code>TIME_WAIT</code>
               state μετά το close (60-120 sec).</p>
             <div class="cb auto-style-978ebc">
-              <span class="cm">/* Η ΛΥΣΗ: πριν το bind() */</span>
-              <span class="tp">int</span> val = <span class="nm">1</span>;
-              <span class="fn">setsockopt</span>(sock, <span class="mc">SOL_SOCKET</span>,
-              <span class="mc">SO_REUSEADDR</span>, &amp;val, <span class="kw">sizeof</span>(val));
-              <span class="cm">/* Τώρα μπορείς να κάνεις bind ξανά αμέσως */</span>
-            </div>
+<span class="cm">/* Η ΛΥΣΗ: πριν το bind() */</span>
+<span class="tp">int</span> val = <span class="nm">1</span>;
+<span class="fn">setsockopt</span>(sock, <span class="mc">SOL_SOCKET</span>,
+<span class="mc">SO_REUSEADDR</span>, &amp;val, <span class="kw">sizeof</span>(val));
+<span class="cm">/* Τώρα μπορείς να κάνεις bind ξανά αμέσως */</span>
+</div>
             <div class="tip mt-6">
               <div class="tip-icon">🧠</div>
               <div>
@@ -1692,8 +1628,8 @@
               <div class="good-side">
                 <div class="side-label">After</div>
                 <div class="cb auto-style-7eeb9e">
-                  <span class="fn">signal</span>(<span class="mc">SIGPIPE</span>, <span class="mc">SIG_IGN</span>);
-                </div>
+<span class="fn">signal</span>(<span class="mc">SIGPIPE</span>, <span class="mc">SIG_IGN</span>);
+</div>
                 <p class="auto-style-adaf0f">write() επιστρέφει -1, errno=EPIPE. Ο server μένει όρθιος!</p>
               </div>
             </div>
@@ -1706,18 +1642,17 @@
               τώρα και 60 αργότερα. Το TCP είναι <strong>byte stream</strong>, όχι πακέτα. <em>Ποτέ</em> μην υποθέσεις
               ότι ένα read() διαβάζει τα πάντα.</p>
             <div class="cb auto-style-4dc056">
-              <span class="cm">/* write_all: γράψε μέχρι τελειώσουν ΟΛΑ */</span>
-              <span class="tp">int</span> <span class="fn">write_all</span>(<span class="tp">int</span> fd, <span
-                class="tp">void</span> *buf, <span class="tp">size_t</span> size) {
-              <span class="tp">int</span> sent, n;
-              <span class="kw">for</span> (sent = <span class="nm">0</span>; sent &lt; size; sent += n) {
-              <span class="kw">if</span> ((n = <span class="fn">write</span>(fd, buf+sent,
-              size-sent)) == -<span class="nm">1</span>)
-              <span class="kw">return</span> -<span class="nm">1</span>;
-              }
-              <span class="kw">return</span> sent;
-              }
-            </div>
+<span class="cm">/* write_all: γράψε μέχρι τελειώσουν ΟΛΑ */</span>
+<span class="tp">int</span> <span class="fn">write_all</span>(<span class="tp">int</span> fd, <span class="tp">void</span> *buf, <span class="tp">size_t</span> size) {
+    <span class="tp">int</span> sent, n;
+    <span class="kw">for</span> (sent = <span class="nm">0</span>; sent &lt; size; sent += n) {
+        <span class="kw">if</span> ((n = <span class="fn">write</span>(fd, buf+sent,
+                size-sent)) == -<span class="nm">1</span>)
+            <span class="kw">return</span> -<span class="nm">1</span>;
+    }
+    <span class="kw">return</span> sent;
+}
+</div>
             <div class="rbox mt-6">
               <div class="lbl text-red">Golden Rule</div>
               <strong>ΠΑΝΤΑ</strong> loop γύρω από read/write μέχρι τα αναμενόμενα bytes μεταφερθούν (ή error/EOF).
@@ -1727,17 +1662,17 @@
           <div class="card mt-10">
             <div class="card-title">4. Useful Functions</div>
             <div class="cb auto-style-4dc056">
-              <span class="cm">/* Βρες τη διεύθυνση ΤΟΥ socket σου */</span>
-              <span class="fn">getsockname</span>(sock, &amp;addr, &amp;addrlen);
+<span class="cm">/* Βρες τη διεύθυνση ΤΟΥ socket σου */</span>
+<span class="fn">getsockname</span>(sock, &amp;addr, &amp;addrlen);
 
-              <span class="cm">/* Βρες τη διεύθυνση ΤΟΥ peer (remote) */</span>
-              <span class="fn">getpeername</span>(sock, &amp;addr, &amp;addrlen);
+<span class="cm">/* Βρες τη διεύθυνση ΤΟΥ peer (remote) */</span>
+<span class="fn">getpeername</span>(sock, &amp;addr, &amp;addrlen);
 
-              <span class="cm">/* Half-close: τέλος αποστολής αλλά */</span>
-              <span class="cm">/* μπορώ ακόμα να λαμβάνω */</span>
-              <span class="fn">shutdown</span>(fd, <span class="mc">SHUT_WR</span>);
-              <span class="cm">/* Options: SHUT_RD, SHUT_WR, SHUT_RDWR */</span>
-            </div>
+<span class="cm">/* Half-close: τέλος αποστολής αλλά */</span>
+<span class="cm">/* μπορώ ακόμα να λαμβάνω */</span>
+<span class="fn">shutdown</span>(fd, <span class="mc">SHUT_WR</span>);
+<span class="cm">/* Options: SHUT_RD, SHUT_WR, SHUT_RDWR */</span>
+</div>
             <div class="ibox mt-6">
               <div class="lbl text-blue">netstat</div>
               <code>netstat -n -l -p</code>: δείξε listening sockets, numeric, με process info.
@@ -1772,18 +1707,17 @@
               τρέχει <code>ls</code> μέσω <code>popen()</code>, στέλνει αποτέλεσμα στον client.
             </p>
             <div class="cb auto-style-bea86b">
-              <span class="cm">/* rlsd: key logic */</span>
-              csock = <span class="fn">accept</span>(lsock, <span class="mc">NULL</span>, <span class="mc">NULL</span>);
-              sock_fp = <span class="fn">fdopen</span>(csock, <span class="st">"r+"</span>);
-              <span class="fn">fgets</span>(dirname, <span class="mc">BUFSIZ</span>, sock_fp);
-              <span class="fn">sanitize</span>(dirname); <span class="cm">/* ← SECURITY! */</span>
-              <span class="fn">snprintf</span>(command, <span class="mc">BUFSIZ</span>, <span class="st">"ls %s"</span>,
-              dirname);
-              pipe_fp = <span class="fn">popen</span>(command, <span class="st">"r"</span>);
-              <span class="kw">while</span> ((c = <span class="fn">getc</span>(pipe_fp)) != <span class="mc">EOF</span>)
-              <span class="fn">putc</span>(c, sock_fp); <span class="cm">/* pipe → socket */</span>
-              <span class="fn">pclose</span>(pipe_fp); <span class="fn">fclose</span>(sock_fp);
-            </div>
+<span class="cm">/* rlsd: key logic */</span>
+csock = <span class="fn">accept</span>(lsock, <span class="mc">NULL</span>, <span class="mc">NULL</span>);
+sock_fp = <span class="fn">fdopen</span>(csock, <span class="st">"r+"</span>);
+<span class="fn">fgets</span>(dirname, <span class="mc">BUFSIZ</span>, sock_fp);
+<span class="fn">sanitize</span>(dirname);  <span class="cm">/* ← SECURITY! */</span>
+<span class="fn">snprintf</span>(command, <span class="mc">BUFSIZ</span>, <span class="st">"ls %s"</span>, dirname);
+pipe_fp = <span class="fn">popen</span>(command, <span class="st">"r"</span>);
+<span class="kw">while</span> ((c = <span class="fn">getc</span>(pipe_fp)) != <span class="mc">EOF</span>)
+    <span class="fn">putc</span>(c, sock_fp);  <span class="cm">/* pipe → socket */</span>
+<span class="fn">pclose</span>(pipe_fp); <span class="fn">fclose</span>(sock_fp);
+</div>
             <p class="auto-style-ca87d6">
               <strong class="text-green">Client (rls):</strong> connect → send directory name → read response → stdout.
               Χρησιμοποιεί <code>write_all()</code> pattern.

@@ -349,18 +349,15 @@
           <div class="card">
             <div class="card-title">ftok() — Generate Key</div>
             <div class="cb auto-style-1c027c">
-              <span class="tp">key_t</span> <span class="fn">ftok</span>(<span class="kw">const char</span> *<span
-                class="sf-field">pathname</span>, <span class="kw">int</span> <span class="sf-field">proj_id</span>);
-              <span class="cm">// pathname: πρέπει να υπάρχει (χρησιμοποιεί inode)</span>
-              <span class="cm">// proj_id: 8-bit integer (non-zero)</span>
-              <span class="cm">// Returns: key_t or -1 on error</span>
+<span class="tp">key_t</span> <span class="fn">ftok</span>(<span class="kw">const char</span> *<span class="sf-field">pathname</span>, <span class="kw">int</span> <span class="sf-field">proj_id</span>);
+<span class="cm">// pathname: πρέπει να υπάρχει (χρησιμοποιεί inode)</span>
+<span class="cm">// proj_id: 8-bit integer (non-zero)</span>
+<span class="cm">// Returns: key_t or -1 on error</span>
 
-              <span class="cm">// Example:</span>
-              <span class="tp">key_t</span> key = <span class="fn">ftok</span>(<span class="st">"/tmp/myfile"</span>,
-              <span class="nm">'A'</span>);
-              <span class="kw">if</span> (key == -<span class="nm">1</span>) { <span class="fn">perror</span>(<span
-                class="st">"ftok"</span>); <span class="fn">exit</span>(<span class="nm">1</span>); }
-            </div>
+<span class="cm">// Example:</span>
+<span class="tp">key_t</span> key = <span class="fn">ftok</span>(<span class="st">"/tmp/myfile"</span>, <span class="nm">'A'</span>);
+<span class="kw">if</span> (key == -<span class="nm">1</span>) { <span class="fn">perror</span>(<span class="st">"ftok"</span>); <span class="fn">exit</span>(<span class="nm">1</span>); }
+</div>
             <div class="ibox mt-8">
               <div class="lbl text-blue">How ftok works</div>
               Συνδυάζει τον inode number του αρχείου + proj_id byte + device number → μοναδικό key. Αν δύο unrelated
@@ -371,11 +368,10 @@
           <div class="card mt-10">
             <div class="card-title">IPC_PRIVATE</div>
             <div class="cb auto-style-ebc108">
-              <span class="cm">// Creates a unique key (guaranteed new object)</span>
-              <span class="kw">int</span> id = <span class="fn">msgget</span>(<span class="mc">IPC_PRIVATE</span>, <span
-                class="nm">0666</span>);
-              <span class="cm">// Only parent + children can access (must pass ID)</span>
-            </div>
+<span class="cm">// Creates a unique key (guaranteed new object)</span>
+<span class="kw">int</span> id = <span class="fn">msgget</span>(<span class="mc">IPC_PRIVATE</span>, <span class="nm">0666</span>);
+<span class="cm">// Only parent + children can access (must pass ID)</span>
+</div>
             <p class="auto-style-238f58">
               Χρήσιμο όταν <strong>μόνο</strong> parent-child χρειάζονται πρόσβαση. Ο parent δημιουργεί, και τα children
               κληρονομούν τον ID μέσω fork().
@@ -409,17 +405,15 @@
           <div class="wbox mt-10">
             <div class="lbl text-yellow">Common Flags Pattern</div>
             <div class="cb auto-style-d77dad">
-              <span class="cm">// Create new (or get existing)</span>
-              id = <span class="fn">msgget</span>(key, <span class="mc">IPC_CREAT</span> | <span
-                class="nm">0666</span>);
+<span class="cm">// Create new (or get existing)</span>
+id = <span class="fn">msgget</span>(key, <span class="mc">IPC_CREAT</span> | <span class="nm">0666</span>);
 
-              <span class="cm">// Create new (FAIL if exists)</span>
-              id = <span class="fn">msgget</span>(key, <span class="mc">IPC_CREAT</span> | <span
-                class="mc">IPC_EXCL</span> | <span class="nm">0666</span>);
+<span class="cm">// Create new (FAIL if exists)</span>
+id = <span class="fn">msgget</span>(key, <span class="mc">IPC_CREAT</span> | <span class="mc">IPC_EXCL</span> | <span class="nm">0666</span>);
 
-              <span class="cm">// Get existing (FAIL if doesn't exist)</span>
-              id = <span class="fn">msgget</span>(key, <span class="nm">0</span>);
-            </div>
+<span class="cm">// Get existing (FAIL if doesn't exist)</span>
+id = <span class="fn">msgget</span>(key, <span class="nm">0</span>);
+</div>
           </div>
         </div>
       </div>
@@ -444,12 +438,11 @@
           <div class="card">
             <div class="card-title">msgget() — Create/Get Queue</div>
             <div class="cb auto-style-1c027c">
-              <span class="mc">#include</span> <span class="st">&lt;sys/msg.h&gt;</span>
+<span class="mc">#include</span> <span class="st">&lt;sys/msg.h&gt;</span>
 
-              <span class="kw">int</span> <span class="fn">msgget</span>(<span class="tp">key_t</span> <span
-                class="sf-field">key</span>, <span class="kw">int</span> <span class="sf-field">msgflg</span>);
-              <span class="cm">// Returns: queue ID (>= 0) or -1 on error</span>
-            </div>
+<span class="kw">int</span> <span class="fn">msgget</span>(<span class="tp">key_t</span> <span class="sf-field">key</span>, <span class="kw">int</span> <span class="sf-field">msgflg</span>);
+<span class="cm">// Returns: queue ID (>= 0) or -1 on error</span>
+</div>
           </div>
 
           <div class="card mt-10">
@@ -472,16 +465,12 @@
           <div class="card mt-10">
             <div class="card-title">msgsnd() — Send Message</div>
             <div class="cb auto-style-1c027c">
-              <span class="kw">int</span> <span class="fn">msgsnd</span>(<span class="kw">int</span> <span
-                class="sf-field">msqid</span>,
-              <span class="kw">const void</span> *<span class="sf-field">msgp</span>, <span class="cm">// pointer to
-                message struct</span>
-              <span class="tp">size_t</span> <span class="sf-field">msgsz</span>, <span class="cm">// size of mtext (NOT
-                entire struct!)</span>
-              <span class="kw">int</span> <span class="sf-field">msgflg</span>); <span class="cm">// IPC_NOWAIT or
-                0</span>
-              <span class="cm">// Returns: 0 on success, -1 on error</span>
-            </div>
+<span class="kw">int</span> <span class="fn">msgsnd</span>(<span class="kw">int</span> <span class="sf-field">msqid</span>,
+<span class="kw">const void</span> *<span class="sf-field">msgp</span>,  <span class="cm">// pointer to message struct</span>
+<span class="tp">size_t</span> <span class="sf-field">msgsz</span>,      <span class="cm">// size of mtext (NOT entire struct!)</span>
+<span class="kw">int</span> <span class="sf-field">msgflg</span>);       <span class="cm">// IPC_NOWAIT or 0</span>
+<span class="cm">// Returns: 0 on success, -1 on error</span>
+</div>
             <div class="wbox mt-8">
               <div class="lbl text-yellow">msgsz = sizeof data ONLY</div>
               Πέρνα μέγεθος μόνο του <code>mtext</code> μέρους, ΟΧΙ ολόκληρου του struct! Δηλαδή
@@ -493,17 +482,13 @@
           <div class="card">
             <div class="card-title">msgrcv() — Receive Message</div>
             <div class="cb auto-style-1c027c">
-              <span class="tp">ssize_t</span> <span class="fn">msgrcv</span>(<span class="kw">int</span> <span
-                class="sf-field">msqid</span>,
-              <span class="kw">void</span> *<span class="sf-field">msgp</span>, <span class="cm">// output buffer</span>
-              <span class="tp">size_t</span> <span class="sf-field">msgsz</span>, <span class="cm">// max size of
-                mtext</span>
-              <span class="kw">long</span> <span class="sf-field">msgtyp</span>, <span class="cm">// which message
-                type</span>
-              <span class="kw">int</span> <span class="sf-field">msgflg</span>); <span class="cm">// IPC_NOWAIT or
-                0</span>
-              <span class="cm">// Returns: number of bytes received, or -1</span>
-            </div>
+<span class="tp">ssize_t</span> <span class="fn">msgrcv</span>(<span class="kw">int</span> <span class="sf-field">msqid</span>,
+<span class="kw">void</span> *<span class="sf-field">msgp</span>,     <span class="cm">// output buffer</span>
+<span class="tp">size_t</span> <span class="sf-field">msgsz</span>,   <span class="cm">// max size of mtext</span>
+<span class="kw">long</span> <span class="sf-field">msgtyp</span>,    <span class="cm">// which message type</span>
+<span class="kw">int</span> <span class="sf-field">msgflg</span>);    <span class="cm">// IPC_NOWAIT or 0</span>
+<span class="cm">// Returns: number of bytes received, or -1</span>
+</div>
             <div class="card auto-style-66f4e1">
               <div class="card-title">msgtyp Values — Selective Receive</div>
               <table class="vtbl auto-style-6863e7">
@@ -534,13 +519,11 @@
           <div class="card mt-10">
             <div class="card-title">msgctl() — Control Operations</div>
             <div class="cb auto-style-ebc108">
-              <span class="kw">int</span> <span class="fn">msgctl</span>(<span class="kw">int</span> <span
-                class="sf-field">msqid</span>, <span class="kw">int</span> <span class="sf-field">cmd</span>, <span
-                class="kw">struct</span> <span class="tp">msqid_ds</span> *<span class="sf-field">buf</span>);
-              <span class="cm">// cmd = IPC_STAT : read queue info into buf</span>
-              <span class="cm">// cmd = IPC_SET : modify permissions</span>
-              <span class="cm">// cmd = IPC_RMID : delete queue (buf=NULL)</span>
-            </div>
+<span class="kw">int</span> <span class="fn">msgctl</span>(<span class="kw">int</span> <span class="sf-field">msqid</span>, <span class="kw">int</span> <span class="sf-field">cmd</span>, <span class="kw">struct</span> <span class="tp">msqid_ds</span> *<span class="sf-field">buf</span>);
+<span class="cm">// cmd = IPC_STAT : read queue info into buf</span>
+<span class="cm">// cmd = IPC_SET  : modify permissions</span>
+<span class="cm">// cmd = IPC_RMID : delete queue (buf=NULL)</span>
+</div>
           </div>
 
           <div class="tip mt-10">
@@ -576,44 +559,41 @@
           <div class="card">
             <div class="card-title">Server — Creates Queue &amp; Receives</div>
             <div class="cb auto-style-98b404">
-              <span class="mc">#define</span> <span class="nm">MSGKEY</span> <span class="nm">1234</span>
+<span class="mc">#define</span> <span class="nm">MSGKEY</span> <span class="nm">1234</span>
 
-              <span class="kw">struct</span> <span class="tp">message</span> {
-              <span class="kw">long</span> <span class="sf-field">mtype</span>;
-              <span class="kw">char</span> <span class="sf-field">mtext</span>[<span class="nm">64</span>];
-              };
+<span class="kw">struct</span> <span class="tp">message</span> {
+    <span class="kw">long</span> <span class="sf-field">mtype</span>;
+    <span class="kw">char</span> <span class="sf-field">mtext</span>[<span class="nm">64</span>];
+};
 
-              <span class="kw">int</span> <span class="fn">main</span>() {
-              <span class="kw">int</span> msqid = <span class="fn">msgget</span>(<span class="nm">MSGKEY</span>, <span
-                class="nm">0666</span> | <span class="mc">IPC_CREAT</span>);
-              <span class="kw">struct</span> <span class="tp">message</span> msg;
+<span class="kw">int</span> <span class="fn">main</span>() {
+    <span class="kw">int</span> msqid = <span class="fn">msgget</span>(<span class="nm">MSGKEY</span>, <span class="nm">0666</span> | <span class="mc">IPC_CREAT</span>);
+    <span class="kw">struct</span> <span class="tp">message</span> msg;
 
-              <span class="kw">while</span> (<span class="nm">1</span>) {
-              <span class="fn">msgrcv</span>(msqid, &amp;msg, <span class="kw">sizeof</span>(msg.mtext),
-              <span class="nm">0</span>, <span class="nm">0</span>); <span class="cm">// type=0: any message</span>
-              <span class="fn">printf</span>(<span class="st">"Received [type=%ld]: %s\n"</span>,
-              msg.mtype, msg.mtext);
-              }
-              <span class="fn">msgctl</span>(msqid, <span class="mc">IPC_RMID</span>, <span class="nm">NULL</span>);
-              <span class="kw">return</span> <span class="nm">0</span>;
-              }
-            </div>
+    <span class="kw">while</span> (<span class="nm">1</span>) {
+        <span class="fn">msgrcv</span>(msqid, &amp;msg, <span class="kw">sizeof</span>(msg.mtext),
+            <span class="nm">0</span>, <span class="nm">0</span>);  <span class="cm">// type=0: any message</span>
+        <span class="fn">printf</span>(<span class="st">"Received [type=%ld]: %s\n"</span>,
+            msg.mtype, msg.mtext);
+    }
+    <span class="fn">msgctl</span>(msqid, <span class="mc">IPC_RMID</span>, <span class="nm">NULL</span>);
+    <span class="kw">return</span> <span class="nm">0</span>;
+}
+</div>
           </div>
 
           <div class="card mt-10">
             <div class="card-title">Client 1 — Sends type=1 messages</div>
             <div class="cb auto-style-98b404">
-              <span class="kw">int</span> <span class="fn">main</span>() {
-              <span class="kw">int</span> msqid = <span class="fn">msgget</span>(<span class="nm">MSGKEY</span>, <span
-                class="nm">0</span>); <span class="cm">// get existing</span>
-              <span class="kw">struct</span> <span class="tp">message</span> msg;
-              msg.mtype = <span class="nm">1</span>;
-              <span class="fn">strcpy</span>(msg.mtext, <span class="st">"Hello from client 1"</span>);
-              <span class="fn">msgsnd</span>(msqid, &amp;msg, <span class="kw">sizeof</span>(msg.mtext), <span
-                class="nm">0</span>);
-              <span class="kw">return</span> <span class="nm">0</span>;
-              }
-            </div>
+<span class="kw">int</span> <span class="fn">main</span>() {
+    <span class="kw">int</span> msqid = <span class="fn">msgget</span>(<span class="nm">MSGKEY</span>, <span class="nm">0</span>); <span class="cm">// get existing</span>
+    <span class="kw">struct</span> <span class="tp">message</span> msg;
+    msg.mtype = <span class="nm">1</span>;
+    <span class="fn">strcpy</span>(msg.mtext, <span class="st">"Hello from client 1"</span>);
+    <span class="fn">msgsnd</span>(msqid, &amp;msg, <span class="kw">sizeof</span>(msg.mtext), <span class="nm">0</span>);
+    <span class="kw">return</span> <span class="nm">0</span>;
+}
+</div>
           </div>
         </div>
         <div>
@@ -623,26 +603,24 @@
               Χρησιμοποιώντας negative msgtyp, μπορούμε να φτιάξουμε priority queue:
             </p>
             <div class="cb auto-style-98b404">
-              <span class="cm">// q.h — Shared header</span>
-              <span class="mc">#define</span> <span class="nm">MAXOBN</span> <span class="nm">50</span>
-              <span class="mc">#define</span> <span class="nm">MAXPRIOR</span> <span class="nm">10</span>
+<span class="cm">// q.h — Shared header</span>
+<span class="mc">#define</span> <span class="nm">MAXOBN</span> <span class="nm">50</span>
+<span class="mc">#define</span> <span class="nm">MAXPRIOR</span> <span class="nm">10</span>
 
-              <span class="kw">struct</span> <span class="tp">message</span> {
-              <span class="kw">long</span> <span class="sf-field">mtype</span>; <span class="cm">// 1=highest,
-                MAXPRIOR=lowest</span>
-              <span class="kw">char</span> <span class="sf-field">mtext</span>[<span class="nm">MAXOBN</span>];
-              };
+<span class="kw">struct</span> <span class="tp">message</span> {
+    <span class="kw">long</span> <span class="sf-field">mtype</span>;  <span class="cm">// 1=highest, MAXPRIOR=lowest</span>
+    <span class="kw">char</span> <span class="sf-field">mtext</span>[<span class="nm">MAXOBN</span>];
+};
 
-              <span class="cm">// enter.c — Add to queue with priority</span>
-              msg.mtype = priority; <span class="cm">// lower = higher priority</span>
-              <span class="fn">msgsnd</span>(qid, &amp;msg, <span class="kw">sizeof</span>(msg.mtext), <span
-                class="nm">0</span>);
+<span class="cm">// enter.c — Add to queue with priority</span>
+msg.mtype = priority;  <span class="cm">// lower = higher priority</span>
+<span class="fn">msgsnd</span>(qid, &amp;msg, <span class="kw">sizeof</span>(msg.mtext), <span class="nm">0</span>);
 
-              <span class="cm">// serve.c — Get highest priority first</span>
-              <span class="fn">msgrcv</span>(qid, &amp;msg, <span class="kw">sizeof</span>(msg.mtext),
-              -<span class="nm">MAXPRIOR</span>, <span class="nm">0</span>); <span class="cm">// ← negative!</span>
-              <span class="cm">// Gets lowest-numbered type first = highest priority</span>
-            </div>
+<span class="cm">// serve.c — Get highest priority first</span>
+<span class="fn">msgrcv</span>(qid, &amp;msg, <span class="kw">sizeof</span>(msg.mtext),
+-<span class="nm">MAXPRIOR</span>, <span class="nm">0</span>);  <span class="cm">// ← negative!</span>
+<span class="cm">// Gets lowest-numbered type first = highest priority</span>
+</div>
           </div>
 
           <div class="card mt-10">
@@ -708,28 +686,23 @@
           <div class="card">
             <div class="card-title">shmget() — Create/Get Segment</div>
             <div class="cb auto-style-1c027c">
-              <span class="mc">#include</span> <span class="st">&lt;sys/shm.h&gt;</span>
+<span class="mc">#include</span> <span class="st">&lt;sys/shm.h&gt;</span>
 
-              <span class="kw">int</span> <span class="fn">shmget</span>(<span class="tp">key_t</span> <span
-                class="sf-field">key</span>,
-              <span class="tp">size_t</span> <span class="sf-field">size</span>, <span class="cm">// bytes</span>
-              <span class="kw">int</span> <span class="sf-field">shmflg</span>); <span class="cm">// IPC_CREAT |
-                perms</span>
-              <span class="cm">// Returns: shared memory ID or -1</span>
-            </div>
+<span class="kw">int</span> <span class="fn">shmget</span>(<span class="tp">key_t</span> <span class="sf-field">key</span>,
+<span class="tp">size_t</span> <span class="sf-field">size</span>,     <span class="cm">// bytes</span>
+<span class="kw">int</span> <span class="sf-field">shmflg</span>);     <span class="cm">// IPC_CREAT | perms</span>
+<span class="cm">// Returns: shared memory ID or -1</span>
+</div>
           </div>
 
           <div class="card mt-10">
             <div class="card-title">shmat() — Attach Segment</div>
             <div class="cb auto-style-1c027c">
-              <span class="kw">void</span> *<span class="fn">shmat</span>(<span class="kw">int</span> <span
-                class="sf-field">shmid</span>,
-              <span class="kw">const void</span> *<span class="sf-field">shmaddr</span>, <span class="cm">// NULL =
-                kernel picks</span>
-              <span class="kw">int</span> <span class="sf-field">shmflg</span>); <span class="cm">// 0 or
-                SHM_RDONLY</span>
-              <span class="cm">// Returns: pointer to segment or (void *)-1</span>
-            </div>
+<span class="kw">void</span> *<span class="fn">shmat</span>(<span class="kw">int</span> <span class="sf-field">shmid</span>,
+<span class="kw">const void</span> *<span class="sf-field">shmaddr</span>,  <span class="cm">// NULL = kernel picks</span>
+<span class="kw">int</span> <span class="sf-field">shmflg</span>);           <span class="cm">// 0 or SHM_RDONLY</span>
+<span class="cm">// Returns: pointer to segment or (void *)-1</span>
+</div>
             <div class="ibox mt-8">
               <div class="lbl text-blue">How it works</div>
               Η <code>shmat()</code> "κολλάει" το shared memory segment στο address space της διεργασίας. Μετά, η
@@ -740,25 +713,23 @@
           <div class="card mt-10">
             <div class="card-title">shmdt() — Detach Segment</div>
             <div class="cb auto-style-ebc108">
-              <span class="kw">int</span> <span class="fn">shmdt</span>(<span class="kw">const void</span> *<span
-                class="sf-field">shmaddr</span>);
-              <span class="cm">// "Αποκολλά" τη shared memory</span>
-              <span class="cm">// ΔΕΝ σβήνει τα δεδομένα!</span>
-            </div>
+<span class="kw">int</span> <span class="fn">shmdt</span>(<span class="kw">const void</span> *<span class="sf-field">shmaddr</span>);
+<span class="cm">// "Αποκολλά" τη shared memory</span>
+<span class="cm">// ΔΕΝ σβήνει τα δεδομένα!</span>
+</div>
           </div>
         </div>
         <div>
           <div class="card">
             <div class="card-title">shmctl() — Control Operations</div>
             <div class="cb auto-style-ebc108">
-              <span class="kw">int</span> <span class="fn">shmctl</span>(<span class="kw">int</span> <span
-                class="sf-field">shmid</span>, <span class="kw">int</span> <span class="sf-field">cmd</span>,
-              <span class="kw">struct</span> <span class="tp">shmid_ds</span> *<span class="sf-field">buf</span>);
-              <span class="cm">// IPC_STAT : read segment info</span>
-              <span class="cm">// IPC_SET : modify permissions</span>
-              <span class="cm">// IPC_RMID : mark for deletion</span>
-              <span class="cm">// (actual deletion when shm_nattch reaches 0)</span>
-            </div>
+<span class="kw">int</span> <span class="fn">shmctl</span>(<span class="kw">int</span> <span class="sf-field">shmid</span>, <span class="kw">int</span> <span class="sf-field">cmd</span>,
+<span class="kw">struct</span> <span class="tp">shmid_ds</span> *<span class="sf-field">buf</span>);
+<span class="cm">// IPC_STAT : read segment info</span>
+<span class="cm">// IPC_SET  : modify permissions</span>
+<span class="cm">// IPC_RMID : mark for deletion</span>
+<span class="cm">//   (actual deletion when shm_nattch reaches 0)</span>
+</div>
           </div>
 
           <div class="card mt-10">
@@ -855,68 +826,64 @@
           <div class="card">
             <div class="card-title">sharedMem1.c — Create &amp; Attach (IPC_PRIVATE)</div>
             <div class="cb auto-style-98b404">
-              <span class="kw">int</span> <span class="fn">main</span>() {
-              <span class="kw">int</span> shmid;
-              <span class="kw">char</span> *ptr;
+<span class="kw">int</span> <span class="fn">main</span>() {
+    <span class="kw">int</span> shmid;
+    <span class="kw">char</span> *ptr;
 
-              <span class="cm">// Create shared memory (64 bytes)</span>
-              shmid = <span class="fn">shmget</span>(<span class="mc">IPC_PRIVATE</span>, <span class="nm">64</span>,
-              <span class="mc">IPC_CREAT</span> | <span class="nm">0666</span>);
-              <span class="kw">if</span> (shmid == -<span class="nm">1</span>) {
-              <span class="fn">perror</span>(<span class="st">"shmget"</span>);
-              <span class="fn">exit</span>(<span class="nm">1</span>);
-              }
-              <span class="fn">printf</span>(<span class="st">"Shared Memory ID: %d\n"</span>, shmid);
+    <span class="cm">// Create shared memory (64 bytes)</span>
+    shmid = <span class="fn">shmget</span>(<span class="mc">IPC_PRIVATE</span>, <span class="nm">64</span>,
+        <span class="mc">IPC_CREAT</span> | <span class="nm">0666</span>);
+    <span class="kw">if</span> (shmid == -<span class="nm">1</span>) {
+        <span class="fn">perror</span>(<span class="st">"shmget"</span>);
+        <span class="fn">exit</span>(<span class="nm">1</span>);
+    }
+    <span class="fn">printf</span>(<span class="st">"Shared Memory ID: %d\n"</span>, shmid);
 
-              <span class="cm">// Attach to our address space</span>
-              ptr = (<span class="kw">char</span> *) <span class="fn">shmat</span>(shmid, <span class="nm">NULL</span>,
-              <span class="nm">0</span>);
-              <span class="kw">if</span> (ptr == (<span class="kw">char</span> *) -<span class="nm">1</span>) {
-              <span class="fn">perror</span>(<span class="st">"shmat"</span>);
-              <span class="fn">exit</span>(<span class="nm">1</span>);
-              }
+    <span class="cm">// Attach to our address space</span>
+    ptr = (<span class="kw">char</span> *) <span class="fn">shmat</span>(shmid, <span class="nm">NULL</span>, <span class="nm">0</span>);
+    <span class="kw">if</span> (ptr == (<span class="kw">char</span> *) -<span class="nm">1</span>) {
+        <span class="fn">perror</span>(<span class="st">"shmat"</span>);
+        <span class="fn">exit</span>(<span class="nm">1</span>);
+    }
 
-              <span class="cm">// Write data</span>
-              <span class="fn">strcpy</span>(ptr, <span class="st">"Hello shared memory!"</span>);
-              <span class="fn">printf</span>(<span class="st">"Data: %s\n"</span>, ptr);
+    <span class="cm">// Write data</span>
+    <span class="fn">strcpy</span>(ptr, <span class="st">"Hello shared memory!"</span>);
+    <span class="fn">printf</span>(<span class="st">"Data: %s\n"</span>, ptr);
 
-              <span class="cm">// Detach (don't delete — other process can use it)</span>
-              <span class="fn">shmdt</span>(ptr);
-              <span class="kw">return</span> <span class="nm">0</span>;
-              }
-            </div>
+    <span class="cm">// Detach (don't delete — other process can use it)</span>
+    <span class="fn">shmdt</span>(ptr);
+    <span class="kw">return</span> <span class="nm">0</span>;
+}
+</div>
           </div>
         </div>
         <div>
           <div class="card">
             <div class="card-title">sharedMem2.c — Attach by ID &amp; Read</div>
             <div class="cb auto-style-98b404">
-              <span class="kw">int</span> <span class="fn">main</span>(<span class="kw">int</span> argc, <span
-                class="kw">char</span> *argv[]) {
-              <span class="kw">int</span> shmid = <span class="fn">atoi</span>(argv[<span class="nm">1</span>]); <span
-                class="cm">// ID from cmdline</span>
-              <span class="kw">char</span> *ptr;
+<span class="kw">int</span> <span class="fn">main</span>(<span class="kw">int</span> argc, <span class="kw">char</span> *argv[]) {
+    <span class="kw">int</span> shmid = <span class="fn">atoi</span>(argv[<span class="nm">1</span>]); <span class="cm">// ID from cmdline</span>
+    <span class="kw">char</span> *ptr;
 
-              <span class="cm">// Attach to existing segment</span>
-              ptr = (<span class="kw">char</span> *) <span class="fn">shmat</span>(shmid, <span class="nm">NULL</span>,
-              <span class="nm">0</span>);
-              <span class="kw">if</span> (ptr == (<span class="kw">char</span> *) -<span class="nm">1</span>) {
-              <span class="fn">perror</span>(<span class="st">"shmat"</span>);
-              <span class="fn">exit</span>(<span class="nm">1</span>);
-              }
+    <span class="cm">// Attach to existing segment</span>
+    ptr = (<span class="kw">char</span> *) <span class="fn">shmat</span>(shmid, <span class="nm">NULL</span>, <span class="nm">0</span>);
+    <span class="kw">if</span> (ptr == (<span class="kw">char</span> *) -<span class="nm">1</span>) {
+        <span class="fn">perror</span>(<span class="st">"shmat"</span>);
+        <span class="fn">exit</span>(<span class="nm">1</span>);
+    }
 
-              <span class="cm">// Read what was written</span>
-              <span class="fn">printf</span>(<span class="st">"Read: %s\n"</span>, ptr);
+    <span class="cm">// Read what was written</span>
+    <span class="fn">printf</span>(<span class="st">"Read: %s\n"</span>, ptr);
 
-              <span class="cm">// Modify</span>
-              <span class="fn">strcat</span>(ptr, <span class="st">" - modified!"</span>);
+    <span class="cm">// Modify</span>
+    <span class="fn">strcat</span>(ptr, <span class="st">" - modified!"</span>);
 
-              <span class="cm">// Detach and delete</span>
-              <span class="fn">shmdt</span>(ptr);
-              <span class="fn">shmctl</span>(shmid, <span class="mc">IPC_RMID</span>, <span class="nm">NULL</span>);
-              <span class="kw">return</span> <span class="nm">0</span>;
-              }
-            </div>
+    <span class="cm">// Detach and delete</span>
+    <span class="fn">shmdt</span>(ptr);
+    <span class="fn">shmctl</span>(shmid, <span class="mc">IPC_RMID</span>, <span class="nm">NULL</span>);
+    <span class="kw">return</span> <span class="nm">0</span>;
+}
+</div>
           </div>
 
           <div class="wbox mt-10">
@@ -964,21 +931,21 @@
               <div class="auto-style-ca10e1">
                 <div class="side-label auto-style-573306">UP (V / signal)</div>
                 <div class="cb auto-style-5c72cb">
-                  semaphore_value++;
-                  <span class="cm">// Αν κάποιος περιμένει:</span>
-                  <span class="cm">// ξύπνησέ τον (wake up)</span>
-                </div>
+semaphore_value++;
+<span class="cm">// Αν κάποιος περιμένει:</span>
+<span class="cm">// ξύπνησέ τον (wake up)</span>
+</div>
               </div>
               <div class="auto-style-a4b686">
                 <div class="side-label auto-style-6faca6">DOWN (P / wait)</div>
                 <div class="cb auto-style-5c72cb">
-                  <span class="kw">if</span> (semaphore_value &gt; <span class="nm">0</span>) {
-                  semaphore_value--;
-                  } <span class="kw">else</span> {
-                  <span class="cm">// BLOCK (αναμονή) μέχρι</span>
-                  <span class="cm">// η τιμή να γίνει &gt; 0</span>
-                  }
-                </div>
+<span class="kw">if</span> (semaphore_value &gt; <span class="nm">0</span>) {
+    semaphore_value--;
+} <span class="kw">else</span> {
+    <span class="cm">// BLOCK (αναμονή) μέχρι</span>
+    <span class="cm">// η τιμή να γίνει &gt; 0</span>
+}
+</div>
               </div>
             </div>
             <div class="ibox mt-8">
@@ -1009,11 +976,11 @@
           <div class="card mt-10">
             <div class="card-title">Mutual Exclusion with Semaphore (init=1)</div>
             <div class="cb auto-style-a00bca">
-              <span class="cm">// semaphore S initialized to 1</span>
-              <span class="fn">DOWN</span>(S); <span class="cm">// S: 1→0 (enter critical section)</span>
-              <span class="cm">/* critical section */</span>
-              <span class="fn">UP</span>(S); <span class="cm">// S: 0→1 (leave critical section)</span>
-            </div>
+<span class="cm">// semaphore S initialized to 1</span>
+<span class="fn">DOWN</span>(S);  <span class="cm">// S: 1→0 (enter critical section)</span>
+<span class="cm">/* critical section */</span>
+<span class="fn">UP</span>(S);    <span class="cm">// S: 0→1 (leave critical section)</span>
+</div>
             <p class="auto-style-238f58">
               Αν ένα δεύτερο process κάνει DOWN ενώ S=0, θα μπλοκάρει μέχρι το πρώτο κάνει UP.
             </p>
@@ -1042,16 +1009,13 @@
           <div class="card">
             <div class="card-title">semget() — Create/Get Semaphore Set</div>
             <div class="cb auto-style-1c027c">
-              <span class="mc">#include</span> <span class="st">&lt;sys/sem.h&gt;</span>
+<span class="mc">#include</span> <span class="st">&lt;sys/sem.h&gt;</span>
 
-              <span class="kw">int</span> <span class="fn">semget</span>(<span class="tp">key_t</span> <span
-                class="sf-field">key</span>,
-              <span class="kw">int</span> <span class="sf-field">nsems</span>, <span class="cm">// # semaphores in
-                set</span>
-              <span class="kw">int</span> <span class="sf-field">semflg</span>); <span class="cm">// IPC_CREAT |
-                perms</span>
-              <span class="cm">// Returns: semaphore set ID or -1</span>
-            </div>
+<span class="kw">int</span> <span class="fn">semget</span>(<span class="tp">key_t</span> <span class="sf-field">key</span>,
+<span class="kw">int</span> <span class="sf-field">nsems</span>,    <span class="cm">// # semaphores in set</span>
+<span class="kw">int</span> <span class="sf-field">semflg</span>);  <span class="cm">// IPC_CREAT | perms</span>
+<span class="cm">// Returns: semaphore set ID or -1</span>
+</div>
             <p class="auto-style-1a0979">
               Π.χ. <code>semget(key, 3, IPC_CREAT|0666)</code> δημιουργεί ένα set με <strong>3 semaphores</strong>
               (αριθμημένοι 0, 1, 2).
@@ -1061,13 +1025,10 @@
           <div class="card mt-10">
             <div class="card-title">semop() — Semaphore Operations</div>
             <div class="cb auto-style-1c027c">
-              <span class="kw">int</span> <span class="fn">semop</span>(<span class="kw">int</span> <span
-                class="sf-field">semid</span>,
-              <span class="kw">struct</span> <span class="tp">sembuf</span> *<span class="sf-field">sops</span>, <span
-                class="cm">// array of operations</span>
-              <span class="tp">size_t</span> <span class="sf-field">nsops</span>); <span class="cm">// #
-                operations</span>
-            </div>
+<span class="kw">int</span> <span class="fn">semop</span>(<span class="kw">int</span> <span class="sf-field">semid</span>,
+<span class="kw">struct</span> <span class="tp">sembuf</span> *<span class="sf-field">sops</span>,  <span class="cm">// array of operations</span>
+<span class="tp">size_t</span> <span class="sf-field">nsops</span>);         <span class="cm">// # operations</span>
+</div>
             <div class="struct-box auto-style-7b4496">
               <span class="kw">struct</span> <span class="tp">sembuf</span> {<br>
               &nbsp;&nbsp;<span class="sf-type">unsigned short</span> <span class="sf-field">sem_num</span>; <span
@@ -1111,11 +1072,9 @@
           <div class="card">
             <div class="card-title">semctl() — Control Operations</div>
             <div class="cb auto-style-1c027c">
-              <span class="kw">int</span> <span class="fn">semctl</span>(<span class="kw">int</span> <span
-                class="sf-field">semid</span>, <span class="kw">int</span> <span class="sf-field">semnum</span>,
-              <span class="kw">int</span> <span class="sf-field">cmd</span>, ... <span class="cm">/* union semun arg
-                */</span>);
-            </div>
+<span class="kw">int</span> <span class="fn">semctl</span>(<span class="kw">int</span> <span class="sf-field">semid</span>, <span class="kw">int</span> <span class="sf-field">semnum</span>,
+<span class="kw">int</span> <span class="sf-field">cmd</span>, ... <span class="cm">/* union semun arg */</span>);
+</div>
             <div class="struct-box auto-style-7b4496">
               <span class="kw">union</span> <span class="tp">semun</span> { <span class="sf-comment">// Must define
                 yourself!</span><br>
@@ -1137,31 +1096,28 @@
           <div class="card mt-10">
             <div class="card-title">Helper Functions Pattern</div>
             <div class="cb auto-style-98b404">
-              <span class="kw">void</span> <span class="fn">sem_P</span>(<span class="kw">int</span> semid, <span
-                class="kw">int</span> sem_num) { <span class="cm">// DOWN</span>
-              <span class="kw">struct</span> <span class="tp">sembuf</span> sb;
-              sb.sem_num = sem_num;
-              sb.sem_op = -<span class="nm">1</span>; <span class="cm">// decrement</span>
-              sb.sem_flg = <span class="nm">0</span>;
-              <span class="fn">semop</span>(semid, &amp;sb, <span class="nm">1</span>);
-              }
+<span class="kw">void</span> <span class="fn">sem_P</span>(<span class="kw">int</span> semid, <span class="kw">int</span> sem_num) {  <span class="cm">// DOWN</span>
+    <span class="kw">struct</span> <span class="tp">sembuf</span> sb;
+    sb.sem_num = sem_num;
+    sb.sem_op = -<span class="nm">1</span>;    <span class="cm">// decrement</span>
+    sb.sem_flg = <span class="nm">0</span>;
+    <span class="fn">semop</span>(semid, &amp;sb, <span class="nm">1</span>);
+}
 
-              <span class="kw">void</span> <span class="fn">sem_V</span>(<span class="kw">int</span> semid, <span
-                class="kw">int</span> sem_num) { <span class="cm">// UP</span>
-              <span class="kw">struct</span> <span class="tp">sembuf</span> sb;
-              sb.sem_num = sem_num;
-              sb.sem_op = <span class="nm">1</span>; <span class="cm">// increment</span>
-              sb.sem_flg = <span class="nm">0</span>;
-              <span class="fn">semop</span>(semid, &amp;sb, <span class="nm">1</span>);
-              }
+<span class="kw">void</span> <span class="fn">sem_V</span>(<span class="kw">int</span> semid, <span class="kw">int</span> sem_num) {  <span class="cm">// UP</span>
+    <span class="kw">struct</span> <span class="tp">sembuf</span> sb;
+    sb.sem_num = sem_num;
+    sb.sem_op = <span class="nm">1</span>;     <span class="cm">// increment</span>
+    sb.sem_flg = <span class="nm">0</span>;
+    <span class="fn">semop</span>(semid, &amp;sb, <span class="nm">1</span>);
+}
 
-              <span class="kw">void</span> <span class="fn">sem_Init</span>(<span class="kw">int</span> semid, <span
-                class="kw">int</span> sem_num, <span class="kw">int</span> val) {
-              <span class="kw">union</span> <span class="tp">semun</span> arg;
-              arg.val = val;
-              <span class="fn">semctl</span>(semid, sem_num, <span class="mc">SETVAL</span>, arg);
-              }
-            </div>
+<span class="kw">void</span> <span class="fn">sem_Init</span>(<span class="kw">int</span> semid, <span class="kw">int</span> sem_num, <span class="kw">int</span> val) {
+    <span class="kw">union</span> <span class="tp">semun</span> arg;
+    arg.val = val;
+    <span class="fn">semctl</span>(semid, sem_num, <span class="mc">SETVAL</span>, arg);
+}
+</div>
           </div>
 
           <div class="tip mt-10">
@@ -1192,111 +1148,98 @@
           <div class="card">
             <div class="card-title">Server + SHM + Semaphore</div>
             <div class="cb auto-style-98b404">
-              <span class="mc">#define</span> <span class="nm">SHMKEY</span> <span class="nm">1000</span>
-              <span class="mc">#define</span> <span class="nm">SEMKEY</span> <span class="nm">2000</span>
+<span class="mc">#define</span> <span class="nm">SHMKEY</span>  <span class="nm">1000</span>
+<span class="mc">#define</span> <span class="nm">SEMKEY</span>  <span class="nm">2000</span>
 
-              <span class="kw">int</span> <span class="fn">main</span>() {
-              <span class="cm">// Create shared memory</span>
-              <span class="kw">int</span> shmid = <span class="fn">shmget</span>(<span class="nm">SHMKEY</span>, <span
-                class="nm">64</span>, <span class="mc">IPC_CREAT</span>|<span class="nm">0666</span>);
-              <span class="kw">char</span> *ptr = (<span class="kw">char</span> *)<span class="fn">shmat</span>(shmid,
-              <span class="nm">NULL</span>, <span class="nm">0</span>);
+<span class="kw">int</span> <span class="fn">main</span>() {
+    <span class="cm">// Create shared memory</span>
+    <span class="kw">int</span> shmid = <span class="fn">shmget</span>(<span class="nm">SHMKEY</span>, <span class="nm">64</span>, <span class="mc">IPC_CREAT</span>|<span class="nm">0666</span>);
+    <span class="kw">char</span> *ptr = (<span class="kw">char</span> *)<span class="fn">shmat</span>(shmid, <span class="nm">NULL</span>, <span class="nm">0</span>);
 
-              <span class="cm">// Create semaphore (init to 0 = locked)</span>
-              <span class="kw">int</span> semid = <span class="fn">semget</span>(<span class="nm">SEMKEY</span>, <span
-                class="nm">1</span>, <span class="mc">IPC_CREAT</span>|<span class="nm">0666</span>);
-              <span class="kw">union</span> <span class="tp">semun</span> arg;
-              arg.val = <span class="nm">0</span>;
-              <span class="fn">semctl</span>(semid, <span class="nm">0</span>, <span class="mc">SETVAL</span>, arg);
+    <span class="cm">// Create semaphore (init to 0 = locked)</span>
+    <span class="kw">int</span> semid = <span class="fn">semget</span>(<span class="nm">SEMKEY</span>, <span class="nm">1</span>, <span class="mc">IPC_CREAT</span>|<span class="nm">0666</span>);
+    <span class="kw">union</span> <span class="tp">semun</span> arg;
+    arg.val = <span class="nm">0</span>;
+    <span class="fn">semctl</span>(semid, <span class="nm">0</span>, <span class="mc">SETVAL</span>, arg);
 
-              <span class="cm">// Write data</span>
-              <span class="fn">strcpy</span>(ptr, <span class="st">"Hello from server"</span>);
+    <span class="cm">// Write data</span>
+    <span class="fn">strcpy</span>(ptr, <span class="st">"Hello from server"</span>);
 
-              <span class="cm">// Signal client (UP: 0→1)</span>
-              <span class="kw">struct</span> <span class="tp">sembuf</span> sb = {<span class="nm">0</span>, <span
-                class="nm">1</span>, <span class="nm">0</span>}; <span class="cm">// sem_op=+1</span>
-              <span class="fn">semop</span>(semid, &amp;sb, <span class="nm">1</span>);
-              <span class="fn">printf</span>(<span class="st">"Server: data written, signaled\n"</span>);
+    <span class="cm">// Signal client (UP: 0→1)</span>
+    <span class="kw">struct</span> <span class="tp">sembuf</span> sb = {<span class="nm">0</span>, <span class="nm">1</span>, <span class="nm">0</span>};  <span class="cm">// sem_op=+1</span>
+    <span class="fn">semop</span>(semid, &amp;sb, <span class="nm">1</span>);
+    <span class="fn">printf</span>(<span class="st">"Server: data written, signaled\n"</span>);
 
-              <span class="fn">shmdt</span>(ptr);
-              <span class="kw">return</span> <span class="nm">0</span>;
-              }
-            </div>
+    <span class="fn">shmdt</span>(ptr);
+    <span class="kw">return</span> <span class="nm">0</span>;
+}
+</div>
           </div>
 
           <div class="card mt-10">
             <div class="card-title">Client — Wait then Read</div>
             <div class="cb auto-style-98b404">
-              <span class="kw">int</span> <span class="fn">main</span>() {
-              <span class="kw">int</span> shmid = <span class="fn">shmget</span>(<span class="nm">SHMKEY</span>, <span
-                class="nm">0</span>, <span class="nm">0</span>);
-              <span class="kw">char</span> *ptr = (<span class="kw">char</span> *)<span class="fn">shmat</span>(shmid,
-              <span class="nm">NULL</span>, <span class="nm">0</span>);
+<span class="kw">int</span> <span class="fn">main</span>() {
+    <span class="kw">int</span> shmid = <span class="fn">shmget</span>(<span class="nm">SHMKEY</span>, <span class="nm">0</span>, <span class="nm">0</span>);
+    <span class="kw">char</span> *ptr = (<span class="kw">char</span> *)<span class="fn">shmat</span>(shmid, <span class="nm">NULL</span>, <span class="nm">0</span>);
 
-              <span class="kw">int</span> semid = <span class="fn">semget</span>(<span class="nm">SEMKEY</span>, <span
-                class="nm">0</span>, <span class="nm">0</span>);
+    <span class="kw">int</span> semid = <span class="fn">semget</span>(<span class="nm">SEMKEY</span>, <span class="nm">0</span>, <span class="nm">0</span>);
 
-              <span class="cm">// Wait for server (DOWN: blocks if sem=0)</span>
-              <span class="kw">struct</span> <span class="tp">sembuf</span> sb = {<span class="nm">0</span>, -<span
-                class="nm">1</span>, <span class="nm">0</span>}; <span class="cm">// sem_op=-1</span>
-              <span class="fn">semop</span>(semid, &amp;sb, <span class="nm">1</span>);
+    <span class="cm">// Wait for server (DOWN: blocks if sem=0)</span>
+    <span class="kw">struct</span> <span class="tp">sembuf</span> sb = {<span class="nm">0</span>, -<span class="nm">1</span>, <span class="nm">0</span>}; <span class="cm">// sem_op=-1</span>
+    <span class="fn">semop</span>(semid, &amp;sb, <span class="nm">1</span>);
 
-              <span class="fn">printf</span>(<span class="st">"Client read: %s\n"</span>, ptr);
+    <span class="fn">printf</span>(<span class="st">"Client read: %s\n"</span>, ptr);
 
-              <span class="cm">// Cleanup</span>
-              <span class="fn">shmdt</span>(ptr);
-              <span class="fn">shmctl</span>(shmid, <span class="mc">IPC_RMID</span>, <span class="nm">NULL</span>);
-              <span class="fn">semctl</span>(semid, <span class="nm">0</span>, <span class="mc">IPC_RMID</span>);
-              <span class="kw">return</span> <span class="nm">0</span>;
-              }
-            </div>
+    <span class="cm">// Cleanup</span>
+    <span class="fn">shmdt</span>(ptr);
+    <span class="fn">shmctl</span>(shmid, <span class="mc">IPC_RMID</span>, <span class="nm">NULL</span>);
+    <span class="fn">semctl</span>(semid, <span class="nm">0</span>, <span class="mc">IPC_RMID</span>);
+    <span class="kw">return</span> <span class="nm">0</span>;
+}
+</div>
           </div>
         </div>
         <div>
           <div class="card">
             <div class="card-title">Fork + SHM + Semaphore Counter</div>
             <div class="cb auto-style-98b404">
-              <span class="kw">int</span> <span class="fn">main</span>() {
-              <span class="cm">// Shared counter via shared memory</span>
-              <span class="kw">int</span> shmid = <span class="fn">shmget</span>(<span class="mc">IPC_PRIVATE</span>,
-              <span class="kw">sizeof</span>(<span class="kw">int</span>),
-              <span class="mc">IPC_CREAT</span>|<span class="nm">0666</span>);
-              <span class="kw">int</span> *counter = (<span class="kw">int</span> *)<span class="fn">shmat</span>(shmid,
-              <span class="nm">NULL</span>, <span class="nm">0</span>);
-              *counter = <span class="nm">0</span>;
+<span class="kw">int</span> <span class="fn">main</span>() {
+    <span class="cm">// Shared counter via shared memory</span>
+    <span class="kw">int</span> shmid = <span class="fn">shmget</span>(<span class="mc">IPC_PRIVATE</span>, <span class="kw">sizeof</span>(<span class="kw">int</span>),
+    <span class="mc">IPC_CREAT</span>|<span class="nm">0666</span>);
+    <span class="kw">int</span> *counter = (<span class="kw">int</span> *)<span class="fn">shmat</span>(shmid, <span class="nm">NULL</span>, <span class="nm">0</span>);
+    *counter = <span class="nm">0</span>;
 
-              <span class="cm">// Semaphore for mutual exclusion (init=1)</span>
-              <span class="kw">int</span> semid = <span class="fn">semget</span>(<span class="mc">IPC_PRIVATE</span>,
-              <span class="nm">1</span>, <span class="mc">IPC_CREAT</span>|<span class="nm">0666</span>);
-              <span class="fn">sem_Init</span>(semid, <span class="nm">0</span>, <span class="nm">1</span>);
+    <span class="cm">// Semaphore for mutual exclusion (init=1)</span>
+    <span class="kw">int</span> semid = <span class="fn">semget</span>(<span class="mc">IPC_PRIVATE</span>, <span class="nm">1</span>, <span class="mc">IPC_CREAT</span>|<span class="nm">0666</span>);
+    <span class="fn">sem_Init</span>(semid, <span class="nm">0</span>, <span class="nm">1</span>);
 
-              <span class="kw">if</span> (<span class="fn">fork</span>() == <span class="nm">0</span>) {
-              <span class="cm">// Child: increment 100000 times</span>
-              <span class="kw">for</span> (<span class="kw">int</span> i = <span class="nm">0</span>; i &lt; <span
-                class="nm">100000</span>; i++) {
-              <span class="fn">sem_P</span>(semid, <span class="nm">0</span>); <span class="cm">// DOWN (lock)</span>
-              (*counter)++;
-              <span class="fn">sem_V</span>(semid, <span class="nm">0</span>); <span class="cm">// UP (unlock)</span>
-              }
-              <span class="fn">exit</span>(<span class="nm">0</span>);
-              }
-              <span class="cm">// Parent: same</span>
-              <span class="kw">for</span> (<span class="kw">int</span> i = <span class="nm">0</span>; i &lt; <span
-                class="nm">100000</span>; i++) {
-              <span class="fn">sem_P</span>(semid, <span class="nm">0</span>);
-              (*counter)++;
-              <span class="fn">sem_V</span>(semid, <span class="nm">0</span>);
-              }
-              <span class="fn">wait</span>(<span class="nm">NULL</span>);
-              <span class="fn">printf</span>(<span class="st">"Counter = %d\n"</span>, *counter);
-              <span class="cm">// Should be 200000 (correct with semaphore)</span>
+    <span class="kw">if</span> (<span class="fn">fork</span>() == <span class="nm">0</span>) {
+        <span class="cm">// Child: increment 100000 times</span>
+        <span class="kw">for</span> (<span class="kw">int</span> i = <span class="nm">0</span>; i &lt; <span class="nm">100000</span>; i++) {
+            <span class="fn">sem_P</span>(semid, <span class="nm">0</span>);  <span class="cm">// DOWN (lock)</span>
+            (*counter)++;
+            <span class="fn">sem_V</span>(semid, <span class="nm">0</span>);  <span class="cm">// UP (unlock)</span>
+        }
+        <span class="fn">exit</span>(<span class="nm">0</span>);
+    }
+    <span class="cm">// Parent: same</span>
+    <span class="kw">for</span> (<span class="kw">int</span> i = <span class="nm">0</span>; i &lt; <span class="nm">100000</span>; i++) {
+        <span class="fn">sem_P</span>(semid, <span class="nm">0</span>);
+        (*counter)++;
+        <span class="fn">sem_V</span>(semid, <span class="nm">0</span>);
+    }
+    <span class="fn">wait</span>(<span class="nm">NULL</span>);
+    <span class="fn">printf</span>(<span class="st">"Counter = %d\n"</span>, *counter);
+    <span class="cm">// Should be 200000 (correct with semaphore)</span>
 
-              <span class="fn">shmdt</span>(counter);
-              <span class="fn">shmctl</span>(shmid, <span class="mc">IPC_RMID</span>, <span class="nm">NULL</span>);
-              <span class="fn">semctl</span>(semid, <span class="nm">0</span>, <span class="mc">IPC_RMID</span>);
-              <span class="kw">return</span> <span class="nm">0</span>;
-              }
-            </div>
+    <span class="fn">shmdt</span>(counter);
+    <span class="fn">shmctl</span>(shmid, <span class="mc">IPC_RMID</span>, <span class="nm">NULL</span>);
+    <span class="fn">semctl</span>(semid, <span class="nm">0</span>, <span class="mc">IPC_RMID</span>);
+    <span class="kw">return</span> <span class="nm">0</span>;
+}
+</div>
             <div class="gbox mt-8">
               <div class="lbl text-green">Without semaphore</div>
               Χωρίς τα sem_P/sem_V, ο counter θα ήταν λιγότερο από 200000 λόγω race condition!
@@ -1326,14 +1269,13 @@
           <div class="card">
             <div class="card-title">Deadlock with Semaphores</div>
             <div class="cb auto-style-a00bca">
-              <span class="cm">// Process A // Process B</span>
-              <span class="fn">DOWN</span>(S1); <span class="fn">DOWN</span>(S2);
-              ... ...
-              <span class="fn">DOWN</span>(S2); <span class="cm">// WAIT!</span> <span class="fn">DOWN</span>(S1); <span
-                class="cm">// WAIT!</span>
-              <span class="cm">// DEADLOCK: A waits for S2 (held by B)</span>
-              <span class="cm">// B waits for S1 (held by A)</span>
-            </div>
+<span class="cm">// Process A          // Process B</span>
+<span class="fn">DOWN</span>(S1);             <span class="fn">DOWN</span>(S2);
+...                   ...
+<span class="fn">DOWN</span>(S2); <span class="cm">// WAIT!</span>  <span class="fn">DOWN</span>(S1); <span class="cm">// WAIT!</span>
+<span class="cm">// DEADLOCK: A waits for S2 (held by B)</span>
+<span class="cm">//           B waits for S1 (held by A)</span>
+</div>
             <p class="auto-style-1a0979">
               <strong class="text-primary">Prevention:</strong> Πάντα acquire semaphores με <strong>σταθερή
                 σειρά</strong> (total ordering). Αν S1 &lt; S2 σε αρίθμηση, πάντα DOWN(S1) πριν DOWN(S2).
@@ -1353,13 +1295,13 @@
           <div class="card">
             <div class="card-title">Mutual Exclusion Guarantee</div>
             <div class="cb auto-style-a00bca">
-              <span class="cm">// Binary semaphore (init=1) guarantees:</span>
-              <span class="cm">// At most ONE process in critical section</span>
+<span class="cm">// Binary semaphore (init=1) guarantees:</span>
+<span class="cm">// At most ONE process in critical section</span>
 
-              <span class="fn">sem_P</span>(sem, <span class="nm">0</span>); <span class="cm">// enter CS</span>
-              <span class="cm">/* critical section — only one process here */</span>
-              <span class="fn">sem_V</span>(sem, <span class="nm">0</span>); <span class="cm">// leave CS</span>
-            </div>
+<span class="fn">sem_P</span>(sem, <span class="nm">0</span>);     <span class="cm">// enter CS</span>
+<span class="cm">/* critical section — only one process here */</span>
+<span class="fn">sem_V</span>(sem, <span class="nm">0</span>);     <span class="cm">// leave CS</span>
+</div>
             <div class="tip mt-10">
               <div class="tip-icon">🧠</div>
               <div>
@@ -1485,32 +1427,30 @@
           <div class="card">
             <div class="card-title">Usage Pattern</div>
             <div class="cb auto-style-f73641">
-              <span class="mc">#include</span> <span class="st">&lt;fcntl.h&gt;</span>
+<span class="mc">#include</span> <span class="st">&lt;fcntl.h&gt;</span>
 
-              <span class="kw">struct</span> <span class="tp">flock</span> my_lock;
+<span class="kw">struct</span> <span class="tp">flock</span> my_lock;
 
-              <span class="cm">// Lock first 10 bytes for writing</span>
-              my_lock.l_type = <span class="mc">F_WRLCK</span>;
-              my_lock.l_whence = <span class="mc">SEEK_SET</span>;
-              my_lock.l_start = <span class="nm">0</span>;
-              my_lock.l_len = <span class="nm">10</span>;
+<span class="cm">// Lock first 10 bytes for writing</span>
+my_lock.l_type   = <span class="mc">F_WRLCK</span>;
+my_lock.l_whence = <span class="mc">SEEK_SET</span>;
+my_lock.l_start  = <span class="nm">0</span>;
+my_lock.l_len    = <span class="nm">10</span>;
 
-              <span class="kw">int</span> fd = <span class="fn">open</span>(<span class="st">"datafile"</span>, <span
-                class="mc">O_RDWR</span>);
+<span class="kw">int</span> fd = <span class="fn">open</span>(<span class="st">"datafile"</span>, <span class="mc">O_RDWR</span>);
 
-              <span class="cm">// Blocking lock (waits if locked)</span>
-              <span class="kw">if</span> (<span class="fn">fcntl</span>(fd, <span class="mc">F_SETLKW</span>,
-              &amp;my_lock) == -<span class="nm">1</span>) {
-              <span class="fn">perror</span>(<span class="st">"lock"</span>);
-              <span class="fn">exit</span>(<span class="nm">1</span>);
-              }
+<span class="cm">// Blocking lock (waits if locked)</span>
+<span class="kw">if</span> (<span class="fn">fcntl</span>(fd, <span class="mc">F_SETLKW</span>, &amp;my_lock) == -<span class="nm">1</span>) {
+    <span class="fn">perror</span>(<span class="st">"lock"</span>);
+    <span class="fn">exit</span>(<span class="nm">1</span>);
+}
 
-              <span class="cm">/* ... access bytes 0-9 safely ... */</span>
+<span class="cm">/* ... access bytes 0-9 safely ... */</span>
 
-              <span class="cm">// Unlock</span>
-              my_lock.l_type = <span class="mc">F_UNLCK</span>;
-              <span class="fn">fcntl</span>(fd, <span class="mc">F_SETLK</span>, &amp;my_lock);
-            </div>
+<span class="cm">// Unlock</span>
+my_lock.l_type = <span class="mc">F_UNLCK</span>;
+<span class="fn">fcntl</span>(fd, <span class="mc">F_SETLK</span>, &amp;my_lock);
+</div>
           </div>
 
           <div class="tip mt-10">
@@ -1563,37 +1503,34 @@
           <div class="card">
             <div class="card-title">lockit.c — Parent-Child Lock Example</div>
             <div class="cb auto-style-98b404">
-              <span class="kw">struct</span> <span class="tp">flock</span> my_lock;
-              my_lock.l_type = <span class="mc">F_WRLCK</span>;
-              my_lock.l_whence = <span class="mc">SEEK_SET</span>;
-              my_lock.l_start = <span class="nm">0</span>;
-              my_lock.l_len = <span class="nm">10</span>;
+<span class="kw">struct</span> <span class="tp">flock</span> my_lock;
+my_lock.l_type   = <span class="mc">F_WRLCK</span>;
+my_lock.l_whence = <span class="mc">SEEK_SET</span>;
+my_lock.l_start  = <span class="nm">0</span>;
+my_lock.l_len    = <span class="nm">10</span>;
 
-              <span class="kw">int</span> fd = <span class="fn">open</span>(<span class="st">"locktest"</span>, <span
-                class="mc">O_RDWR</span>);
-              <span class="fn">fcntl</span>(fd, <span class="mc">F_SETLKW</span>, &amp;my_lock); <span class="cm">//
-                parent locks bytes 0-9</span>
-              <span class="fn">printf</span>(<span class="st">"parent: locked record\n"</span>);
+<span class="kw">int</span> fd = <span class="fn">open</span>(<span class="st">"locktest"</span>, <span class="mc">O_RDWR</span>);
+<span class="fn">fcntl</span>(fd, <span class="mc">F_SETLKW</span>, &amp;my_lock); <span class="cm">// parent locks bytes 0-9</span>
+<span class="fn">printf</span>(<span class="st">"parent: locked record\n"</span>);
 
-              <span class="kw">switch</span>(<span class="fn">fork</span>()) {
-              <span class="kw">case</span> <span class="nm">0</span>: <span class="cm">// child</span>
-              <span class="fn">printf</span>(<span class="st">"child: trying to lock file\n"</span>);
-              my_lock.l_len = <span class="nm">5</span>;
-              <span class="fn">fcntl</span>(fd, <span class="mc">F_SETLKW</span>, &amp;my_lock); <span class="cm">//
-                BLOCKS!</span>
-              <span class="fn">printf</span>(<span class="st">"child: locked\n"</span>);
-              <span class="fn">sleep</span>(<span class="nm">1</span>);
-              <span class="fn">printf</span>(<span class="st">"child: exiting\n"</span>);
-              <span class="fn">exit</span>(<span class="nm">1</span>);
-              <span class="kw">default</span>: <span class="cm">// parent</span>
-              <span class="fn">printf</span>(<span class="st">"parent: about to unlock\n"</span>);
-              <span class="fn">sleep</span>(<span class="nm">5</span>);
-              my_lock.l_type = <span class="mc">F_UNLCK</span>;
-              <span class="fn">fcntl</span>(fd, <span class="mc">F_SETLK</span>, &amp;my_lock);
-              <span class="fn">printf</span>(<span class="st">"parent: unlocked\n"</span>);
-              <span class="fn">wait</span>(<span class="nm">NULL</span>);
-              }
-            </div>
+<span class="kw">switch</span>(<span class="fn">fork</span>()) {
+    <span class="kw">case</span> <span class="nm">0</span>: <span class="cm">// child</span>
+        <span class="fn">printf</span>(<span class="st">"child: trying to lock file\n"</span>);
+        my_lock.l_len = <span class="nm">5</span>;
+        <span class="fn">fcntl</span>(fd, <span class="mc">F_SETLKW</span>, &amp;my_lock); <span class="cm">// BLOCKS!</span>
+        <span class="fn">printf</span>(<span class="st">"child: locked\n"</span>);
+        <span class="fn">sleep</span>(<span class="nm">1</span>);
+        <span class="fn">printf</span>(<span class="st">"child: exiting\n"</span>);
+        <span class="fn">exit</span>(<span class="nm">1</span>);
+    <span class="kw">default</span>: <span class="cm">// parent</span>
+        <span class="fn">printf</span>(<span class="st">"parent: about to unlock\n"</span>);
+        <span class="fn">sleep</span>(<span class="nm">5</span>);
+        my_lock.l_type = <span class="mc">F_UNLCK</span>;
+        <span class="fn">fcntl</span>(fd, <span class="mc">F_SETLK</span>, &amp;my_lock);
+        <span class="fn">printf</span>(<span class="st">"parent: unlocked\n"</span>);
+        <span class="fn">wait</span>(<span class="nm">NULL</span>);
+}
+</div>
             <div class="ibox mt-8">
               <div class="lbl text-blue">Execution Output</div>
               <div class="auto-style-24428d">
@@ -1612,28 +1549,25 @@
           <div class="card">
             <div class="card-title">Deadlock with File Locks</div>
             <div class="cb auto-style-98b404">
-              <span class="cm">// Parent locks bytes 0-9 (first_lock)</span>
-              <span class="cm">// Child locks bytes 10-14 (second_lock)</span>
-              <span class="cm">// Then...</span>
+<span class="cm">// Parent locks bytes 0-9 (first_lock)</span>
+<span class="cm">// Child locks bytes 10-14 (second_lock)</span>
+<span class="cm">// Then...</span>
 
-              <span class="kw">case</span> <span class="nm">0</span>: <span class="cm">// child</span>
-              <span class="fn">fcntl</span>(fd, <span class="mc">F_SETLKW</span>, &amp;second_lock); <span class="cm">//
-                OK: got B</span>
-              <span class="fn">printf</span>(<span class="st">"B: lock obtained\n"</span>);
-              <span class="fn">fcntl</span>(fd, <span class="mc">F_SETLKW</span>, &amp;first_lock); <span class="cm">//
-                BLOCKS: wants A</span>
-              <span class="cm">// ...</span>
+<span class="kw">case</span> <span class="nm">0</span>: <span class="cm">// child</span>
+    <span class="fn">fcntl</span>(fd, <span class="mc">F_SETLKW</span>, &amp;second_lock); <span class="cm">// OK: got B</span>
+    <span class="fn">printf</span>(<span class="st">"B: lock obtained\n"</span>);
+    <span class="fn">fcntl</span>(fd, <span class="mc">F_SETLKW</span>, &amp;first_lock);  <span class="cm">// BLOCKS: wants A</span>
+    <span class="cm">// ...</span>
 
-              <span class="kw">default</span>: <span class="cm">// parent</span>
-              <span class="fn">printf</span>(<span class="st">"Parent sleeping\n"</span>);
-              <span class="fn">sleep</span>(<span class="nm">10</span>);
-              <span class="cm">// Try non-blocking lock</span>
-              <span class="kw">if</span> (<span class="fn">fcntl</span>(fd, <span class="mc">F_SETLK</span>,
-              &amp;second_lock) == -<span class="nm">1</span>) {
-              <span class="fn">perror</span>(<span class="st">"D: Resource temporarily unavailable"</span>);
-              <span class="cm">// Parent detects deadlock and exits!</span>
-              }
-            </div>
+<span class="kw">default</span>: <span class="cm">// parent</span>
+    <span class="fn">printf</span>(<span class="st">"Parent sleeping\n"</span>);
+    <span class="fn">sleep</span>(<span class="nm">10</span>);
+    <span class="cm">// Try non-blocking lock</span>
+    <span class="kw">if</span> (<span class="fn">fcntl</span>(fd, <span class="mc">F_SETLK</span>, &amp;second_lock) == -<span class="nm">1</span>) {
+        <span class="fn">perror</span>(<span class="st">"D: Resource temporarily unavailable"</span>);
+        <span class="cm">// Parent detects deadlock and exits!</span>
+    }
+</div>
             <div class="rbox mt-8">
               <div class="lbl text-red">Deadlock Scenario</div>
               Parent κρατά A, child κρατά B. Child θέλει A (F_SETLKW → blocks). Parent θέλει B — αν χρησιμοποιήσει
