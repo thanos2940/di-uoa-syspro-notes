@@ -1055,11 +1055,9 @@ count++;
         προστατεύει από <em>spurious wakeups</em> και concurrent races.
       </p>
 
-      <div class="grid2">
-        <div>
-          <div class="card">
-            <div class="card-title">Spurious Wakeups — Γιατί while αντί if;</div>
-            <div class="compare">
+      <div class="card mb-10">
+        <div class="card-title">Spurious Wakeups — Γιατί while αντί if;</div>
+        <div class="compare">
               <div class="bad-side">
                 <div class="side-label text-red">❌ if (wrong)</div>
                 <div class="cb auto-style-7bf338">
@@ -1082,6 +1080,25 @@ count++;
                 wakeup</em>) — είτε από τον scheduler, είτε γιατί κάποιο άλλο thread "έφαγε" τη συνθήκη μεταξύ signal
               και re-lock. Με <code>while</code>, ξαναελέγχεις τη συνθήκη μετά το wakeup.
             </p>
+      </div>
+
+      <div class="grid2">
+        <div>
+          <div class="card">
+            <div class="card-title">Golden Rules of Monitor-Style Programming</div>
+            <div class="auto-style-70ab05">
+              <ol class="auto-style-df9ba5">
+                <li class="mb-8"><strong class="text-green">Πάντα κλείδωνε τον mutex</strong> πριν ελέγξεις ή αλλάξεις
+                  τη shared μεταβλητή</li>
+                <li class="mb-8"><strong class="text-green">Πάντα while loop</strong> γύρω από
+                  <code>pthread_cond_wait()</code></li>
+                <li class="mb-8"><strong class="text-green">Σηματοδότησε (signal/broadcast)</strong> ενώ κρατάς τον
+                  mutex (ή αμέσως μετά το unlock)</li>
+                <li class="mb-8"><strong class="text-green">Κράτα τα critical sections μικρά</strong> — ελαχιστοποίησε
+                  τον χρόνο κλειδώματος</li>
+                <li><strong class="text-green">Ένας mutex ανά condition variable</strong> — μην αναμιγνύεις mutexes</li>
+              </ol>
+            </div>
           </div>
 
           <div class="tip mt-10">
@@ -1103,6 +1120,32 @@ count++;
                 </ul>
               </div>
             </div>
+          </div>
+        </div>
+        <div>
+          <div class="card">
+            <div class="card-title">Readers/Writers Pattern</div>
+            <p class="auto-style-f70c40">Πολλαπλοί readers ταυτόχρονα ΟΚ, αλλά μόνο ένας writer:</p>
+            <div class="cb auto-style-b7fdac">
+<span class="cm">// Reader</span>
+<span class="fn">lock</span>(m);
+<span class="kw">while</span> (active_writers &gt; <span class="nm">0</span>) <span class="fn">wait</span>(cv, m);
+active_readers++;
+<span class="fn">unlock</span>(m);
+<span class="cm">/* ... read ... */</span>
+<span class="fn">lock</span>(m); active_readers--;
+<span class="kw">if</span> (active_readers == <span class="nm">0</span>) <span class="fn">signal</span>(cv);
+<span class="fn">unlock</span>(m);
+
+<span class="cm">// Writer</span>
+<span class="fn">lock</span>(m);
+<span class="kw">while</span> (active_writers + active_readers &gt; <span class="nm">0</span>) <span class="fn">wait</span>(cv, m);
+active_writers++;
+<span class="fn">unlock</span>(m);
+<span class="cm">/* ... write ... */</span>
+<span class="fn">lock</span>(m); active_writers--; <span class="fn">broadcast</span>(cv);
+<span class="fn">unlock</span>(m);
+</div>
           </div>
 
           <div class="card mt-10">
@@ -1137,49 +1180,6 @@ count++;
                 </tr>
               </tbody>
             </table>
-          </div>
-        </div>
-        <div>
-          <div class="card">
-            <div class="card-title">Golden Rules of Monitor-Style Programming</div>
-            <div class="auto-style-70ab05">
-              <ol class="auto-style-df9ba5">
-                <li class="mb-8"><strong class="text-green">Πάντα κλείδωνε τον mutex</strong> πριν ελέγξεις ή αλλάξεις
-                  τη shared μεταβλητή</li>
-                <li class="mb-8"><strong class="text-green">Πάντα while loop</strong> γύρω από
-                  <code>pthread_cond_wait()</code></li>
-                <li class="mb-8"><strong class="text-green">Σηματοδότησε (signal/broadcast)</strong> ενώ κρατάς τον
-                  mutex (ή αμέσως μετά το unlock)</li>
-                <li class="mb-8"><strong class="text-green">Κράτα τα critical sections μικρά</strong> — ελαχιστοποίησε
-                  τον χρόνο κλειδώματος</li>
-                <li><strong class="text-green">Ένας mutex ανά condition variable</strong> — μην αναμιγνύεις mutexes</li>
-              </ol>
-            </div>
-          </div>
-
-          <div class="card mt-10">
-            <div class="card-title">Readers/Writers Pattern</div>
-            <p class="auto-style-f70c40">Πολλαπλοί readers ταυτόχρονα ΟΚ, αλλά μόνο ένας writer:</p>
-            <div class="cb auto-style-b7fdac">
-<span class="cm">// Reader</span>
-<span class="fn">lock</span>(m);
-<span class="kw">while</span> (active_writers &gt; <span class="nm">0</span>) <span class="fn">wait</span>(cv, m);
-active_readers++;
-<span class="fn">unlock</span>(m);
-<span class="cm">/* ... read ... */</span>
-<span class="fn">lock</span>(m); active_readers--;
-<span class="kw">if</span> (active_readers == <span class="nm">0</span>) <span class="fn">signal</span>(cv);
-<span class="fn">unlock</span>(m);
-
-<span class="cm">// Writer</span>
-<span class="fn">lock</span>(m);
-<span class="kw">while</span> (active_writers + active_readers &gt; <span class="nm">0</span>) <span class="fn">wait</span>(cv, m);
-active_writers++;
-<span class="fn">unlock</span>(m);
-<span class="cm">/* ... write ... */</span>
-<span class="fn">lock</span>(m); active_writers--; <span class="fn">broadcast</span>(cv);
-<span class="fn">unlock</span>(m);
-</div>
           </div>
         </div>
       </div>
